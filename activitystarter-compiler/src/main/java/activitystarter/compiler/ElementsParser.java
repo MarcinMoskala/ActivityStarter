@@ -9,12 +9,10 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.processing.Messager;
-import javax.lang.model.SourceVersion;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
-import javax.lang.model.element.Name;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
@@ -24,6 +22,7 @@ import javax.tools.Diagnostic;
 
 import activitystarter.Arg;
 import activitystarter.MakeActivityStarter;
+import activitystarter.Optional;
 
 import static activitystarter.compiler.ElementsParser.FieldVeryfyResult.Accessible;
 import static activitystarter.compiler.ElementsParser.FieldVeryfyResult.BySetter;
@@ -31,7 +30,6 @@ import static activitystarter.compiler.ElementsParser.FieldVeryfyResult.Inaccess
 import static activitystarter.compiler.IsSubtypeHelper.isSubtypeOfType;
 import static javax.lang.model.element.ElementKind.CLASS;
 import static javax.lang.model.element.Modifier.PRIVATE;
-import static javax.lang.model.element.Modifier.STATIC;
 
 public class ElementsParser {
 
@@ -77,11 +75,11 @@ public class ElementsParser {
 
         String name = element.getSimpleName().toString();
         TypeName type = TypeName.get(elementType);
-        boolean required = isFieldRequired(element);
+        boolean required = isArgumentRequired(element);
         boolean bySetter = fieldVeryfyResult == BySetter;
+        boolean nullable = isFieldNullable(element);
 
-        ArgumentBinding argumentBinding = new ArgumentBinding(name, type, elementType, required, bySetter);
-        bindingSet.addArgumentBinding(argumentBinding);
+        bindingSet.addArgumentBinding(new ArgumentBinding(name, type, elementType, required, bySetter, nullable));
     }
 
     enum FieldVeryfyResult {
@@ -110,6 +108,10 @@ public class ElementsParser {
                 return true;
         }
         return false;
+    }
+
+    private static boolean isArgumentRequired(Element element) {
+        return element.getAnnotation(Optional.class) == null;
     }
 
     private boolean isInaccessibleViaGeneratedCode(Class<? extends Annotation> annotationClass, String targetThing, Element element) {
@@ -200,7 +202,7 @@ public class ElementsParser {
         return false;
     }
 
-    private static boolean isFieldRequired(Element element) {
+    private static boolean isFieldNullable(Element element) {
         return !hasAnnotationWithName(element, NULLABLE_ANNOTATION_NAME);
     }
 }

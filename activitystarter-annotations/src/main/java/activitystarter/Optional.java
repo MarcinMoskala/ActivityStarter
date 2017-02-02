@@ -3,6 +3,7 @@ package activitystarter;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.CLASS;
 
@@ -12,6 +13,6 @@ import static java.lang.annotation.RetentionPolicy.CLASS;
  * {@literal @}Optional @OnClick(R.id.subtitle) void onSubtitleClick() {}
  * </code></pre>
  */
-@Retention(CLASS) @Target(METHOD)
+@Retention(CLASS) @Target(FIELD)
 public @interface Optional {
 }

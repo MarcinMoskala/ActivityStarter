@@ -1,26 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/activity_main"
+<ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="pl.marcinmoskala.datepickerhelper.MainActivity">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <pl.marcinmoskala.datepickerhelper.datepicker.CompactCalendarView
-        android:id="@+id/compactcalendarView"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/student_name_layout"
+        android:hint="Place to type name"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:fitsSystemWindows="true"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        app:compactCalendarBackgroundColor="@android:color/white"
-        app:compactCalendarCurrentDayBackgroundColor="@android:color/holo_blue_dark"
-        app:compactCalendarCurrentSelectedDayBackgroundColor="#BBDEFB"
-        app:compactCalendarTextColor="@android:color/black"
-        app:compactCalendarTextSize="12sp" />
-</RelativeLayout>
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp">
+
+        <AutoCompleteTextView
+            android:id="@+id/student_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/student_id_layout"
+        android:hint="Place to type id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+        <AutoCompleteTextView
+            android:inputType="number"
+            android:id="@+id/student_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/student_grade_layout"
+        android:hint="Place to type grade"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp">
+
+        <AutoCompleteTextView
+            android:maxLength="1"
+            android:id="@+id/student_grade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <Switch
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="Is student passing?"
+        android:id="@+id/student_is_passing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:layout_margin="20dp"
+        android:text="Show this data on new Activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:id="@+id/show_data_button"/>
+
+    <Button
+        android:layout_margin="20dp"
+        android:text="Show data from parceleble on new Activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:id="@+id/show_parcelable_data_button"/>
+
+    <Button
+        android:layout_margin="20dp"
+        android:text="Show data from serializable on new Activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:id="@+id/show_serializable_data_button"/>
+
+</LinearLayout>
+</ScrollView>

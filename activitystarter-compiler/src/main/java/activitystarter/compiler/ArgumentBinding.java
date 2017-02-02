@@ -12,13 +12,15 @@ final class ArgumentBinding {
     private final TypeMirror elementType;
     private final boolean required;
     private final boolean bySetter;
+    private final boolean nullable;
 
-    ArgumentBinding(String name, TypeName type, TypeMirror elementType, boolean required, boolean bySetter) {
+    ArgumentBinding(String name, TypeName type, TypeMirror elementType, boolean required, boolean bySetter,  boolean nullable) {
         this.name = name;
         this.type = type;
         this.elementType = elementType;
         this.required = required;
         this.bySetter = bySetter;
+        this.nullable = nullable;
     }
 
     public String getName() {
@@ -27,16 +29,6 @@ final class ArgumentBinding {
 
     public TypeName getType() {
         return type;
-    }
-
-    ClassName getRawType() {
-        if (type instanceof ParameterizedTypeName)
-            return ((ParameterizedTypeName) type).rawType;
-
-        if (type instanceof ClassName)
-            return (ClassName) type;
-
-        return null;
     }
 
     public boolean isRequired() {
@@ -49,5 +41,9 @@ final class ArgumentBinding {
 
     public boolean isBySetter() {
         return bySetter;
+    }
+
+    public boolean isNullable() {
+        return nullable;
     }
 }

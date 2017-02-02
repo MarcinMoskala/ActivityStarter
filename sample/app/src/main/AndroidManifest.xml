@@ -19,7 +19,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.activitystarter.SecondActivity"
+            android:name="com.example.activitystarter.StudentDataActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name="com.example.activitystarter.StudentParcelableActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name="com.example.activitystarter.StudentSerializableActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
