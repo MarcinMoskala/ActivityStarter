@@ -61,7 +61,7 @@ public final class ActivityStarterProcessor extends AbstractProcessor {
     @Override
     public Set<String> getSupportedAnnotationTypes() {
         Set<String> types = new LinkedHashSet<>();
-        types.add(activitystarter.Arg.class.getCanonicalName());
+        types.add(Arg.class.getCanonicalName());
         return types;
     }
 

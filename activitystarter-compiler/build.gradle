@@ -1,5 +1,4 @@
 apply plugin: 'java'
-apply plugin: 'idea'
 
 sourceCompatibility = rootProject.ext.sourceCompatibilityVersion
 targetCompatibility = rootProject.ext.targetCompatibilityVersion
@@ -18,7 +17,6 @@ dependencies {
   compile deps.autocommon
   compile deps.javapoet
   compileOnly files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
-  compile group: 'javax.inject', name: 'javax.inject', version: '1'
 
   testCompile deps.junit
   testCompile deps.truth
