@@ -1,4 +1,3 @@
 <resources>
-    <string name="app_name">DatePickerHelper</string>
-    <string name="title_activity_main2">Main2Activity</string>
+    <string name="app_name">Activity Starter Test</string>
 </resources>

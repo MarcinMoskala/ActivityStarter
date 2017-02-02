@@ -1,4 +1,4 @@
-package com.example.activitystarter;
+package com.marcinmoskala.kotlinapp;
 
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
