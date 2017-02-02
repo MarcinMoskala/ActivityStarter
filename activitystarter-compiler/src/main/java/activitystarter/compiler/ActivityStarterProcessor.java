@@ -76,6 +76,8 @@ public final class ActivityStarterProcessor extends AbstractProcessor {
         Map<TypeElement, BindingSet> builderMap = new LinkedHashMap<>();
 
         for (Element element : env.getElementsAnnotatedWith(activitystarter.Arg.class)) {
+            // TODO DELETE debug
+//            processingEnv.getMessager().printMessage(Kind.ERROR, "Znalazłem coś 0.0", element);
             try {
                 parseArg(element, builderMap);
             } catch (Exception e) {
@@ -84,6 +86,8 @@ public final class ActivityStarterProcessor extends AbstractProcessor {
         }
 
         for (Element element : env.getElementsAnnotatedWith(MakeActivityStarter.class)) {
+            // TODO DELETE debug
+//            processingEnv.getMessager().printMessage(Kind.ERROR, "Znalazłem klasę :))", element);
             try {
                 parseClass(element, builderMap);
             } catch (Exception e) {

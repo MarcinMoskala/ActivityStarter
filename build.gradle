@@ -52,7 +52,6 @@ ext {
 
 def androidToolsVersion = '25.2.0'
 def supportLibraryVersion = '24.2.1'
-def butterknifeLatestReleaseVersion = '8.4.0'
 
 ext.deps = [
         android            : 'com.google.android:android:4.1.1.4',
