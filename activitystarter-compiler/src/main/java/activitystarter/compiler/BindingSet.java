@@ -7,12 +7,22 @@ import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.processing.Messager;
+import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.TypeMirror;
+import javax.tools.Diagnostic;
 
+import activitystarter.Arg;
+import activitystarter.Optional;
+
+import static activitystarter.compiler.FieldAccessableHelper.FieldVeryfyResult.BySetter;
+import static activitystarter.compiler.FieldAccessableHelper.getFieldAccessibility;
 import static activitystarter.compiler.Utills.capitalizeFirstLetter;
 import static com.google.auto.common.MoreElements.getPackage;
 import static javax.lang.model.element.Modifier.FINAL;
@@ -40,7 +50,30 @@ final class BindingSet {
         String className = enclosingElement.getQualifiedName().toString().substring(packageName.length() + 1).replace('.', '$');
         bindingClassName = ClassName.get(packageName, className + "Starter");
         isFinal = enclosingElement.getModifiers().contains(Modifier.FINAL);
-        argumentBindings = new ArrayList<>();
+        argumentBindings = getArgAsBindings(enclosingElement.getEnclosedElements(), Arg.class);
+    }
+
+    private static List<ArgumentBinding> getArgAsBindings(List<? extends Element> oldList, Class<? extends Annotation> annotation) {
+        List<ArgumentBinding> list = new ArrayList<>();
+        for(Element e: oldList) {
+            if(e.getAnnotation(annotation) != null) list.add(getArgumentBinding(e));
+        }
+        return list;
+    }
+
+    private static ArgumentBinding getArgumentBinding(Element element) {
+        TypeMirror elementType = Utills.getElementType(element);
+        FieldAccessableHelper.FieldVeryfyResult fieldVeryfyResult = getFieldAccessibility(element);
+
+        String name = element.getSimpleName().toString();
+        TypeName type = TypeName.get(elementType);
+        boolean required = isArgumentRequired(element);
+        boolean bySetter = fieldVeryfyResult == BySetter;
+        return new ArgumentBinding(name, type, elementType, required, bySetter);
+    }
+
+    private static boolean isArgumentRequired(Element element) {
+        return element.getAnnotation(Optional.class) == null;
     }
 
     public List<List<ArgumentBinding>> getArgumentBindingVariants() {

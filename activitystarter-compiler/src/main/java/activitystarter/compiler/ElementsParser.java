@@ -6,28 +6,22 @@ import java.lang.annotation.Annotation;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.processing.Messager;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
-import javax.lang.model.element.ExecutableElement;
-import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
-import javax.lang.model.type.TypeVariable;
-import javax.lang.model.util.ElementFilter;
 import javax.tools.Diagnostic;
 
 import activitystarter.Arg;
 import activitystarter.MakeActivityStarter;
-import activitystarter.Optional;
+import activitystarter.compiler.FieldAccessableHelper.FieldVeryfyResult;
 
-import static activitystarter.compiler.ElementsParser.FieldVeryfyResult.Accessible;
-import static activitystarter.compiler.ElementsParser.FieldVeryfyResult.BySetter;
-import static activitystarter.compiler.ElementsParser.FieldVeryfyResult.Inaccessible;
+import static activitystarter.compiler.FieldAccessableHelper.getFieldAccessibility;
 import static activitystarter.compiler.IsSubtypeHelper.isSubtypeOfType;
+import static activitystarter.compiler.Utills.getElementType;
 import static javax.lang.model.element.ElementKind.CLASS;
 import static javax.lang.model.element.Modifier.PRIVATE;
 
@@ -60,7 +54,7 @@ public class ElementsParser {
 
         FieldVeryfyResult fieldVeryfyResult = getFieldAccessibility(element);
 
-        if(fieldVeryfyResult == Inaccessible) {
+        if(fieldVeryfyResult == FieldVeryfyResult.Inaccessible) {
             error(enclosingElement, "@%s %s Inaccessable element. (%s.%s)",
                     Arg.class.getSimpleName(), element, enclosingElement.getQualifiedName(),
                     element.getSimpleName());
@@ -70,48 +64,6 @@ public class ElementsParser {
         if (!builderMap.containsKey(enclosingElement)) {
             builderMap.put(enclosingElement, new BindingSet(enclosingElement));
         }
-
-        BindingSet bindingSet = builderMap.get(enclosingElement);
-
-        String name = element.getSimpleName().toString();
-        TypeName type = TypeName.get(elementType);
-        boolean required = isArgumentRequired(element);
-        boolean bySetter = fieldVeryfyResult == BySetter;
-        boolean nullable = isFieldNullable(element);
-
-        bindingSet.addArgumentBinding(new ArgumentBinding(name, type, elementType, required, bySetter, nullable));
-    }
-
-    enum FieldVeryfyResult {
-        Accessible,
-        BySetter,
-        Inaccessible
-    }
-
-    private FieldVeryfyResult getFieldAccessibility(Element element) {
-        TypeElement enclosingElement = (TypeElement) element.getEnclosingElement();
-
-        Set<Modifier> modifiers = element.getModifiers();
-        if (modifiers.contains(PRIVATE)) {
-            if (hasMethodNamed(enclosingElement, element.getSimpleName().toString()))
-                return BySetter;
-        } else {
-            return Accessible;
-        }
-
-        return Inaccessible;
-    }
-
-    private boolean hasMethodNamed(TypeElement enclosingElement, String fieldName) {
-        for (ExecutableElement e : ElementFilter.methodsIn(enclosingElement.getEnclosedElements())) {
-            if (e.getSimpleName().contentEquals("get" + Utills.capitalizeFirstLetter(fieldName)))
-                return true;
-        }
-        return false;
-    }
-
-    private static boolean isArgumentRequired(Element element) {
-        return element.getAnnotation(Optional.class) == null;
     }
 
     private boolean isInaccessibleViaGeneratedCode(Class<? extends Annotation> annotationClass, String targetThing, Element element) {
@@ -135,15 +87,6 @@ public class ElementsParser {
         }
 
         return hasError;
-    }
-
-    private TypeMirror getElementType(Element element) {
-        TypeMirror elementType = element.asType();
-        if (elementType.getKind() == TypeKind.TYPEVAR) {
-            TypeVariable typeVariable = (TypeVariable) elementType;
-            elementType = typeVariable.getUpperBound();
-        }
-        return elementType;
     }
 
     private boolean veryfyFieldType(Element element, TypeElement enclosingElement, TypeMirror elementType) {
@@ -200,9 +143,5 @@ public class ElementsParser {
             }
         }
         return false;
-    }
-
-    private static boolean isFieldNullable(Element element) {
-        return !hasAnnotationWithName(element, NULLABLE_ANNOTATION_NAME);
     }
 }

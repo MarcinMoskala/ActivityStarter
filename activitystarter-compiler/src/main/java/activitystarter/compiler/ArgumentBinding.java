@@ -1,7 +1,5 @@
 package activitystarter.compiler;
 
-import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 
 import javax.lang.model.type.TypeMirror;
@@ -12,15 +10,13 @@ final class ArgumentBinding {
     private final TypeMirror elementType;
     private final boolean required;
     private final boolean bySetter;
-    private final boolean nullable;
 
-    ArgumentBinding(String name, TypeName type, TypeMirror elementType, boolean required, boolean bySetter,  boolean nullable) {
+    ArgumentBinding(String name, TypeName type, TypeMirror elementType, boolean required, boolean bySetter) {
         this.name = name;
         this.type = type;
         this.elementType = elementType;
         this.required = required;
         this.bySetter = bySetter;
-        this.nullable = nullable;
     }
 
     public String getName() {
@@ -41,9 +37,5 @@ final class ArgumentBinding {
 
     public boolean isBySetter() {
         return bySetter;
-    }
-
-    public boolean isNullable() {
-        return nullable;
     }
 }

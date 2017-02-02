@@ -14,28 +14,28 @@
             tools:text="To provede"
             android:textSize="20dp"
             android:layout_margin="20dp"
-            android:id="@+id/name_view"
+            android:id="@+id/nameView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <TextView
             tools:text="To provede"
             android:layout_margin="20dp"
             android:textSize="20dp"
-            android:id="@+id/id_view"
+            android:id="@+id/idView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <TextView
             tools:text="To provede"
             android:layout_margin="20dp"
             android:textSize="20dp"
-            android:id="@+id/grade_view"
+            android:id="@+id/gradeView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <TextView
             tools:text="To provede"
             android:layout_margin="20dp"
             android:textSize="20dp"
-            android:id="@+id/is_passing_view"
+            android:id="@+id/isPassingView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
