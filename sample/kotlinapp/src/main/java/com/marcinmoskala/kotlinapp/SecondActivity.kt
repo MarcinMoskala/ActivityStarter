@@ -8,7 +8,7 @@ import android.os.Bundle
 @MakeActivityStarter
 class SecondActivity : AppCompatActivity() {
 
-    @Arg var s: String = "koko"
+//    @Arg var s: String = "koko"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

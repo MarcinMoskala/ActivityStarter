@@ -15,8 +15,4 @@ import static java.lang.annotation.RetentionPolicy.CLASS;
  * </code></pre>
  */
 @Retention(CLASS) @Target(FIELD)
-public @interface Arg {
-    double defaultNumber() default -1.0;
-    boolean defaultBoolean() default false;
-    char defaultChar() default '\u0000';
-}
+public @interface Arg {}

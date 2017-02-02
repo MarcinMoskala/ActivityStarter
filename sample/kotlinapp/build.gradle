@@ -37,9 +37,15 @@ android {
     }
 }
 
+kapt {
+    generateStubs = true
+}
+
 dependencies {
     compile project(':activitystarter')
     annotationProcessor project(':activitystarter-compiler')
+    kapt project(':activitystarter-compiler')
+    provided 'org.glassfish:javax.annotation:10.0-b28'
 
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'

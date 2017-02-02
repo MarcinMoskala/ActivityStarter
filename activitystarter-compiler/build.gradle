@@ -1,5 +1,4 @@
 apply plugin: 'java'
-apply plugin: 'checkstyle'
 
 sourceCompatibility = rootProject.ext.sourceCompatibilityVersion
 targetCompatibility = rootProject.ext.targetCompatibilityVersion
@@ -21,11 +20,4 @@ dependencies {
 
   testCompile deps.junit
   testCompile deps.truth
-}
-
-checkstyle {
-  configFile rootProject.file('checkstyle.xml')
-  showViolations true
-  //Remove this when tests are less verbose, i.e. using JavaPoet
-  sourceSets = [sourceSets.main]
 }

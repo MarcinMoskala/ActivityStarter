@@ -48,7 +48,7 @@ public final class ActivityStarterProcessor extends AbstractProcessor {
     private static final String NULLABLE_ANNOTATION_NAME = "Nullable";
     private static final List<TypeKind> SUPPORTED_BASE_TYPES = Arrays.asList(
             TypeKind.BOOLEAN,TypeKind.INT,TypeKind.FLOAT,TypeKind.DOUBLE,TypeKind.CHAR
-            );
+    );
 
     private Filer filer;
 
