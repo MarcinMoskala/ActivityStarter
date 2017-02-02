@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 
+import static activitystarter.compiler.Utills.capitalizeFirstLetter;
 import static com.google.auto.common.MoreElements.getPackage;
 import static javax.lang.model.element.Modifier.FINAL;
 import static javax.lang.model.element.Modifier.PUBLIC;
@@ -111,13 +112,17 @@ final class BindingSet {
                 .addModifiers(PUBLIC)
                 .addModifiers(STATIC);
 
-        if(argumentBindings.size() > 0)
+        if (argumentBindings.size() > 0)
             builder.addStatement("Intent intent = activity.getIntent()");
 
         for (ArgumentBinding arg : argumentBindings) {
             String fieldName = arg.getName();
             String keyName = fieldName + "Arg";
-            builder.addStatement("if(intent.hasExtra(\""+keyName+"\")) activity." + fieldName + " = intent." + getIntentGetterFor(arg, keyName));
+
+            if (arg.isBySetter())
+                builder.addStatement("if(intent.hasExtra(\"" + keyName + "\")) activity.set" + capitalizeFirstLetter(fieldName) + "(intent." + getIntentGetterFor(arg, keyName) + ")");
+            else
+                builder.addStatement("if(intent.hasExtra(\"" + keyName + "\")) activity." + fieldName + " = intent." + getIntentGetterFor(arg, keyName));
         }
 
         return builder.build();
@@ -126,21 +131,21 @@ final class BindingSet {
     private String getIntentGetterFor(ArgumentBinding arg, String keyName) {
         TypeName name = arg.getType();
         if (name.equals(TypeName.get(String.class)))
-            return "getStringExtra(\""+keyName+"\")";
+            return "getStringExtra(\"" + keyName + "\")";
         else if (name.equals(TypeName.INT))
-            return "getIntExtra(\""+keyName+"\", -1)";
+            return "getIntExtra(\"" + keyName + "\", -1)";
         else if (name.equals(TypeName.FLOAT))
-            return "getFloatExtra(\""+keyName+"\", -1F)";
+            return "getFloatExtra(\"" + keyName + "\", -1F)";
         else if (name.equals(TypeName.BOOLEAN))
-            return "getBooleanExtra(\""+keyName+"\", false)";
+            return "getBooleanExtra(\"" + keyName + "\", false)";
         else if (name.equals(TypeName.DOUBLE))
-            return "getDoubleExtra(\""+keyName+"\", -1D)";
+            return "getDoubleExtra(\"" + keyName + "\", -1D)";
         else if (name.equals(TypeName.CHAR))
-            return "getCharExtra(\""+keyName+"\", 'a')";
+            return "getCharExtra(\"" + keyName + "\", 'a')";
         else if (IsSubtypeHelper.isSubtypeOfType(arg.getElementType(), "android.os.Parcelable"))
-            return "getParcelableExtra(\""+keyName+"\")";
+            return "getParcelableExtra(\"" + keyName + "\")";
         else if (IsSubtypeHelper.isSubtypeOfType(arg.getElementType(), "java.io.Serializable"))
-            return "getSerializableExtra(\""+keyName+"\")";
+            return "getSerializableExtra(\"" + keyName + "\")";
         else
             throw new Error("Illegal field type" + arg.getType());
     }

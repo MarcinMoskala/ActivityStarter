@@ -11,12 +11,14 @@ final class ArgumentBinding {
     private final TypeName type;
     private final TypeMirror elementType;
     private final boolean required;
+    private final boolean bySetter;
 
-    ArgumentBinding(String name, TypeName type, TypeMirror elementType, boolean required) {
+    ArgumentBinding(String name, TypeName type, TypeMirror elementType, boolean required, boolean bySetter) {
         this.name = name;
         this.type = type;
         this.elementType = elementType;
         this.required = required;
+        this.bySetter = bySetter;
     }
 
     public String getName() {
@@ -43,5 +45,9 @@ final class ArgumentBinding {
 
     public TypeMirror getElementType() {
         return elementType;
+    }
+
+    public boolean isBySetter() {
+        return bySetter;
     }
 }
