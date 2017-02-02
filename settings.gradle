@@ -1,0 +1,8 @@
+include ':activitystarter'
+include ':activitystarter-annotations'
+include ':activitystarter-compiler'
+
+include ':sample:app'
+include ':sample:kotlinapp'
+
+rootProject.name = 'superactivity-parent'

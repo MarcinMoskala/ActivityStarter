@@ -1,0 +1,31 @@
+apply plugin: 'java'
+apply plugin: 'checkstyle'
+
+sourceCompatibility = rootProject.ext.sourceCompatibilityVersion
+targetCompatibility = rootProject.ext.targetCompatibilityVersion
+
+def logger = new com.android.build.gradle.internal.LoggerWrapper(project.logger)
+def sdkHandler = new com.android.build.gradle.internal.SdkHandler(project, logger)
+for (File file : sdkHandler.sdkLoader.repositories) {
+  repositories.maven {
+    url = file.toURI()
+  }
+}
+
+dependencies {
+  compile project(':activitystarter-annotations')
+  compile deps.autoservice
+  compile deps.autocommon
+  compile deps.javapoet
+  compileOnly files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
+
+  testCompile deps.junit
+  testCompile deps.truth
+}
+
+checkstyle {
+  configFile rootProject.file('checkstyle.xml')
+  showViolations true
+  //Remove this when tests are less verbose, i.e. using JavaPoet
+  sourceSets = [sourceSets.main]
+}

@@ -1,0 +1,2 @@
+# please KEEP ALL THE NAMES
+-keep class **Starter { *; }
