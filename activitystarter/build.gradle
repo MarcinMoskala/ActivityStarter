@@ -1,5 +1,15 @@
 import org.gradle.internal.jvm.Jvm
 
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+
+  dependencies {
+    classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+  }
+}
+
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 
