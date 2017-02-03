@@ -103,10 +103,6 @@ final class BindingSet {
         return list;
     }
 
-    void addArgumentBinding(ArgumentBinding argumentBinding) {
-        argumentBindings.add(argumentBinding);
-    }
-
     JavaFile brewJava() {
         return JavaFile.builder(bindingClassName.packageName(), getActivityStarterSpec())
                 .addFileComment("Generated code from ActivityStarter. Do not modify!")
@@ -124,6 +120,7 @@ final class BindingSet {
 
         for (List<ArgumentBinding> variant : getArgumentBindingVariants()) {
             result.addMethod(createStartActivityMethod(variant));
+            result.addMethod(createStartActivityMethodWithFlags(variant));
             result.addMethod(createGetIntentMethod(variant));
         }
 
@@ -145,6 +142,27 @@ final class BindingSet {
         for (ArgumentBinding arg : variant) {
             builder.addStatement("intent.putExtra(\"" + arg.getName() + "Arg\", " + arg.getName() + ")");
         }
+        builder.addStatement("context.startActivity(intent)");
+        return builder.build();
+    }
+
+    private MethodSpec createStartActivityMethodWithFlags(List<ArgumentBinding> variant) {
+        MethodSpec.Builder builder = MethodSpec.methodBuilder("start")
+                .addAnnotation(UI_THREAD)
+                .addParameter(CONTEXT, "context")
+                .addModifiers(PUBLIC)
+                .addModifiers(STATIC);
+
+        for (ArgumentBinding arg : variant) {
+            builder.addParameter(arg.getType(), arg.getName());
+        }
+        builder.addParameter(TypeName.INT, "flags");
+
+        builder.addStatement("$T intent = new Intent(context, $T.class)", INTENT, targetTypeName);
+        for (ArgumentBinding arg : variant) {
+            builder.addStatement("intent.putExtra(\"" + arg.getName() + "Arg\", " + arg.getName() + ")");
+        }
+        builder.addStatement("intent.addFlags(flags)");
         builder.addStatement("context.startActivity(intent)");
         return builder.build();
     }
