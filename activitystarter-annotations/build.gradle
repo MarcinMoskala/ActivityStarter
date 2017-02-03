@@ -1,5 +1,7 @@
 apply plugin: 'java'
-apply plugin: 'checkstyle'
+apply plugin: 'com.github.dcendents.android-maven'
+
+group='com.github.marcinmoskala'
 
 def logger = new com.android.build.gradle.internal.LoggerWrapper(project.logger)
 def sdkHandler = new com.android.build.gradle.internal.SdkHandler(project, logger)
@@ -11,11 +13,6 @@ for (File file : sdkHandler.sdkLoader.repositories) {
 
 sourceCompatibility = rootProject.ext.sourceCompatibilityVersion
 targetCompatibility = rootProject.ext.targetCompatibilityVersion
-
-checkstyle {
-  configFile rootProject.file('checkstyle.xml')
-  showViolations true
-}
 
 dependencies {
   compileOnly deps.android

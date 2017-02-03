@@ -1,7 +1,9 @@
 import org.gradle.internal.jvm.Jvm
 
 apply plugin: 'com.android.library'
-apply plugin: 'com.kageiit.lintrules'
+apply plugin: 'com.github.dcendents.android-maven'
+
+group='com.github.marcinmoskala'
 
 android {
   compileSdkVersion rootProject.ext.compileSdkVersion
@@ -13,11 +15,6 @@ android {
     consumerProguardFiles 'proguard-rules.txt'
 
     testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-  }
-
-  lintOptions {
-    textReport true
-    textOutput 'stdout'
   }
 }
 
