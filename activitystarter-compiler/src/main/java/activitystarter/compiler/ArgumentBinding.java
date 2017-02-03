@@ -4,19 +4,21 @@ import com.squareup.javapoet.TypeName;
 
 import javax.lang.model.type.TypeMirror;
 
+import activitystarter.compiler.FieldAccessableHelper.FieldVeryfyResult;
+
 final class ArgumentBinding {
     private final String name;
     private final TypeName type;
     private final TypeMirror elementType;
     private final boolean required;
-    private final boolean bySetter;
+    private final FieldVeryfyResult settingType;
 
-    ArgumentBinding(String name, TypeName type, TypeMirror elementType, boolean required, boolean bySetter) {
+    ArgumentBinding(String name, TypeName type, TypeMirror elementType, boolean required, FieldVeryfyResult settingType) {
         this.name = name;
         this.type = type;
         this.elementType = elementType;
         this.required = required;
-        this.bySetter = bySetter;
+        this.settingType = settingType;
     }
 
     public String getName() {
@@ -35,7 +37,7 @@ final class ArgumentBinding {
         return elementType;
     }
 
-    public boolean isBySetter() {
-        return bySetter;
+    public FieldVeryfyResult getSettingType() {
+        return settingType;
     }
 }

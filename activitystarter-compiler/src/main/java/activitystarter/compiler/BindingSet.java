@@ -16,14 +16,13 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
-import javax.tools.Diagnostic;
 
 import activitystarter.Arg;
 import activitystarter.Optional;
+import activitystarter.compiler.FieldAccessableHelper.FieldVeryfyResult;
 
-import static activitystarter.compiler.FieldAccessableHelper.FieldVeryfyResult.BySetter;
+import static activitystarter.compiler.FieldAccessableHelper.FieldVeryfyResult.Accessible;
 import static activitystarter.compiler.FieldAccessableHelper.getFieldAccessibility;
-import static activitystarter.compiler.Utills.capitalizeFirstLetter;
 import static com.google.auto.common.MoreElements.getPackage;
 import static javax.lang.model.element.Modifier.FINAL;
 import static javax.lang.model.element.Modifier.PUBLIC;
@@ -55,21 +54,21 @@ final class BindingSet {
 
     private static List<ArgumentBinding> getArgAsBindings(List<? extends Element> oldList, Class<? extends Annotation> annotation) {
         List<ArgumentBinding> list = new ArrayList<>();
-        for(Element e: oldList) {
-            if(e.getAnnotation(annotation) != null) list.add(getArgumentBinding(e));
+        for (Element e : oldList) {
+            if (e.getAnnotation(annotation) != null) list.add(getArgumentBinding(e));
         }
         return list;
     }
 
     private static ArgumentBinding getArgumentBinding(Element element) {
         TypeMirror elementType = Utills.getElementType(element);
-        FieldAccessableHelper.FieldVeryfyResult fieldVeryfyResult = getFieldAccessibility(element);
+        FieldVeryfyResult fieldVeryfyResult = getFieldAccessibility(element);
 
         String name = element.getSimpleName().toString();
         TypeName type = TypeName.get(elementType);
         boolean required = isArgumentRequired(element);
-        boolean bySetter = fieldVeryfyResult == BySetter;
-        return new ArgumentBinding(name, type, elementType, required, bySetter);
+        FieldVeryfyResult settingType = fieldVeryfyResult;
+        return new ArgumentBinding(name, type, elementType, required, settingType);
     }
 
     private static boolean isArgumentRequired(Element element) {
@@ -80,14 +79,14 @@ final class BindingSet {
         ArrayList<List<ArgumentBinding>> list = new ArrayList<>();
         list.add(new ArrayList<ArgumentBinding>());
 
-        for (ArgumentBinding b: argumentBindings) {
-            if(b.isRequired()) {
-                for (List<ArgumentBinding> sublist: list) {
+        for (ArgumentBinding b : argumentBindings) {
+            if (b.isRequired()) {
+                for (List<ArgumentBinding> sublist : list) {
                     sublist.add(b);
                 }
             } else {
                 List<List<ArgumentBinding>> newElements = new ArrayList<>();
-                for (List<ArgumentBinding> sublist: list) {
+                for (List<ArgumentBinding> sublist : list) {
                     List<ArgumentBinding> sublistCopy = copy(sublist);
                     sublistCopy.add(b);
                     newElements.add(sublistCopy);
@@ -123,7 +122,7 @@ final class BindingSet {
 
         result.addMethod(createFillFieldsMethod());
 
-        for(List<ArgumentBinding> variant : getArgumentBindingVariants()) {
+        for (List<ArgumentBinding> variant : getArgumentBindingVariants()) {
             result.addMethod(createStartActivityMethod(variant));
             result.addMethod(createGetIntentMethod(variant));
         }
@@ -184,10 +183,13 @@ final class BindingSet {
             String fieldName = arg.getName();
             String keyName = fieldName + "Arg";
 
-            if (arg.isBySetter())
-                builder.addStatement("if(intent.hasExtra(\"" + keyName + "\")) activity.set" + capitalizeFirstLetter(fieldName) + "(" + getIntentGetterFor(arg, keyName) + ")");
-            else
+            FieldVeryfyResult settingType = arg.getSettingType();
+            if (settingType == Accessible)
                 builder.addStatement("if(intent.hasExtra(\"" + keyName + "\")) activity." + fieldName + " = " + getIntentGetterFor(arg, keyName));
+            else {
+                String setter = FieldAccessableHelper.getSetter(settingType, fieldName);
+                builder.addStatement("if(intent.hasExtra(\"" + keyName + "\")) activity." + setter + "(" + getIntentGetterFor(arg, keyName) + ")");
+            }
         }
 
         return builder.build();
@@ -208,9 +210,9 @@ final class BindingSet {
         else if (name.equals(TypeName.CHAR))
             return "intent.getCharExtra(\"" + keyName + "\", 'a')";
         else if (IsSubtypeHelper.isSubtypeOfType(arg.getElementType(), "android.os.Parcelable"))
-            return "("+name+") intent.getParcelableExtra(\"" + keyName + "\")";
+            return "(" + name + ") intent.getParcelableExtra(\"" + keyName + "\")";
         else if (IsSubtypeHelper.isSubtypeOfType(arg.getElementType(), "java.io.Serializable"))
-            return "("+name+") intent.getSerializableExtra(\"" + keyName + "\")";
+            return "(" + name + ") intent.getSerializableExtra(\"" + keyName + "\")";
         else
             throw new Error("Illegal field type" + arg.getType());
     }

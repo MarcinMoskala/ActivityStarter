@@ -26,16 +26,16 @@ class MainActivity : BaseActivity() {
             try {
                 val id = Integer.parseInt(idString)
                 if (name.trim { it <= ' ' } == "") {
-                    StudentDataActivityStarter.start(baseContext, id, grade)
+                    StudentDataActivityStarter.start(baseContext, id, grade, isPassing)
                 } else {
-                    StudentDataActivityStarter.start(baseContext, name, id, grade)
+                    StudentDataActivityStarter.start(baseContext, name, id, grade, isPassing)
                 }
             } catch (e: NumberFormatException) {
                 // Id is not valid
                 if (name.trim { it <= ' ' } == "") {
-                    StudentDataActivityStarter.start(baseContext, grade)
+                    StudentDataActivityStarter.start(baseContext, grade, isPassing)
                 } else {
-                    StudentDataActivityStarter.start(baseContext, name, grade)
+                    StudentDataActivityStarter.start(baseContext, name, grade, isPassing)
                 }
             }
         }
