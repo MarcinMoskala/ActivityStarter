@@ -38,6 +38,9 @@ public class ParcelableSerializableTest {
     public void parcelableSerializableTest() {
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.showParcelableDataButton), withText("Show data from parceleble on new Activity")));
+
+        pressBack();
+
         appCompatButton.perform(scrollTo(), click());
 
         ViewInteraction textView = onView(
