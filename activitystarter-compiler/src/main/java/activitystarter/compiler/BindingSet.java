@@ -147,7 +147,7 @@ final class BindingSet {
     }
 
     private MethodSpec createStartActivityMethodWithFlags(List<ArgumentBinding> variant) {
-        MethodSpec.Builder builder = MethodSpec.methodBuilder("start")
+        MethodSpec.Builder builder = MethodSpec.methodBuilder("startWithFlags")
                 .addAnnotation(UI_THREAD)
                 .addParameter(CONTEXT, "context")
                 .addModifiers(PUBLIC)
