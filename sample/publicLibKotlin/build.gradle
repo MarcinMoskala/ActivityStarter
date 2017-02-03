@@ -17,7 +17,7 @@ android {
     buildToolsVersion "25.0.2"
 
     defaultConfig {
-        applicationId "com.marcinmoskala.kotlinapp"
+        applicationId "com.marcinmoskala.publickotlinapp"
         minSdkVersion 18
         targetSdkVersion 25
         versionCode 1
@@ -37,13 +37,17 @@ android {
     }
 }
 
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+
 kapt {
     generateStubs = true
 }
 
 dependencies {
-    compile project(':activitystarter')
-    kapt project(':activitystarter-compiler')
+    compile 'com.github.MarcinMoskala.ActivityStarter:activitystarter:0.01'
+    kapt 'com.github.MarcinMoskala.ActivityStarter:activitystarter-compiler:0.01'
 
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
