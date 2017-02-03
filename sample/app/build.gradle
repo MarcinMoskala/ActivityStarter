@@ -1,36 +1,44 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
-
-    compileOptions {
-        sourceCompatibility = rootProject.ext.sourceCompatibilityVersion
-        targetCompatibility = rootProject.ext.targetCompatibilityVersion
-    }
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
-        applicationId 'com.example.superactivity'
-        minSdkVersion 14
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        applicationId "com.example.activitystarter"
+        minSdkVersion 18
+        targetSdkVersion 25
         versionCode 1
-        versionName '1.0.0'
-        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-    }
+        versionName "1.0"
 
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
     buildTypes {
-        debug {
-            minifyEnabled true
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    buildToolsVersion '25.0.2'
 }
 
 dependencies {
     compile project(':activitystarter')
     annotationProcessor project(':activitystarter-compiler')
-    compile 'com.android.support:design:24.2.1' 
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2', {
+
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
-    }
+    })
+    compile 'com.android.support:appcompat-v7:25.1.0'
+    compile 'com.android.support:design:25.1.0'
+    testCompile 'junit:junit:4.12'
+}
+repositories {
+    mavenCentral()
 }

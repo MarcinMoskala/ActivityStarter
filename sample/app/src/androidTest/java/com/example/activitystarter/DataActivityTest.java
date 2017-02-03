@@ -36,8 +36,6 @@ public class DataActivityTest {
         ViewInteraction g = onView(withId(R.id.student_grade));
         g.perform(scrollTo(), replaceText("A"), closeSoftKeyboard());
 
-        pressBack();
-
         ViewInteraction i = onView(allOf(withId(R.id.show_data_button), withText("Show this data on new Activity")));
         i.perform(scrollTo(), click());
 
