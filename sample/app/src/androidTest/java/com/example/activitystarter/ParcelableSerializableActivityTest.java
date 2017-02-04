@@ -1,7 +1,7 @@
 package com.example.activitystarter;
 
 
-import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.Espresso;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
@@ -19,7 +19,6 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
-import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -35,75 +34,24 @@ public class ParcelableSerializableActivityTest {
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void parcelableSerializableActivityTest() {
-        pressBack();
+    public void parcelableActivityTest() throws InterruptedException {
 
-        ViewInteraction i = onView(
-                allOf(withId(R.id.show_parcelable_data_button), withText("Show data from parceleble on new Activity")));
-        i.perform(scrollTo(), click());
+        // Made this way, instad of button click becacue of Espresso on Travis click error
+        mActivityTestRule.getActivity().startParcelableActivity();
 
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.name_view), withText("Name: Marcin"),
-                        childAtPosition(childAtPosition(IsInstanceOf.<View>instanceOf(android.widget.ScrollView.class), 0), 0),
-                        isDisplayed()));
-        textView.check(matches(withText("Name: Marcin")));
-
-        ViewInteraction textView2 = onView(
-                allOf(withId(R.id.id_view), withText("Id: 10"),
-                        childAtPosition(childAtPosition(IsInstanceOf.<View>instanceOf(android.widget.ScrollView.class), 0), 1),
-                        isDisplayed()));
-        textView2.check(matches(withText("Id: 10")));
-
-        ViewInteraction textView3 = onView(
-                allOf(withId(R.id.grade_view), withText("Grade: A"),
-                        childAtPosition(childAtPosition(IsInstanceOf.<View>instanceOf(android.widget.ScrollView.class), 0), 2),
-                        isDisplayed()));
-        textView3.check(matches(withText("Grade: A")));
-
-        pressBack();
-
-        ViewInteraction i2 = onView(
-                allOf(withId(R.id.show_serializable_data_button), withText("Show data from serializable on new Activity")));
-        i2.perform(scrollTo(), click());
-
-        ViewInteraction textView4 = onView(
-                allOf(withId(R.id.name_view), withText("Name: Marcin Moskala"),
-                        childAtPosition(childAtPosition(IsInstanceOf.<View>instanceOf(android.widget.ScrollView.class), 0), 0),
-                        isDisplayed()));
-        textView4.check(matches(withText("Name: Marcin Moskala")));
-
-        ViewInteraction textView5 = onView(
-                allOf(withId(R.id.id_view), withText("Id: 20"),
-                        childAtPosition(childAtPosition(IsInstanceOf.<View>instanceOf(android.widget.ScrollView.class), 0), 1),
-                        isDisplayed()));
-        textView5.check(matches(withText("Id: 20")));
-
-        ViewInteraction textView6 = onView(
-                allOf(withId(R.id.grade_view), withText("Grade: A"),
-                        childAtPosition(childAtPosition(IsInstanceOf.<View>instanceOf(android.widget.ScrollView.class), 0), 2),
-                        isDisplayed()));
-        textView6.check(matches(withText("Grade: A")));
-
-        pressBack();
-
+        onView(withId(R.id.name_view)).check(matches(withText("Name: Marcin")));
+        onView(withId(R.id.id_view)).check(matches(withText("Id: 10")));
+        onView(withId(R.id.grade_view)).check(matches(withText("Grade: A")));
     }
 
-    private static Matcher<View> childAtPosition(
-            final Matcher<View> parentMatcher, final int position) {
+    @Test
+    public void serializableActivityTest() throws InterruptedException {
 
-        return new TypeSafeMatcher<View>() {
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("Child at position " + position + " in parent ");
-                parentMatcher.describeTo(description);
-            }
+        // Made this way, instad of button click becacue of Espresso on Travis click error
+        mActivityTestRule.getActivity().startSerializableActivity();
 
-            @Override
-            public boolean matchesSafely(View view) {
-                ViewParent parent = view.getParent();
-                return parent instanceof ViewGroup && parentMatcher.matches(parent)
-                        && view.equals(((ViewGroup) parent).getChildAt(position));
-            }
-        };
+        onView(withId(R.id.name_view)).check(matches(withText("Name: Marcin Moskala")));
+        onView(withId(R.id.id_view)).check(matches(withText("Id: 20")));
+        onView(withId(R.id.grade_view)).check(matches(withText("Grade: A")));
     }
 }
