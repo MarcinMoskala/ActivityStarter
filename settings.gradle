@@ -4,6 +4,5 @@ include ':activitystarter-compiler'
 
 include ':sample:app'
 include ':sample:kotlinapp'
-include ':sample:publicLibKotlin'
 
 rootProject.name = 'superactivity-parent'

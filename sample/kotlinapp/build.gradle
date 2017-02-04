@@ -45,6 +45,10 @@ dependencies {
     compile project(':activitystarter')
     kapt project(':activitystarter-compiler')
 
+// On local project use:
+//    compile 'com.github.MarcinMoskala.ActivityStarter:activitystarter:0.+'
+//    kapt 'com.github.MarcinMoskala.ActivityStarter:activitystarter-compiler:0.+'
+
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })

@@ -31,7 +31,6 @@ public class ElementsParser {
     private static final String SERIALIZABLE_TYPE = "java.io.Serializable";
     private static final String PARCELABLE_TYPE = "android.os.Parcelable";
 
-    private static final String NULLABLE_ANNOTATION_NAME = "Nullable";
     private static final List<TypeKind> SUPPORTED_BASE_TYPES = Arrays.asList(
             TypeKind.BOOLEAN, TypeKind.INT, TypeKind.FLOAT, TypeKind.DOUBLE, TypeKind.CHAR
     );
@@ -63,6 +62,18 @@ public class ElementsParser {
 
         if (!builderMap.containsKey(enclosingElement)) {
             builderMap.put(enclosingElement, new BindingSet(enclosingElement));
+        }
+    }
+
+    void parseClass(Element element, Map<TypeElement, BindingSet> builderMap) {
+        TypeElement typeElement = (TypeElement) element;
+        TypeMirror elementType = getElementType(element);
+
+        if (veryfyClassType(element, elementType))
+            return;
+
+        if (!builderMap.containsKey(typeElement)) {
+            builderMap.put(typeElement, new BindingSet(typeElement));
         }
     }
 
@@ -103,18 +114,6 @@ public class ElementsParser {
                 TypeName.get(elementType).equals(TypeName.get(String.class)) ||
                 isSubtypeOfType(elementType, SERIALIZABLE_TYPE) ||
                 isSubtypeOfType(elementType, PARCELABLE_TYPE);
-    }
-
-    void parseClass(Element element, Map<TypeElement, BindingSet> builderMap) {
-        TypeElement typeElement = (TypeElement) element;
-        TypeMirror elementType = getElementType(element);
-
-        if (veryfyClassType(element, elementType))
-            return;
-
-        if (!builderMap.containsKey(typeElement)) {
-            builderMap.put(typeElement, new BindingSet(typeElement));
-        }
     }
 
     private boolean veryfyClassType(Element element, TypeMirror elementType) {

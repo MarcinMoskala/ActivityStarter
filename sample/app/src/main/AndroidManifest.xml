@@ -9,7 +9,7 @@
         android:label="@string/app_name"
         tools:ignore="MissingApplicationIcon,UnusedAttribute">
         <activity
-            android:name="com.example.activitystarter.MainActivity"
+            android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,17 +19,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.activitystarter.StudentDataActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:name=".StudentDataActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name="com.example.activitystarter.StudentParcelableActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:name=".StudentParcelableActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name="com.example.activitystarter.StudentSerializableActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:name=".StudentSerializableActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".TabbedFragmentActivity"
+            android:label="@string/title_activity_tabbed_fragment"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
