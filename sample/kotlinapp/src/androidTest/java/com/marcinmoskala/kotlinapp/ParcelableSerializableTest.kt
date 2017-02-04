@@ -19,7 +19,7 @@ import android.support.test.espresso.matcher.ViewMatchers.withText
 @RunWith(AndroidJUnit4::class)
 class ParcelableSerializableTest {
 
-    @Rule
+    @Rule @JvmField
     var mActivityTestRule = ActivityTestRule(MainActivity::class.java)
     val activity: MainActivity get() = mActivityTestRule.activity
 

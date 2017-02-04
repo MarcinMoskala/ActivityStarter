@@ -1,11 +1,14 @@
 package com.example.activitystarter;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Switch;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class MainActivity extends BaseActivity {
 
@@ -79,16 +82,16 @@ public class MainActivity extends BaseActivity {
         try {
             int id = Integer.parseInt(idString);
             if(name.trim().equals("")) {
-                StudentDataActivityStarter.start(getBaseContext(), id, grade, isPassing);
+                StudentDataActivityStarter.startWithFlags(getBaseContext(), id, grade, isPassing, FLAG_ACTIVITY_NEW_TASK);
             } else {
-                StudentDataActivityStarter.start(getBaseContext(), name, id, grade, isPassing);
+                StudentDataActivityStarter.startWithFlags(getBaseContext(), name, id, grade, isPassing, FLAG_ACTIVITY_NEW_TASK);
             }
         } catch (NumberFormatException e) {
             // Id is not valid
             if(name.trim().equals("")) {
-                StudentDataActivityStarter.start(getBaseContext(), grade, isPassing);
+                StudentDataActivityStarter.startWithFlags(getBaseContext(), grade, isPassing, FLAG_ACTIVITY_NEW_TASK);
             } else {
-                StudentDataActivityStarter.start(getBaseContext(), name, grade, isPassing);
+                StudentDataActivityStarter.startWithFlags(getBaseContext(), name, grade, isPassing, FLAG_ACTIVITY_NEW_TASK);
             }
         }
     }
