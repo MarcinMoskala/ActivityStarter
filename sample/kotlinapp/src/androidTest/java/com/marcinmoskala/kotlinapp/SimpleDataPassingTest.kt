@@ -34,9 +34,7 @@ class SimpleDataPassingTest {
         onView(withId(R.id.studentGradeView)).perform(scrollTo(), replaceText("A"), closeSoftKeyboard())
         onView(withId(R.id.studentIsPassingView)).perform(scrollTo(), click())
 
-        activity.runOnUiThread {
-            activity.startDetailsActivity()
-        }
+        onView(withId(R.id.showDataButton)).perform(scrollTo(), click())
 
         onView(withId(R.id.nameView)).check(matches(withText("Name: Marcin")))
         onView(withId(R.id.idView)).check(matches(withText("Id: 123")))

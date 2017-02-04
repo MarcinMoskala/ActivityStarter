@@ -19,6 +19,7 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -35,15 +36,7 @@ public class ParcelableSerializableActivityTest {
 
     @Test
     public void parcelableActivityTest() throws InterruptedException {
-
-        // Made this way, instad of button click becacue of Espresso on Travis click error
-        final MainActivity activity = mActivityTestRule.getActivity();
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                activity.startParcelableActivity();
-            }
-        });
+        onView(withId(R.id.show_parcelable_data_button)).perform(scrollTo(), click());
 
         onView(withId(R.id.name_view)).check(matches(withText("Name: Marcin")));
         onView(withId(R.id.id_view)).check(matches(withText("Id: 10")));
@@ -52,15 +45,7 @@ public class ParcelableSerializableActivityTest {
 
     @Test
     public void serializableActivityTest() throws InterruptedException {
-
-        // Made this way, instad of button click becacue of Espresso on Travis click error
-        final MainActivity activity = mActivityTestRule.getActivity();
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                activity.startSerializableActivity();
-            }
-        });
+        onView(withId(R.id.show_serializable_data_button)).perform(scrollTo(), click());
 
         onView(withId(R.id.name_view)).check(matches(withText("Name: Marcin Moskala")));
         onView(withId(R.id.id_view)).check(matches(withText("Id: 20")));
