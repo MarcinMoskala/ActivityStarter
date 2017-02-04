@@ -8,14 +8,28 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_margin="20dp">
+
+    <Button
+        android:text="Show data from parceleble on new Activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:id="@+id/show_parcelable_data_button"/>
+
+    <Button
+        android:text="Show data from serializable on new Activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:id="@+id/show_serializable_data_button"/>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/student_name_layout"
         android:hint="Place to type name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp">
+        android:layout_height="wrap_content">
 
         <AutoCompleteTextView
             android:id="@+id/student_name"
@@ -28,9 +42,7 @@
         android:id="@+id/student_id_layout"
         android:hint="Place to type id"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
+        android:layout_height="wrap_content">
 
         <AutoCompleteTextView
             android:inputType="number"
@@ -44,8 +56,7 @@
         android:id="@+id/student_grade_layout"
         android:hint="Place to type grade"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp">
+        android:layout_height="wrap_content">
 
         <AutoCompleteTextView
             android:maxLength="1"
@@ -56,36 +67,17 @@
     </android.support.design.widget.TextInputLayout>
 
     <Switch
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:text="Is student passing?"
         android:id="@+id/student_is_passing"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <Button
-        android:layout_margin="20dp"
         android:text="Show this data on new Activity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAllCaps="false"
         android:id="@+id/show_data_button"/>
-
-    <Button
-        android:layout_margin="20dp"
-        android:text="Show data from parceleble on new Activity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAllCaps="false"
-        android:id="@+id/show_parcelable_data_button"/>
-
-    <Button
-        android:layout_margin="20dp"
-        android:text="Show data from serializable on new Activity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAllCaps="false"
-        android:id="@+id/show_serializable_data_button"/>
 
 </LinearLayout>
 </ScrollView>
