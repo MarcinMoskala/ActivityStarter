@@ -14,7 +14,6 @@ import java.util.Map;
 
 
 public final class ActivityStarter {
-
     private ActivityStarter() {
         throw new AssertionError("No instances.");
     }

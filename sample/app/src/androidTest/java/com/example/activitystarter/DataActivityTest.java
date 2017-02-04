@@ -31,7 +31,13 @@ public class DataActivityTest {
         onView(withId(R.id.student_grade)).perform(scrollTo(), replaceText("A"), closeSoftKeyboard());
 
         // Made this way, instad of button click becacue of Espresso on Travis click error
-        mActivityTestRule.getActivity().startDetailsActivity();
+        final MainActivity activity = mActivityTestRule.getActivity();
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                activity.startDetailsActivity();
+            }
+        });
 
         onView(withId(R.id.name_view)).check(matches(withText("Name: No name provided")));
         onView(withId(R.id.id_view)).check(matches(withText("Id: -1")));
@@ -47,7 +53,13 @@ public class DataActivityTest {
         onView(withId(R.id.student_is_passing)).perform(scrollTo(), click());
 
         // Made this way, instad of button click becacue of Espresso on Travis click error
-        mActivityTestRule.getActivity().startDetailsActivity();
+        final MainActivity activity = mActivityTestRule.getActivity();
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                activity.startDetailsActivity();
+            }
+        });
 
         onView(withId(R.id.name_view)).check(matches(withText("Name: Marcin")));
         onView(withId(R.id.id_view)).check(matches(withText("Id: 123")));

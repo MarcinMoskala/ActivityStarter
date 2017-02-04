@@ -37,7 +37,13 @@ public class ParcelableSerializableActivityTest {
     public void parcelableActivityTest() throws InterruptedException {
 
         // Made this way, instad of button click becacue of Espresso on Travis click error
-        mActivityTestRule.getActivity().startParcelableActivity();
+        final MainActivity activity = mActivityTestRule.getActivity();
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                activity.startParcelableActivity();
+            }
+        });
 
         onView(withId(R.id.name_view)).check(matches(withText("Name: Marcin")));
         onView(withId(R.id.id_view)).check(matches(withText("Id: 10")));
@@ -48,7 +54,13 @@ public class ParcelableSerializableActivityTest {
     public void serializableActivityTest() throws InterruptedException {
 
         // Made this way, instad of button click becacue of Espresso on Travis click error
-        mActivityTestRule.getActivity().startSerializableActivity();
+        final MainActivity activity = mActivityTestRule.getActivity();
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                activity.startSerializableActivity();
+            }
+        });
 
         onView(withId(R.id.name_view)).check(matches(withText("Name: Marcin Moskala")));
         onView(withId(R.id.id_view)).check(matches(withText("Id: 20")));
