@@ -56,20 +56,20 @@ private fun isInaccessibleViaGeneratedCode(annotationClass: Class<out Annotation
 
     // Verify containing type.
     if (enclosingElement.kind != CLASS) {
-        inaccessableError("may only be contained in classes.", annotationClass, element, enclosingElement, targetThing)
+        inaccessibleError("may only be contained in classes.", annotationClass, element, enclosingElement, targetThing)
         return true
     }
 
     // Verify containing class visibility is not private.
     if (enclosingElement.modifiers.contains(PRIVATE)) {
-        inaccessableError("may not be contained in private classes.", annotationClass, element, enclosingElement, targetThing)
+        inaccessibleError("may not be contained in private classes.", annotationClass, element, enclosingElement, targetThing)
         return true
     }
 
     return false
 }
 
-private fun inaccessableError(text: String, annotationClass: Class<out Annotation>, element: Element, enclosingElement: TypeElement, targetThing: String) {
+private fun inaccessibleError(text: String, annotationClass: Class<out Annotation>, element: Element, enclosingElement: TypeElement, targetThing: String) {
     error(enclosingElement, "@%s %s $text (%s.%s)",
             annotationClass.simpleName, targetThing, enclosingElement.qualifiedName,
             element.simpleName)
