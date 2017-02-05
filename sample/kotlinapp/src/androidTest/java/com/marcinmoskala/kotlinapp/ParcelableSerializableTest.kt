@@ -23,13 +23,12 @@ import android.support.test.espresso.matcher.ViewMatchers.withText
 class ParcelableSerializableTest {
 
     @Rule @JvmField
-    var mActivityTestRule = ActivityTestRule(MainActivity::class.java)
-    val activity: MainActivity get() = mActivityTestRule.activity
+    var activityTestRule = ActivityTestRule(MainActivity::class.java)
 
     @Test
     @Throws(InterruptedException::class)
     fun parcelableTest() {
-        onView(withId(R.id.showParcelableDataButton)).perform(scrollTo(), click())
+        activityTestRule.activity.performClickOn(R.id.showParcelableDataButton)
 
         onView(withId(R.id.nameView)).check(matches(withText("Name: Marcin")))
         onView(withId(R.id.idView)).check(matches(withText("Id: 10")))
@@ -39,7 +38,7 @@ class ParcelableSerializableTest {
     @Test
     @Throws(InterruptedException::class)
     fun serializableTest() {
-        onView(withId(R.id.showSerializableDataButton)).perform(scrollTo(), click())
+        activityTestRule.activity.performClickOn(R.id.showSerializableDataButton)
 
         onView(withId(R.id.nameView)).check(matches(withText("Name: Marcin Moskala")))
         onView(withId(R.id.idView)).check(matches(withText("Id: 20")))

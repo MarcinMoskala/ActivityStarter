@@ -21,15 +21,14 @@ import android.support.test.espresso.matcher.ViewMatchers.withText
 class DefaultValuesTest {
 
     @Rule @JvmField
-    var mActivityTestRule = ActivityTestRule(MainActivity::class.java)
-    val activity: MainActivity get() = mActivityTestRule.activity
+    var activityTestRule = ActivityTestRule(MainActivity::class.java)
 
     @Test
     @Throws(InterruptedException::class)
     fun defaultValuesTest() {
         onView(withId(R.id.studentGradeView)).perform(scrollTo(), replaceText("A"), closeSoftKeyboard())
 
-        onView(withId(R.id.showDataButton)).perform(scrollTo(), click())
+        activityTestRule.activity.performClickOn(R.id.showDataButton)
 
         onView(withId(R.id.gradeView)).check(matches(withText("Grade: A")))
         onView(withId(R.id.nameView)).check(matches(withText("Name: No name provided")))

@@ -1,6 +1,7 @@
 package com.marcinmoskala.kotlinapp
 
 import android.os.Bundle
+import android.widget.Button
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
@@ -14,7 +15,14 @@ class MainActivity : BaseActivity() {
         showSerializableDataButton.setOnClickListener { startSerializableActivity() }
     }
 
-    fun startDetailsActivity() {
+    fun performClickOn(id: Int) {
+        runOnUiThread {
+            val button = findViewById(id) as Button
+            button.performClick()
+        }
+    }
+
+    private fun startDetailsActivity() {
         val gradeString = studentGradeView.text.toString()
         if (gradeString.length != 1) {
             studentGradeLayoutView.error = "You must provide some grade"
@@ -45,12 +53,12 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    fun startParcelableActivity() {
+    private fun startParcelableActivity() {
         val student = StudentParcelable(10, "Marcin", 'A')
         StudentParcelableActivityStarter.start(baseContext, student)
     }
 
-    fun startSerializableActivity() {
+    private fun startSerializableActivity() {
         val student = StudentSerializable(20, "Marcin Moskala", 'A', true)
         StudentSerializableActivityStarter.start(baseContext, student)
     }

@@ -24,8 +24,7 @@ import android.support.test.espresso.matcher.ViewMatchers.withText
 class SimpleDataPassingTest {
 
     @Rule @JvmField
-    var mActivityTestRule = ActivityTestRule(MainActivity::class.java)
-    val activity: MainActivity get() = mActivityTestRule.activity
+    var activityTestRule = ActivityTestRule(MainActivity::class.java)
 
     @Test
     fun simpleDataPassingTest() {
@@ -34,7 +33,7 @@ class SimpleDataPassingTest {
         onView(withId(R.id.studentGradeView)).perform(scrollTo(), replaceText("A"), closeSoftKeyboard())
         onView(withId(R.id.studentIsPassingView)).perform(scrollTo(), click())
 
-        onView(withId(R.id.showDataButton)).perform(scrollTo(), click())
+        activityTestRule.activity.performClickOn(R.id.showDataButton)
 
         onView(withId(R.id.nameView)).check(matches(withText("Name: Marcin")))
         onView(withId(R.id.idView)).check(matches(withText("Id: 123")))
