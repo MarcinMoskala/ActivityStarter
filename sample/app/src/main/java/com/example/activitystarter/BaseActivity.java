@@ -1,10 +1,21 @@
 package com.example.activitystarter;
 
-import android.app.Activity;
-import activitystarter.Arg;
-import activitystarter.Optional;
+import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.v7.app.AppCompatActivity;
 
-public class BaseActivity extends Activity {
-    @Arg String name;
-    @Optional int id;
+import java.io.Serializable;
+
+import activitystarter.ActivityStarter;
+import activitystarter.Arg;
+import activitystarter.MakeActivityStarter;
+
+@MakeActivityStarter
+public class BaseActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ActivityStarter.fill(this);
+    }
 }
