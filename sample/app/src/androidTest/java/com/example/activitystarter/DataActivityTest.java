@@ -24,13 +24,13 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 public class DataActivityTest {
 
     @Rule
-    public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
     public void defaultDataActivityTest() throws InterruptedException {
         onView(withId(R.id.student_grade)).perform(scrollTo(), replaceText("A"), closeSoftKeyboard());
 
-        onView(withId(R.id.show_data_button)).perform(scrollTo(), click());
+        activityTestRule.getActivity().performClick(R.id.show_data_button);
 
         onView(withId(R.id.name_view)).check(matches(withText("Name: No name provided")));
         onView(withId(R.id.id_view)).check(matches(withText("Id: -1")));
@@ -45,7 +45,7 @@ public class DataActivityTest {
         onView(withId(R.id.student_grade)).perform(scrollTo(), replaceText("A"), closeSoftKeyboard());
         onView(withId(R.id.student_is_passing)).perform(scrollTo(), click());
 
-        onView(withId(R.id.show_data_button)).perform(scrollTo(), click());
+        activityTestRule.getActivity().performClick(R.id.show_data_button);
 
         onView(withId(R.id.name_view)).check(matches(withText("Name: Marcin")));
         onView(withId(R.id.id_view)).check(matches(withText("Id: 123")));

@@ -63,17 +63,26 @@ public class MainActivity extends BaseActivity {
         });
     }
 
-    void startSerializableActivity() {
+    void performClick(final int id) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ((Button) findViewById(id)).performClick();
+            }
+        });
+    }
+
+    private void startSerializableActivity() {
         StudentSerializable student = new StudentSerializable(20, "Marcin Moskala", 'A', true);
         StudentSerializableActivityStarter.start(getBaseContext(), student);
     }
 
-    void startParcelableActivity() {
+    private void startParcelableActivity() {
         StudentParcelable student = new StudentParcelable(10, "Marcin", 'A');
         StudentParcelableActivityStarter.start(getBaseContext(), student);
     }
 
-    void startDetailsActivity() {
+    private void startDetailsActivity() {
         String gradeString = studentGradeView.getText().toString();
         if(gradeString.length() != 1) {
             studentGradeLayoutView.setError("You must provide some grade");

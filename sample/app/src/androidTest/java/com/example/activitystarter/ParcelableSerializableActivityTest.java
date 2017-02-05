@@ -32,11 +32,11 @@ import static org.hamcrest.Matchers.allOf;
 public class ParcelableSerializableActivityTest {
 
     @Rule
-    public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
     public void parcelableActivityTest() throws InterruptedException {
-        onView(withId(R.id.show_parcelable_data_button)).perform(scrollTo(), click());
+        activityTestRule.getActivity().performClick(R.id.show_parcelable_data_button);
 
         onView(withId(R.id.name_view)).check(matches(withText("Name: Marcin")));
         onView(withId(R.id.id_view)).check(matches(withText("Id: 10")));
@@ -45,7 +45,7 @@ public class ParcelableSerializableActivityTest {
 
     @Test
     public void serializableActivityTest() throws InterruptedException {
-        onView(withId(R.id.show_serializable_data_button)).perform(scrollTo(), click());
+        activityTestRule.getActivity().performClick(R.id.show_serializable_data_button);
 
         onView(withId(R.id.name_view)).check(matches(withText("Name: Marcin Moskala")));
         onView(withId(R.id.id_view)).check(matches(withText("Id: 20")));
