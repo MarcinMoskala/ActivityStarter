@@ -40,7 +40,7 @@ public class ElementsParser {
         this.messager = messager;
     }
 
-    void parseArg(Element element, Map<TypeElement, BindingSet> builderMap) {
+    void parseArg(Element element, Map<TypeElement, ClassBinding> builderMap) {
         TypeElement enclosingElement = (TypeElement) element.getEnclosingElement();
 
         if (isInaccessibleViaGeneratedCode(Arg.class, "fields", element))
@@ -61,11 +61,11 @@ public class ElementsParser {
         }
 
         if (!builderMap.containsKey(enclosingElement)) {
-            builderMap.put(enclosingElement, new BindingSet(enclosingElement));
+            builderMap.put(enclosingElement, new ClassBinding(enclosingElement));
         }
     }
 
-    void parseClass(Element element, Map<TypeElement, BindingSet> builderMap) {
+    void parseClass(Element element, Map<TypeElement, ClassBinding> builderMap) {
         TypeElement typeElement = (TypeElement) element;
         TypeMirror elementType = getElementType(element);
 
@@ -73,7 +73,7 @@ public class ElementsParser {
             return;
 
         if (!builderMap.containsKey(typeElement)) {
-            builderMap.put(typeElement, new BindingSet(typeElement));
+            builderMap.put(typeElement, new ClassBinding(typeElement));
         }
     }
 

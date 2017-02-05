@@ -43,13 +43,12 @@ public final class ActivityStarterProcessor extends AbstractProcessor {
         Set<String> types = new LinkedHashSet<>();
         types.add(Arg.class.getCanonicalName());
         types.add(MakeActivityStarter.class.getCanonicalName());
-        types.add(UiThread.class.getCanonicalName());
         return types;
     }
 
     @Override
     public boolean process(Set<? extends TypeElement> elements, RoundEnvironment env) {
-        Map<TypeElement, BindingSet> bindingMap = findAndParseTargets(env);
+        Map<TypeElement, ClassBinding> bindingMap = findAndParseTargets(env);
         processTargets(bindingMap);
         return true;
     }
@@ -59,8 +58,8 @@ public final class ActivityStarterProcessor extends AbstractProcessor {
         return SourceVersion.latestSupported();
     }
 
-    private Map<TypeElement, BindingSet> findAndParseTargets(RoundEnvironment env) {
-        Map<TypeElement, BindingSet> builderMap = new LinkedHashMap<>();
+    private Map<TypeElement, ClassBinding> findAndParseTargets(RoundEnvironment env) {
+        Map<TypeElement, ClassBinding> builderMap = new LinkedHashMap<>();
         ElementsParser parser = new ElementsParser(processingEnv.getMessager());
 
         for (Element element : env.getElementsAnnotatedWith(activitystarter.Arg.class)) {
@@ -82,10 +81,10 @@ public final class ActivityStarterProcessor extends AbstractProcessor {
         return builderMap;
     }
 
-    private void processTargets(Map<TypeElement, BindingSet> bindingMap) {
-        for (Map.Entry<TypeElement, BindingSet> entry : bindingMap.entrySet()) {
+    private void processTargets(Map<TypeElement, ClassBinding> bindingMap) {
+        for (Map.Entry<TypeElement, ClassBinding> entry : bindingMap.entrySet()) {
             TypeElement typeElement = entry.getKey();
-            BindingSet binding = entry.getValue();
+            ClassBinding binding = entry.getValue();
 
             JavaFile javaFile = binding.brewJava();
             try {

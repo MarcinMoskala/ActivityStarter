@@ -28,7 +28,7 @@ import static javax.lang.model.element.Modifier.FINAL;
 import static javax.lang.model.element.Modifier.PUBLIC;
 import static javax.lang.model.element.Modifier.STATIC;
 
-final class BindingSet {
+final class ClassBinding {
 
     private static final ClassName UI_THREAD = ClassName.get("android.support.annotation", "UiThread");
     private static final ClassName INTENT = ClassName.get("android.content", "Intent");
@@ -39,17 +39,25 @@ final class BindingSet {
     private final List<ArgumentBinding> argumentBindings;
     private final boolean isFinal;
 
-    BindingSet(TypeElement enclosingElement) {
+    ClassBinding(TypeElement enclosingElement) {
+        targetTypeName = getTargetTypeName(enclosingElement);
+        bindingClassName = getBindingClassName(enclosingElement);
+        isFinal = enclosingElement.getModifiers().contains(Modifier.FINAL);
+        argumentBindings = getArgAsBindings(enclosingElement.getEnclosedElements(), Arg.class);
+    }
+
+    private ClassName getBindingClassName(TypeElement enclosingElement) {
+        String packageName = getPackage(enclosingElement).getQualifiedName().toString();
+        String className = enclosingElement.getQualifiedName().toString().substring(packageName.length() + 1);
+        return ClassName.get(packageName, className + "Starter");
+    }
+
+    private TypeName getTargetTypeName(TypeElement enclosingElement) {
         TypeName targetType = TypeName.get(enclosingElement.asType());
         if (targetType instanceof ParameterizedTypeName) {
             targetType = ((ParameterizedTypeName) targetType).rawType;
         }
-        targetTypeName = targetType;
-        String packageName = getPackage(enclosingElement).getQualifiedName().toString();
-        String className = enclosingElement.getQualifiedName().toString().substring(packageName.length() + 1).replace('.', '$');
-        bindingClassName = ClassName.get(packageName, className + "Starter");
-        isFinal = enclosingElement.getModifiers().contains(Modifier.FINAL);
-        argumentBindings = getArgAsBindings(enclosingElement.getEnclosedElements(), Arg.class);
+        return targetType;
     }
 
     private static List<ArgumentBinding> getArgAsBindings(List<? extends Element> oldList, Class<? extends Annotation> annotation) {
