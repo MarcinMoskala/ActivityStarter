@@ -67,19 +67,19 @@ public class MainActivity extends BaseActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ((Button) findViewById(id)).performClick();
+                findViewById(id).performClick();
             }
         });
     }
 
     private void startSerializableActivity() {
         StudentSerializable student = new StudentSerializable(20, "Marcin Moskala", 'A', true);
-        StudentSerializableActivityStarter.start(getBaseContext(), student);
+        StudentSerializableActivityStarter.start(MainActivity.this, student);
     }
 
     private void startParcelableActivity() {
         StudentParcelable student = new StudentParcelable(10, "Marcin", 'A');
-        StudentParcelableActivityStarter.start(getBaseContext(), student);
+        StudentParcelableActivityStarter.start(MainActivity.this, student);
     }
 
     private void startDetailsActivity() {

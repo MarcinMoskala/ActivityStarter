@@ -39,27 +39,27 @@ class MainActivity : BaseActivity() {
         try {
             val id = idString.toInt()
             if (name.isNullOrBlank()) {
-                StudentDataActivityStarter.start(baseContext, id, grade, isPassing)
+                StudentDataActivityStarter.start(this@MainActivity, id, grade, isPassing)
             } else {
-                StudentDataActivityStarter.start(baseContext, name, id, grade, isPassing)
+                StudentDataActivityStarter.start(this@MainActivity, name, id, grade, isPassing)
             }
         } catch (e: NumberFormatException) {
             // Id is not valid
             if (name.isNullOrBlank()) {
-                StudentDataActivityStarter.start(baseContext, grade, isPassing)
+                StudentDataActivityStarter.start(this@MainActivity, grade, isPassing)
             } else {
-                StudentDataActivityStarter.start(baseContext, name, grade, isPassing)
+                StudentDataActivityStarter.start(this@MainActivity, name, grade, isPassing)
             }
         }
     }
 
     private fun startParcelableActivity() {
         val student = StudentParcelable(10, "Marcin", 'A')
-        StudentParcelableActivityStarter.start(baseContext, student)
+        StudentParcelableActivityStarter.start(this@MainActivity, student)
     }
 
     private fun startSerializableActivity() {
         val student = StudentSerializable(20, "Marcin Moskala", 'A', true)
-        StudentSerializableActivityStarter.start(baseContext, student)
+        StudentSerializableActivityStarter.start(this@MainActivity, student)
     }
 }
