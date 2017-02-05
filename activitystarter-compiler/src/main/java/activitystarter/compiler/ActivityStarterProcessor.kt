@@ -12,7 +12,6 @@ import javax.annotation.processing.*
 import javax.lang.model.SourceVersion
 import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
-import javax.tools.Diagnostic
 
 @AutoService(Processor::class)
 class ActivityStarterProcessor : AbstractProcessor() {
@@ -22,6 +21,7 @@ class ActivityStarterProcessor : AbstractProcessor() {
     @Synchronized override fun init(env: ProcessingEnvironment) {
         super.init(env)
         filer = env.filer
+        messanger = processingEnv.messager
     }
 
     override fun getSupportedAnnotationTypes() = listOf<Class<*>>(Arg::class.java, MakeActivityStarter::class.java)
@@ -37,14 +37,13 @@ class ActivityStarterProcessor : AbstractProcessor() {
 
     private fun findAndParseTargets(env: RoundEnvironment): Map<TypeElement, ClassBinding> {
         val builderMap = LinkedHashMap<TypeElement, ClassBinding>()
-        val parser = ElementsParser(processingEnv.messager)
 
         processAnnotation<Arg>(env) { element ->
-            parser.parseArg(element, builderMap)
+            parseArg(element, builderMap)
         }
 
         processAnnotation<MakeActivityStarter>(env) { element ->
-            parser.parseClass(element, builderMap)
+            parseClass(element, builderMap)
         }
 
         return builderMap
@@ -74,13 +73,5 @@ class ActivityStarterProcessor : AbstractProcessor() {
         val stackTrace = StringWriter()
         e.printStackTrace(PrintWriter(stackTrace))
         error(element, "Unable to parse @%s binding.\n\n%s", annotation.simpleName, stackTrace)
-    }
-
-    private fun error(element: Element, message: String, vararg args: Any) {
-        printMessage(Diagnostic.Kind.ERROR, element, message, args)
-    }
-
-    private fun printMessage(kind: Diagnostic.Kind, element: Element, message: String, args: Array<out Any>) {
-        processingEnv.messager.printMessage(kind, if (args.isNotEmpty()) String.format(message, *args) else message, element)
     }
 }
