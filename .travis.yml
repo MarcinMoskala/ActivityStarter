@@ -22,11 +22,12 @@ before_script:
 
 env:
   matrix:
-    - APP=app
-    - APP=kotlinapp
+    - TEST=:sample:app:connectedDebugAndroidTest
+    - TEST=:sample:kotlinapp:connectedDebugAndroidTest
+    - TEST=:activitystarter:test
 
 script:
-  - ./gradlew :sample:$APP:connectedDebugAndroidTest -i
+  - ./gradlew $TEST -i
 
 branches:
   only:
