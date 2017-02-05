@@ -62,11 +62,11 @@ public final class ActivityStarterProcessor extends AbstractProcessor {
         Map<TypeElement, ClassBinding> builderMap = new LinkedHashMap<>();
         ElementsParser parser = new ElementsParser(processingEnv.getMessager());
 
-        for (Element element : env.getElementsAnnotatedWith(activitystarter.Arg.class)) {
+        for (Element element : env.getElementsAnnotatedWith(Arg.class)) {
             try {
                 parser.parseArg(element, builderMap);
             } catch (Exception e) {
-                logParsingError(element, activitystarter.Arg.class, e);
+                logParsingError(element, Arg.class, e);
             }
         }
 

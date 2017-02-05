@@ -21,6 +21,7 @@ import activitystarter.Arg;
 import activitystarter.Optional;
 import activitystarter.compiler.FieldAccessableHelper.FieldVeryfyResult;
 
+import static activitystarter.compiler.ArgumentBinding.getArgumentBindingVariants;
 import static activitystarter.compiler.FieldAccessableHelper.FieldVeryfyResult.Accessible;
 import static activitystarter.compiler.FieldAccessableHelper.getFieldAccessibility;
 import static com.google.auto.common.MoreElements.getPackage;
@@ -37,13 +38,11 @@ final class ClassBinding {
     private final TypeName targetTypeName;
     private final ClassName bindingClassName;
     private final List<ArgumentBinding> argumentBindings;
-    private final boolean isFinal;
 
     ClassBinding(TypeElement enclosingElement) {
         targetTypeName = getTargetTypeName(enclosingElement);
         bindingClassName = getBindingClassName(enclosingElement);
-        isFinal = enclosingElement.getModifiers().contains(Modifier.FINAL);
-        argumentBindings = getArgAsBindings(enclosingElement.getEnclosedElements(), Arg.class);
+        argumentBindings = getArgAsBindings(enclosingElement.getEnclosedElements());
     }
 
     private ClassName getBindingClassName(TypeElement enclosingElement) {
@@ -60,54 +59,11 @@ final class ClassBinding {
         return targetType;
     }
 
-    private static List<ArgumentBinding> getArgAsBindings(List<? extends Element> oldList, Class<? extends Annotation> annotation) {
+    private static List<ArgumentBinding> getArgAsBindings(List<? extends Element> allArguments) {
         List<ArgumentBinding> list = new ArrayList<>();
-        for (Element e : oldList) {
-            if (e.getAnnotation(annotation) != null) list.add(getArgumentBinding(e));
+        for (Element e : allArguments) {
+            if (e.getAnnotation(Arg.class) != null) list.add(new ArgumentBinding(e));
         }
-        return list;
-    }
-
-    private static ArgumentBinding getArgumentBinding(Element element) {
-        TypeMirror elementType = Utills.getElementType(element);
-        FieldVeryfyResult fieldVeryfyResult = getFieldAccessibility(element);
-
-        String name = element.getSimpleName().toString();
-        TypeName type = TypeName.get(elementType);
-        boolean required = isArgumentRequired(element);
-        FieldVeryfyResult settingType = fieldVeryfyResult;
-        return new ArgumentBinding(name, type, elementType, required, settingType);
-    }
-
-    private static boolean isArgumentRequired(Element element) {
-        return element.getAnnotation(Optional.class) == null;
-    }
-
-    public List<List<ArgumentBinding>> getArgumentBindingVariants() {
-        ArrayList<List<ArgumentBinding>> list = new ArrayList<>();
-        list.add(new ArrayList<ArgumentBinding>());
-
-        for (ArgumentBinding b : argumentBindings) {
-            if (b.isRequired()) {
-                for (List<ArgumentBinding> sublist : list) {
-                    sublist.add(b);
-                }
-            } else {
-                List<List<ArgumentBinding>> newElements = new ArrayList<>();
-                for (List<ArgumentBinding> sublist : list) {
-                    List<ArgumentBinding> sublistCopy = copy(sublist);
-                    sublistCopy.add(b);
-                    newElements.add(sublistCopy);
-                }
-                list.addAll(newElements);
-            }
-        }
-        return list;
-    }
-
-    public List<ArgumentBinding> copy(List<ArgumentBinding> oldList) {
-        List<ArgumentBinding> list = new ArrayList<>();
-        list.addAll(oldList);
         return list;
     }
 
@@ -120,16 +76,13 @@ final class ClassBinding {
     private TypeSpec getActivityStarterSpec() {
         TypeSpec.Builder result = TypeSpec
                 .classBuilder(bindingClassName.simpleName())
-                .addModifiers(PUBLIC);
+                .addModifiers(PUBLIC, FINAL)
+                .addMethod(createFillFieldsMethod());
 
-        if (isFinal) result.addModifiers(FINAL);
-
-        result.addMethod(createFillFieldsMethod());
-
-        for (List<ArgumentBinding> variant : getArgumentBindingVariants()) {
+        for (List<ArgumentBinding> variant : getArgumentBindingVariants(argumentBindings)) {
+            result.addMethod(createGetIntentMethod(variant));
             result.addMethod(createStartActivityMethod(variant));
             result.addMethod(createStartActivityMethodWithFlags(variant));
-            result.addMethod(createGetIntentMethod(variant));
         }
 
         return result.build();
@@ -147,7 +100,9 @@ final class ClassBinding {
         }
 
         builder.addStatement("$T intent = new Intent(context, $T.class)", INTENT, targetTypeName);
+        String argList = "";
         for (ArgumentBinding arg : variant) {
+            argList += arg.getName();
             builder.addStatement("intent.putExtra(\"" + arg.getName() + "Arg\", " + arg.getName() + ")");
         }
         builder.addStatement("context.startActivity(intent)");
