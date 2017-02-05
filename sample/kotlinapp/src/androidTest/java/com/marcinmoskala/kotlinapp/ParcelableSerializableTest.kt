@@ -28,7 +28,7 @@ class ParcelableSerializableTest {
     @Test
     @Throws(InterruptedException::class)
     fun parcelableTest() {
-        activityTestRule.activity.performClickOn(R.id.showParcelableDataButton)
+        onView(withId(R.id.showParcelableDataButton)).perform(scrollTo(), click())
 
         onView(withId(R.id.nameView)).check(matches(withText("Name: Marcin")))
         onView(withId(R.id.idView)).check(matches(withText("Id: 10")))
@@ -38,7 +38,7 @@ class ParcelableSerializableTest {
     @Test
     @Throws(InterruptedException::class)
     fun serializableTest() {
-        activityTestRule.activity.performClickOn(R.id.showSerializableDataButton)
+        onView(withId(R.id.showSerializableDataButton)).perform(scrollTo(), click())
 
         onView(withId(R.id.nameView)).check(matches(withText("Name: Marcin Moskala")))
         onView(withId(R.id.idView)).check(matches(withText("Id: 20")))

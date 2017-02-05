@@ -30,7 +30,7 @@ public class DataActivityTest {
     public void defaultDataActivityTest() throws InterruptedException {
         onView(withId(R.id.student_grade)).perform(scrollTo(), replaceText("A"), closeSoftKeyboard());
 
-        activityTestRule.getActivity().performClick(R.id.show_data_button);
+        onView(withId(R.id.show_data_button)).perform(scrollTo(), click());
 
         onView(withId(R.id.name_view)).check(matches(withText("Name: No name provided")));
         onView(withId(R.id.id_view)).check(matches(withText("Id: -1")));
@@ -45,7 +45,7 @@ public class DataActivityTest {
         onView(withId(R.id.student_grade)).perform(scrollTo(), replaceText("A"), closeSoftKeyboard());
         onView(withId(R.id.student_is_passing)).perform(scrollTo(), click());
 
-        activityTestRule.getActivity().performClick(R.id.show_data_button);
+        onView(withId(R.id.show_data_button)).perform(scrollTo(), click());
 
         onView(withId(R.id.name_view)).check(matches(withText("Name: Marcin")));
         onView(withId(R.id.id_view)).check(matches(withText("Id: 123")));

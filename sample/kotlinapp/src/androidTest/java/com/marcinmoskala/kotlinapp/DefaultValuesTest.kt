@@ -28,7 +28,7 @@ class DefaultValuesTest {
     fun defaultValuesTest() {
         onView(withId(R.id.studentGradeView)).perform(scrollTo(), replaceText("A"), closeSoftKeyboard())
 
-        activityTestRule.activity.performClickOn(R.id.showDataButton)
+        onView(withId(R.id.showDataButton)).perform(scrollTo(), click())
 
         onView(withId(R.id.gradeView)).check(matches(withText("Grade: A")))
         onView(withId(R.id.nameView)).check(matches(withText("Name: No name provided")))
