@@ -2,6 +2,7 @@ package activitystarter.compiler
 
 import activitystarter.Arg
 import activitystarter.MakeActivityStarter
+import activitystarter.compiler.classbinding.ClassBinding
 import com.google.auto.service.AutoService
 import java.io.IOException
 import java.io.PrintWriter

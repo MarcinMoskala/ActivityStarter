@@ -15,6 +15,7 @@ public class MainActivity extends BaseActivity {
     Button showDataButton;
     Button showParcelableDataButton;
     Button showSerializableDataButton;
+    Button showTabbedFragmentActivityButton;
     AutoCompleteTextView studentNameView;
     AutoCompleteTextView studentIdView;
     AutoCompleteTextView studentGradeView;
@@ -29,6 +30,7 @@ public class MainActivity extends BaseActivity {
         showDataButton = (Button) findViewById(R.id.show_data_button);
         showParcelableDataButton = (Button) findViewById(R.id.show_parcelable_data_button);
         showSerializableDataButton = (Button) findViewById(R.id.show_serializable_data_button);
+        showTabbedFragmentActivityButton = (Button) findViewById(R.id.show_tabbed_fragment_activity_button);
         studentNameView = (AutoCompleteTextView) findViewById(R.id.student_name);
         studentIdView = (AutoCompleteTextView) findViewById(R.id.student_id);
         studentGradeView = (AutoCompleteTextView) findViewById(R.id.student_grade);
@@ -51,6 +53,12 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 startSerializableActivity();
+            }
+        });
+        showTabbedFragmentActivityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TabbedFragmentActivityStarter.start(MainActivity.this);
             }
         });
     }

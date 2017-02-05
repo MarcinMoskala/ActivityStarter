@@ -25,6 +25,13 @@
         android:textAllCaps="false"
         android:id="@+id/show_serializable_data_button"/>
 
+    <Button
+        android:text="Show tabbed fragment Activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:id="@+id/show_tabbed_fragment_activity_button"/>
+
     <android.support.design.widget.TextInputLayout
         android:id="@+id/student_name_layout"
         android:hint="Place to type name"

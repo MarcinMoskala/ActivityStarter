@@ -2,6 +2,9 @@ package activitystarter.compiler
 
 import activitystarter.Arg
 import activitystarter.MakeActivityStarter
+import activitystarter.compiler.classbinding.ActivityBinding
+import activitystarter.compiler.classbinding.ClassBinding
+import activitystarter.compiler.classbinding.FragmentBinding
 import com.squareup.javapoet.TypeName
 import java.util.*
 import javax.annotation.processing.Messager
@@ -18,38 +21,39 @@ class ElementsParser(private val messager: Messager) {
     internal fun parseArg(element: Element, builderMap: MutableMap<TypeElement, ClassBinding>) {
         val enclosingElement = element.enclosingElement as TypeElement
 
-        if (isInaccessibleViaGeneratedCode(Arg::class.java, "fields", element))
+        if (isInaccessibleViaGeneratedCode(Arg::class.java, "fields", element)
+                || veryfyFieldType(element, enclosingElement, getElementType(element)))
             return
 
-        val elementType = getElementType(element)
 
-        if (veryfyFieldType(element, enclosingElement, elementType))
-            return
-
-        val fieldVeryfyResult = getFieldAccessibility(element)
-
-        if (fieldVeryfyResult == FieldVeryfyResult.Inaccessible) {
+        if (getFieldAccessibility(element) == FieldVeryfyResult.Inaccessible) {
             error(enclosingElement, "@%s %s Inaccessable element. (%s.%s)",
                     Arg::class.java.simpleName, element, enclosingElement.qualifiedName,
                     element.simpleName)
             return
         }
 
-        if (!builderMap.containsKey(enclosingElement)) {
-            builderMap.put(enclosingElement, ClassBinding(enclosingElement))
-        }
+        parseClass(enclosingElement, builderMap)
     }
 
     internal fun parseClass(element: Element, builderMap: MutableMap<TypeElement, ClassBinding>) {
         val typeElement = element as TypeElement
-        val elementType = getElementType(element)
+        if (builderMap.containsKey(typeElement)) return
 
-        if (veryfyClassType(element, elementType))
+        val elementType = getKnownClassType(getElementType(element))
+        if (elementType == null) {
+            error(element, "@%s %s Is in wroing type. It needs to be Activity, Froagment or Service. (%s.%s)",
+                    Arg::class.java.simpleName, element, element.qualifiedName,
+                    element.simpleName)
             return
-
-        if (!builderMap.containsKey(typeElement)) {
-            builderMap.put(typeElement, ClassBinding(typeElement))
         }
+
+        val classBinding = when(elementType) {
+            ElementsParser.KnownClassType.Activity -> ActivityBinding(typeElement)
+            ElementsParser.KnownClassType.Fragment -> FragmentBinding(typeElement)
+        }
+
+        builderMap.put(typeElement, classBinding)
     }
 
     private fun isInaccessibleViaGeneratedCode(annotationClass: Class<out Annotation>, targetThing: String, element: Element): Boolean {
@@ -91,13 +95,15 @@ class ElementsParser(private val messager: Messager) {
                 isSubtypeOfType(elementType, PARCELABLE_TYPE)
     }
 
-    private fun veryfyClassType(element: Element, elementType: TypeMirror): Boolean {
-        if (!isSubtypeOfType(elementType, ACTIVITY_TYPE)) {
-            error(element, "@%s must be addede before Activity class definition. (%s)",
-                    MakeActivityStarter::class.java.simpleName, element.simpleName)
-            return true
-        }
-        return false
+    private fun getKnownClassType(elementType: TypeMirror): KnownClassType? = when {
+        isSubtypeOfType(elementType, ACTIVITY_TYPE) -> KnownClassType.Activity
+        isSubtypeOfType(elementType, FRAGMENT_TYPE) || isSubtypeOfType(elementType, FRAGMENTv4_TYPE) -> KnownClassType.Fragment
+        else -> null
+    }
+
+    enum class KnownClassType {
+        Activity,
+        Fragment
     }
 
     private fun error(element: Element, message: String, vararg args: Any) {
@@ -111,6 +117,8 @@ class ElementsParser(private val messager: Messager) {
     companion object {
 
         private val ACTIVITY_TYPE = "android.app.Activity"
+        private val FRAGMENT_TYPE = "android.app.Fragment"
+        private val FRAGMENTv4_TYPE = "android.support.v4.app.Fragment"
         private val SERIALIZABLE_TYPE = "java.io.Serializable"
         private val PARCELABLE_TYPE = "android.os.Parcelable"
 
