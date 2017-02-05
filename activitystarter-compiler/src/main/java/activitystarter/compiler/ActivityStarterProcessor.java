@@ -1,5 +1,7 @@
 package activitystarter.compiler;
 
+import android.support.annotation.UiThread;
+
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.JavaFile;
 
@@ -40,6 +42,8 @@ public final class ActivityStarterProcessor extends AbstractProcessor {
     public Set<String> getSupportedAnnotationTypes() {
         Set<String> types = new LinkedHashSet<>();
         types.add(Arg.class.getCanonicalName());
+        types.add(MakeActivityStarter.class.getCanonicalName());
+        types.add(UiThread.class.getCanonicalName());
         return types;
     }
 
@@ -47,7 +51,7 @@ public final class ActivityStarterProcessor extends AbstractProcessor {
     public boolean process(Set<? extends TypeElement> elements, RoundEnvironment env) {
         Map<TypeElement, BindingSet> bindingMap = findAndParseTargets(env);
         processTargets(bindingMap);
-        return false;
+        return true;
     }
 
     @Override

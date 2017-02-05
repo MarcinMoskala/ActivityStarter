@@ -1,16 +1,24 @@
 import org.gradle.internal.jvm.Jvm
 
 buildscript {
+  ext.kotlin_version = '1.0.6'
+
   repositories {
     mavenCentral()
   }
 
   dependencies {
     classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+  }
+
+  repositories {
+    mavenCentral()
   }
 }
 
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 apply plugin: 'com.github.dcendents.android-maven'
 
 group='com.github.marcinmoskala'
@@ -25,6 +33,11 @@ android {
     consumerProguardFiles 'proguard-rules.txt'
 
     testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+  }
+
+  sourceSets {
+    main.java.srcDirs += 'src/main/kotlin'
+    test.java.srcDirs += 'src/test/kotlin'
   }
 }
 
@@ -43,6 +56,8 @@ dependencies {
   testCompile files(getRuntimeJar())
   testCompile files(Jvm.current().getToolsJar())
   testCompile project(':activitystarter-compiler')
+  testCompile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+  testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 }
 
 def getRuntimeJar() {
