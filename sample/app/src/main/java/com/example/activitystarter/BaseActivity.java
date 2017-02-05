@@ -10,7 +10,6 @@ import activitystarter.ActivityStarter;
 import activitystarter.Arg;
 import activitystarter.MakeActivityStarter;
 
-@MakeActivityStarter
 public class BaseActivity extends AppCompatActivity {
 
     @Override

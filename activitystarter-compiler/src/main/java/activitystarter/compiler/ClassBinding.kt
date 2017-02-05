@@ -83,7 +83,6 @@ internal class ClassBinding(enclosingElement: TypeElement) {
         variant.forEach { builder.addParameter(it.type, it.name) }
         builder.addParameter(TypeName.INT, "flags")
         addGetIntentStatement(builder, variant)
-        builder.addStatement("context.startActivity(intent)")
         builder.addStatement("intent.addFlags(flags)")
         builder.addStatement("context.startActivity(intent)")
         return builder.build()

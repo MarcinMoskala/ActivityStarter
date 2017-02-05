@@ -57,7 +57,6 @@ public final class MainActivityStarter {
   @UiThread
   public static void startWithFlags(Context context, int flags) {
     Intent intent = getIntent(context);
-    context.startActivity(intent);
     intent.addFlags(flags);
     context.startActivity(intent);
   }
@@ -111,7 +110,6 @@ public final class MainActivityStarter {
   @UiThread
   public static void startWithFlags(Context context, String name, int flags) {
     Intent intent = getIntent(context, name);
-    context.startActivity(intent);
     intent.addFlags(flags);
     context.startActivity(intent);
   }
@@ -168,7 +166,6 @@ public final class MainActivityStarter {
   @UiThread
   public static void startWithFlags(Context context, String name, int id, int flags) {
     Intent intent = getIntent(context, name, id);
-    context.startActivity(intent);
     intent.addFlags(flags);
     context.startActivity(intent);
   }
@@ -189,7 +186,6 @@ public final class MainActivityStarter {
   @UiThread
   public static void startWithFlags(Context context, int id, int flags) {
     Intent intent = getIntent(context, id);
-    context.startActivity(intent);
     intent.addFlags(flags);
     context.startActivity(intent);
   }
@@ -210,7 +206,6 @@ public final class MainActivityStarter {
   @UiThread
   public static void startWithFlags(Context context, String name, int flags) {
     Intent intent = getIntent(context, name);
-    context.startActivity(intent);
     intent.addFlags(flags);
     context.startActivity(intent);
   }
@@ -230,7 +225,6 @@ public final class MainActivityStarter {
   @UiThread
   public static void startWithFlags(Context context, int flags) {
     Intent intent = getIntent(context);
-    context.startActivity(intent);
     intent.addFlags(flags);
     context.startActivity(intent);
   }
