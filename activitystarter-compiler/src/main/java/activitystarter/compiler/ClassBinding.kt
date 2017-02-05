@@ -45,6 +45,21 @@ internal class ClassBinding(enclosingElement: TypeElement) {
         return result.build()
     }
 
+    private fun createGetIntentMethod(variant: List<ArgumentBinding>): MethodSpec {
+        val builder = MethodSpec.methodBuilder("getIntent")
+                .addAnnotation(UI_THREAD)
+                .addParameter(CONTEXT, "context")
+                .returns(INTENT)
+                .addModifiers(PUBLIC)
+                .addModifiers(STATIC)
+
+        variant.forEach { arg -> builder.addParameter(arg.type, arg.name) }
+        builder.addStatement("\$T intent = new Intent(context, \$T.class)", INTENT, targetTypeName)
+        variant.forEach { arg -> builder.addStatement("intent.putExtra(\"" + arg.name + "Arg\", " + arg.name + ")") }
+        builder.addStatement("return intent")
+        return builder.build()
+    }
+
     private fun createStartActivityMethod(variant: List<ArgumentBinding>): MethodSpec {
         val builder = MethodSpec.methodBuilder("start")
                 .addAnnotation(UI_THREAD)
@@ -53,11 +68,7 @@ internal class ClassBinding(enclosingElement: TypeElement) {
                 .addModifiers(STATIC)
 
         variant.forEach { builder.addParameter(it.type, it.name) }
-
-        builder.addStatement("\$T intent = new Intent(context, \$T.class)", INTENT, targetTypeName)
-        for (arg in variant) {
-            builder.addStatement("intent.putExtra(\"" + arg.name + "Arg\", " + arg.name + ")")
-        }
+        addGetIntentStatement(builder, variant)
         builder.addStatement("context.startActivity(intent)")
         return builder.build()
     }
@@ -69,38 +80,22 @@ internal class ClassBinding(enclosingElement: TypeElement) {
                 .addModifiers(PUBLIC)
                 .addModifiers(STATIC)
 
-        for (arg in variant) {
-            builder.addParameter(arg.type, arg.name)
-        }
+        variant.forEach { builder.addParameter(it.type, it.name) }
         builder.addParameter(TypeName.INT, "flags")
-
-        builder.addStatement("\$T intent = new Intent(context, \$T.class)", INTENT, targetTypeName)
-        for (arg in variant) {
-            builder.addStatement("intent.putExtra(\"" + arg.name + "Arg\", " + arg.name + ")")
-        }
+        addGetIntentStatement(builder, variant)
+        builder.addStatement("context.startActivity(intent)")
         builder.addStatement("intent.addFlags(flags)")
         builder.addStatement("context.startActivity(intent)")
         return builder.build()
     }
 
-    private fun createGetIntentMethod(variant: List<ArgumentBinding>): MethodSpec {
-        val builder = MethodSpec.methodBuilder("getIntent")
-                .addAnnotation(UI_THREAD)
-                .addParameter(CONTEXT, "context")
-                .returns(INTENT)
-                .addModifiers(PUBLIC)
-                .addModifiers(STATIC)
-
-        for (arg in variant) {
-            builder.addParameter(arg.type, arg.name)
+    private fun addGetIntentStatement(builder: MethodSpec.Builder, variant: List<ArgumentBinding>) {
+        if (variant.isEmpty())
+            builder.addStatement("\$T intent = getIntent(context)", INTENT)
+        else {
+            val intentArguments = variant.joinToString(separator = ", ", transform = { it.name })
+            builder.addStatement("\$T intent = getIntent(context, $intentArguments)", INTENT)
         }
-
-        builder.addStatement("\$T intent = new Intent(context, \$T.class)", INTENT, targetTypeName)
-        for (arg in variant) {
-            builder.addStatement("intent.putExtra(\"" + arg.name + "Arg\", " + arg.name + ")")
-        }
-        builder.addStatement("return intent")
-        return builder.build()
     }
 
     private fun createFillFieldsMethod(): MethodSpec {
@@ -118,11 +113,11 @@ internal class ClassBinding(enclosingElement: TypeElement) {
             val keyName = fieldName + "Arg"
             val settingType = arg.settingType
 
-            if (settingType == Accessible)
-                builder.addStatement("if(intent.hasExtra(\"" + keyName + "\")) activity." + fieldName + " = " + getIntentGetterFor(arg, keyName))
-            else {
-                builder.addStatement("if(intent.hasExtra(\"" + keyName + "\")) activity." + getSetter(settingType, fieldName) + "(" + getIntentGetterFor(arg, keyName) + ")")
-            }
+            val settingPart =
+                    if (settingType == Accessible) fieldName + " = " + getIntentGetterFor(arg, keyName)
+                    else getSetter(settingType, fieldName) + "(" + getIntentGetterFor(arg, keyName) + ")"
+
+            builder.addStatement("if(intent.hasExtra(\"$keyName\")) activity.$settingPart")
         }
 
         return builder.build()

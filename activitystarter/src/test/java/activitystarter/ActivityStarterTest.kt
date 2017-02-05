@@ -30,35 +30,37 @@ public class MainActivity extends Activity {}
         """
 
         val afterProcess = "com.example.activitystarter.MainActivityStarter" to """
+// Generated code from ActivityStarter. Do not modify!
 package com.example.activitystarter;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.UiThread;
 
-public class MainActivityStarter {
-    @UiThread
-    public static void fill(MainActivity activity) {
-    }
+public final class MainActivityStarter {
+  @UiThread
+  public static void fill(MainActivity activity) {
+  }
 
-    @UiThread
-    public static void start(Context context) {
-    Intent intent = new Intent(context, MainActivity.class);
-    context.startActivity(intent);
-    }
-
-    @UiThread
-    public static void startWithFlags(Context context, int flags) {
-    Intent intent = new Intent(context, MainActivity.class);
-    intent.addFlags(flags);
-    context.startActivity(intent);
-    }
-
-    @UiThread
-    public static Intent getIntent(Context context) {
+  @UiThread
+  public static Intent getIntent(Context context) {
     Intent intent = new Intent(context, MainActivity.class);
     return intent;
-    }
+  }
+
+  @UiThread
+  public static void start(Context context) {
+    Intent intent = getIntent(context);
+    context.startActivity(intent);
+  }
+
+  @UiThread
+  public static void startWithFlags(Context context, int flags) {
+    Intent intent = getIntent(context);
+    context.startActivity(intent);
+    intent.addFlags(flags);
+    context.startActivity(intent);
+  }
 }
         """
 
@@ -78,6 +80,7 @@ public class MainActivity extends Activity {
         """
 
         val afterProcess = "com.example.activitystarter.MainActivityStarter" to """
+// Generated code from ActivityStarter. Do not modify!
 package com.example.activitystarter;
 
 import android.content.Context;
@@ -85,7 +88,7 @@ import android.content.Intent;
 import android.support.annotation.UiThread;
 import java.lang.String;
 
-public class MainActivityStarter {
+public final class MainActivityStarter {
   @UiThread
   public static void fill(MainActivity activity) {
     Intent intent = activity.getIntent();
@@ -93,25 +96,24 @@ public class MainActivityStarter {
   }
 
   @UiThread
-  public static void start(Context context, String name) {
+  public static Intent getIntent(Context context, String name) {
     Intent intent = new Intent(context, MainActivity.class);
     intent.putExtra("nameArg", name);
+    return intent;
+  }
+
+  @UiThread
+  public static void start(Context context, String name) {
+    Intent intent = getIntent(context, name);
     context.startActivity(intent);
   }
 
   @UiThread
   public static void startWithFlags(Context context, String name, int flags) {
-    Intent intent = new Intent(context, MainActivity.class);
-    intent.putExtra("nameArg", name);
+    Intent intent = getIntent(context, name);
+    context.startActivity(intent);
     intent.addFlags(flags);
     context.startActivity(intent);
-  }
-
-  @UiThread
-  public static Intent getIntent(Context context, String name) {
-    Intent intent = new Intent(context, MainActivity.class);
-    intent.putExtra("nameArg", name);
-    return intent;
   }
 }
         """.trimMargin()
@@ -141,7 +143,7 @@ import android.content.Intent;
 import android.support.annotation.UiThread;
 import java.lang.String;
 
-public class MainActivityStarter {
+public final class MainActivityStarter {
   @UiThread
   public static void fill(MainActivity activity) {
     Intent intent = activity.getIntent();
@@ -150,57 +152,23 @@ public class MainActivityStarter {
   }
 
   @UiThread
-  public static void start(Context context) {
+  public static Intent getIntent(Context context, String name, int id) {
     Intent intent = new Intent(context, MainActivity.class);
-    context.startActivity(intent);
-  }
-
-  @UiThread
-  public static void startWithFlags(Context context, int flags) {
-    Intent intent = new Intent(context, MainActivity.class);
-    intent.addFlags(flags);
-    context.startActivity(intent);
-  }
-
-  @UiThread
-  public static Intent getIntent(Context context) {
-    Intent intent = new Intent(context, MainActivity.class);
+    intent.putExtra("nameArg", name);
+    intent.putExtra("idArg", id);
     return intent;
   }
 
   @UiThread
-  public static void start(Context context, String name) {
-    Intent intent = new Intent(context, MainActivity.class);
-    intent.putExtra("nameArg", name);
+  public static void start(Context context, String name, int id) {
+    Intent intent = getIntent(context, name, id);
     context.startActivity(intent);
   }
 
   @UiThread
-  public static void startWithFlags(Context context, String name, int flags) {
-    Intent intent = new Intent(context, MainActivity.class);
-    intent.putExtra("nameArg", name);
-    intent.addFlags(flags);
+  public static void startWithFlags(Context context, String name, int id, int flags) {
+    Intent intent = getIntent(context, name, id);
     context.startActivity(intent);
-  }
-
-  @UiThread
-  public static Intent getIntent(Context context, String name) {
-    Intent intent = new Intent(context, MainActivity.class);
-    intent.putExtra("nameArg", name);
-    return intent;
-  }
-
-  @UiThread
-  public static void start(Context context, int id) {
-    Intent intent = new Intent(context, MainActivity.class);
-    intent.putExtra("idArg", id);
-    context.startActivity(intent);
-  }
-
-  @UiThread
-  public static void startWithFlags(Context context, int id, int flags) {
-    Intent intent = new Intent(context, MainActivity.class);
-    intent.putExtra("idArg", id);
     intent.addFlags(flags);
     context.startActivity(intent);
   }
@@ -213,28 +181,58 @@ public class MainActivityStarter {
   }
 
   @UiThread
-  public static void start(Context context, String name, int id) {
-    Intent intent = new Intent(context, MainActivity.class);
-    intent.putExtra("nameArg", name);
-    intent.putExtra("idArg", id);
+  public static void start(Context context, int id) {
+    Intent intent = getIntent(context, id);
     context.startActivity(intent);
   }
 
   @UiThread
-  public static void startWithFlags(Context context, String name, int id, int flags) {
-    Intent intent = new Intent(context, MainActivity.class);
-    intent.putExtra("nameArg", name);
-    intent.putExtra("idArg", id);
+  public static void startWithFlags(Context context, int id, int flags) {
+    Intent intent = getIntent(context, id);
+    context.startActivity(intent);
     intent.addFlags(flags);
     context.startActivity(intent);
   }
 
   @UiThread
-  public static Intent getIntent(Context context, String name, int id) {
+  public static Intent getIntent(Context context, String name) {
     Intent intent = new Intent(context, MainActivity.class);
     intent.putExtra("nameArg", name);
-    intent.putExtra("idArg", id);
     return intent;
+  }
+
+  @UiThread
+  public static void start(Context context, String name) {
+    Intent intent = getIntent(context, name);
+    context.startActivity(intent);
+  }
+
+  @UiThread
+  public static void startWithFlags(Context context, String name, int flags) {
+    Intent intent = getIntent(context, name);
+    context.startActivity(intent);
+    intent.addFlags(flags);
+    context.startActivity(intent);
+  }
+
+  @UiThread
+  public static Intent getIntent(Context context) {
+    Intent intent = new Intent(context, MainActivity.class);
+    return intent;
+  }
+
+  @UiThread
+  public static void start(Context context) {
+    Intent intent = getIntent(context);
+    context.startActivity(intent);
+  }
+
+  @UiThread
+  public static void startWithFlags(Context context, int flags) {
+    Intent intent = getIntent(context);
+    context.startActivity(intent);
+    intent.addFlags(flags);
+    context.startActivity(intent);
   }
 }
         """.trimMargin()
