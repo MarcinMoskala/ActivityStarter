@@ -30,7 +30,6 @@ package com.example.activitystarter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.UiThread;
 
 public final class MainActivityStarter {
   
@@ -76,19 +75,18 @@ package com.example.activitystarter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.UiThread;
 import java.lang.String;
 
 public final class MainActivityStarter {
   
   public static void fill(MainActivity activity) {
     Intent intent = activity.getIntent();
-    if(intent.hasExtra("nameArg")) activity.name = intent.getStringExtra("nameArg");
+    if(intent.hasExtra("nameStarterKey")) activity.name = intent.getStringExtra("nameStarterKey");
   }
 
   public static Intent getIntent(Context context, String name) {
     Intent intent = new Intent(context, MainActivity.class);
-    intent.putExtra("nameArg", name);
+    intent.putExtra("nameStarterKey", name);
     return intent;
   }
   
@@ -127,21 +125,20 @@ package com.example.activitystarter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.UiThread;
 import java.lang.String;
 
 public final class MainActivityStarter {
   
   public static void fill(MainActivity activity) {
     Intent intent = activity.getIntent();
-    if(intent.hasExtra("nameArg")) activity.name = intent.getStringExtra("nameArg");
-    if(intent.hasExtra("idArg")) activity.id = intent.getIntExtra("idArg", -1);
+    if(intent.hasExtra("nameStarterKey")) activity.name = intent.getStringExtra("nameStarterKey");
+    if(intent.hasExtra("idStarterKey")) activity.id = intent.getIntExtra("idStarterKey", -1);
   }
   
   public static Intent getIntent(Context context, String name, int id) {
     Intent intent = new Intent(context, MainActivity.class);
-    intent.putExtra("nameArg", name);
-    intent.putExtra("idArg", id);
+    intent.putExtra("nameStarterKey", name);
+    intent.putExtra("idStarterKey", id);
     return intent;
   }
   
@@ -159,7 +156,7 @@ public final class MainActivityStarter {
   
   public static Intent getIntent(Context context, int id) {
     Intent intent = new Intent(context, MainActivity.class);
-    intent.putExtra("idArg", id);
+    intent.putExtra("idStarterKey", id);
     return intent;
   }
   
@@ -176,7 +173,7 @@ public final class MainActivityStarter {
   
   public static Intent getIntent(Context context, String name) {
     Intent intent = new Intent(context, MainActivity.class);
-    intent.putExtra("nameArg", name);
+    intent.putExtra("nameStarterKey", name);
     return intent;
   }
   
