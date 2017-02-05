@@ -11,20 +11,6 @@
     android:orientation="vertical"
     android:layout_margin="20dp">
 
-    <Button
-        android:text="Show data from parceleble on new Activity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAllCaps="false"
-        android:id="@+id/showParcelableDataButton"/>
-
-    <Button
-        android:text="Show data from serializable on new Activity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAllCaps="false"
-        android:id="@+id/showSerializableDataButton"/>
-
     <android.support.design.widget.TextInputLayout
         android:id="@+id/student_name_layout"
         android:hint="Place to type name"
@@ -78,6 +64,20 @@
         android:layout_height="wrap_content"
         android:textAllCaps="false"
         android:id="@+id/showDataButton"/>
+
+    <Button
+        android:text="Show data from parceleble on new Activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:id="@+id/showParcelableDataButton"/>
+
+    <Button
+        android:text="Show data from serializable on new Activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:id="@+id/showSerializableDataButton"/>
 
 </LinearLayout>
 </ScrollView>
