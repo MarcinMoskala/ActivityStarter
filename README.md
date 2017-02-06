@@ -101,6 +101,48 @@ MainActivityStarter.start(context, name, grade, isPassing);
 MainActivityStarter.start(context, id, name, grade, isPassing);
 ```
 
+Fragments and Services
+-------
+
+Library can be used also for Fragments and Services:
+
+```java
+public class TabbedPlaceholderFragment extends Fragment {
+
+    @Arg int sectionNumber;
+
+    public TabbedPlaceholderFragment() {}
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        TabbedPlaceholderFragmentStarter.fill(this);
+        //...
+    }
+}
+```
+
+```java
+public class SomeService extends Service {
+
+    @Arg @Optional String name = "";
+    @Arg @Optional String surname = "";
+    @Arg int id;
+
+    public SomeService() {}
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        ActivityStarter.fill(this, intent);
+        // ...
+    }
+}
+```
+
 Download
 --------
 
