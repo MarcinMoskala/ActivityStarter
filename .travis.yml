@@ -25,6 +25,7 @@ env:
     - TEST=:sample:app:connectedDebugAndroidTest
     - TEST=:sample:kotlinapp:connectedDebugAndroidTest
     - TEST=:activitystarter:test
+    - TEST=:activitystarter-compiler:test
 
 script:
   - ./gradlew $TEST -i
