@@ -1,16 +1,14 @@
 package activitystarter;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.Service;
+import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.annotation.UiThread;
-import android.support.annotation.VisibleForTesting;
-import android.util.Log;
+import android.support.annotation.Nullable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 
 public final class ActivityStarter {
@@ -18,15 +16,43 @@ public final class ActivityStarter {
         throw new AssertionError("No instances.");
     }
 
-    @UiThread
     public static void fill(@NonNull Activity target) {
+        fill(target, null);
+    }
+
+    public static void fill(@NonNull Fragment target) {
+        fill(target, null);
+    }
+
+    public static void fill(@NonNull Service target, Intent intent) {
+        fill(target, (Object) intent);
+    }
+
+    private static void fill(@NonNull Object target, @Nullable Object otherArg) {
         Class<?> targetClass = target.getClass();
-        Method method = getMethod(targetClass);
+        Method method = getMethod(targetClass, otherArg);
+        if (method == null) return;
+        invokeMethod(method, target, otherArg);
+    }
 
-        if(method == null) return;
-
+    private static Method getMethod(Class<?> targetClass, @Nullable Object otherArg) {
+        String clsName = targetClass.getName();
+        String starterName = clsName + "Starter";
         try {
-            method.invoke(null, target);
+            if (otherArg == null) return Class.forName(starterName).getMethod("fill", targetClass);
+            else return Class.forName(starterName).getMethod("fill", targetClass, otherArg.getClass());
+        } catch (ClassNotFoundException e) {
+            // No binding for this class
+            return null;
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException("Unable to find fill method for " + clsName + " with type paramerer/s. ", e);
+        }
+    }
+
+    private static void invokeMethod(@NonNull Method method, @NonNull Object target, @Nullable Object otherArg) {
+        try {
+            if (otherArg == null) method.invoke(null, target);
+            else method.invoke(null, target, otherArg);
         } catch (IllegalAccessException e) {
             throw new RuntimeException("Unable to invoke " + method + "because of illegal access", e);
         } catch (IllegalArgumentException e) {
@@ -40,21 +66,6 @@ public final class ActivityStarter {
                 throw (Error) cause;
             }
             throw new RuntimeException("Unable to create binding instance.", cause);
-        }
-    }
-
-    private static Method getMethod(Class<?> targetClass) {
-        String clsName = targetClass.getName();
-        try {
-            Log.d("MakeActivityStarter", "Looking up binding for " + targetClass.getName());
-            Class<?> bindingClass = Class.forName(clsName + "Starter");
-            Log.d("MakeActivityStarter", "I found " + bindingClass);
-            return bindingClass.getMethod("fill", targetClass);
-        } catch (ClassNotFoundException e) {
-            // No binding for this class
-            return null;
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException("Unable to find fill method for " + clsName, e);
         }
     }
 }

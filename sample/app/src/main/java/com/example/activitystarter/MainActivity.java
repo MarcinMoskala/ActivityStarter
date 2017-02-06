@@ -28,6 +28,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         getViews();
         setUpButtons();
+        SomeServiceStarter.start(this, "Name", 10);
     }
 
     private void getViews() {

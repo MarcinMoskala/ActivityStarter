@@ -1,11 +1,14 @@
 package activitystarter.compiler.classbinding
 
 import activitystarter.Arg
-import activitystarter.compiler.*
-import activitystarter.compiler.FieldVeryfyResult.Accessible
+import activitystarter.compiler.ArgumentBinding
+import activitystarter.compiler.FieldVeryfyResult
+import activitystarter.compiler.createSublists
+import activitystarter.compiler.getSetter
 import com.google.auto.common.MoreElements.getPackage
 import com.squareup.javapoet.*
-import javax.lang.model.element.Modifier.*
+import javax.lang.model.element.Modifier.FINAL
+import javax.lang.model.element.Modifier.PUBLIC
 import javax.lang.model.element.TypeElement
 
 internal abstract class ClassBinding(enclosingElement: TypeElement) {

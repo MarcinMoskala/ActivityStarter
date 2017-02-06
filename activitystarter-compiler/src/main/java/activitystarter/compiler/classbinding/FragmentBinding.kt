@@ -2,7 +2,6 @@ package activitystarter.compiler.classbinding
 
 import activitystarter.compiler.ArgumentBinding
 import activitystarter.compiler.BUNDLE
-import activitystarter.compiler.INTENT
 import activitystarter.compiler.isSubtypeOfType
 import com.squareup.javapoet.MethodSpec
 import com.squareup.javapoet.TypeName
@@ -57,10 +56,8 @@ internal class FragmentBinding(element: TypeElement) : ClassBinding(element) {
         TypeName.DOUBLE -> "arguments.getDouble(\"$keyName\", -1D)"
         TypeName.CHAR -> "arguments.getChar(\"$keyName\", 'a')"
         else -> when {
-            isSubtypeOfType(arg.elementType, "android.os.Parcelable") ->
-                "(${arg.type}) arguments.getParcelable(\"$keyName\")"
-            isSubtypeOfType(arg.elementType, "java.io.Serializable") ->
-                "(${arg.type}) arguments.getSerializable(\"$keyName\")"
+            arg.elementType.isSubtypeOfType("android.os.Parcelable") -> "(${arg.type}) arguments.getParcelable(\"$keyName\")"
+            arg.elementType.isSubtypeOfType("java.io.Serializable") -> "(${arg.type}) arguments.getSerializable(\"$keyName\")"
             else -> throw Error("Illegal field type" + arg.type)
         }
     }
@@ -73,8 +70,8 @@ internal class FragmentBinding(element: TypeElement) : ClassBinding(element) {
         TypeName.DOUBLE -> "putDouble"
         TypeName.CHAR -> "putChar"
         else -> when {
-            isSubtypeOfType(arg.elementType, "android.os.Parcelable") -> "putParcelable"
-            isSubtypeOfType(arg.elementType, "java.io.Serializable") -> "putSerializable"
+            arg.elementType.isSubtypeOfType("android.os.Parcelable") -> "putParcelable"
+            arg.elementType.isSubtypeOfType("java.io.Serializable") -> "putSerializable"
             else -> throw Error("Illegal field type" + arg.type)
         }
     }

@@ -1,11 +1,12 @@
 package activitystarter.compiler
 
 import activitystarter.Arg
+import activitystarter.compiler.KnownClassType.*
 import activitystarter.compiler.classbinding.ActivityBinding
 import activitystarter.compiler.classbinding.ClassBinding
 import activitystarter.compiler.classbinding.FragmentBinding
+import activitystarter.compiler.classbinding.ServiceBinding
 import com.squareup.javapoet.TypeName
-import java.util.*
 import javax.lang.model.element.Element
 import javax.lang.model.element.ElementKind.CLASS
 import javax.lang.model.element.Modifier.PRIVATE
@@ -44,8 +45,9 @@ internal fun parseClass(element: Element, builderMap: MutableMap<TypeElement, Cl
     }
 
     val classBinding = when (elementType) {
-        KnownClassType.Activity -> ActivityBinding(typeElement)
-        KnownClassType.Fragment -> FragmentBinding(typeElement)
+        Activity -> ActivityBinding(typeElement)
+        Fragment -> FragmentBinding(typeElement)
+        Service -> ServiceBinding(typeElement)
     }
 
     builderMap.put(typeElement, classBinding)
@@ -88,23 +90,26 @@ private fun veryfyFieldType(element: Element, enclosingElement: TypeElement, ele
 private fun isFieldValidType(elementType: TypeMirror): Boolean {
     return elementType.kind in listOf(TypeKind.BOOLEAN, TypeKind.INT, TypeKind.FLOAT, TypeKind.DOUBLE, TypeKind.CHAR) ||
             TypeName.get(elementType) == TypeName.get(String::class.java) ||
-            isSubtypeOfType(elementType, SERIALIZABLE_TYPE) ||
-            isSubtypeOfType(elementType, PARCELABLE_TYPE)
+            elementType.isSubtypeOfType(SERIALIZABLE_TYPE) ||
+            elementType.isSubtypeOfType(PARCELABLE_TYPE)
 }
 
 private fun getKnownClassType(elementType: TypeMirror): KnownClassType? = when {
-    isSubtypeOfType(elementType, ACTIVITY_TYPE) -> KnownClassType.Activity
-    isSubtypeOfType(elementType, FRAGMENT_TYPE) || isSubtypeOfType(elementType, FRAGMENTv4_TYPE) -> KnownClassType.Fragment
+    elementType.isSubtypeOfType(ACTIVITY_TYPE) -> Activity
+    elementType.isSubtypeOfType(FRAGMENT_TYPE) || elementType.isSubtypeOfType(FRAGMENTv4_TYPE) -> Fragment
+    elementType.isSubtypeOfType(SERVICE_TYPE) -> Service
     else -> null
 }
 
 enum class KnownClassType {
     Activity,
-    Fragment
+    Fragment,
+    Service
 }
 
 private val ACTIVITY_TYPE = "android.app.Activity"
 private val FRAGMENT_TYPE = "android.app.Fragment"
 private val FRAGMENTv4_TYPE = "android.support.v4.app.Fragment"
+private val SERVICE_TYPE = "android.app.Service"
 private val SERIALIZABLE_TYPE = "java.io.Serializable"
 private val PARCELABLE_TYPE = "android.os.Parcelable"

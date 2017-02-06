@@ -20,17 +20,22 @@
         </activity>
         <activity
             android:name=".StudentDataActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".StudentParcelableActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".StudentSerializableActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".TabbedFragmentActivity"
             android:label="@string/title_activity_tabbed_fragment"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <service
+            android:name=".SomeService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

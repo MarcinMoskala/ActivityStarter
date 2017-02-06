@@ -10,15 +10,13 @@ import javax.lang.model.element.Modifier.PUBLIC
 import javax.lang.model.element.Modifier.STATIC
 import javax.lang.model.element.TypeElement
 
-internal class ActivityBinding(element: TypeElement) : ClassBinding(element) {
+internal class ServiceBinding(element: TypeElement) : ClassBinding(element) {
 
     override fun createFillFieldsMethod(): MethodSpec {
         val builder = MethodSpec.methodBuilder("fill")
-                .addParameter(targetTypeName, "activity")
+                .addParameter(targetTypeName, "service")
+                .addParameter(INTENT, "intent")
                 .addModifiers(PUBLIC, STATIC)
-
-        if (argumentBindings.isNotEmpty())
-            builder.addStatement("Intent intent = activity.getIntent()")
 
         for (arg in argumentBindings) {
             val fieldName = arg.name
@@ -26,7 +24,7 @@ internal class ActivityBinding(element: TypeElement) : ClassBinding(element) {
             val settingType = arg.settingType
 
             val settingPart = setterFor(fieldName, settingType, getIntentGetterFor(arg, keyName))
-            builder.addStatement("if(intent.hasExtra(\"$keyName\")) activity.$settingPart")
+            builder.addStatement("if(intent.hasExtra(\"$keyName\")) service.$settingPart")
         }
 
         return builder.build()
@@ -34,8 +32,7 @@ internal class ActivityBinding(element: TypeElement) : ClassBinding(element) {
 
     override fun createStarters(variant: List<ArgumentBinding>): List<MethodSpec> = listOf(
             createGetIntentMethod(variant),
-            createStartActivityMethod(variant),
-            createStartActivityMethodWithFlags(variant)
+            createStartServiceMethod(variant)
     )
 
     private fun createGetIntentMethod(variant: List<ArgumentBinding>): MethodSpec {
@@ -51,27 +48,14 @@ internal class ActivityBinding(element: TypeElement) : ClassBinding(element) {
         return builder.build()
     }
 
-    private fun createStartActivityMethod(variant: List<ArgumentBinding>): MethodSpec {
+    private fun createStartServiceMethod(variant: List<ArgumentBinding>): MethodSpec {
         val builder = MethodSpec.methodBuilder("start")
                 .addParameter(CONTEXT, "context")
                 .addModifiers(PUBLIC, STATIC)
 
         variant.forEach { builder.addParameter(it.type, it.name) }
         addGetIntentStatement(builder, variant)
-        builder.addStatement("context.startActivity(intent)")
-        return builder.build()
-    }
-
-    private fun createStartActivityMethodWithFlags(variant: List<ArgumentBinding>): MethodSpec {
-        val builder = MethodSpec.methodBuilder("startWithFlags")
-                .addParameter(CONTEXT, "context")
-                .addModifiers(PUBLIC, STATIC)
-
-        variant.forEach { builder.addParameter(it.type, it.name) }
-        builder.addParameter(TypeName.INT, "flags")
-        addGetIntentStatement(builder, variant)
-        builder.addStatement("intent.addFlags(flags)")
-        builder.addStatement("context.startActivity(intent)")
+        builder.addStatement("context.startService(intent)")
         return builder.build()
     }
 
