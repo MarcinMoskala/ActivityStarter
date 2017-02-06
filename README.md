@@ -115,7 +115,7 @@ public class TabbedPlaceholderFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        TabbedPlaceholderFragmentStarter.fill(this);
+        ActivityStarter.fill(this);
         //...
     }
 }

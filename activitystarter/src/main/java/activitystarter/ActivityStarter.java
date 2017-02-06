@@ -24,6 +24,10 @@ public final class ActivityStarter {
         fill(target, null);
     }
 
+    public static void fill(@NonNull android.support.v4.app.Fragment target) {
+        fill(target, null);
+    }
+
     public static void fill(@NonNull Service target, Intent intent) {
         fill(target, (Object) intent);
     }

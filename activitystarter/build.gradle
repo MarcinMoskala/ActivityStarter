@@ -45,6 +45,7 @@ dependencies {
   compile project(':activitystarter-annotations')
   compile deps.supportAnnotations
   compile deps.supportCompat
+  compile 'com.android.support:appcompat-v7:25.1.0'
 
   androidTestCompile deps.junit
   androidTestCompile deps.truth

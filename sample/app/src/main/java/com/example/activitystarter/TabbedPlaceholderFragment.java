@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import activitystarter.ActivityStarter;
 import activitystarter.Arg;
 
 public class TabbedPlaceholderFragment extends Fragment {
@@ -18,7 +19,7 @@ public class TabbedPlaceholderFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_tabbed, container, false);
-        TabbedPlaceholderFragmentStarter.fill(this);
+        ActivityStarter.fill(this);
         TextView textView = (TextView) rootView.findViewById(R.id.section_label);
         textView.setText(getString(R.string.section_format, sectionNumber));
         return rootView;
