@@ -18,6 +18,8 @@ internal abstract class ClassBinding(enclosingElement: TypeElement) {
     protected val argumentBindings: List<ArgumentBinding> = enclosingElement.enclosedElements
             .filter { it.getAnnotation(Arg::class.java) != null }
             .map(::ArgumentBinding)
+    val variants = argumentBindings.createSublists { it.isOptional }
+            .distinctBy { it.map { it.type } }
 
     protected fun getKey(name: String) = name + "StarterKey"
 
@@ -46,7 +48,7 @@ internal abstract class ClassBinding(enclosingElement: TypeElement) {
                 .addModifiers(PUBLIC, FINAL)
                 .addMethod(createFillFieldsMethod())
 
-        for (variant in argumentBindings.createSublists { it.isOptional }) {
+        for (variant in variants) {
             result.addMethods(createStarters(variant))
         }
 

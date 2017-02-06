@@ -5,7 +5,7 @@ fun <T> List<T>.createSublists(isSplitter: (T) -> Boolean): List<List<T>> = when
     none { isSplitter(it) } -> listOf(this)
     size == 1 -> listOf(listOf(first()), listOf())
     isSplitter(first()) -> sublistFromRest<T>(isSplitter)
-            .flatMap { listOf(listOf(first()) + it, it) }
+            .flatMap { listOf(it, listOf(first()) + it) }
     else -> sublistFromRest(isSplitter)
             .map { listOf(first()) + it }
 }

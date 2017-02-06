@@ -8,10 +8,12 @@ import android.util.Log;
 
 import activitystarter.ActivityStarter;
 import activitystarter.Arg;
+import activitystarter.Optional;
 
 public class SomeService extends Service {
 
-    @Arg String name;
+    @Arg @Optional String name = "";
+    @Arg @Optional String surname = "";
     @Arg int id;
 
     public SomeService() {}

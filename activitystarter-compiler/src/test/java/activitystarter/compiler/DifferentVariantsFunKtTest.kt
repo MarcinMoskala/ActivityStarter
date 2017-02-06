@@ -13,8 +13,8 @@ class DifferentVariantsFunKtTest {
 
     @Test
     fun testCreateSublists() {
-        assertEquals(setOf(listOf(1,2,3), listOf(1,3)), listOf(1,2,3).createSublists { it % 2 == 0 }.toSet())
-        assertEquals(setOf(listOf(1,2,3,4), listOf(1,2,3), listOf(1,3, 4), listOf(1,3)), listOf(1,2,3,4).createSublists { it % 2 == 0 }.toSet())
+        assertEquals(setOf(listOf(1, 2, 3), listOf(1, 3)), listOf(1, 2, 3).createSublists { it % 2 == 0 }.toSet())
+        assertEquals(setOf(listOf(1, 2, 3, 4), listOf(1, 2, 3), listOf(1, 3, 4), listOf(1, 3)), listOf(1, 2, 3, 4).createSublists { it % 2 == 0 }.toSet())
     }
 
     @Test
