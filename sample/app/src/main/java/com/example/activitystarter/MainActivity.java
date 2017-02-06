@@ -26,7 +26,11 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getViews();
+        setUpButtons();
+    }
 
+    private void getViews() {
         showDataButton = (Button) findViewById(R.id.show_data_button);
         showParcelableDataButton = (Button) findViewById(R.id.show_parcelable_data_button);
         showSerializableDataButton = (Button) findViewById(R.id.show_serializable_data_button);
@@ -36,7 +40,9 @@ public class MainActivity extends BaseActivity {
         studentGradeView = (AutoCompleteTextView) findViewById(R.id.student_grade);
         studentGradeLayoutView = (TextInputLayout) findViewById(R.id.student_grade_layout);
         studentIsPassingView = (Switch) findViewById(R.id.student_is_passing);
+    }
 
+    private void setUpButtons() {
         showDataButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
