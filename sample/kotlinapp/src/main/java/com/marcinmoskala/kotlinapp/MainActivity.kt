@@ -15,13 +15,6 @@ class MainActivity : BaseActivity() {
         showSerializableDataButton.setOnClickListener { startSerializableActivity() }
     }
 
-    fun performClickOn(id: Int) {
-        runOnUiThread {
-            val button = findViewById(id) as Button
-            button.performClick()
-        }
-    }
-
     private fun startDetailsActivity() {
         val gradeString = studentGradeView.text.toString()
         if (gradeString.length != 1) {

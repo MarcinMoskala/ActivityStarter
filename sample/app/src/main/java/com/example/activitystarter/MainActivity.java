@@ -63,15 +63,6 @@ public class MainActivity extends BaseActivity {
         });
     }
 
-    void performClick(final int id) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                findViewById(id).performClick();
-            }
-        });
-    }
-
     private void startSerializableActivity() {
         StudentSerializable student = new StudentSerializable(20, "Marcin Moskala", 'A', true);
         StudentSerializableActivityStarter.start(MainActivity.this, student);
