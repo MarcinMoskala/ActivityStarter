@@ -7,7 +7,7 @@ import javax.lang.model.type.TypeMirror
 
 // Total SHIT TODO Write it in solid, functional way
 fun TypeMirror.isSubtypeOfType(otherType: String): Boolean {
-    if (isTypeEqual(this, otherType)) return true
+    if (otherType == this.toString()) return true
     if (this.kind != TypeKind.DECLARED) return false
     val declaredType = this as DeclaredType
     val typeArguments = declaredType.typeArguments
@@ -27,8 +27,4 @@ fun TypeMirror.isSubtypeOfType(otherType: String): Boolean {
     }
     val element = declaredType.asElement() as? TypeElement ?: return false
     return element.superclass.isSubtypeOfType(otherType) || element.interfaces.any { it.isSubtypeOfType(otherType) }
-}
-
-private fun isTypeEqual(typeMirror: TypeMirror, otherType: String): Boolean {
-    return otherType == typeMirror.toString()
 }
