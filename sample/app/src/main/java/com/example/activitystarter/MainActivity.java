@@ -97,16 +97,16 @@ public class MainActivity extends BaseActivity {
         try {
             int id = Integer.parseInt(idString);
             if(name.trim().equals("")) {
-                StudentDataActivityStarter.startWithFlags(getBaseContext(), id, grade, isPassing, FLAG_ACTIVITY_NEW_TASK);
+                StudentDataActivityStarter.startWithFlags(MainActivity.this, id, grade, isPassing, FLAG_ACTIVITY_NEW_TASK);
             } else {
-                StudentDataActivityStarter.startWithFlags(getBaseContext(), name, id, grade, isPassing, FLAG_ACTIVITY_NEW_TASK);
+                StudentDataActivityStarter.startWithFlags(MainActivity.this, name, id, grade, isPassing, FLAG_ACTIVITY_NEW_TASK);
             }
         } catch (NumberFormatException e) {
             // Id is not valid
             if(name.trim().equals("")) {
-                StudentDataActivityStarter.startWithFlags(getBaseContext(), grade, isPassing, FLAG_ACTIVITY_NEW_TASK);
+                StudentDataActivityStarter.startWithFlags(MainActivity.this, grade, isPassing, FLAG_ACTIVITY_NEW_TASK);
             } else {
-                StudentDataActivityStarter.startWithFlags(getBaseContext(), name, grade, isPassing, FLAG_ACTIVITY_NEW_TASK);
+                StudentDataActivityStarter.startWithFlags(MainActivity.this, name, grade, isPassing, FLAG_ACTIVITY_NEW_TASK);
             }
         }
     }

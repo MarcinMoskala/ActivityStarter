@@ -110,6 +110,14 @@ public final class MainFragmentStarter {
     if(arguments.containsKey("idStarterKey")) fragment.id = arguments.getInt("idStarterKey", -1);
   }
 
+  public static MainFragment newInstance(int id) {
+    MainFragment fragment = new MainFragment();
+    Bundle args = new Bundle();
+    args.putInt("idStarterKey", id);
+    fragment.setArguments(args);
+    return fragment;
+  }
+
   public static MainFragment newInstance(String name, int id) {
     MainFragment fragment = new MainFragment();
     Bundle args = new Bundle();
@@ -119,11 +127,8 @@ public final class MainFragmentStarter {
     return fragment;
   }
 
-  public static MainFragment newInstance(int id) {
+  public static MainFragment newInstance() {
     MainFragment fragment = new MainFragment();
-    Bundle args = new Bundle();
-    args.putInt("idStarterKey", id);
-    fragment.setArguments(args);
     return fragment;
   }
 
@@ -132,11 +137,6 @@ public final class MainFragmentStarter {
     Bundle args = new Bundle();
     args.putString("nameStarterKey", name);
     fragment.setArguments(args);
-    return fragment;
-  }
-
-  public static MainFragment newInstance() {
-    MainFragment fragment = new MainFragment();
     return fragment;
   }
 }

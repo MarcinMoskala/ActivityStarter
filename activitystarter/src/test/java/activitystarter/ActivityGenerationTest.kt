@@ -120,78 +120,76 @@ import android.content.Intent;
 import java.lang.String;
 
 public final class MainActivityStarter {
-  
   public static void fill(MainActivity activity) {
     Intent intent = activity.getIntent();
     if(intent.hasExtra("nameStarterKey")) activity.name = intent.getStringExtra("nameStarterKey");
     if(intent.hasExtra("idStarterKey")) activity.id = intent.getIntExtra("idStarterKey", -1);
   }
-  
+
+  public static Intent getIntent(Context context, int id) {
+    Intent intent = new Intent(context, MainActivity.class);
+    intent.putExtra("idStarterKey", id);
+    return intent;
+  }
+
+  public static void start(Context context, int id) {
+    Intent intent = getIntent(context, id);
+    context.startActivity(intent);
+  }
+
+  public static void startWithFlags(Context context, int id, int flags) {
+    Intent intent = getIntent(context, id);
+    intent.addFlags(flags);
+    context.startActivity(intent);
+  }
+
   public static Intent getIntent(Context context, String name, int id) {
     Intent intent = new Intent(context, MainActivity.class);
     intent.putExtra("nameStarterKey", name);
     intent.putExtra("idStarterKey", id);
     return intent;
   }
-  
+
   public static void start(Context context, String name, int id) {
     Intent intent = getIntent(context, name, id);
     context.startActivity(intent);
   }
-  
+
   public static void startWithFlags(Context context, String name, int id, int flags) {
     Intent intent = getIntent(context, name, id);
     intent.addFlags(flags);
     context.startActivity(intent);
   }
 
-  
-  public static Intent getIntent(Context context, int id) {
+  public static Intent getIntent(Context context) {
     Intent intent = new Intent(context, MainActivity.class);
-    intent.putExtra("idStarterKey", id);
     return intent;
   }
-  
-  public static void start(Context context, int id) {
-    Intent intent = getIntent(context, id);
+
+  public static void start(Context context) {
+    Intent intent = getIntent(context);
     context.startActivity(intent);
   }
-  
-  public static void startWithFlags(Context context, int id, int flags) {
-    Intent intent = getIntent(context, id);
+
+  public static void startWithFlags(Context context, int flags) {
+    Intent intent = getIntent(context);
     intent.addFlags(flags);
     context.startActivity(intent);
   }
-  
+
   public static Intent getIntent(Context context, String name) {
     Intent intent = new Intent(context, MainActivity.class);
     intent.putExtra("nameStarterKey", name);
     return intent;
   }
-  
+
   public static void start(Context context, String name) {
     Intent intent = getIntent(context, name);
     context.startActivity(intent);
   }
-  
+
   public static void startWithFlags(Context context, String name, int flags) {
     Intent intent = getIntent(context, name);
-    intent.addFlags(flags);
-    context.startActivity(intent);
-  }
-  
-  public static Intent getIntent(Context context) {
-    Intent intent = new Intent(context, MainActivity.class);
-    return intent;
-  }
-  
-  public static void start(Context context) {
-    Intent intent = getIntent(context);
-    context.startActivity(intent);
-  }
-  
-  public static void startWithFlags(Context context, int flags) {
-    Intent intent = getIntent(context);
     intent.addFlags(flags);
     context.startActivity(intent);
   }
