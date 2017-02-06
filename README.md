@@ -132,8 +132,8 @@ TODO
 
 - [ ] Annotation-specified key names
 - [X] Fragment support
-- [ ] Service support
-- [ ] Mutliple @Optional arguments of the same type one after another naming conflict
+- [X] Service support
+- [X] Mutliple @Optional arguments of the same type one after another naming conflict
 - [ ] Webpage
 - [ ] Kotlin delegate instad of annotation (+ lazy access)
  
