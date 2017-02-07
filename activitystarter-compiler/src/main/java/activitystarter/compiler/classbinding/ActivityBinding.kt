@@ -14,6 +14,7 @@ internal class ActivityBinding(element: TypeElement) : IntentBinding(element) {
 
     override fun createFillFieldsMethod(): MethodSpec {
         val builder = MethodSpec.methodBuilder("fill")
+                .addJavadoc("This is method used to fill Activity fields. Use it by calling ActivityStarter.fill(this).")
                 .addParameter(targetTypeName, "activity")
                 .addModifiers(PUBLIC, STATIC)
 
