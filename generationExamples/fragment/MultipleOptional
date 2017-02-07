@@ -1,0 +1,56 @@
+********com.example.activitystarter.MainFragment********
+package com.example.activitystarter;
+
+import android.app.Fragment;
+
+import activitystarter.Arg;
+import activitystarter.Optional;
+
+public class MainFragment extends Fragment {
+    @Arg @Optional String name;
+    @Arg @Optional int id;
+}
+********com.example.activitystarter.MainFragmentStarter********
+// Generated code from ActivityStarter. Do not modify!
+package com.example.activitystarter;
+
+import android.os.Bundle;
+import java.lang.String;
+
+public final class MainFragmentStarter {
+  public static void fill(MainFragment fragment) {
+    Bundle arguments = fragment.getArguments();
+    if(arguments.containsKey("nameStarterKey")) fragment.name = arguments.getString("nameStarterKey");
+    if(arguments.containsKey("idStarterKey")) fragment.id = arguments.getInt("idStarterKey", -1);
+  }
+
+  public static MainFragment newInstance(String name, int id) {
+    MainFragment fragment = new MainFragment();
+    Bundle args = new Bundle();
+    args.putString("nameStarterKey", name);
+    args.putInt("idStarterKey", id);
+    fragment.setArguments(args);
+    return fragment;
+  }
+
+  public static MainFragment newInstance(String name) {
+    MainFragment fragment = new MainFragment();
+    Bundle args = new Bundle();
+    args.putString("nameStarterKey", name);
+    fragment.setArguments(args);
+    return fragment;
+  }
+
+  public static MainFragment newInstance(int id) {
+    MainFragment fragment = new MainFragment();
+    Bundle args = new Bundle();
+    args.putInt("idStarterKey", id);
+    fragment.setArguments(args);
+    return fragment;
+  }
+
+  public static MainFragment newInstance() {
+    MainFragment fragment = new MainFragment();
+    return fragment;
+  }
+}

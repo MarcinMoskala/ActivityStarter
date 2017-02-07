@@ -1,0 +1,21 @@
+********com.example.activitystarter.MainFragment********
+package com.example.activitystarter;
+
+import android.app.Fragment;
+
+import activitystarter.MakeActivityStarter;
+
+@MakeActivityStarter
+public class MainFragment extends Fragment {}
+********com.example.activitystarter.MainFragmentStarter********
+package com.example.activitystarter;
+
+public final class MainFragmentStarter {
+  public static void fill(MainFragment fragment) {
+  }
+
+  public static MainFragment newInstance() {
+    MainFragment fragment = new MainFragment();
+    return fragment;
+  }
+}

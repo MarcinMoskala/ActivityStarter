@@ -12,6 +12,11 @@ class DifferentVariantsFunKtTest {
     }
 
     @Test
+    fun testOrderCreateSublists() {
+        assertEquals(listOf(listOf(1,2),listOf(1),listOf(2), listOf()), listOf(1,2).createSublists { true })
+    }
+
+    @Test
     fun testCreateSublists() {
         assertEquals(setOf(listOf(1, 2, 3), listOf(1, 3)), listOf(1, 2, 3).createSublists { it % 2 == 0 }.toSet())
         assertEquals(setOf(listOf(1, 2, 3, 4), listOf(1, 2, 3), listOf(1, 3, 4), listOf(1, 3)), listOf(1, 2, 3, 4).createSublists { it % 2 == 0 }.toSet())

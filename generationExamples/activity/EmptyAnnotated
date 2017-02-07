@@ -1,0 +1,36 @@
+********com.example.activitystarter.MainActivity********
+package com.example.activitystarter;
+
+import android.app.Activity;
+import activitystarter.MakeActivityStarter;
+
+@MakeActivityStarter
+public class MainActivity extends Activity {}
+********com.example.activitystarter.MainActivityStarter********
+// Generated code from ActivityStarter. Do not modify!
+package com.example.activitystarter;
+
+import android.content.Context;
+import android.content.Intent;
+
+public final class MainActivityStarter {
+  
+  public static void fill(MainActivity activity) {
+  }
+  
+  public static Intent getIntent(Context context) {
+    Intent intent = new Intent(context, MainActivity.class);
+    return intent;
+  }
+  
+  public static void start(Context context) {
+    Intent intent = getIntent(context);
+    context.startActivity(intent);
+  }
+  
+  public static void startWithFlags(Context context, int flags) {
+    Intent intent = getIntent(context);
+    intent.addFlags(flags);
+    context.startActivity(intent);
+  }
+}
