@@ -19,15 +19,7 @@ internal class ServiceBinding(element: TypeElement) : IntentBinding(element) {
                 .addParameter(INTENT, "intent")
                 .addModifiers(PUBLIC, STATIC)
 
-        for (arg in argumentBindings) {
-            val fieldName = arg.name
-            val keyName = getKey(fieldName)
-            val settingType = arg.settingType
-
-            val settingPart = setterFor(fieldName, settingType, getIntentGetterFor(arg, keyName))
-            builder.addStatement("if(intent.hasExtra(\"$keyName\")) service.$settingPart")
-        }
-
+        builder.addSetters("service")
         return builder.build()
     }
 
@@ -36,9 +28,6 @@ internal class ServiceBinding(element: TypeElement) : IntentBinding(element) {
             createStartServiceMethod(variant)
     )
 
-    private fun createStartServiceMethod(variant: List<ArgumentBinding>): MethodSpec {
-        val builder = builderWitGetIntent(variant)
-        builder.addStatement("context.startService(intent)")
-        return builder.build()
-    }
+    private fun createStartServiceMethod(variant: List<ArgumentBinding>)
+            = createGetIntentStarter("startService", variant)
 }
