@@ -16,24 +16,14 @@ import org.junit.runner.RunWith
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class ParcelableSerializableTest {
+class SerializableTest {
 
     @Rule @JvmField var activityTestRule = ActivityTestRule(MainActivity::class.java, false)
 
     @Test
     @Throws(InterruptedException::class)
-    fun parcelableTest() {
-        onView(withId(R.id.showParcelableDataButton)).perform(scrollTo(), click())
-
-        onView(withId(R.id.nameView)).check(matches(withText("Name: Marcin")))
-        onView(withId(R.id.idView)).check(matches(withText("Id: 10")))
-        onView(withId(R.id.gradeView)).check(matches(withText("Grade: A")))
-    }
-
-    @Test
-    @Throws(InterruptedException::class)
     fun serializableTest() {
-        activityTestRule.activity.startSerializableActivity()
+        onView(withId(R.id.showSerializableDataButton)).perform(scrollTo(), click())
 
         onView(withId(R.id.nameView)).check(matches(withText("Name: Marcin Moskala")))
         onView(withId(R.id.idView)).check(matches(withText("Id: 20")))
