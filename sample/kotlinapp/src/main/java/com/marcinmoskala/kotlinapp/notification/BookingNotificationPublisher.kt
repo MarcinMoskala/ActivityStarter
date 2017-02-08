@@ -24,5 +24,5 @@ class BookingNotificationPublisher : BroadcastReceiver() {
             .setContentTitle("I am notification $id")
             .setContentText("It is $time")
             .setSmallIcon(R.mipmap.ic_launcher)
-            .build()
+            .build()!!
 }

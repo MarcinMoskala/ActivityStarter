@@ -12,14 +12,7 @@ import javax.lang.model.element.TypeElement
 
 internal class ServiceBinding(element: TypeElement) : IntentBinding(element) {
 
-    override fun createFillFieldsMethod(): MethodSpec {
-        val builder = getBasicFillMethodBuilder("ActivityStarter.fill(this, intent)")
-                .addParameter(targetTypeName, "service")
-                .addParameter(INTENT, "intent")
-
-        builder.addSetters("service")
-        return builder.build()
-    }
+    override fun createFillFieldsMethod(): MethodSpec = fillByIntentBinding("service")
 
     override fun createStarters(variant: List<ArgumentBinding>): List<MethodSpec> = listOf(
             createGetIntentMethod(variant),

@@ -12,6 +12,13 @@ import javax.lang.model.element.TypeElement
 
 internal abstract class IntentBinding(element: TypeElement) : ClassBinding(element) {
 
+    protected fun fillByIntentBinding(targetName: String) =
+            getBasicFillMethodBuilder("ActivityStarter.fill(this, intent)")
+                    .addParameter(targetTypeName, targetName)
+                    .addParameter(INTENT, "intent")
+                    .addSetters(targetName)
+                    .build()!!
+
     protected fun createGetIntentMethod(variant: List<ArgumentBinding>): MethodSpec {
         val builder = MethodSpec.methodBuilder("getIntent")
                 .addParameter(CONTEXT, "context")
@@ -25,7 +32,7 @@ internal abstract class IntentBinding(element: TypeElement) : ClassBinding(eleme
         return builder.build()
     }
 
-    protected fun MethodSpec.Builder.addSetters(targetParameterName: String) {
+    protected fun MethodSpec.Builder.addSetters(targetParameterName: String): MethodSpec.Builder {
         for (arg in argumentBindings) {
             val fieldName = arg.name
             val keyName = getKey(fieldName)
@@ -34,6 +41,7 @@ internal abstract class IntentBinding(element: TypeElement) : ClassBinding(eleme
             val settingPart = setterFor(fieldName, settingType, getIntentGetterFor(arg, keyName))
             addStatement("if(intent.hasExtra(\"$keyName\")) $targetParameterName.$settingPart")
         }
+        return this
     }
 
     protected fun createGetIntentStarter(starterFunc: String, variant: List<ArgumentBinding>): MethodSpec {

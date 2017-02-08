@@ -1,6 +1,7 @@
 package activitystarter.compiler
 
 import activitystarter.Arg
+import activitystarter.MakeActivityStarter
 import activitystarter.compiler.KnownClassType.*
 import activitystarter.compiler.classbinding.*
 import com.squareup.javapoet.TypeName
@@ -13,10 +14,7 @@ import javax.lang.model.type.TypeMirror
 
 internal fun parseArg(element: Element, builderMap: MutableMap<TypeElement, ClassBinding>) {
     val enclosingElement = element.enclosingElement as TypeElement
-    fun check(assertion: Boolean, errorText: String): Boolean {
-        if (!assertion) inaccessibleError(errorText, Arg::class.java, element, enclosingElement)
-        return assertion
-    }
+    fun check(assertion: Boolean, errorText: String) = parsingError(assertion, errorText, Arg::class.java, element, enclosingElement)
 
     val elementType = getElementType(element)
     var correct = check(enclosingElement.kind == CLASS, Errors.notAClass)
@@ -24,7 +22,6 @@ internal fun parseArg(element: Element, builderMap: MutableMap<TypeElement, Clas
             && check(!enclosingElement.modifiers.contains(PRIVATE), Errors.privateClass)
             && check(isFieldValidType(elementType), Errors.notSupportedType)
             && check(getFieldAccessibility(element) != FieldVeryfyResult.Inaccessible, Errors.inaccessibleField)
-            // TODO NOT WORKING
             && check(!(getElementType(enclosingElement).isSubtypeOfType(BROADCAST_RECEIVER_TYPE) && !isBasicSupportedType(elementType)), Errors.notBasicTypeInReceiver)
 
     if (correct)
@@ -33,28 +30,30 @@ internal fun parseArg(element: Element, builderMap: MutableMap<TypeElement, Clas
 
 internal fun parseClass(element: Element, builderMap: MutableMap<TypeElement, ClassBinding>) {
     val typeElement = element as TypeElement
+    fun check(assertion: Boolean, errorText: String) = parsingError(assertion, errorText, MakeActivityStarter::class.java, element, typeElement)
+
     if (builderMap.containsKey(typeElement)) return
-
     val elementType = KnownClassType.getByType(getElementType(element))
-    if (elementType == null) {
-        error(element, "@%s %s Is in wroing type. It needs to be Activity, Froagment or Service. (%s.%s)",
-                Arg::class.java.simpleName, element, element.qualifiedName,
-                element.simpleName)
-        return
-    }
+    val correct = check(elementType != null, Errors.wrongClassType)
 
-    val classBinding = when (elementType) {
+    if(!correct) return
+
+    val classBinding = getClassBinding(elementType!!, typeElement)
+    builderMap.put(typeElement, classBinding)
+}
+
+private fun getClassBinding(elementType: KnownClassType, typeElement: TypeElement): ClassBinding {
+    return when (elementType) {
         Activity -> ActivityBinding(typeElement)
         Fragment -> FragmentBinding(typeElement)
         Service -> ServiceBinding(typeElement)
         BroadcastReceiver -> BroadcastReceiverBinding(typeElement)
     }
-
-    builderMap.put(typeElement, classBinding)
 }
 
-private fun inaccessibleError(text: String, annotationClass: Class<out Annotation>, element: Element, enclosingElement: TypeElement) {
-    error(enclosingElement, "@%s %s $text (%s)", annotationClass.simpleName, enclosingElement.qualifiedName, element.simpleName)
+private fun parsingError(assertion: Boolean, text: String, annotationClass: Class<out Annotation>, element: Element, enclosingElement: TypeElement): Boolean {
+    if (!assertion) error(enclosingElement, "@%s %s $text (%s)", annotationClass.simpleName, enclosingElement.qualifiedName, element.simpleName)
+    return assertion
 }
 
 private fun isFieldValidType(elementType: TypeMirror) =
