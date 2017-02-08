@@ -5,26 +5,16 @@ import javax.lang.model.type.DeclaredType
 import javax.lang.model.type.TypeKind
 import javax.lang.model.type.TypeMirror
 
-// Total SHIT TODO Write it in solid, functional way
 fun TypeMirror.isSubtypeOfType(vararg otherType: String): Boolean {
-    if (otherType.any { it == this.toString() }) return true
-    if (this.kind != TypeKind.DECLARED) return false
-    val declaredType = this as DeclaredType
-    val typeArguments = declaredType.typeArguments
-    if (typeArguments.size > 0) {
-        val typeString = StringBuilder(declaredType.asElement().toString())
-        typeString.append('<')
-        for (i in typeArguments.indices) {
-            if (i > 0) {
-                typeString.append(',')
-            }
-            typeString.append('?')
-        }
-        typeString.append('>')
-        if (otherType.any { it == typeString.toString() }) {
-            return true
+    val typeString = this.toString()
+    return when {
+        otherType.any { it.substringBefore("<") == typeString } -> true
+        this.kind != TypeKind.DECLARED -> false
+        else -> {
+            val element = toTypeElement() ?: return false
+            element.superclass.isSubtypeOfType(*otherType) || element.interfaces.any { it.isSubtypeOfType(*otherType) }
         }
     }
-    val element = declaredType.asElement() as? TypeElement ?: return false
-    return element.superclass.isSubtypeOfType(*otherType) || element.interfaces.any { it.isSubtypeOfType(*otherType) }
 }
+
+private fun TypeMirror.toTypeElement() = (this as? DeclaredType)?.asElement() as? TypeElement

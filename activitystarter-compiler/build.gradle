@@ -40,6 +40,7 @@ dependencies {
 
   testCompile deps.junit
   testCompile deps.truth
+  testCompile deps.compiletesting
   compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 repositories {
