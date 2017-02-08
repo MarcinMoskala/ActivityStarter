@@ -26,7 +26,7 @@ class MainActivity : BaseActivity() {
     private fun startNotification() {
         val intent = BookingNotificationPublisherStarter.getIntent(this, 10, DateTime.now().toString("HH:mm"))
         val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, FLAG_UPDATE_CURRENT)
-        alarmManager.setExact(RTC_WAKEUP, System.currentTimeMillis() + 5000, pendingIntent)
+        alarmManager.set(RTC_WAKEUP, System.currentTimeMillis() + 5000, pendingIntent)
     }
 
     private fun startDetailsActivity() {
