@@ -30,6 +30,9 @@
             android:name=".StudentSerializableActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <receiver
+            android:name=".notification.BookingNotificationPublisher"
+            android:enabled="true" />
     </application>
 
 </manifest>

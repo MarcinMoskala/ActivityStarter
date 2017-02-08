@@ -50,27 +50,30 @@ ext {
 }
 
 def androidToolsVersion = '25.2.0'
-def supportLibraryVersion = '24.2.1'
+def supportLibraryVersion = '25.1.0'
 
 ext.deps = [
-        android            : 'com.google.android:android:4.1.1.4',
-        supportCompat      : "com.android.support:support-compat:$supportLibraryVersion",
-        supportAnnotations : "com.android.support:support-annotations:$supportLibraryVersion",
-        supportTestRunner  : 'com.android.support.test:runner:0.5',
-        androidGradle      : 'com.android.tools.build:gradle:2.2.0',
-        lint               : "com.android.tools.lint:lint:$androidToolsVersion",
-        lintApi            : "com.android.tools.lint:lint-api:$androidToolsVersion",
-        lintChecks         : "com.android.tools.lint:lint-checks:$androidToolsVersion",
-        lintTests          : "com.android.tools.lint:lint-tests:$androidToolsVersion",
-        javapoet           : 'com.squareup:javapoet:1.7.0',
-        javaparser         : 'com.github.javaparser:javaparser-core:2.4.0',
+        android           : 'com.google.android:android:4.1.1.4',
+        supportAppcompatv7: "com.android.support:appcompat-v7:$supportLibraryVersion",
+        supportDesign     : "com.android.support:design:$supportLibraryVersion",
+        supportCompat     : "com.android.support:support-compat:$supportLibraryVersion",
+        supportAnnotations: "com.android.support:support-annotations:$supportLibraryVersion",
+        supportTestRunner : 'com.android.support.test:runner:0.5',
+        androidGradle     : 'com.android.tools.build:gradle:2.2.0',
+        lint              : "com.android.tools.lint:lint:$androidToolsVersion",
+        lintApi           : "com.android.tools.lint:lint-api:$androidToolsVersion",
+        lintChecks        : "com.android.tools.lint:lint-checks:$androidToolsVersion",
+        lintTests         : "com.android.tools.lint:lint-tests:$androidToolsVersion",
+        javapoet          : 'com.squareup:javapoet:1.7.0',
+        javaparser        : 'com.github.javaparser:javaparser-core:2.4.0',
+        jodaTime          : 'joda-time:joda-time:2.9.3',
 
         // Test
-        junit              : 'junit:junit:4.12',
-        truth              : 'com.google.truth:truth:0.28',
-        robolectric        : 'org.robolectric:robolectric:3.1.2',
-        openglApi          : 'org.khronos:opengl-api:gl1.1-android-2.1_r1',
-        compiletesting     : 'com.google.testing.compile:compile-testing:0.9',
-        autoservice        : 'com.google.auto.service:auto-service:1.0-rc2',
-        autocommon         : 'com.google.auto:auto-common:0.6'
+        junit             : 'junit:junit:4.12',
+        truth             : 'com.google.truth:truth:0.28',
+        robolectric       : 'org.robolectric:robolectric:3.1.2',
+        openglApi         : 'org.khronos:opengl-api:gl1.1-android-2.1_r1',
+        compiletesting    : 'com.google.testing.compile:compile-testing:0.9',
+        autoservice       : 'com.google.auto.service:auto-service:1.0-rc2',
+        autocommon        : 'com.google.auto:auto-common:0.6'
 ]

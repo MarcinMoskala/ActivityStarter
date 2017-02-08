@@ -13,10 +13,8 @@ import javax.lang.model.element.TypeElement
 internal class FragmentBinding(element: TypeElement) : ClassBinding(element) {
 
     override fun createFillFieldsMethod(): MethodSpec {
-        val builder = MethodSpec.methodBuilder("fill")
-                .addJavadoc("This is method used to fill Fragment fields. Use it by calling ActivityStarter.fill(this).")
+        val builder = getBasicFillMethodBuilder()
                 .addParameter(targetTypeName, "fragment")
-                .addModifiers(PUBLIC, STATIC)
 
         if (argumentBindings.isNotEmpty())
             builder.addStatement("\$T arguments = fragment.getArguments()", BUNDLE)

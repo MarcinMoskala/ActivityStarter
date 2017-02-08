@@ -7,6 +7,7 @@ import activitystarter.compiler.createSublists
 import activitystarter.compiler.getSetter
 import com.google.auto.common.MoreElements.getPackage
 import com.squareup.javapoet.*
+import javax.lang.model.element.Modifier
 import javax.lang.model.element.Modifier.FINAL
 import javax.lang.model.element.Modifier.PUBLIC
 import javax.lang.model.element.TypeElement
@@ -26,6 +27,11 @@ internal abstract class ClassBinding(enclosingElement: TypeElement) {
     protected fun setterFor(fieldName: String, settingType: FieldVeryfyResult, middle: String) =
             if (settingType == FieldVeryfyResult.Accessible) fieldName + " = " + middle
             else getSetter(settingType, fieldName) + "(" + middle + ")"
+
+    protected fun getBasicFillMethodBuilder(fillProperCall: String = "ActivityStarter.fill(this)"): MethodSpec.Builder =
+            MethodSpec.methodBuilder("fill")
+                    .addJavadoc("This is method used to fill fields. Use it by calling $fillProperCall.")
+                    .addModifiers(PUBLIC, Modifier.STATIC)
 
     private fun getBindingClassName(enclosingElement: TypeElement): ClassName {
         val packageName = getPackage(enclosingElement).qualifiedName.toString()

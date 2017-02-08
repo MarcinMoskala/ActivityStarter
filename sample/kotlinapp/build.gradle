@@ -18,7 +18,7 @@ android {
 
     defaultConfig {
         applicationId "com.marcinmoskala.kotlinapp"
-        minSdkVersion 18
+        minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -46,16 +46,19 @@ dependencies {
     kapt project(':activitystarter-compiler')
 
 // On local project use:
-//    compile 'com.github.MarcinMoskala.ActivityStarter:activitystarter:0.+'
-//    kapt 'com.github.MarcinMoskala.ActivityStarter:activitystarter-compiler:0.+'
+//    compile 'com.github.MarcinMoskala.ActivityStarter:activitystarter:0.07'
+//    kapt 'com.github.MarcinMoskala.ActivityStarter:activitystarter-compiler:0.07'
+
+    compile deps.supportAppcompatv7
+    compile deps.supportDesign
+    compile deps.jodaTime
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    testCompile 'junit:junit:4.12'
 
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    compile 'com.android.support:design:25.1.0'
-    testCompile 'junit:junit:4.12'
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 repositories {
     mavenCentral()

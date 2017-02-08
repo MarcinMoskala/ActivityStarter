@@ -3,6 +3,7 @@ package activitystarter;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,7 +29,11 @@ public final class ActivityStarter {
         fill(target, null);
     }
 
-    public static void fill(@NonNull Service target, Intent intent) {
+    public static void fill(@NonNull Service target, @NonNull Intent intent) {
+        fill(target, (Object) intent);
+    }
+
+    public static void fill(@NonNull BroadcastReceiver target, @NonNull Intent intent) {
         fill(target, (Object) intent);
     }
 
