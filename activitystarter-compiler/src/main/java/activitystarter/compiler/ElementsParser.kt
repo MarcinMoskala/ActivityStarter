@@ -19,18 +19,13 @@ internal fun parseArg(element: Element, builderMap: MutableMap<TypeElement, Clas
     }
 
     val elementType = getElementType(element)
-    var correct = check(enclosingElement.kind == CLASS, "" +
-            "fields may only be contained in classes.")
+    var correct = check(enclosingElement.kind == CLASS, Errors.notAClass)
             // Verify containing class visibility is not private.
-            || check(!enclosingElement.modifiers.contains(PRIVATE),
-            "fields may not be contained in private classes.")
-            || check(isFieldValidType(elementType),
-            "fields must extend from Serializable, Parcelable or beof type String, int, float, double, char or boolean.")
-            || check(getFieldAccessibility(element) != FieldVeryfyResult.Inaccessible,
-            "Inaccessable element.")
+            && check(!enclosingElement.modifiers.contains(PRIVATE), Errors.privateClass)
+            && check(isFieldValidType(elementType), Errors.notSupportedType)
+            && check(getFieldAccessibility(element) != FieldVeryfyResult.Inaccessible, Errors.inaccessibleField)
             // TODO NOT WORKING
-            || check(!(getElementType(enclosingElement).isSubtypeOfType(BROADCAST_RECEIVER_TYPE) && isSubtypeOfSupportedTypes(elementType)),
-            "On BroadcastReceiver only basic types are supported.")
+            && check(!(getElementType(enclosingElement).isSubtypeOfType(BROADCAST_RECEIVER_TYPE) && !isBasicSupportedType(elementType)), Errors.notBasicTypeInReceiver)
 
     if (correct)
         parseClass(enclosingElement, builderMap)
@@ -59,9 +54,7 @@ internal fun parseClass(element: Element, builderMap: MutableMap<TypeElement, Cl
 }
 
 private fun inaccessibleError(text: String, annotationClass: Class<out Annotation>, element: Element, enclosingElement: TypeElement) {
-    error(enclosingElement, "@%s %s $text (%s.%s)",
-            annotationClass.simpleName, enclosingElement.qualifiedName,
-            element.simpleName)
+    error(enclosingElement, "@%s %s $text (%s)", annotationClass.simpleName, enclosingElement.qualifiedName, element.simpleName)
 }
 
 private fun isFieldValidType(elementType: TypeMirror) =
