@@ -9,7 +9,7 @@ import android.content.Intent
 import com.marcinmoskala.kotlinapp.R
 import com.marcinmoskala.kotlinapp.notificationManager
 
-class BookingNotificationPublisher : BroadcastReceiver() {
+class NotificationPublisher : BroadcastReceiver() {
 
     @Arg var id: Int = -1
     @Arg lateinit var time: String
@@ -21,8 +21,13 @@ class BookingNotificationPublisher : BroadcastReceiver() {
     }
 
     fun createSimpleNotification(context: Context) = Notification.Builder(context)
-            .setContentTitle("I am notification $id")
-            .setContentText("It is $time")
+            .setContentTitle(getTextTitle(id))
+            .setContentText(getTextSubtitle(time))
             .setSmallIcon(R.mipmap.ic_launcher)
             .build()!!
+
+    companion object {
+        fun getTextTitle(id: Int) = "I am notification $id"
+        fun getTextSubtitle(time: String) = "It is $time"
+    }
 }

@@ -1,5 +1,6 @@
 package com.marcinmoskala.kotlinapp
 
+import activitystarter.MakeActivityStarter
 import android.app.AlarmManager.RTC_WAKEUP
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
@@ -8,10 +9,8 @@ import com.marcinmoskala.kotlinapp.notification.BookingNotificationPublisherStar
 import kotlinx.android.synthetic.main.activity_main.*
 import org.joda.time.DateTime
 
+@MakeActivityStarter
 class MainActivity : BaseActivity() {
-
-    val parcelableStudent = StudentParcelable(10, "Marcin", 'A')
-    val serializableStudent = StudentSerializable(20, "Marcin Moskala", 'A', true)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,9 +23,9 @@ class MainActivity : BaseActivity() {
     }
 
     private fun startNotification() {
-        val intent = BookingNotificationPublisherStarter.getIntent(this, 10, DateTime.now().toString("HH:mm"))
+        val intent = BookingNotificationPublisherStarter.getIntent(this, notificationId, notificationTime)
         val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, FLAG_UPDATE_CURRENT)
-        alarmManager.set(RTC_WAKEUP, System.currentTimeMillis() + 5000, pendingIntent)
+        alarmManager.set(RTC_WAKEUP, System.currentTimeMillis() + 1000, pendingIntent)
     }
 
     private fun startDetailsActivity() {
@@ -66,5 +65,12 @@ class MainActivity : BaseActivity() {
 
     private fun startSerializableActivity() {
         StudentSerializableActivityStarter.start(this, serializableStudent)
+    }
+
+    companion object {
+        val notificationId = 10
+        val notificationTime = DateTime.now().toString("HH:mm")
+        val parcelableStudent = StudentParcelable(10, "Marcin", 'A')
+        val serializableStudent = StudentSerializable(20, "Marcin Moskala", 'A', true)
     }
 }

@@ -31,7 +31,7 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <receiver
-            android:name=".notification.BookingNotificationPublisher"
+            android:name=".notification.NotificationPublisher"
             android:enabled="true" />
     </application>
 
