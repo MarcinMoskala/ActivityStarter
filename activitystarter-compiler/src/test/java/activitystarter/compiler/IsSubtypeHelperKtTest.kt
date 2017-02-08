@@ -1,10 +1,7 @@
 package activitystarter.compiler
 
+import org.junit.Assert.assertTrue
 import org.junit.Test
-
-import org.junit.Assert.*
-import javax.lang.model.element.TypeElement
-import javax.lang.model.type.TypeMirror
 
 class IsSubtypeHelperKtTest {
 

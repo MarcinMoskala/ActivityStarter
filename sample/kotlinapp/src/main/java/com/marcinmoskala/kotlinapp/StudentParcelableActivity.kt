@@ -1,10 +1,8 @@
 package com.marcinmoskala.kotlinapp
 
-import android.os.Bundle
-import android.widget.TextView
-
 import activitystarter.Arg
 import activitystarter.MakeActivityStarter
+import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_data.*
 
 @MakeActivityStarter

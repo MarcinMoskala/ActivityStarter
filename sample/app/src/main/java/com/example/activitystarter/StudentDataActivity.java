@@ -1,8 +1,6 @@
 package com.example.activitystarter;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import activitystarter.Arg;

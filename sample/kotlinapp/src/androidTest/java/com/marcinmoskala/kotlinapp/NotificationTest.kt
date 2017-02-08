@@ -2,12 +2,12 @@ package com.marcinmoskala.kotlinapp
 
 
 import android.support.test.InstrumentationRegistry
+import android.support.test.filters.SdkSuppress
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.support.test.uiautomator.By
 import android.support.test.uiautomator.UiDevice
 import android.support.test.uiautomator.Until
-import android.test.suitebuilder.annotation.LargeTest
 import com.marcinmoskala.kotlinapp.notification.NotificationPublisher
 import junit.framework.Assert.assertEquals
 import org.junit.Rule
@@ -15,18 +15,15 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 
-@LargeTest
 @RunWith(AndroidJUnit4::class)
+@SdkSuppress(minSdkVersion = 18)
 class NotificationTest {
 
-    @Rule @JvmField
-    var activityTestRule = ActivityTestRule(MainActivity::class.java, true, false)
+    @Rule @JvmField var activityTestRule = ActivityTestRule(MainActivity::class.java, true, false)
 
     @Test
     fun shouldSeeNotificationTest() {
-        val context = InstrumentationRegistry.getTargetContext()
-        val intent = MainActivityStarter.getIntent(context)
-        activityTestRule.launchActivity(intent)
+        activityTestRule.launchActivity(MainActivityStarter.getIntent(InstrumentationRegistry.getTargetContext()))
 
         val expectedTitle = NotificationPublisher.getTextTitle(MainActivity.notificationId)
         val expectedSubtitle = NotificationPublisher.getTextSubtitle(MainActivity.notificationTime)

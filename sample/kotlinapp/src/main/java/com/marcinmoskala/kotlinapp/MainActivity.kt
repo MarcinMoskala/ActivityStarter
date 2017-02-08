@@ -28,7 +28,7 @@ class MainActivity : BaseActivity() {
         alarmManager.set(RTC_WAKEUP, System.currentTimeMillis() + 1000, pendingIntent)
     }
 
-    private fun startDetailsActivity() {
+    fun startDetailsActivity() {
         val gradeString = studentGradeView.text.toString()
         if (gradeString.length != 1) {
             studentGradeLayoutView.error = "You must provide some grade"
@@ -59,11 +59,11 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private fun startParcelableActivity() {
+    fun startParcelableActivity() {
         StudentParcelableActivityStarter.start(this, parcelableStudent)
     }
 
-    private fun startSerializableActivity() {
+    fun startSerializableActivity() {
         StudentSerializableActivityStarter.start(this, serializableStudent)
     }
 
