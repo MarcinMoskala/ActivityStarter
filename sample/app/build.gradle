@@ -32,6 +32,10 @@ dependencies {
     compile project(':activitystarter')
     annotationProcessor project(':activitystarter-compiler')
 
+//  In real project use this:
+//    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.08'
+//    annotationProcessor 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.08'
+
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -41,4 +45,6 @@ dependencies {
 }
 repositories {
     mavenCentral()
+// Remember about this:
+//    maven { url 'https://jitpack.io' }
 }

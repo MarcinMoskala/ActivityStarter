@@ -46,8 +46,8 @@ dependencies {
     kapt project(':activitystarter-compiler')
 
 // On local project use:
-//    compile 'com.github.MarcinMoskala.ActivityStarter:activitystarter:0.07'
-//    kapt 'com.github.MarcinMoskala.ActivityStarter:activitystarter-compiler:0.07'
+//    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.08'
+//    kapt 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.08'
 
     compile deps.supportAppcompatv7
     compile deps.supportDesign
@@ -59,8 +59,10 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.0.0'
+    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
 }
 repositories {
     mavenCentral()
+// Remember about this:
+//    maven { url 'https://jitpack.io' }
 }

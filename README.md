@@ -150,8 +150,8 @@ For Java project add in build.gradle file:
 
 ```groovy
 dependencies {
-    compile 'com.github.MarcinMoskala.ActivityStarter:activitystarter:0.03'
-    annotationProcessor 'com.github.MarcinMoskala.ActivityStarter:activitystarter-compiler:0.03'
+    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.10'
+    annotationProcessor 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.10'
 }
 ```
 
@@ -164,23 +164,19 @@ kapt {
 }
 
 dependencies {
-    compile 'com.github.MarcinMoskala.ActivityStarter:activitystarter:0.03'
-    kapt 'com.github.MarcinMoskala.ActivityStarter:activitystarter-compiler:0.03'
+    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.10'
+    kapt 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.10'
 }
 ```
 
-TODO
--------
+And while library is located on JitPack, remember to add on module build.gradle (unless you already have it):
 
-- [ ] Annotation-specified key names
-- [X] Fragment support
-- [X] Service support
-- [X] Mutliple @Optional arguments of the same type one after another naming conflict
-- [ ] Webpage
-- [ ] Kotlin delegate instad of annotation (+ lazy access)
- 
-Feel invited to contribute :)
- 
+```groovy
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+```
+
 License
 -------
 
