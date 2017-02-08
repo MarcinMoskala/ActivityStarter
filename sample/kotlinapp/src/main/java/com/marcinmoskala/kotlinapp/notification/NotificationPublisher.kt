@@ -24,6 +24,7 @@ class NotificationPublisher : BroadcastReceiver() {
             .setContentTitle(getTextTitle(id))
             .setContentText(getTextSubtitle(time))
             .setSmallIcon(R.mipmap.ic_launcher)
+            .setAutoCancel(true)
             .build()!!
 
     companion object {

@@ -34,10 +34,8 @@ class NotificationTest {
         val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
         device.openNotification()
         device.wait(Until.hasObject(By.text(expectedTitle)), 5000)
-        val title = device.findObject(By.text(expectedTitle))
-        val text = device.findObject(By.textContains(expectedSubtitle))
-        assertEquals(expectedTitle, title.text)
-        assertEquals(expectedSubtitle, text.getText())
-        title.click()
+        assertEquals(expectedTitle, device.findObject(By.text(expectedTitle)).text)
+        assertEquals(expectedSubtitle, device.findObject(By.textContains(expectedSubtitle)).text)
+        device.pressBack()
     }
 }
