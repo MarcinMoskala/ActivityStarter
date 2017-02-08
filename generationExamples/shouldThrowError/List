@@ -1,0 +1,11 @@
+********com.example.activitystarter.MainActivity********
+package com.example.activitystarter;
+import android.app.Activity;
+
+import java.util.List;
+
+import activitystarter.Arg;
+
+public class MainActivity extends Activity {
+    @Arg List<String> name;
+}

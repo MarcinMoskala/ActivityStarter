@@ -6,12 +6,22 @@ import org.junit.Test
 class ActivityGenerationErrorTest : GenerationTest() {
 
     @Test
-    fun simpleGenerationTest() {
+    fun simpleGenerationErrorTest() {
         filePrecessingCheckError("shouldThrowError/ActivityPrivateFIeld", Errors.inaccessibleField)
     }
 
     @Test
-    fun serviceParcelableFieldTest() {
+    fun serviceParcelableFieldErrorTest() {
         filePrecessingCheckError("shouldThrowError/ServiceParcelableField", Errors.notBasicTypeInReceiver)
+    }
+
+    @Test
+    fun privateClassErrorTest() {
+        filePrecessingCheckError("shouldThrowError/PrivateClass", Errors.privateClass)
+    }
+
+    @Test
+    fun listErrorTest() {
+        filePrecessingCheckError("shouldThrowError/List", Errors.notSupportedType)
     }
 }
