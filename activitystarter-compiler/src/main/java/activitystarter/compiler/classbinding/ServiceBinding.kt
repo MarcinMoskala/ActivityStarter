@@ -13,6 +13,6 @@ internal class ServiceBinding(element: TypeElement) : IntentBinding(element) {
             createStartServiceMethod(variant)
     )
 
-    private fun createStartServiceMethod(variant: List<ArgumentBinding>)
-            = createGetIntentStarter("startService", variant)
+    private fun createStartServiceMethod(variant: List<ArgumentBinding>) =
+            createGetIntentStarter("startService", variant)
 }

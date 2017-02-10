@@ -18,11 +18,11 @@ internal class ActivityBinding(element: TypeElement) : IntentBinding(element) {
             createStartActivityMethodWithFlags(variant)
     )
 
-    private fun createStartActivityMethod(variant: List<ArgumentBinding>)
-            = createGetIntentStarter("startActivity", variant)
+    private fun createStartActivityMethod(variant: List<ArgumentBinding>) =
+            createGetIntentStarter("startActivity", variant)
 
-    private fun createStartActivityMethodWithFlags(variant: List<ArgumentBinding>)
-            = builderWitGetIntentWithFlags(variant)
-            .addStatement("context.startActivity(intent)")
-            .build()
+    private fun createStartActivityMethodWithFlags(variant: List<ArgumentBinding>) =
+            builderWitGetIntentWithFlags(variant)
+                    .addStatement("context.startActivity(intent)")
+                    .build()
 }
