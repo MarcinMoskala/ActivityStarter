@@ -32,16 +32,19 @@ internal class FragmentBinding(element: TypeElement) : ClassBinding(element) {
         }
     }
 
-    private fun createGetIntentMethod(variant: List<ArgumentBinding>): MethodSpec {
-        val builder = builderWithCreationBasicFieldsNoContext("newInstance")
-                .returns(targetTypeName)
-                .addArgParameters(variant)
-                .addStatement("\$T fragment = new \$T()", targetTypeName, targetTypeName)
-        if (variant.isNotEmpty()) builder.addStatement("\$T args = new Bundle()", BUNDLE)
-        variant.forEach { arg -> builder.addStatement("args.${getArgumentSetterFor(arg)}(\"" + getKey(arg.name) + "\", " + arg.name + ")") }
-        if (variant.isNotEmpty()) builder.addStatement("fragment.setArguments(args)")
-        builder.addStatement("return fragment")
-        return builder.build()
+    private fun createGetIntentMethod(variant: List<ArgumentBinding>) =
+            builderWithCreationBasicFieldsNoContext("newInstance")
+                    .returns(targetTypeName)
+                    .addArgParameters(variant)
+                    .addStatement("\$T fragment = new \$T()", targetTypeName, targetTypeName)
+                    .doIf(variant.isNotEmpty()) { addStatement("\$T args = new Bundle()", BUNDLE) }
+                    .addSaveArgumentsStatements(variant)
+                    .doIf(variant.isNotEmpty()) { addStatement("fragment.setArguments(args)") }
+                    .addStatement("return fragment")
+                    .build()
+
+    private fun MethodSpec.Builder.addSaveArgumentsStatements(variant: List<ArgumentBinding>) = apply {
+        variant.forEach { arg -> addStatement("args.${getArgumentSetterFor(arg)}(\"" + getKey(arg.name) + "\", " + arg.name + ")") }
     }
 
     private fun getArgumentGetterFor(arg: ArgumentBinding, keyName: String) = when (arg.type) {
