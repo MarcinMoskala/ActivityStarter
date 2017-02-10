@@ -71,12 +71,12 @@ public class MainActivity extends BaseActivity {
 
     private void startSerializableActivity() {
         StudentSerializable student = new StudentSerializable(20, "Marcin Moskala", 'A', true);
-        StudentSerializableActivityStarter.start(MainActivity.this, student);
+        StudentSerializableActivityStarter.start(this, student);
     }
 
     private void startParcelableActivity() {
         StudentParcelable student = new StudentParcelable(10, "Marcin", 'A');
-        StudentParcelableActivityStarter.start(MainActivity.this, student);
+        StudentParcelableActivityStarter.start(this, student);
     }
 
     private void startDetailsActivity() {
@@ -96,16 +96,16 @@ public class MainActivity extends BaseActivity {
         try {
             int id = Integer.parseInt(idString);
             if(name.trim().equals("")) {
-                StudentDataActivityStarter.startWithFlags(MainActivity.this, id, grade, isPassing, FLAG_ACTIVITY_NEW_TASK);
+                StudentDataActivityStarter.start(this, id, grade, isPassing);
             } else {
-                StudentDataActivityStarter.startWithFlags(MainActivity.this, name, id, grade, isPassing, FLAG_ACTIVITY_NEW_TASK);
+                StudentDataActivityStarter.start(this, name, id, grade, isPassing);
             }
         } catch (NumberFormatException e) {
             // Id is not valid
             if(name.trim().equals("")) {
-                StudentDataActivityStarter.startWithFlags(MainActivity.this, grade, isPassing, FLAG_ACTIVITY_NEW_TASK);
+                StudentDataActivityStarter.start(this, grade, isPassing);
             } else {
-                StudentDataActivityStarter.startWithFlags(MainActivity.this, name, grade, isPassing, FLAG_ACTIVITY_NEW_TASK);
+                StudentDataActivityStarter.start(this, name, grade, isPassing);
             }
         }
     }
