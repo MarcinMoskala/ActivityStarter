@@ -93,8 +93,7 @@ MainActivityStarter.startWithFlags(context, name, id, grade, isPassing, FLAG_ACT
 This can be applayed to [Activities](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-Activities), [Fragments](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-Fragments), [Services](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-Services)
 or [BroadcastReceiver](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-BroadcastReceiver). Arguments can also be [Optional](https://github.com/MarcinMoskala/ActivityStarter/wiki/Optional-annotation). 
 
-Download
---------
+## Download
 
 For Java project add in build.gradle file:
 
