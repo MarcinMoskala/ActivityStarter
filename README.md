@@ -10,7 +10,19 @@ Field and method binding for Android Activity arguments, which uses annotation p
  * Allows you to forget about all keys that were used to pass agruments.
  * Support flags and Intent provide.
 
-Let's look at the example. This is Activity made in standard way:
+Full documentation is located [here](Home). Here is TOC:
+* [Introdution](Introdution)
+* [Installation](Installation)
+* [Usage for Activities](Usage for Activities)
+* [Usage for Fragments](Usage for Fragments)
+* [Usage for Services](Usage for Services)
+* [Usage for BroadcastReceiver](Usage for BroadcastReceiver)
+* [Optional annotation usage](Optional annotation)
+* [How does it really work?](How does it really work?)
+
+# Example
+
+This is Activity with starter made in standard way:
 
 ```java
 public class MainActivity extends BaseActivity {
@@ -42,12 +54,6 @@ public class MainActivity extends BaseActivity {
         isPassing = intent.getBooleanExtra("isPassingArg", false);
     }
 }
-```
-
-And we start it by:
-
-```java
-MainActivity.start(context, name, id, grade, isPassing);
 ```
 
 With ActivityStarter all you need is:
@@ -84,64 +90,8 @@ MainActivityStarter.getIntent(context, name, id, grade, isPassing);
 MainActivityStarter.startWithFlags(context, name, id, grade, isPassing, FLAG_ACTIVITY_SINGLE_TOP);
 ```
 
-What is more, if you need to make different variants, without some arguments, then you can just use @Optional annotation.
-
-```java
-@Arg @Optional String name = "No name provided";
-@Arg @Optional int id = NO_ID;
-@Arg char grade;
-@Arg boolean isPassing;
-```
-
-And use it:
-
-```java
-MainActivityStarter.start(context, id, grade, isPassing);
-MainActivityStarter.start(context, name, grade, isPassing);
-MainActivityStarter.start(context, id, name, grade, isPassing);
-```
-
-Fragments and Services
--------
-
-Library can be used also for Fragments and Services:
-
-```java
-public class TabbedPlaceholderFragment extends Fragment {
-
-    @Arg int sectionNumber;
-
-    public TabbedPlaceholderFragment() {}
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ActivityStarter.fill(this);
-        //...
-    }
-}
-```
-
-```java
-public class SomeService extends Service {
-
-    @Arg @Optional String name = "";
-    @Arg @Optional String surname = "";
-    @Arg int id;
-
-    public SomeService() {}
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        ActivityStarter.fill(this, intent);
-        // ...
-    }
-}
-```
+This can be applayed to [Activities](Usage for Activities), [Fragments](Usage for Fragments), [Services](Usage for Services)
+or [BroadcastReceiver](Usage for BroadcastReceiver). Arguments can also be [Optional](Optional annotation). 
 
 Download
 --------
@@ -176,6 +126,8 @@ repositories {
     maven { url 'https://jitpack.io' }
 }
 ```
+
+More information on [Installation](Installation) page.
 
 License
 -------
