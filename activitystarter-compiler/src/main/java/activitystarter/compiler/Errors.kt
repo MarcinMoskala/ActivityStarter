@@ -7,4 +7,5 @@ object Errors {
     val inaccessibleField: String = "Inaccessable element."
     val notBasicTypeInReceiver: String = "On BroadcastReceiver only basic types are supported."
     val wrongClassType: String = "Is in wroing type. It needs to be Activity, Froagment, Service or BroadcastReceiver."
+    val noSetter: String = "Trying to set Inaccessible field"
 }

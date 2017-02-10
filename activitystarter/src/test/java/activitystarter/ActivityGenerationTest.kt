@@ -15,6 +15,11 @@ class ActivityGenerationTest: GenerationTest() {
     }
 
     @Test
+    fun setterGetterGenerationTest() {
+        filePrecessingComparator("activity/SetterGetterGeneration")
+    }
+
+    @Test
     fun optionalArgGenerationTest() {
         filePrecessingComparator("activity/Optional")
     }

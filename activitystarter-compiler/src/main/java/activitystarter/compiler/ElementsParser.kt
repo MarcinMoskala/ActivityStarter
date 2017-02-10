@@ -21,7 +21,7 @@ internal fun parseArg(element: Element, builderMap: MutableMap<TypeElement, Clas
             // Verify containing class visibility is not private.
             && check(!enclosingElement.modifiers.contains(PRIVATE), Errors.privateClass)
             && check(isFieldValidType(elementType), Errors.notSupportedType)
-            && check(getFieldAccessibility(element) != FieldVeryfyResult.Inaccessible, Errors.inaccessibleField)
+            && check(FieldAccessor(element).isAccessible(), Errors.inaccessibleField)
             && check(!(getElementType(enclosingElement).isSubtypeOfType(BROADCAST_RECEIVER_TYPE) && !isBasicSupportedType(elementType)), Errors.notBasicTypeInReceiver)
 
     if (correct)

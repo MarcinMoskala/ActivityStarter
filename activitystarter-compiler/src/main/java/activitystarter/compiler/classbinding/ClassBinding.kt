@@ -2,9 +2,7 @@ package activitystarter.compiler.classbinding
 
 import activitystarter.Arg
 import activitystarter.compiler.ArgumentBinding
-import activitystarter.compiler.FieldVeryfyResult
 import activitystarter.compiler.createSublists
-import activitystarter.compiler.getSetter
 import com.google.auto.common.MoreElements.getPackage
 import com.squareup.javapoet.*
 import javax.lang.model.element.Modifier
@@ -23,10 +21,6 @@ internal abstract class ClassBinding(enclosingElement: TypeElement) {
             .distinctBy { it.map { it.type } }
 
     protected fun getKey(name: String) = name + "StarterKey"
-
-    protected fun setterFor(fieldName: String, settingType: FieldVeryfyResult, middle: String) =
-            if (settingType == FieldVeryfyResult.Accessible) fieldName + " = " + middle
-            else getSetter(settingType, fieldName) + "(" + middle + ")"
 
     protected fun getBasicFillMethodBuilder(fillProperCall: String = "ActivityStarter.fill(this)"): MethodSpec.Builder =
             MethodSpec.methodBuilder("fill")

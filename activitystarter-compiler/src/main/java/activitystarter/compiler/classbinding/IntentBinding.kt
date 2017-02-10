@@ -36,9 +36,7 @@ internal abstract class IntentBinding(element: TypeElement) : ClassBinding(eleme
         for (arg in argumentBindings) {
             val fieldName = arg.name
             val keyName = getKey(fieldName)
-            val settingType = arg.settingType
-
-            val settingPart = setterFor(fieldName, settingType, getIntentGetterFor(arg, keyName))
+            val settingPart = arg.accessor.setToField(getIntentGetterFor(arg, keyName))
             addStatement("if(intent.hasExtra(\"$keyName\")) $targetParameterName.$settingPart")
         }
         return this

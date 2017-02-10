@@ -22,7 +22,7 @@ internal class FragmentBinding(element: TypeElement) : ClassBinding(element) {
         for (arg in argumentBindings) {
             val fieldName = arg.name
             val keyName = getKey(fieldName)
-            val settingPart = setterFor(fieldName, arg.settingType, getArgumentGetterFor(arg, keyName))
+            val settingPart = arg.accessor.setToField(getArgumentGetterFor(arg, keyName))
             builder.addStatement("if(arguments.containsKey(\"$keyName\")) fragment.$settingPart")
         }
 

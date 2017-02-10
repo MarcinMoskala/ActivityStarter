@@ -10,5 +10,5 @@ class ArgumentBinding(element: Element) {
     val elementType: TypeMirror = getElementType(element)
     val type: TypeName = TypeName.get(elementType)
     val isOptional: Boolean = element.getAnnotation(Optional::class.java) != null
-    val settingType: FieldVeryfyResult = getFieldAccessibility(element)
+    val accessor: FieldAccessor = FieldAccessor(element)
 }
