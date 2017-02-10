@@ -21,6 +21,14 @@ internal abstract class ClassBinding(enclosingElement: TypeElement) {
     val variants = argumentBindings.createSublists { it.isOptional }
             .distinctBy { it.map { it.type } }
 
+    fun brewJava() = JavaFile.builder(bindingClassName.packageName(), createActivityStarterSpec())
+            .addFileComment("Generated code from ActivityStarter. Do not modify!")
+            .build()
+
+    abstract fun createFillFieldsMethod(): MethodSpec
+
+    abstract fun createStarters(variant: List<ArgumentBinding>): List<MethodSpec>
+
     protected fun getKey(name: String) = name + "StarterKey"
 
     protected fun getBasicFillMethodBuilder(fillProperCall: String = "ActivityStarter.fill(this)"): MethodSpec.Builder =
@@ -53,12 +61,6 @@ internal abstract class ClassBinding(enclosingElement: TypeElement) {
     private fun getTargetTypeName(enclosingElement: TypeElement) = TypeName.get(enclosingElement.asType())
             .let { if (it is ParameterizedTypeName) it.rawType else it }
 
-    fun brewJava(): JavaFile {
-        return JavaFile.builder(bindingClassName.packageName(), createActivityStarterSpec())
-                .addFileComment("Generated code from ActivityStarter. Do not modify!")
-                .build()
-    }
-
     private fun createActivityStarterSpec(): TypeSpec {
         val result = TypeSpec
                 .classBuilder(bindingClassName.simpleName())
@@ -71,7 +73,4 @@ internal abstract class ClassBinding(enclosingElement: TypeElement) {
 
         return result.build()
     }
-
-    abstract fun createFillFieldsMethod(): MethodSpec
-    abstract fun createStarters(variant: List<ArgumentBinding>): List<MethodSpec>
 }
