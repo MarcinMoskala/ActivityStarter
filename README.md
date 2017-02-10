@@ -10,15 +10,15 @@ Field and method binding for Android Activity arguments, which uses annotation p
  * Allows you to forget about all keys that were used to pass agruments.
  * Support flags and Intent provide.
 
-Full documentation is located [here](Home). Here is TOC:
-* [Introdution](Introdution)
-* [Installation](Installation)
-* [Usage for Activities](Usage for Activities)
-* [Usage for Fragments](Usage for Fragments)
-* [Usage for Services](Usage for Services)
-* [Usage for BroadcastReceiver](Usage for BroadcastReceiver)
-* [Optional annotation usage](Optional annotation)
-* [How does it really work?](How does it really work?)
+Full documentation is located [here](https://github.com/MarcinMoskala/ActivityStarter/wiki). Here is TOC:
+* [Introdution](https://github.com/MarcinMoskala/ActivityStarter/wiki/Introdution)
+* [Installation](https://github.com/MarcinMoskala/ActivityStarter/wiki/Installation)
+* [Usage for Activities](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-Activities)
+* [Usage for Fragments](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-Fragments)
+* [Usage for Services](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-Services)
+* [Usage for BroadcastReceiver](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-BroadcastReceiver)
+* [Optional annotation usage](https://github.com/MarcinMoskala/ActivityStarter/wiki/Optional-annotation)
+* [How does it really work?](https://github.com/MarcinMoskala/ActivityStarter/wiki/How-does-it-really-work)
 
 # Example
 
@@ -90,8 +90,8 @@ MainActivityStarter.getIntent(context, name, id, grade, isPassing);
 MainActivityStarter.startWithFlags(context, name, id, grade, isPassing, FLAG_ACTIVITY_SINGLE_TOP);
 ```
 
-This can be applayed to [Activities](Usage for Activities), [Fragments](Usage for Fragments), [Services](Usage for Services)
-or [BroadcastReceiver](Usage for BroadcastReceiver). Arguments can also be [Optional](Optional annotation). 
+This can be applayed to [Activities](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-Activities), [Fragments](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-Fragments), [Services](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-Services)
+or [BroadcastReceiver](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-BroadcastReceiver). Arguments can also be [Optional](https://github.com/MarcinMoskala/ActivityStarter/wiki/Optional-annotation). 
 
 Download
 --------
@@ -127,7 +127,7 @@ repositories {
 }
 ```
 
-More information on [Installation](Installation) page.
+More information on [Installation](https://github.com/MarcinMoskala/ActivityStarter/wiki/Installation) page.
 
 License
 -------
