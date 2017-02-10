@@ -6,16 +6,11 @@ import javax.lang.model.element.TypeElement
 
 internal class ActivityBinding(element: TypeElement) : IntentBinding(element) {
 
-    override fun createFillFieldsMethod(): MethodSpec {
-        val builder = getBasicFillMethodBuilder()
-                .addParameter(targetTypeName, "activity")
-
-        if (argumentBindings.isNotEmpty())
-            builder.addStatement("Intent intent = activity.getIntent()")
-
-        builder.addSetters("activity")
-        return builder.build()
-    }
+    override fun createFillFieldsMethod() = getBasicFillMethodBuilder()
+            .addParameter(targetTypeName, "activity")
+            .doIf(argumentBindings.isNotEmpty()) { addStatement("Intent intent = activity.getIntent()") }
+            .addSetters("activity")
+            .build()
 
     override fun createStarters(variant: List<ArgumentBinding>): List<MethodSpec> = listOf(
             createGetIntentMethod(variant),
@@ -26,9 +21,8 @@ internal class ActivityBinding(element: TypeElement) : IntentBinding(element) {
     private fun createStartActivityMethod(variant: List<ArgumentBinding>)
             = createGetIntentStarter("startActivity", variant)
 
-    private fun createStartActivityMethodWithFlags(variant: List<ArgumentBinding>): MethodSpec {
-        val builder = builderWitGetIntentWithFlags(variant)
-        builder.addStatement("context.startActivity(intent)")
-        return builder.build()
-    }
+    private fun createStartActivityMethodWithFlags(variant: List<ArgumentBinding>)
+            = builderWitGetIntentWithFlags(variant)
+            .addStatement("context.startActivity(intent)")
+            .build()
 }

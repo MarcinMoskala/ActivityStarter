@@ -19,15 +19,17 @@ internal abstract class IntentBinding(element: TypeElement) : ClassBinding(eleme
                     .addSetters(targetName)
                     .build()!!
 
-    protected fun createGetIntentMethod(variant: List<ArgumentBinding>): MethodSpec {
-        val builder = builderWithCreationBasicFields("getIntent")
-                .addArgParameters(variant)
-                .returns(INTENT)
+    protected fun createGetIntentMethod(variant: List<ArgumentBinding>) =
+            builderWithCreationBasicFields("getIntent")
+                    .addArgParameters(variant)
+                    .returns(INTENT)
+                    .addStatement("\$T intent = new Intent(context, \$T.class)", INTENT, targetTypeName)
+                    .addPutExtraStatement(variant)
+                    .addStatement("return intent")
+                    .build()
 
-        builder.addStatement("\$T intent = new Intent(context, \$T.class)", INTENT, targetTypeName)
-        variant.forEach { arg -> builder.addStatement("intent.putExtra(\"" + getKey(arg.name) + "\", " + arg.name + ")") }
-        builder.addStatement("return intent")
-        return builder.build()
+    private fun MethodSpec.Builder.addPutExtraStatement(variant: List<ArgumentBinding>) = apply {
+        variant.forEach { arg -> addStatement("intent.putExtra(\"" + getKey(arg.name) + "\", " + arg.name + ")") }
     }
 
     protected fun MethodSpec.Builder.addSetters(targetParameterName: String) = apply {
@@ -51,15 +53,6 @@ internal abstract class IntentBinding(element: TypeElement) : ClassBinding(eleme
             .addParameter(TypeName.INT, "flags")
             .addGetIntentStatement(variant)
             .addStatement("intent.addFlags(flags)")
-
-    protected fun builderWithCreationBasicFields(name: String)
-            = MethodSpec.methodBuilder(name)
-            .addParameter(CONTEXT, "context")
-            .addModifiers(PUBLIC, STATIC)
-
-    private fun MethodSpec.Builder.addArgParameters(variant: List<ArgumentBinding>) = apply {
-        variant.forEach { arg -> addParameter(arg.type, arg.name) }
-    }
 
     protected fun MethodSpec.Builder.addGetIntentStatement(variant: List<ArgumentBinding>) = apply {
         if (variant.isEmpty())

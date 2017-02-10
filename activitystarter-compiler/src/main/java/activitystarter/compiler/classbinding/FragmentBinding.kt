@@ -5,44 +5,41 @@ import activitystarter.compiler.BUNDLE
 import activitystarter.compiler.isSubtypeOfType
 import com.squareup.javapoet.MethodSpec
 import com.squareup.javapoet.TypeName
-import com.squareup.javapoet.TypeName.INT
+import com.squareup.javapoet.TypeName.*
 import javax.lang.model.element.Modifier.PUBLIC
 import javax.lang.model.element.Modifier.STATIC
 import javax.lang.model.element.TypeElement
 
 internal class FragmentBinding(element: TypeElement) : ClassBinding(element) {
 
-    override fun createFillFieldsMethod(): MethodSpec {
-        val builder = getBasicFillMethodBuilder()
-                .addParameter(targetTypeName, "fragment")
-
-        if (argumentBindings.isNotEmpty())
-            builder.addStatement("\$T arguments = fragment.getArguments()", BUNDLE)
-
-        for (arg in argumentBindings) {
-            val fieldName = arg.name
-            val keyName = getKey(fieldName)
-            val settingPart = arg.accessor.setToField(getArgumentGetterFor(arg, keyName))
-            builder.addStatement("if(arguments.containsKey(\"$keyName\")) fragment.$settingPart")
-        }
-
-        return builder.build()
-    }
+    override fun createFillFieldsMethod()
+            = getBasicFillMethodBuilder()
+            .addParameter(targetTypeName, "fragment")
+            .doIf(argumentBindings.isNotEmpty()) { addStatement("\$T arguments = fragment.getArguments()", BUNDLE) }
+            .addSetArgumentsStatements()
+            .build()
 
     override fun createStarters(variant: List<ArgumentBinding>): List<MethodSpec> = listOf(
             createGetIntentMethod(variant)
     )
 
-    private fun createGetIntentMethod(variant: List<ArgumentBinding>): MethodSpec {
-        val builder = MethodSpec.methodBuilder("newInstance")
-                .returns(targetTypeName)
-                .addModifiers(PUBLIC, STATIC)
+    private fun MethodSpec.Builder.addSetArgumentsStatements() = apply {
+        for (arg in argumentBindings) {
+            val fieldName = arg.name
+            val keyName = getKey(fieldName)
+            val settingPart = arg.accessor.setToField(getArgumentGetterFor(arg, keyName))
+            addStatement("if(arguments.containsKey(\"$keyName\")) fragment.$settingPart")
+        }
+    }
 
-        variant.forEach { arg -> builder.addParameter(arg.type, arg.name) }
-        builder.addStatement("\$T fragment = new \$T()", targetTypeName, targetTypeName)
-        if(variant.isNotEmpty()) builder.addStatement("\$T args = new Bundle()", BUNDLE)
+    private fun createGetIntentMethod(variant: List<ArgumentBinding>): MethodSpec {
+        val builder = builderWithCreationBasicFieldsNoContext("newInstance")
+                .returns(targetTypeName)
+                .addArgParameters(variant)
+                .addStatement("\$T fragment = new \$T()", targetTypeName, targetTypeName)
+        if (variant.isNotEmpty()) builder.addStatement("\$T args = new Bundle()", BUNDLE)
         variant.forEach { arg -> builder.addStatement("args.${getArgumentSetterFor(arg)}(\"" + getKey(arg.name) + "\", " + arg.name + ")") }
-        if(variant.isNotEmpty()) builder.addStatement("fragment.setArguments(args)")
+        if (variant.isNotEmpty()) builder.addStatement("fragment.setArguments(args)")
         builder.addStatement("return fragment")
         return builder.build()
     }
@@ -50,28 +47,32 @@ internal class FragmentBinding(element: TypeElement) : ClassBinding(element) {
     private fun getArgumentGetterFor(arg: ArgumentBinding, keyName: String) = when (arg.type) {
         TypeName.get(String::class.java) -> "arguments.getString(\"$keyName\")"
         INT -> "arguments.getInt(\"$keyName\", -1)"
-        TypeName.FLOAT -> "arguments.getFloat(\"$keyName\", -1F)"
-        TypeName.BOOLEAN -> "arguments.getBoolean(\"$keyName\", false)"
-        TypeName.DOUBLE -> "arguments.getDouble(\"$keyName\", -1D)"
-        TypeName.CHAR -> "arguments.getChar(\"$keyName\", 'a')"
-        else -> when {
-            arg.elementType.isSubtypeOfType("android.os.Parcelable") -> "(${arg.type}) arguments.getParcelable(\"$keyName\")"
-            arg.elementType.isSubtypeOfType("java.io.Serializable") -> "(${arg.type}) arguments.getSerializable(\"$keyName\")"
-            else -> throw Error("Illegal field type" + arg.type)
-        }
+        FLOAT -> "arguments.getFloat(\"$keyName\", -1F)"
+        BOOLEAN -> "arguments.getBoolean(\"$keyName\", false)"
+        DOUBLE -> "arguments.getDouble(\"$keyName\", -1D)"
+        CHAR -> "arguments.getChar(\"$keyName\", 'a')"
+        else -> getArgumentGetterForNonTrival(arg, keyName)
+    }
+
+    private fun getArgumentGetterForNonTrival(arg: ArgumentBinding, keyName: String) = when {
+        arg.elementType.isSubtypeOfType("android.os.Parcelable") -> "(${arg.type}) arguments.getParcelable(\"$keyName\")"
+        arg.elementType.isSubtypeOfType("java.io.Serializable") -> "(${arg.type}) arguments.getSerializable(\"$keyName\")"
+        else -> throw Error("Illegal field type" + arg.type)
     }
 
     private fun getArgumentSetterFor(arg: ArgumentBinding) = when (arg.type) {
         TypeName.get(String::class.java) -> "putString"
         INT -> "putInt"
-        TypeName.FLOAT -> "putFloat"
-        TypeName.BOOLEAN -> "putBoolean"
-        TypeName.DOUBLE -> "putDouble"
-        TypeName.CHAR -> "putChar"
-        else -> when {
-            arg.elementType.isSubtypeOfType("android.os.Parcelable") -> "putParcelable"
-            arg.elementType.isSubtypeOfType("java.io.Serializable") -> "putSerializable"
-            else -> throw Error("Illegal field type" + arg.type)
-        }
+        FLOAT -> "putFloat"
+        BOOLEAN -> "putBoolean"
+        DOUBLE -> "putDouble"
+        CHAR -> "putChar"
+        else -> getArgumentSetterForNonTrivial(arg)
+    }
+
+    private fun getArgumentSetterForNonTrivial(arg: ArgumentBinding) = when {
+        arg.elementType.isSubtypeOfType("android.os.Parcelable") -> "putParcelable"
+        arg.elementType.isSubtypeOfType("java.io.Serializable") -> "putSerializable"
+        else -> throw Error("Illegal field type" + arg.type)
     }
 }

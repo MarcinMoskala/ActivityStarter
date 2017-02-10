@@ -2,6 +2,7 @@ package activitystarter.compiler.classbinding
 
 import activitystarter.Arg
 import activitystarter.compiler.ArgumentBinding
+import activitystarter.compiler.CONTEXT
 import activitystarter.compiler.createSublists
 import com.google.auto.common.MoreElements.getPackage
 import com.squareup.javapoet.*
@@ -26,6 +27,22 @@ internal abstract class ClassBinding(enclosingElement: TypeElement) {
             MethodSpec.methodBuilder("fill")
                     .addJavadoc("This is method used to fill fields. Use it by calling $fillProperCall.")
                     .addModifiers(PUBLIC, Modifier.STATIC)
+
+    protected fun builderWithCreationBasicFields(name: String)
+            = builderWithCreationBasicFieldsNoContext(name)
+            .addParameter(CONTEXT, "context")
+
+    protected fun builderWithCreationBasicFieldsNoContext(name: String)
+            = MethodSpec.methodBuilder(name)
+            .addModifiers(PUBLIC, Modifier.STATIC)
+
+    protected fun MethodSpec.Builder.addArgParameters(variant: List<ArgumentBinding>) = apply {
+        variant.forEach { arg -> addParameter(arg.type, arg.name) }
+    }
+
+    protected inline fun MethodSpec.Builder.doIf(check: Boolean, f: MethodSpec.Builder.() -> Unit) = apply {
+        if (check) f()
+    }
 
     private fun getBindingClassName(enclosingElement: TypeElement): ClassName {
         val packageName = getPackage(enclosingElement).qualifiedName.toString()
