@@ -11,29 +11,29 @@ Field and method binding for Android Activity arguments, which uses annotation p
  * Support flags and Intent provide.
 
 Full documentation is located [here](https://github.com/MarcinMoskala/ActivityStarter/wiki). Here is TOC:
-* [Introdution](https://github.com/MarcinMoskala/ActivityStarter/wiki/Introdution)
-* [Installation](https://github.com/MarcinMoskala/ActivityStarter/wiki/Installation)
-* [Usage for Activities](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-Activities)
-* [Usage for Fragments](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-Fragments)
-* [Usage for Services](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-Services)
-* [Usage for BroadcastReceiver](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-BroadcastReceiver)
-* [Optional annotation usage](https://github.com/MarcinMoskala/ActivityStarter/wiki/Optional-annotation)
-* [How does it really work?](https://github.com/MarcinMoskala/ActivityStarter/wiki/How-does-it-really-work)
+ * [Introdution](https://github.com/MarcinMoskala/ActivityStarter/wiki/Introdution)
+ * [Installation](https://github.com/MarcinMoskala/ActivityStarter/wiki/Installation)
+ * [Usage for Activities](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-Activities)
+ * [Usage for Fragments](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-Fragments)
+ * [Usage for Services](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-Services)
+ * [Usage for BroadcastReceiver](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-BroadcastReceiver)
+ * [Optional annotation usage](https://github.com/MarcinMoskala/ActivityStarter/wiki/Optional-annotation)
+ * [How does it really work?](https://github.com/MarcinMoskala/ActivityStarter/wiki/How-does-it-really-work)
 
 # Example
 
-This is Activity with starter made in standard way:
+This is Activity with starter made in standard way: (if fact, it is just short of what ActivityStarter is doing. Full example is [here](https://github.com/MarcinMoskala/ActivityStarter/wiki/Activity-equivalent-example))
 
 ```java
 public class MainActivity extends BaseActivity {
 
-    private static String NAME_KEY = "nameArg"
-    private static String ID_KEY = "idArg"
-    private static String GRADE_KEY = "gradeArg"
-    private static String PASSING_KEY = "passingArg"
+    private static String NAME_KEY = "nameArg";
+    private static String ID_KEY = "idArg";
+    private static String GRADE_KEY = "gradeArg";
+    private static String PASSING_KEY = "passingArg";
 
     public static void start(Context context, String name, int id, char grade, boolean passing) {
-        Intent intent = new Intent(context, StudentDataActivity.class);
+        Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra(NAME_KEY, name);
         intent.putExtra(ID_KEY, id);
         intent.putExtra(GRADE_KEY, grade);
@@ -77,6 +77,12 @@ public class MainActivity extends BaseActivity {
         ActivityStarter.start(this); // This can be located in BaseActivity, one for all activities
 
         //...
+    }
+
+    @Override // This is optional, only when we want to keep arguments changes in case of rotation etc.
+    protected void onSaveInstanceState(Bundle outState) { // Also can be located in BaseActivity, one for all activities
+        super.onSaveInstanceState(outState);
+        ActivityStarter.save(this, outState);
     }
 }
 ```
