@@ -14,9 +14,6 @@ import java.lang.reflect.Method;
 
 
 public final class ActivityStarter {
-    private ActivityStarter() {
-        throw new AssertionError("No instances.");
-    }
 
     public static void fill(@NonNull Activity target) {
         innerFill(target, null, Bundle.class);
@@ -80,37 +77,17 @@ public final class ActivityStarter {
         }
     }
 
-    private static Method getMethod(Class<?> starterClass, String methodName, Class<?> targetClass) {
+    private static Method getMethod(Class<?> starterClass, String methodName, Class<?>... classes) {
         try {
-            return starterClass.getMethod(methodName, targetClass);
+            return starterClass.getMethod(methodName, classes);
         } catch (NoSuchMethodException e) {
             throw new RuntimeException("Unable to find " + methodName + " method for " + starterClass.getName(), e);
         }
     }
 
-    private static Method getMethod(Class<?> starterClass, String methodName, Class<?> targetClass, Class<?> otherType) {
+    private static void invokeMethod(@NonNull Method method, @NonNull Object... args) {
         try {
-            return starterClass.getMethod(methodName, targetClass, otherType);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException("Unable to find " + methodName + " method for " + starterClass.getName(), e);
-        }
-    }
-
-    private static void invokeMethod(@NonNull Method method, @NonNull Object target, @Nullable Object otherArg) {
-        try {
-            method.invoke(null, target, otherArg);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException("Unable to invoke " + method + "because of illegal access", e);
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException("Unable to invoke " + method + " because of illegal argument", e);
-        } catch (InvocationTargetException e) {
-            throwInvokeMethodError(e);
-        }
-    }
-
-    private static void invokeMethod(@NonNull Method method, @NonNull Object target) {
-        try {
-            method.invoke(null, target);
+            method.invoke(null, args);
         } catch (IllegalAccessException e) {
             throw new RuntimeException("Unable to invoke " + method + "because of illegal access", e);
         } catch (IllegalArgumentException e) {

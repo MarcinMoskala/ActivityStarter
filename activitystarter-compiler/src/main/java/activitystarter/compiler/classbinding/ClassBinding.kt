@@ -112,8 +112,12 @@ internal abstract class ClassBinding(enclosingElement: TypeElement) {
     private fun createActivityStarterSpec() = TypeSpec
             .classBuilder(bindingClassName.simpleName())
             .addModifiers(PUBLIC, FINAL)
+            .addClassMethods()
+            .build()
+
+    private fun TypeSpec.Builder.addClassMethods() = this
             .addMethod(createFillFieldsMethod())
             .addMethods(createExtraMethods())
             .addMethods(variants.flatMap { variant -> createStarters(variant) })
-            .build()
 }
+
