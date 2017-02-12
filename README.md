@@ -22,7 +22,7 @@ Full documentation is located [here](https://github.com/MarcinMoskala/ActivitySt
 
 # Example
 
-This is Activity with starter made in standard way: (it is just shortg. See [full example](https://github.com/MarcinMoskala/ActivityStarter/wiki/Activity-equivalent-example).)
+This is Activity with starter made in standard way: (it is just short. See [full example](https://github.com/MarcinMoskala/ActivityStarter/wiki/Activity-equivalent-example).)
 
 ```java
 public class MainActivity extends BaseActivity {
