@@ -14,8 +14,8 @@ class StudentParcelableActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_data)
 
-        nameView.text = "Name: " + student!!.name
-        idView.text = "Id: " + student!!.id
-        gradeView.text = "Grade: " + student!!.grade
+        nameView.text = "Name: " + student?.name
+        idView.text = "Id: " + student?.id
+        gradeView.text = "Grade: " + student?.grade
     }
 }
