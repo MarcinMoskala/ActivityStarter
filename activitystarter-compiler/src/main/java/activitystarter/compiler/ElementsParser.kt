@@ -18,7 +18,6 @@ internal fun parseArg(element: Element, builderMap: MutableMap<TypeElement, Clas
 
     val elementType = getElementType(element)
     var correct = check(enclosingElement.kind == CLASS, Errors.notAClass)
-            // Verify containing class visibility is not private.
             && check(!enclosingElement.modifiers.contains(PRIVATE), Errors.privateClass)
             && check(isFieldValidType(elementType), Errors.notSupportedType)
             && check(FieldAccessor(element).isAccessible(), Errors.inaccessibleField)

@@ -10,33 +10,58 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            tools:text="To provede"
-            android:textSize="20dp"
-            android:layout_margin="20dp"
-            android:id="@+id/name_view"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/student_name_layout"
+            android:hint="Place to type name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+                android:id="@+id/student_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/student_id_layout"
+            android:hint="Place to type id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+                android:inputType="number"
+                android:id="@+id/student_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/student_grade_layout"
+            android:hint="Place to type grade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+                android:maxLength="1"
+                android:id="@+id/student_grade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Switch
+            android:text="Is student passing?"
+            android:id="@+id/student_is_passing"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-        <TextView
-            tools:text="To provede"
-            android:layout_margin="20dp"
-            android:textSize="20dp"
-            android:id="@+id/id_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <TextView
-            tools:text="To provede"
-            android:layout_margin="20dp"
-            android:textSize="20dp"
-            android:id="@+id/grade_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <TextView
-            tools:text="To provede"
-            android:layout_margin="20dp"
-            android:textSize="20dp"
-            android:id="@+id/is_passing_view"
-            android:layout_width="match_parent"
+
+        <Button
+            android:text="SAVE"
+            android:id="@+id/save_button"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
     </LinearLayout>

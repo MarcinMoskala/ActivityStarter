@@ -12,27 +12,25 @@ import javax.lang.model.element.TypeElement
 
 internal abstract class IntentBinding(element: TypeElement) : ClassBinding(element) {
 
-    protected fun fillByIntentBinding(targetName: String) =
-            getBasicFillMethodBuilder("ActivityStarter.fill(this, intent)")
-                    .addParameter(targetTypeName, targetName)
-                    .addParameter(INTENT, "intent")
-                    .addSetters(targetName)
-                    .build()!!
+    protected fun fillByIntentBinding(targetName: String) = getBasicFillMethodBuilder("ActivityStarter.fill(this, intent)")
+            .addParameter(targetTypeName, targetName)
+            .addParameter(INTENT, "intent")
+            .addIntentSetters(targetName)
+            .build()!!
 
-    protected fun createGetIntentMethod(variant: List<ArgumentBinding>) =
-            builderWithCreationBasicFields("getIntent")
-                    .addArgParameters(variant)
-                    .returns(INTENT)
-                    .addStatement("\$T intent = new Intent(context, \$T.class)", INTENT, targetTypeName)
-                    .addPutExtraStatement(variant)
-                    .addStatement("return intent")
-                    .build()
+    protected fun createGetIntentMethod(variant: List<ArgumentBinding>) = builderWithCreationBasicFields("getIntent")
+            .addArgParameters(variant)
+            .returns(INTENT)
+            .addStatement("\$T intent = new Intent(context, \$T.class)", INTENT, targetTypeName)
+            .addPutExtraStatement(variant)
+            .addStatement("return intent")
+            .build()
 
     private fun MethodSpec.Builder.addPutExtraStatement(variant: List<ArgumentBinding>) = apply {
         variant.forEach { arg -> addStatement("intent.putExtra(\"" + getKey(arg.name) + "\", " + arg.name + ")") }
     }
 
-    protected fun MethodSpec.Builder.addSetters(targetParameterName: String) = apply {
+    protected fun MethodSpec.Builder.addIntentSetters(targetParameterName: String) = apply {
         for (arg in argumentBindings) {
             val keyName = getKey(arg.name)
             val settingPart = arg.accessor.setToField(getIntentGetterFor(arg, keyName))
@@ -40,15 +38,13 @@ internal abstract class IntentBinding(element: TypeElement) : ClassBinding(eleme
         }
     }
 
-    protected fun createGetIntentStarter(starterFunc: String, variant: List<ArgumentBinding>)
-            = builderWithCreationBasicFields("start")
+    protected fun createGetIntentStarter(starterFunc: String, variant: List<ArgumentBinding>) = builderWithCreationBasicFields("start")
             .addArgParameters(variant)
             .addGetIntentStatement(variant)
             .addStatement("context.$starterFunc(intent)")
             .build()
 
-    protected fun builderWitGetIntentWithFlags(variant: List<ArgumentBinding>)
-            = builderWithCreationBasicFields("startWithFlags")
+    protected fun builderWitGetIntentWithFlags(variant: List<ArgumentBinding>) = builderWithCreationBasicFields("startWithFlags")
             .addArgParameters(variant)
             .addParameter(TypeName.INT, "flags")
             .addGetIntentStatement(variant)

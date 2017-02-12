@@ -46,20 +46,19 @@ dependencies {
     kapt project(':activitystarter-compiler')
 
 // On local project use:
-//    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.08'
-//    kapt 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.08'
+//    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.11'
+//    kapt 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.11'
 
     compile deps.supportAppcompatv7
     compile deps.supportDesign
     compile deps.jodaTime
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
-    testCompile 'junit:junit:4.12'
-
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
+    testCompile deps.junit
+    androidTestCompile deps.uiAutomator
 }
 repositories {
     mavenCentral()

@@ -75,5 +75,6 @@ ext.deps = [
         openglApi         : 'org.khronos:opengl-api:gl1.1-android-2.1_r1',
         compiletesting    : 'com.google.testing.compile:compile-testing:0.9',
         autoservice       : 'com.google.auto.service:auto-service:1.0-rc2',
-        autocommon        : 'com.google.auto:auto-common:0.6'
+        autocommon        : 'com.google.auto:auto-common:0.6',
+        uiAutomator       : 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
 ]

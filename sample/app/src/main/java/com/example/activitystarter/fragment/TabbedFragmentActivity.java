@@ -1,4 +1,4 @@
-package com.example.activitystarter;
+package com.example.activitystarter.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,6 +7,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
+import com.example.activitystarter.R;
+import com.example.activitystarter.fragment.TabbedPlaceholderFragmentStarter;
+
+import activitystarter.ActivityStarter;
 import activitystarter.MakeActivityStarter;
 
 @MakeActivityStarter
@@ -46,5 +50,11 @@ public class TabbedFragmentActivity extends AppCompatActivity {
             }
             return null;
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        ActivityStarter.save(this, outState);
     }
 }

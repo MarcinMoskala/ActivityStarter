@@ -6,6 +6,10 @@ import activitystarter.Arg;
 public class MainActivity extends Activity {
     @Arg private String name;
 
+    public String getName() {
+        return name;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -16,13 +20,23 @@ package com.example.activitystarter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import java.lang.String;
 
 public final class MainActivityStarter {
-
-  public static void fill(MainActivity activity) {
+  /**
+   * This is method used to fill fields. Use it by calling ActivityStarter.fill(this). */
+  public static void fill(MainActivity activity, Bundle savedInstanceState) {
+    if(savedInstanceState == null) {
     Intent intent = activity.getIntent();
     if(intent.hasExtra("nameStarterKey")) activity.setName(intent.getStringExtra("nameStarterKey"));
+    } else {
+    if(savedInstanceState.containsKey("nameStarterKey")) activity.setName(savedInstanceState.getString("nameStarterKey"));
+    }
+  }
+
+  public static void save(MainActivity activity, Bundle bundle) {
+    bundle.putString("nameStarterKey", activity.getName());
   }
 
   public static Intent getIntent(Context context, String name) {

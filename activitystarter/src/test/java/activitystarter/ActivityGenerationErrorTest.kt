@@ -24,4 +24,14 @@ class ActivityGenerationErrorTest : GenerationTest() {
     fun listErrorTest() {
         filePrecessingCheckError("shouldThrowError/List", Errors.notSupportedType)
     }
+
+    @Test
+    fun setterOnlyGenerationErrorTest() {
+        filePrecessingCheckError("shouldThrowError/SetterOnlyGeneration", Errors.inaccessibleField)
+    }
+
+    @Test
+    fun getterOnlyGenerationErrorTest() {
+        filePrecessingCheckError("shouldThrowError/GetterOnlyGeneration", Errors.inaccessibleField)
+    }
 }

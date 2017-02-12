@@ -1,28 +1,23 @@
-package com.example.activitystarter;
+package com.example.activitystarter.parcelable;
 
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Switch;
 
-import activitystarter.ActivityStarter;
+import com.example.activitystarter.BaseActivity;
+import com.example.activitystarter.R;
+
 import activitystarter.Arg;
 import activitystarter.MakeActivityStarter;
-import activitystarter.Optional;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 @MakeActivityStarter
-public class StudentDataActivity extends BaseActivity {
+public class StudentParcelableActivity extends BaseActivity {
 
-    private static int NO_ID = -1;
-
-    @Arg @Optional String name = "No name provided";
-    @Arg @Optional int id = NO_ID;
-    @Arg char grade;
-    @Arg boolean passing;
+    @Arg StudentParcelable student;
 
     @BindView(R.id.student_name) AutoCompleteTextView studentNameView;
     @BindView(R.id.student_id) AutoCompleteTextView studentIdView;
@@ -36,18 +31,18 @@ public class StudentDataActivity extends BaseActivity {
         setContentView(R.layout.activity_data);
         ButterKnife.bind(this);
 
-        studentNameView.setText(name);
-        studentIdView.setText(""+id);
-        studentGradeView.setText(""+grade);
-        studentIsPassingView.setChecked(passing);
+        studentNameView.setText(student.getName());
+        studentIdView.setText(""+student.getId());
+        studentGradeView.setText(""+student.getGrade());
+        studentIsPassingView.setVisibility(View.GONE);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                name = studentNameView.getText().toString();
-                id = Integer.parseInt(studentIdView.getText().toString());
-                grade = studentGradeView.getText().toString().charAt(0);
-                passing = studentIsPassingView.isChecked();
+                String name = studentNameView.getText().toString();
+                int id = studentIdView.getId();
+                char grade = studentGradeView.getText().charAt(0);
+                student = new StudentParcelable(id, name, grade);
             }
         });
     }

@@ -1,6 +1,5 @@
 package activitystarter.compiler
 
-import activitystarter.compiler.FieldAccessor.FieldVeryfyResult.*
 import javax.lang.model.element.Element
 import javax.lang.model.element.Modifier.PRIVATE
 import javax.lang.model.element.TypeElement
@@ -8,28 +7,42 @@ import javax.lang.model.util.ElementFilter
 
 class FieldAccessor {
 
-    val type: FieldVeryfyResult
+    private val setterType: FieldAccessType
+    private val getterType: FieldAccessType
     val fieldName: String
 
     constructor(element: Element) {
         val enclosingElement = element.enclosingElement as TypeElement
         fieldName = element.simpleName.toString()
-        type = when {
-            PRIVATE !in element.modifiers -> Accessible
-            hasNotPrivateMethodNamed(enclosingElement, "set" + capitalizeFirstLetter(fieldName)) -> BySetter
-            fieldName.substring(0, 2) == "is" && hasNotPrivateMethodNamed(enclosingElement, "set" + fieldName.substring(2)) -> ByNoIsSetter
-            else -> Inaccessible
+        setterType = when {
+            PRIVATE !in element.modifiers -> FieldAccessType.Accessible
+            hasNotPrivateMethodNamed(enclosingElement, "set" + capitalizeFirstLetter(fieldName)) -> FieldAccessType.ByMethod
+            fieldName.substring(0, 2) == "is" && hasNotPrivateMethodNamed(enclosingElement, "set" + fieldName.substring(2)) -> FieldAccessType.ByNoIsMethod
+            else -> FieldAccessType.Inaccessible
+        }
+        getterType = when {
+            PRIVATE !in element.modifiers -> FieldAccessType.Accessible
+            hasNotPrivateMethodNamed(enclosingElement, "get" + capitalizeFirstLetter(fieldName)) -> FieldAccessType.ByMethod
+            fieldName.substring(0, 2) == "is" && hasNotPrivateMethodNamed(enclosingElement, "is" + fieldName.substring(2)) -> FieldAccessType.ByNoIsMethod
+            else -> FieldAccessType.Inaccessible
         }
 
     }
 
-    fun isAccessible() = type != Inaccessible
+    fun isAccessible() = setterType != FieldAccessType.Inaccessible && getterType != FieldAccessType.Inaccessible
 
-    fun setToField(whatToSet: String): String? = when (type) {
-        FieldVeryfyResult.Accessible -> "$fieldName = $whatToSet"
-        BySetter -> "set${capitalizeFirstLetter(fieldName)}($whatToSet)"
-        ByNoIsSetter -> "set${fieldName.substring(2)}($whatToSet)"
-        Inaccessible -> throw Error(Errors.noSetter)
+    fun setToField(whatToSet: String): String? = when (setterType) {
+        FieldAccessType.Accessible -> "$fieldName = $whatToSet"
+        FieldAccessType.ByMethod -> "set${capitalizeFirstLetter(fieldName)}($whatToSet)"
+        FieldAccessType.ByNoIsMethod -> "set${fieldName.substring(2)}($whatToSet)"
+        FieldAccessType.Inaccessible -> throw Error(Errors.noSetter)
+    }
+
+    fun getFieldValue(): String? = when (setterType) {
+        FieldAccessType.Accessible -> fieldName
+        FieldAccessType.ByMethod -> "get${capitalizeFirstLetter(fieldName)}()"
+        FieldAccessType.ByNoIsMethod -> "is${fieldName.substring(2)}()"
+        FieldAccessType.Inaccessible -> throw Error(Errors.noSetter)
     }
 
     private fun hasNotPrivateMethodNamed(enclosingElement: TypeElement, fieldName: String): Boolean {
@@ -40,10 +53,10 @@ class FieldAccessor {
         return false
     }
 
-    enum class FieldVeryfyResult {
+    private enum class FieldAccessType {
         Accessible,
-        BySetter,
-        ByNoIsSetter,
+        ByMethod,
+        ByNoIsMethod,
         Inaccessible
     }
 }

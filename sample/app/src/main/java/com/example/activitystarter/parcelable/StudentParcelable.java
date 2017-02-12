@@ -1,4 +1,4 @@
-package com.example.activitystarter;
+package com.example.activitystarter.parcelable;
 
 import android.os.Parcel;
 import android.os.Parcelable;
