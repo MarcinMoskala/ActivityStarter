@@ -3,6 +3,7 @@ package activitystarter.compiler.classbinding
 import activitystarter.compiler.ArgumentBinding
 import activitystarter.compiler.BUNDLE
 import com.squareup.javapoet.MethodSpec
+import com.squareup.javapoet.TypeName
 import javax.lang.model.element.TypeElement
 
 internal class ActivityBinding(element: TypeElement) : IntentBinding(element) {
@@ -40,8 +41,11 @@ internal class ActivityBinding(element: TypeElement) : IntentBinding(element) {
     private fun createStartActivityMethod(variant: List<ArgumentBinding>) =
             createGetIntentStarter("startActivity", variant)
 
-    private fun createStartActivityMethodWithFlags(variant: List<ArgumentBinding>) =
-            builderWitGetIntentWithFlags(variant)
-                    .addStatement("context.startActivity(intent)")
-                    .build()
+    private fun createStartActivityMethodWithFlags(variant: List<ArgumentBinding>) = builderWithCreationBasicFields("startWithFlags")
+            .addArgParameters(variant)
+            .addParameter(TypeName.INT, "flags")
+            .addGetIntentStatement(variant)
+            .addStatement("intent.addFlags(flags)")
+            .addStatement("context.startActivity(intent)")
+            .build()
 }

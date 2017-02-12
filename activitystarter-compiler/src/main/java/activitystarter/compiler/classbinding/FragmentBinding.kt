@@ -2,12 +2,7 @@ package activitystarter.compiler.classbinding
 
 import activitystarter.compiler.ArgumentBinding
 import activitystarter.compiler.BUNDLE
-import activitystarter.compiler.isSubtypeOfType
 import com.squareup.javapoet.MethodSpec
-import com.squareup.javapoet.TypeName
-import com.squareup.javapoet.TypeName.*
-import javax.lang.model.element.Modifier.PUBLIC
-import javax.lang.model.element.Modifier.STATIC
 import javax.lang.model.element.TypeElement
 
 internal class FragmentBinding(element: TypeElement) : ClassBinding(element) {
@@ -17,7 +12,7 @@ internal class FragmentBinding(element: TypeElement) : ClassBinding(element) {
                     .addParameter(targetTypeName, "fragment")
                     .doIf(argumentBindings.isNotEmpty()) { addStatement("\$T arguments = fragment.getArguments()", BUNDLE) }
                     .addBundleSetters("arguments", "fragment")
-                    .build()
+                    .build()!!
 
     override fun createStarters(variant: List<ArgumentBinding>): List<MethodSpec> = listOf(
             createGetIntentMethod(variant)
@@ -28,9 +23,11 @@ internal class FragmentBinding(element: TypeElement) : ClassBinding(element) {
                     .addArgParameters(variant)
                     .returns(targetTypeName)
                     .addStatement("\$T fragment = new \$T()", targetTypeName, targetTypeName)
-                    .doIf(variant.isNotEmpty()) { addStatement("\$T args = new Bundle()", BUNDLE) }
-                    .addSaveBundleStatements("args", variant, { it.name })
-                    .doIf(variant.isNotEmpty()) { addStatement("fragment.setArguments(args)") }
+                    .doIf(variant.isNotEmpty()) {
+                        addStatement("\$T args = new Bundle()", BUNDLE)
+                        addSaveBundleStatements("args", variant, { it.name })
+                        addStatement("fragment.setArguments(args)")
+                    }
                     .addStatement("return fragment")
                     .build()
 }

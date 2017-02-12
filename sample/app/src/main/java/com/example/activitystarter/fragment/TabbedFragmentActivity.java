@@ -8,7 +8,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.activitystarter.R;
-import com.example.activitystarter.fragment.TabbedPlaceholderFragmentStarter;
 
 import activitystarter.ActivityStarter;
 import activitystarter.MakeActivityStarter;
