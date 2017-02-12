@@ -51,7 +51,7 @@ internal abstract class ClassBinding(enclosingElement: TypeElement) {
         variant.forEach { arg -> addParameter(arg.type, arg.name) }
     }
 
-    protected fun MethodSpec.Builder.addSaveBundleStatements(bundleName: String, variant: List<ArgumentBinding>, argumentGetByName: (ArgumentBinding)->String) = apply {
+    protected fun MethodSpec.Builder.addSaveBundleStatements(bundleName: String, variant: List<ArgumentBinding>, argumentGetByName: (ArgumentBinding) -> String) = apply {
         variant.forEach { arg -> addStatement("$bundleName.${getBundleSetterFor(arg)}(\"" + getKey(arg.name) + "\", " + argumentGetByName(arg) + ")") }
     }
 
@@ -109,17 +109,11 @@ internal abstract class ClassBinding(enclosingElement: TypeElement) {
     private fun getTargetTypeName(enclosingElement: TypeElement) = TypeName.get(enclosingElement.asType())
             .let { if (it is ParameterizedTypeName) it.rawType else it }
 
-    private fun createActivityStarterSpec(): TypeSpec {
-        val result = TypeSpec
-                .classBuilder(bindingClassName.simpleName())
-                .addModifiers(PUBLIC, FINAL)
-                .addMethod(createFillFieldsMethod())
-                .addMethods(createExtraMethods())
-
-        for (variant in variants) {
-            result.addMethods(createStarters(variant))
-        }
-
-        return result.build()
-    }
+    private fun createActivityStarterSpec() = TypeSpec
+            .classBuilder(bindingClassName.simpleName())
+            .addModifiers(PUBLIC, FINAL)
+            .addMethod(createFillFieldsMethod())
+            .addMethods(createExtraMethods())
+            .addMethods(variants.flatMap { variant -> createStarters(variant) })
+            .build()
 }
