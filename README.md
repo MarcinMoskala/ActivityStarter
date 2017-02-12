@@ -27,20 +27,24 @@ This is Activity with starter made in standard way:
 ```java
 public class MainActivity extends BaseActivity {
 
-    @UiThread
-    public static void start(Context context, String name, int id, char grade, boolean isPassing) {
+    private static String NAME_KEY = "nameArg"
+    private static String ID_KEY = "idArg"
+    private static String GRADE_KEY = "gradeArg"
+    private static String PASSING_KEY = "passingArg"
+
+    public static void start(Context context, String name, int id, char grade, boolean passing) {
         Intent intent = new Intent(context, StudentDataActivity.class);
-        intent.putExtra("nameArg", name);
-        intent.putExtra("idArg", id);
-        intent.putExtra("gradeArg", grade);
-        intent.putExtra("isPassingArg", isPassing);
+        intent.putExtra(NAME_KEY, name);
+        intent.putExtra(ID_KEY, id);
+        intent.putExtra(GRADE_KEY, grade);
+        intent.putExtra(PASSING_KEY, passing);
         context.startActivity(intent);
     }
 
     String name;
     int id;
     char grade;
-    boolean isPassing;
+    boolean passing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +52,10 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         Intent intent = getIntent();
-        name = intent.getStringExtra("nameArg");
-        id = intent.getIntExtra("idArg", -1);
-        grade = intent.getCharExtra("gradeArg", 'a');
-        isPassing = intent.getBooleanExtra("isPassingArg", false);
+        name = intent.getStringExtra(NAME_KEY);
+        id = intent.getIntExtra(ID_KEY, -1);
+        grade = intent.getCharExtra(GRADE_KEY, 'a');
+        passing = intent.getBooleanExtra(PASSING_KEY, false);
     }
 }
 ```
@@ -64,7 +68,7 @@ public class MainActivity extends BaseActivity {
     @Arg String name;
     @Arg int id;
     @Arg char grade;
-    @Arg boolean isPassing;
+    @Arg boolean passing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,14 +84,14 @@ public class MainActivity extends BaseActivity {
 And you start it nearly the same way:
 
 ```java
-MainActivityStarter.start(context, name, id, grade, isPassing);
+MainActivityStarter.start(context, name, id, grade, passing);
 ```
 
 Simillar way you can take Intent or start activity with flags:
 
 ```java
-MainActivityStarter.getIntent(context, name, id, grade, isPassing);
-MainActivityStarter.startWithFlags(context, name, id, grade, isPassing, FLAG_ACTIVITY_SINGLE_TOP);
+MainActivityStarter.getIntent(context, name, id, grade, passing);
+MainActivityStarter.startWithFlags(context, name, id, grade, passing, FLAG_ACTIVITY_SINGLE_TOP);
 ```
 
 This can be applayed to [Activities](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-Activities), [Fragments](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-Fragments), [Services](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-Services)
