@@ -1,0 +1,40 @@
+********com.example.activitystarter.MainFragment********
+package com.example.activitystarter;
+
+import android.app.Fragment;
+
+import activitystarter.Arg;
+
+public class MainFragment extends Fragment {
+
+    @Arg private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+********com.example.activitystarter.MainFragmentStarter********
+package com.example.activitystarter;
+
+import android.os.Bundle;
+import java.lang.String;
+
+public final class MainFragmentStarter {
+
+  public static void fill(MainFragment fragment) {
+    Bundle arguments = fragment.getArguments();
+    if(arguments.containsKey("nameStarterKey")) fragment.setName(arguments.getString("nameStarterKey"));
+  }
+
+  public static MainFragment newInstance(String name) {
+    MainFragment fragment = new MainFragment();
+    Bundle args = new Bundle();
+    args.putString("nameStarterKey", name);
+    fragment.setArguments(args);
+    return fragment;
+  }
+}

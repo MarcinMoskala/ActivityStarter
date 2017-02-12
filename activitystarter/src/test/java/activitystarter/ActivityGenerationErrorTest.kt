@@ -27,11 +27,11 @@ class ActivityGenerationErrorTest : GenerationTest() {
 
     @Test
     fun setterOnlyGenerationErrorTest() {
-        filePrecessingCheckError("shouldThrowError/SetterOnlyGeneration", Errors.inaccessibleField)
+        filePrecessingCheckError("shouldThrowError/SetterOnly", Errors.inaccessibleField)
     }
 
     @Test
     fun getterOnlyGenerationErrorTest() {
-        filePrecessingCheckError("shouldThrowError/GetterOnlyGeneration", Errors.inaccessibleField)
+        filePrecessingCheckError("shouldThrowError/GetterOnly", Errors.inaccessibleField)
     }
 }

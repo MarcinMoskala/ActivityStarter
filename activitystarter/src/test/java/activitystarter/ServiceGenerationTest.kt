@@ -11,7 +11,12 @@ class ServiceGenerationTest: GenerationTest() {
 
     @Test
     fun singleArgGenerationTest() {
-        filePrecessingComparator("service/SimpleGeneration")
+        filePrecessingComparator("service/Simple")
+    }
+
+    @Test
+    fun complexArgGenerationTest() {
+        filePrecessingComparator("service/Complex")
     }
 
     @Test

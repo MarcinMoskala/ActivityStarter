@@ -1,0 +1,76 @@
+********com.example.activitystarter.SomeService********
+package com.example.activitystarter;
+
+import android.app.Service;
+import android.content.Intent;
+import android.os.IBinder;
+import android.util.Log;
+
+import activitystarter.ActivityStarter;
+import activitystarter.Arg;
+import activitystarter.Optional;
+
+public class SomeService extends Service {
+
+    @Arg @Optional String name = "";
+    @Arg @Optional String surname = "";
+    @Arg int id;
+
+    public SomeService() {}
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+}
+********com.example.activitystarter.SomeService********
+package com.example.activitystarter;
+
+import android.content.Context;
+import android.content.Intent;
+import java.lang.String;
+
+public final class SomeServiceStarter {
+
+  public static void fill(SomeService service, Intent intent) {
+    if(intent.hasExtra("nameStarterKey")) service.name = intent.getStringExtra("nameStarterKey");
+    if(intent.hasExtra("surnameStarterKey")) service.surname = intent.getStringExtra("surnameStarterKey");
+    if(intent.hasExtra("idStarterKey")) service.id = intent.getIntExtra("idStarterKey", -1);
+  }
+
+  public static Intent getIntent(Context context, String name, String surname, int id) {
+    Intent intent = new Intent(context, SomeService.class);
+    intent.putExtra("nameStarterKey", name);
+    intent.putExtra("surnameStarterKey", surname);
+    intent.putExtra("idStarterKey", id);
+    return intent;
+  }
+
+  public static void start(Context context, String name, String surname, int id) {
+    Intent intent = getIntent(context, name, surname, id);
+    context.startService(intent);
+  }
+
+  public static Intent getIntent(Context context, String name, int id) {
+    Intent intent = new Intent(context, SomeService.class);
+    intent.putExtra("nameStarterKey", name);
+    intent.putExtra("idStarterKey", id);
+    return intent;
+  }
+
+  public static void start(Context context, String name, int id) {
+    Intent intent = getIntent(context, name, id);
+    context.startService(intent);
+  }
+
+  public static Intent getIntent(Context context, int id) {
+    Intent intent = new Intent(context, SomeService.class);
+    intent.putExtra("idStarterKey", id);
+    return intent;
+  }
+
+  public static void start(Context context, int id) {
+    Intent intent = getIntent(context, id);
+    context.startService(intent);
+  }
+}

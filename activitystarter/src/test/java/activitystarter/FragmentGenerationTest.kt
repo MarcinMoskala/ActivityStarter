@@ -12,12 +12,27 @@ class FragmentGenerationTest: GenerationTest() {
 
     @Test
     fun singleArgGenerationTest() {
-        filePrecessingComparator("fragment/SimpleGeneration")
+        filePrecessingComparator("fragment/Simple")
+    }
+
+    @Test
+    fun optionalArgGenerationTest() {
+        filePrecessingComparator("fragment/Optional")
     }
 
     @Test
     fun multipleOptionalArgGenerationTest() {
         filePrecessingComparator("fragment/MultipleOptional")
+    }
+
+    @Test
+    fun conflictedOptionalArgGenerationTest() {
+        filePrecessingComparator("fragment/ConflictedOptional")
+    }
+
+    @Test
+    fun setterGetterGenerationTest() {
+        filePrecessingComparator("fragment/SetterGetter")
     }
 
     @Test

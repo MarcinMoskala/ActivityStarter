@@ -1,0 +1,48 @@
+********com.example.activitystarter.MainFragment********
+package com.example.activitystarter;
+
+import android.app.Fragment;
+
+import activitystarter.Arg;
+import activitystarter.Optional;
+
+public class MainFragment extends Fragment {
+    @Arg @Optional String name;
+    @Arg @Optional String surname;
+}
+********com.example.activitystarter.MainFragmentStarter********
+package com.example.activitystarter;
+
+import android.os.Bundle;
+import java.lang.String;
+
+public final class MainFragmentStarter {
+
+  public static void fill(MainFragment fragment) {
+    Bundle arguments = fragment.getArguments();
+    if(arguments.containsKey("nameStarterKey")) fragment.name = arguments.getString("nameStarterKey");
+    if(arguments.containsKey("surnameStarterKey")) fragment.surname = arguments.getString("surnameStarterKey");
+  }
+
+  public static MainFragment newInstance(String name, String surname) {
+    MainFragment fragment = new MainFragment();
+    Bundle args = new Bundle();
+    args.putString("nameStarterKey", name);
+    args.putString("surnameStarterKey", surname);
+    fragment.setArguments(args);
+    return fragment;
+  }
+
+  public static MainFragment newInstance(String name) {
+    MainFragment fragment = new MainFragment();
+    Bundle args = new Bundle();
+    args.putString("nameStarterKey", name);
+    fragment.setArguments(args);
+    return fragment;
+  }
+
+  public static MainFragment newInstance() {
+    MainFragment fragment = new MainFragment();
+    return fragment;
+  }
+}

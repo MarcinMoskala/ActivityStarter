@@ -11,12 +11,12 @@ class ActivityGenerationTest: GenerationTest() {
 
     @Test
     fun singleArgGenerationTest() {
-        filePrecessingComparator("activity/SimpleGeneration")
+        filePrecessingComparator("activity/Simple")
     }
 
     @Test
     fun setterGetterGenerationTest() {
-        filePrecessingComparator("activity/SetterGetterGeneration")
+        filePrecessingComparator("activity/SetterGetter")
     }
 
     @Test
