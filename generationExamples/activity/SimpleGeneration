@@ -7,7 +7,6 @@ public class MainActivity extends Activity {
     @Arg String name;
 }
 ********com.example.activitystarter.MainActivityStarter********
-// Generated code from ActivityStarter. Do not modify!
 package com.example.activitystarter;
 
 import android.content.Context;
@@ -16,8 +15,7 @@ import android.os.Bundle;
 import java.lang.String;
 
 public final class MainActivityStarter {
-  /**
-   * This is method used to fill fields. Use it by calling ActivityStarter.fill(this). */
+
   public static void fill(MainActivity activity, Bundle savedInstanceState) {
     if(savedInstanceState == null) {
     Intent intent = activity.getIntent();
