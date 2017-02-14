@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Switch;
 
 import activitystarter.Arg;
@@ -22,9 +23,9 @@ public class StudentDataActivity extends BaseActivity {
     @Arg char grade;
     @Arg boolean passing;
 
-    @BindView(R.id.student_name) AutoCompleteTextView studentNameView;
-    @BindView(R.id.student_id) AutoCompleteTextView studentIdView;
-    @BindView(R.id.student_grade) AutoCompleteTextView studentGradeView;
+    @BindView(R.id.student_name) EditText studentNameView;
+    @BindView(R.id.student_id) EditText studentIdView;
+    @BindView(R.id.student_grade) EditText studentGradeView;
     @BindView(R.id.student_is_passing) Switch studentIsPassingView;
     @BindView(R.id.save_button) Button saveButton;
     @BindView(R.id.restore_button) Button restoreButton;
