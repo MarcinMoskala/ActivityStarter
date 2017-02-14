@@ -26,16 +26,16 @@ internal abstract class ClassBinding(enclosingElement: TypeElement) {
 
     abstract fun createFillFieldsMethod(): MethodSpec
 
-    open fun createExtraMethods(): List<MethodSpec> = listOf()
+    open fun TypeSpec.Builder.addExtraToClass(): TypeSpec.Builder = this
 
     abstract fun createStarters(variant: List<ArgumentBinding>): List<MethodSpec>
 
     protected fun getKey(name: String) = name + "StarterKey"
 
-    protected fun getBasicFillMethodBuilder(fillProperCall: String = "ActivityStarter.fill(this)"): MethodSpec.Builder =
-            MethodSpec.methodBuilder("fill")
-                    .addJavadoc("This is method used to fill fields. Use it by calling $fillProperCall.")
-                    .addModifiers(PUBLIC, Modifier.STATIC)
+    protected fun getBasicFillMethodBuilder(fillProperCall: String = "ActivityStarter.fill(this)"): MethodSpec.Builder = MethodSpec
+            .methodBuilder("fill")
+            .addJavadoc("This is method used to fill fields. Use it by calling $fillProperCall.")
+            .addModifiers(PUBLIC, Modifier.STATIC)
 
     protected fun builderWithCreationBasicFields(name: String) =
             builderWithCreationBasicFieldsNoContext(name)
@@ -66,7 +66,8 @@ internal abstract class ClassBinding(enclosingElement: TypeElement) {
         }
     }
 
-    private fun getTargetTypeName(enclosingElement: TypeElement) = TypeName.get(enclosingElement.asType())
+    private fun getTargetTypeName(enclosingElement: TypeElement) = TypeName
+            .get(enclosingElement.asType())
             .let { if (it is ParameterizedTypeName) it.rawType else it }
 
     private fun createActivityStarterSpec() = TypeSpec
@@ -77,6 +78,6 @@ internal abstract class ClassBinding(enclosingElement: TypeElement) {
 
     private fun TypeSpec.Builder.addClassMethods() = this
             .addMethod(createFillFieldsMethod())
-            .addMethods(createExtraMethods())
             .addMethods(variants.flatMap { variant -> createStarters(variant) })
+            .addExtraToClass()
 }

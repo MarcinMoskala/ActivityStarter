@@ -27,6 +27,7 @@ public class StudentDataActivity extends BaseActivity {
     @BindView(R.id.student_grade) AutoCompleteTextView studentGradeView;
     @BindView(R.id.student_is_passing) Switch studentIsPassingView;
     @BindView(R.id.save_button) Button saveButton;
+    @BindView(R.id.restore_button) Button restoreButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +35,7 @@ public class StudentDataActivity extends BaseActivity {
         setContentView(R.layout.activity_data);
         ButterKnife.bind(this);
 
-        studentNameView.setText(name);
-        studentIdView.setText(""+id);
-        studentGradeView.setText(""+grade);
-        studentIsPassingView.setChecked(passing);
+        fill();
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,5 +46,18 @@ public class StudentDataActivity extends BaseActivity {
                 passing = studentIsPassingView.isChecked();
             }
         });
+        restoreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fill();
+            }
+        });
+    }
+
+    private void fill() {
+        studentNameView.setText(name);
+        studentIdView.setText(""+id);
+        studentGradeView.setText(""+grade);
+        studentIsPassingView.setChecked(passing);
     }
 }

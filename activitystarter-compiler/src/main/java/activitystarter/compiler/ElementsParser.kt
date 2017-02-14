@@ -15,16 +15,13 @@ import javax.lang.model.type.TypeMirror
 internal fun parseArg(element: Element, builderMap: MutableMap<TypeElement, ClassBinding>) {
     val enclosingElement = element.enclosingElement as TypeElement
     fun check(assertion: Boolean, errorText: String) = parsingError(assertion, errorText, Arg::class.java, element, enclosingElement)
-
     val elementType = getElementType(element)
-    var correct = check(enclosingElement.kind == CLASS, Errors.notAClass)
+    val correct = check(enclosingElement.kind == CLASS, Errors.notAClass)
             && check(!enclosingElement.modifiers.contains(PRIVATE), Errors.privateClass)
             && check(isFieldValidType(elementType), Errors.notSupportedType)
             && check(FieldAccessor(element).isAccessible(), Errors.inaccessibleField)
             && check(!(getElementType(enclosingElement).isSubtypeOfType(BROADCAST_RECEIVER_TYPE) && !isBasicSupportedType(elementType)), Errors.notBasicTypeInReceiver)
-
-    if (correct)
-        parseClass(enclosingElement, builderMap)
+    if (correct) parseClass(enclosingElement, builderMap)
 }
 
 internal fun parseClass(element: Element, builderMap: MutableMap<TypeElement, ClassBinding>) {

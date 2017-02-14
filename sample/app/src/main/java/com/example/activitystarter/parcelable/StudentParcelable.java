@@ -10,11 +10,12 @@ public class StudentParcelable implements Parcelable {
     private char grade;
 
     // Constructor
-    public StudentParcelable(int id, String name, char grade){
+    public StudentParcelable(int id, String name, char grade) {
         this.id = id;
         this.name = name;
         this.grade = grade;
     }
+
     // Getter and setter methods
     public int getId() {
         return id;
@@ -40,8 +41,13 @@ public class StudentParcelable implements Parcelable {
         this.grade = grade;
     }
 
+    @Override
+    public String toString() {
+        return "{id:" + id + ", name: " + name + ", grade: " + grade + "}";
+    }
+
     // Parcelling part
-    public StudentParcelable(Parcel in){
+    public StudentParcelable(Parcel in) {
         String[] data = new String[3];
 
         in.readStringArray(data);
@@ -50,17 +56,19 @@ public class StudentParcelable implements Parcelable {
         this.grade = data[2].charAt(0);
     }
 
-    @Override public int describeContents(){
+    @Override
+    public int describeContents() {
         return 0;
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeStringArray(new String[] {
-                ""+this.id,
+        dest.writeStringArray(new String[]{
+                "" + this.id,
                 this.name,
-                ""+this.grade});
+                "" + this.grade});
     }
+
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
         public StudentParcelable createFromParcel(Parcel in) {
             return new StudentParcelable(in);

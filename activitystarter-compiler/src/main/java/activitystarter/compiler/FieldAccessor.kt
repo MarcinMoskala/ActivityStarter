@@ -35,9 +35,9 @@ class FieldAccessor(element: Element) {
         else -> FieldAccessType.Inaccessible
     }
 
-    private fun hasNotPrivateMethodNamed(enclosingElement: TypeElement, fieldName: String) =
-            ElementFilter.methodsIn(enclosingElement.enclosedElements)
-                    .any { e -> e.simpleName.contentEquals(fieldName) && PRIVATE !in e.modifiers }
+    private fun hasNotPrivateMethodNamed(enclosingElement: TypeElement, fieldName: String) = ElementFilter
+            .methodsIn(enclosingElement.enclosedElements)
+            .any { e -> e.simpleName.contentEquals(fieldName) && PRIVATE !in e.modifiers }
 
     private enum class FieldAccessType {
         Accessible,
