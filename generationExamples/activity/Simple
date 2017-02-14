@@ -15,9 +15,10 @@ import android.os.Bundle;
 import java.lang.String;
 
 public final class MainActivityStarter {
+  private static boolean saved = false;
 
   public static void fill(MainActivity activity, Bundle savedInstanceState) {
-    if(savedInstanceState == null) {
+    if(savedInstanceState == null || !saved) {
     Intent intent = activity.getIntent();
     if(intent.hasExtra("nameStarterKey")) activity.name = intent.getStringExtra("nameStarterKey");
     } else {
@@ -27,6 +28,7 @@ public final class MainActivityStarter {
 
   public static void save(MainActivity activity, Bundle bundle) {
     bundle.putString("nameStarterKey", activity.name);
+    saved = true;
   }
 
   public static Intent getIntent(Context context, String name) {

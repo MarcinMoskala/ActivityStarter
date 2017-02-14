@@ -78,6 +78,6 @@ internal abstract class ClassBinding(enclosingElement: TypeElement) {
 
     private fun TypeSpec.Builder.addClassMethods() = this
             .addMethod(createFillFieldsMethod())
-            .addMethods(variants.flatMap { variant -> createStarters(variant) })
             .addExtraToClass()
+            .addMethods(variants.flatMap { variant -> createStarters(variant) })
 }

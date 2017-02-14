@@ -14,11 +14,13 @@ import android.content.Intent;
 import android.os.Bundle;
 
 public final class MainActivityStarter {
+  private static boolean saved = false;
 
   public static void fill(MainActivity activity, Bundle savedInstanceState) {
   }
 
   public static void save(MainActivity activity, Bundle bundle) {
+    saved = true;
   }
 
   public static Intent getIntent(Context context) {

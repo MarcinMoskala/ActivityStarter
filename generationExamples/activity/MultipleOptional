@@ -17,9 +17,12 @@ import android.os.Bundle;
 import java.lang.String;
 
 public final class MainActivityStarter {
+  private static boolean saved = false;
 
+  /**
+   * This is method used to fill fields. Use it by calling ActivityStarter.fill(this). */
   public static void fill(MainActivity activity, Bundle savedInstanceState) {
-    if(savedInstanceState == null) {
+    if(savedInstanceState == null || !saved) {
     Intent intent = activity.getIntent();
     if(intent.hasExtra("nameStarterKey")) activity.name = intent.getStringExtra("nameStarterKey");
     if(intent.hasExtra("idStarterKey")) activity.id = intent.getIntExtra("idStarterKey", -1);
@@ -32,6 +35,7 @@ public final class MainActivityStarter {
   public static void save(MainActivity activity, Bundle bundle) {
     bundle.putString("nameStarterKey", activity.name);
     bundle.putInt("idStarterKey", activity.id);
+    saved = true;
   }
 
   public static Intent getIntent(Context context, String name, int id) {
