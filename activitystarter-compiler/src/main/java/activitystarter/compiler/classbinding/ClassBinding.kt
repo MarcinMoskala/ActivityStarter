@@ -53,10 +53,6 @@ internal abstract class ClassBinding(enclosingElement: TypeElement) {
         variant.forEach { arg -> addStatement("$bundleName.${getBundleSetterFor(arg)}(\"" + getKey(arg.name) + "\", " + argumentGetByName(arg) + ")") }
     }
 
-    protected inline fun MethodSpec.Builder.doIf(check: Boolean, f: MethodSpec.Builder.() -> Unit) = apply {
-        if (check) f()
-    }
-
     protected fun MethodSpec.Builder.addBundleSetters(bundleName: String, className: String) = apply {
         for (arg in argumentBindings) {
             val fieldName = arg.name

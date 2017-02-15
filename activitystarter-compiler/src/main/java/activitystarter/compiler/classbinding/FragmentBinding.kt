@@ -2,6 +2,7 @@ package activitystarter.compiler.classbinding
 
 import activitystarter.compiler.ArgumentBinding
 import activitystarter.compiler.BUNDLE
+import activitystarter.compiler.doIf
 import com.squareup.javapoet.MethodSpec
 import javax.lang.model.element.TypeElement
 
