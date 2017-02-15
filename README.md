@@ -4,6 +4,7 @@ Android Library that provide simpler way to start the Activities with multiple a
 [![](https://jitpack.io/v/MarcinMoskala/ActivityStarter.svg)](https://jitpack.io/#MarcinMoskala/ActivityStarter)
 [![codebeat badge](https://codebeat.co/badges/a1727670-96fe-4c89-9bdb-f1818a6dc066)](https://codebeat.co/projects/github-com-marcinmoskala-activitystarter)
 [![Build Status](https://travis-ci.org/MarcinMoskala/ActivityStarter.svg?branch=master)](https://travis-ci.org/MarcinMoskala/ActivityStarter)
+[![GitHub license](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0)
 
 Field and method binding for Android Activity arguments, which uses annotation processing to generate boilerplate code for you, and:
  * Eliminate all putExtra and getXXXExtra methods.
@@ -11,14 +12,15 @@ Field and method binding for Android Activity arguments, which uses annotation p
  * Support flags and Intent provide.
 
 Full documentation is located [here](https://github.com/MarcinMoskala/ActivityStarter/wiki). Here is TOC:
- * [Introdution](https://github.com/MarcinMoskala/ActivityStarter/wiki/Introdution)
- * [Installation](https://github.com/MarcinMoskala/ActivityStarter/wiki/Installation)
- * [Usage for Activities](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-Activities)
- * [Usage for Fragments](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-Fragments)
- * [Usage for Services](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-Services)
- * [Usage for BroadcastReceiver](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-BroadcastReceiver)
- * [Optional annotation usage](https://github.com/MarcinMoskala/ActivityStarter/wiki/Optional-annotation)
- * [How does it really work?](https://github.com/MarcinMoskala/ActivityStarter/wiki/How-does-it-really-work)
+* [Introdution](Introdution)
+* [Installation](Installation)
+* [Usage for Activities](Usage for Activities)
+* [Usage for Fragments](Usage for Fragments)
+* [Usage for Services](Usage for Services)
+* [Usage for BroadcastReceiver](Usage for BroadcastReceiver)
+* [Optional annotation usage](Optional annotation)
+* [NonSavable annotation usage](NonSavable annotation)
+* [How does it really work?](How does it really work?)
 
 # Example
 
@@ -109,8 +111,8 @@ For Java project add in build.gradle file:
 
 ```groovy
 dependencies {
-    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.11'
-    annotationProcessor 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.11'
+    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.20'
+    annotationProcessor 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.20'
 }
 ```
 
@@ -123,8 +125,8 @@ kapt {
 }
 
 dependencies {
-    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.11'
-    kapt 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.11'
+    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.20'
+    kapt 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.20'
 }
 ```
 
