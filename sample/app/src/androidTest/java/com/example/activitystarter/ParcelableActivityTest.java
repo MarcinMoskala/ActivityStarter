@@ -18,7 +18,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class ParcelableSerializableActivityTest {
+public class ParcelableActivityTest {
 
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
@@ -29,15 +29,6 @@ public class ParcelableSerializableActivityTest {
 
         onView(withId(R.id.student_name)).check(matches(withText("Marcin")));
         onView(withId(R.id.student_id)).check(matches(withText("10")));
-        onView(withId(R.id.student_grade)).check(matches(withText("A")));
-    }
-
-    @Test
-    public void serializableActivityTest() throws InterruptedException {
-        onView(withId(R.id.show_serializable_data_button)).perform(scrollTo(), click());
-
-        onView(withId(R.id.student_name)).check(matches(withText("Marcin Moskala")));
-        onView(withId(R.id.student_id)).check(matches(withText("20")));
         onView(withId(R.id.student_grade)).check(matches(withText("A")));
     }
 }
