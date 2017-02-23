@@ -30,8 +30,6 @@ internal abstract class ClassBinding(enclosingElement: TypeElement) {
 
     abstract fun createStarters(variant: List<ArgumentBinding>): List<MethodSpec>
 
-    protected fun getKey(name: String) = name + "StarterKey"
-
     protected fun getBasicFillMethodBuilder(fillProperCall: String = "ActivityStarter.fill(this)"): MethodSpec.Builder = MethodSpec
             .methodBuilder("fill")
             .addJavadoc("This is method used to fill fields. Use it by calling $fillProperCall.")
@@ -50,13 +48,12 @@ internal abstract class ClassBinding(enclosingElement: TypeElement) {
     }
 
     protected fun MethodSpec.Builder.addSaveBundleStatements(bundleName: String, variant: List<ArgumentBinding>, argumentGetByName: (ArgumentBinding) -> String) = apply {
-        variant.forEach { arg -> addStatement("$bundleName.${getBundleSetterFor(arg)}(\"" + getKey(arg.name) + "\", " + argumentGetByName(arg) + ")") }
+        variant.forEach { arg -> addStatement("$bundleName.${getBundleSetterFor(arg)}(\"" + arg.key + "\", " + argumentGetByName(arg) + ")") }
     }
 
     protected fun MethodSpec.Builder.addBundleSetters(bundleName: String, className: String) = apply {
         for (arg in argumentBindings) {
-            val fieldName = arg.name
-            val keyName = getKey(fieldName)
+            val keyName = arg.key
             val settingPart = arg.accessor.setToField(getBundleGetterFor(bundleName, arg, keyName))
             addStatement("if($bundleName.containsKey(\"$keyName\")) $className.$settingPart")
         }

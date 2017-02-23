@@ -11,7 +11,9 @@ import activitystarter.Optional;
 
 public class SomeService extends Service {
 
-    @Arg @Optional String name = "";
+    public static final String NAME_KEY = "NAME_KEY";
+
+    @Arg(key = NAME_KEY) @Optional String name = "";
     @Arg @Optional String surname = "";
     @Arg int id;
 
@@ -25,7 +27,8 @@ public class SomeService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         ActivityStarter.fill(this, intent);
-        Log.i("SomeService", name + " " + id);
+        Log.i("SomeService:", "Name: " + name + ", id: " + id);
+        Log.i("SomeService", " Have NAME_KEY:" + intent.hasExtra(NAME_KEY));
         return super.onStartCommand(intent, flags, startId);
     }
 }
