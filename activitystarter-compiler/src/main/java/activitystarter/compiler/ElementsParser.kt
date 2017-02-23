@@ -14,28 +14,34 @@ import javax.lang.model.type.TypeMirror
 
 internal fun parseArg(element: Element, builderMap: MutableMap<TypeElement, ClassBinding>) {
     val enclosingElement = element.enclosingElement as TypeElement
-    fun check(assertion: Boolean, errorText: String) = parsingError(assertion, errorText, Arg::class.java, element, enclosingElement)
     val elementType = getElementType(element)
-    val correct = check(enclosingElement.kind == CLASS, Errors.notAClass)
-            && check(!enclosingElement.modifiers.contains(PRIVATE), Errors.privateClass)
-            && check(isFieldValidType(elementType), Errors.notSupportedType)
-            && check(FieldAccessor(element).isAccessible(), Errors.inaccessibleField)
-            && check(!(getElementType(enclosingElement).isSubtypeOfType(BROADCAST_RECEIVER_TYPE) && !isBasicSupportedType(elementType)), Errors.notBasicTypeInReceiver)
-    if (correct) parseClass(enclosingElement, builderMap)
+    if (!correctField(element, elementType, enclosingElement)) return
+    parseClass(enclosingElement, builderMap)
 }
 
 internal fun parseClass(element: Element, builderMap: MutableMap<TypeElement, ClassBinding>) {
     val typeElement = element as TypeElement
-    fun check(assertion: Boolean, errorText: String) = parsingError(assertion, errorText, MakeActivityStarter::class.java, element, typeElement)
-
     if (builderMap.containsKey(typeElement)) return
-    val elementType = KnownClassType.getByType(getElementType(element))
-    val correct = check(elementType != null, Errors.wrongClassType)
 
-    if(!correct) return
+    val elementType = KnownClassType.getByType(getElementType(element))
+    if (!correctClass(typeElement, elementType)) return
 
     val classBinding = getClassBinding(elementType!!, typeElement)
     builderMap.put(typeElement, classBinding)
+}
+
+private fun correctClass(element: TypeElement, elementType: KnownClassType?): Boolean {
+    fun check(assertion: Boolean, errorText: String) = parsingError(assertion, errorText, MakeActivityStarter::class.java, element, element)
+    return check(elementType != null, Errors.wrongClassType)
+}
+
+private fun correctField(element: Element, elementType: TypeMirror, enclosingElement: TypeElement): Boolean {
+    fun check(assertion: Boolean, errorText: String) = parsingError(assertion, errorText, Arg::class.java, element, enclosingElement)
+    return check(enclosingElement.kind == CLASS, Errors.notAClass)
+            && check(!enclosingElement.modifiers.contains(PRIVATE), Errors.privateClass)
+            && check(isFieldValidType(elementType), Errors.notSupportedType)
+            && check(FieldAccessor(element).isAccessible(), Errors.inaccessibleField)
+            && check(!(getElementType(enclosingElement).isSubtypeOfType(BROADCAST_RECEIVER_TYPE) && !isBasicSupportedType(elementType)), Errors.notBasicTypeInReceiver)
 }
 
 private fun getClassBinding(elementType: KnownClassType, typeElement: TypeElement): ClassBinding {
@@ -52,10 +58,9 @@ private fun parsingError(assertion: Boolean, text: String, annotationClass: Clas
     return assertion
 }
 
-private fun isFieldValidType(elementType: TypeMirror) =
-        isBasicSupportedType(elementType) || isSubtypeOfSupportedTypes(elementType)
+private fun isFieldValidType(elementType: TypeMirror) = isBasicSupportedType(elementType) || isSubtypeOfSupportedTypes(elementType)
 
-fun isSubtypeOfSupportedTypes(elementType: TypeMirror) =
+private fun isSubtypeOfSupportedTypes(elementType: TypeMirror) =
         elementType.isSubtypeOfType(SERIALIZABLE_TYPE, PARCELABLE_TYPE)
 
 private fun isBasicSupportedType(elementType: TypeMirror) = elementType.kind in listOf(TypeKind.BOOLEAN, TypeKind.INT, TypeKind.FLOAT, TypeKind.DOUBLE, TypeKind.CHAR) ||
