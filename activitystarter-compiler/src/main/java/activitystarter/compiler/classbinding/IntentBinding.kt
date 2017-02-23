@@ -22,12 +22,12 @@ internal abstract class IntentBinding(element: TypeElement) : ClassBinding(eleme
             .build()
 
     private fun MethodSpec.Builder.addPutExtraStatement(variant: List<ArgumentBinding>) = apply {
-        variant.forEach { arg -> addStatement("intent.putExtra(\"" + getKey(arg.name) + "\", " + arg.name + ")") }
+        variant.forEach { arg -> addStatement("intent.putExtra(\"" + arg.key + "\", " + arg.name + ")") }
     }
 
     protected fun MethodSpec.Builder.addIntentSetters(targetParameterName: String) = apply {
         for (arg in argumentBindings) {
-            val keyName = getKey(arg.name)
+            val keyName = arg.key
             val settingPart = arg.accessor.setToField(getIntentGetterFor(arg, keyName))
             addStatement("if(intent.hasExtra(\"$keyName\")) $targetParameterName.$settingPart")
         }
