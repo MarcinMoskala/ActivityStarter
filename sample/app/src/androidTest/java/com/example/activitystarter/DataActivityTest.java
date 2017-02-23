@@ -53,6 +53,4 @@ public class DataActivityTest {
         onView(withId(R.id.student_grade)).check(matches(withText("A")));
         onView(withId(R.id.student_is_passing)).check(matches(isChecked()));
     }
-
-
 }
