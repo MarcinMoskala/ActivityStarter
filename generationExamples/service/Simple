@@ -30,12 +30,12 @@ import java.lang.String;
 
 public final class SomeServiceStarter {
   public static void fill(SomeService service, Intent intent) {
-    if(intent.hasExtra("nameStarterKey")) service.name = intent.getStringExtra("nameStarterKey");
+    if(intent.hasExtra("com.example.activitystarter.nameStarterKey")) service.name = intent.getStringExtra("com.example.activitystarter.nameStarterKey");
   }
 
   public static Intent getIntent(Context context, String name) {
     Intent intent = new Intent(context, SomeService.class);
-    intent.putExtra("nameStarterKey", name);
+    intent.putExtra("com.example.activitystarter.nameStarterKey", name);
     return intent;
   }
 

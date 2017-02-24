@@ -17,13 +17,13 @@ import java.lang.String;
 public final class MainFragmentStarter {
   public static void fill(MainFragment fragment) {
     Bundle arguments = fragment.getArguments();
-    if(arguments.containsKey("nameStarterKey")) fragment.name = arguments.getString("nameStarterKey");
+    if(arguments.containsKey("com.example.activitystarter.nameStarterKey")) fragment.name = arguments.getString("com.example.activitystarter.nameStarterKey");
   }
 
   public static MainFragment newInstance(String name) {
     MainFragment fragment = new MainFragment();
     Bundle args = new Bundle();
-    args.putString("nameStarterKey", name);
+    args.putString("com.example.activitystarter.nameStarterKey", name);
     fragment.setArguments(args);
     return fragment;
   }
