@@ -18,6 +18,7 @@ Full documentation is located [here](https://github.com/MarcinMoskala/ActivitySt
 * [Usage for Fragments](Usage for Fragments)
 * [Usage for Services](Usage for Services)
 * [Usage for BroadcastReceiver](Usage for BroadcastReceiver)
+* [Usage of custom keys](Usage of custom keys)
 * [Optional annotation usage](Optional annotation)
 * [NonSavable annotation usage](NonSavable annotation)
 * [How does it really work?](How does it really work?)
@@ -111,8 +112,8 @@ For Java project add in build.gradle file:
 
 ```groovy
 dependencies {
-    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.20'
-    annotationProcessor 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.20'
+    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.21'
+    annotationProcessor 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.21'
 }
 ```
 
