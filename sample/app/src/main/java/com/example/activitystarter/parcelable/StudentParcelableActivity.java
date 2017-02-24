@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 @MakeActivityStarter
 public class StudentParcelableActivity extends BaseActivity {
 
-    @Arg StudentParcelable student;
+    public @Arg StudentParcelable student;
 
     @BindView(R.id.student_name) EditText studentNameView;
     @BindView(R.id.student_id) EditText studentIdView;

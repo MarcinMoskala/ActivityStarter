@@ -20,15 +20,15 @@ import java.lang.String;
 public final class MainFragmentStarter {
   public static void fill(MainFragment fragment) {
     Bundle arguments = fragment.getArguments();
-    if(arguments.containsKey("nameStarterKey")) fragment.name = arguments.getString("nameStarterKey");
-    if(arguments.containsKey("idStarterKey")) fragment.id = arguments.getInt("idStarterKey", -1);
+    if(arguments.containsKey("com.example.activitystarter.nameStarterKey")) fragment.name = arguments.getString("com.example.activitystarter.nameStarterKey");
+    if(arguments.containsKey("com.example.activitystarter.idStarterKey")) fragment.id = arguments.getInt("com.example.activitystarter.idStarterKey", -1);
   }
 
   public static MainFragment newInstance(String name, int id) {
     MainFragment fragment = new MainFragment();
     Bundle args = new Bundle();
-    args.putString("nameStarterKey", name);
-    args.putInt("idStarterKey", id);
+    args.putString("com.example.activitystarter.nameStarterKey", name);
+    args.putInt("com.example.activitystarter.idStarterKey", id);
     fragment.setArguments(args);
     return fragment;
   }
@@ -36,7 +36,7 @@ public final class MainFragmentStarter {
   public static MainFragment newInstance(String name) {
     MainFragment fragment = new MainFragment();
     Bundle args = new Bundle();
-    args.putString("nameStarterKey", name);
+    args.putString("com.example.activitystarter.nameStarterKey", name);
     fragment.setArguments(args);
     return fragment;
   }
@@ -44,7 +44,7 @@ public final class MainFragmentStarter {
   public static MainFragment newInstance(int id) {
     MainFragment fragment = new MainFragment();
     Bundle args = new Bundle();
-    args.putInt("idStarterKey", id);
+    args.putInt("com.example.activitystarter.idStarterKey", id);
     fragment.setArguments(args);
     return fragment;
   }

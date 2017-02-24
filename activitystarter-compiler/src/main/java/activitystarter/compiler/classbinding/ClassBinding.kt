@@ -14,13 +14,14 @@ internal abstract class ClassBinding(enclosingElement: TypeElement) {
 
     protected val targetTypeName = getTargetTypeName(enclosingElement)
     protected val bindingClassName = getBindingClassName(enclosingElement)
+    private val packageName = bindingClassName.packageName()
     protected val argumentBindings: List<ArgumentBinding> = enclosingElement.enclosedElements
             .filter { it.getAnnotation(Arg::class.java) != null }
-            .map(::ArgumentBinding)
+            .map { ArgumentBinding(it, packageName) }
     val variants = argumentBindings.createSublists { it.isOptional }
             .distinctBy { it.map { it.type } }
 
-    fun brewJava() = JavaFile.builder(bindingClassName.packageName(), createActivityStarterSpec())
+    fun brewJava() = JavaFile.builder(packageName, createActivityStarterSpec())
             .addFileComment("Generated code from ActivityStarter. Do not modify!")
             .build()
 

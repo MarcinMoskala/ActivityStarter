@@ -28,20 +28,20 @@ public final class MainActivityStarter {
   public static void fill(MainActivity activity, Bundle savedInstanceState) {
     if(savedInstanceState == null || !saved) {
     Intent intent = activity.getIntent();
-    if(intent.hasExtra("nameStarterKey")) activity.setName(intent.getStringExtra("nameStarterKey"));
+    if(intent.hasExtra("com.example.activitystarter.nameStarterKey")) activity.setName(intent.getStringExtra("com.example.activitystarter.nameStarterKey"));
     } else {
-    if(savedInstanceState.containsKey("nameStarterKey")) activity.setName(savedInstanceState.getString("nameStarterKey"));
+    if(savedInstanceState.containsKey("com.example.activitystarter.nameStarterKey")) activity.setName(savedInstanceState.getString("com.example.activitystarter.nameStarterKey"));
     }
   }
 
   public static void save(MainActivity activity, Bundle bundle) {
-    bundle.putString("nameStarterKey", activity.getName());
+    bundle.putString("com.example.activitystarter.nameStarterKey", activity.getName());
     saved = true;
   }
 
   public static Intent getIntent(Context context, String name) {
     Intent intent = new Intent(context, MainActivity.class);
-    intent.putExtra("nameStarterKey", name);
+    intent.putExtra("com.example.activitystarter.nameStarterKey", name);
     return intent;
   }
 

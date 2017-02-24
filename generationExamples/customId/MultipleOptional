@@ -19,29 +19,49 @@ import java.lang.String;
 public final class MainActivityStarter {
   private static boolean saved = false;
 
-  /**
-   * This is method used to fill fields. Use it by calling ActivityStarter.fill(this). */
   public static void fill(MainActivity activity, Bundle savedInstanceState) {
     if(savedInstanceState == null || !saved) {
     Intent intent = activity.getIntent();
-    if(intent.hasExtra("com.example.activitystarter.nameStarterKey")) activity.name = intent.getStringExtra("com.example.activitystarter.nameStarterKey");
-    if(intent.hasExtra("com.example.activitystarter.idStarterKey")) activity.id = intent.getIntExtra("com.example.activitystarter.idStarterKey", -1);
+    if(intent.hasExtra("Key1")) activity.name = intent.getStringExtra("Key1");
+    if(intent.hasExtra("Key2")) activity.id = intent.getIntExtra("Key2", -1);
+    if(intent.hasExtra("com.example.activitystarter.noKeyStarterKey")) activity.noKey = intent.getIntExtra("com.example.activitystarter.noKeyStarterKey", -1);
     } else {
-    if(savedInstanceState.containsKey("com.example.activitystarter.nameStarterKey")) activity.name = savedInstanceState.getString("com.example.activitystarter.nameStarterKey");
-    if(savedInstanceState.containsKey("com.example.activitystarter.idStarterKey")) activity.id = savedInstanceState.getInt("com.example.activitystarter.idStarterKey", -1);
+    if(savedInstanceState.containsKey("Key1")) activity.name = savedInstanceState.getString("Key1");
+    if(savedInstanceState.containsKey("Key2")) activity.id = savedInstanceState.getInt("Key2", -1);
+    if(savedInstanceState.containsKey("com.example.activitystarter.noKeyStarterKey")) activity.noKey = savedInstanceState.getInt("com.example.activitystarter.noKeyStarterKey", -1);
     }
   }
 
   public static void save(MainActivity activity, Bundle bundle) {
-    bundle.putString("com.example.activitystarter.nameStarterKey", activity.name);
-    bundle.putInt("com.example.activitystarter.idStarterKey", activity.id);
+    bundle.putString("Key1", activity.name);
+    bundle.putInt("Key2", activity.id);
+    bundle.putInt("com.example.activitystarter.noKeyStarterKey", activity.noKey);
     saved = true;
+  }
+
+  public static Intent getIntent(Context context, String name, int id, int noKey) {
+    Intent intent = new Intent(context, MainActivity.class);
+    intent.putExtra("Key1", name);
+    intent.putExtra("Key2", id);
+    intent.putExtra("com.example.activitystarter.noKeyStarterKey", noKey);
+    return intent;
+  }
+
+  public static void start(Context context, String name, int id, int noKey) {
+    Intent intent = getIntent(context, name, id, noKey);
+    context.startActivity(intent);
+  }
+
+  public static void startWithFlags(Context context, String name, int id, int noKey, int flags) {
+    Intent intent = getIntent(context, name, id, noKey);
+    intent.addFlags(flags);
+    context.startActivity(intent);
   }
 
   public static Intent getIntent(Context context, String name, int id) {
     Intent intent = new Intent(context, MainActivity.class);
-    intent.putExtra("com.example.activitystarter.nameStarterKey", name);
-    intent.putExtra("com.example.activitystarter.idStarterKey", id);
+    intent.putExtra("Key1", name);
+    intent.putExtra("Key2", id);
     return intent;
   }
 
@@ -58,7 +78,7 @@ public final class MainActivityStarter {
 
   public static Intent getIntent(Context context, String name) {
     Intent intent = new Intent(context, MainActivity.class);
-    intent.putExtra("com.example.activitystarter.nameStarterKey", name);
+    intent.putExtra("Key1", name);
     return intent;
   }
 
@@ -73,9 +93,27 @@ public final class MainActivityStarter {
     context.startActivity(intent);
   }
 
+  public static Intent getIntent(Context context, int id, int noKey) {
+    Intent intent = new Intent(context, MainActivity.class);
+    intent.putExtra("Key2", id);
+    intent.putExtra("com.example.activitystarter.noKeyStarterKey", noKey);
+    return intent;
+  }
+
+  public static void start(Context context, int id, int noKey) {
+    Intent intent = getIntent(context, id, noKey);
+    context.startActivity(intent);
+  }
+
+  public static void startWithFlags(Context context, int id, int noKey, int flags) {
+    Intent intent = getIntent(context, id, noKey);
+    intent.addFlags(flags);
+    context.startActivity(intent);
+  }
+
   public static Intent getIntent(Context context, int id) {
     Intent intent = new Intent(context, MainActivity.class);
-    intent.putExtra("com.example.activitystarter.idStarterKey", id);
+    intent.putExtra("Key2", id);
     return intent;
   }
 

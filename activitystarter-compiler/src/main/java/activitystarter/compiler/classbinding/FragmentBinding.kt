@@ -15,12 +15,16 @@ internal class FragmentBinding(element: TypeElement) : ClassBinding(element) {
             .build()!!
 
     override fun createStarters(variant: List<ArgumentBinding>): List<MethodSpec> = listOf(
-            createGetIntentMethod(variant)
+            createGetFragmentMethod(variant)
     )
 
-    private fun createGetIntentMethod(variant: List<ArgumentBinding>) = builderWithCreationBasicFieldsNoContext("newInstance")
+    private fun createGetFragmentMethod(variant: List<ArgumentBinding>) = builderWithCreationBasicFieldsNoContext("newInstance")
             .addArgParameters(variant)
             .returns(targetTypeName)
+            .addGetFragmentCode(variant)
+            .build()
+
+    private fun MethodSpec.Builder.addGetFragmentCode(variant: List<ArgumentBinding>) = this
             .addStatement("\$T fragment = new \$T()", targetTypeName, targetTypeName)
             .doIf(variant.isNotEmpty()) {
                 addStatement("\$T args = new Bundle()", BUNDLE)
@@ -28,5 +32,4 @@ internal class FragmentBinding(element: TypeElement) : ClassBinding(element) {
                 addStatement("fragment.setArguments(args)")
             }
             .addStatement("return fragment")
-            .build()
 }

@@ -4,10 +4,10 @@ import java.io.Serializable;
 
 public class StudentSerializable implements Serializable {
 
-    int id;
-    String name;
-    char grade;
-    boolean passing;
+    public int id;
+    public String name;
+    public char grade;
+    public boolean passing;
 
     public StudentSerializable(int id, String name, char grade, boolean passing) {
         this.id = id;

@@ -6,7 +6,7 @@ import com.squareup.javapoet.TypeName
 import javax.lang.model.element.Element
 import javax.lang.model.type.TypeMirror
 
-class ArgumentBinding(element: Element) {
+class ArgumentBinding(element: Element, packageName: String) {
     val name: String = element.simpleName.toString()
     val key: String
     val elementType: TypeMirror = getElementType(element)
@@ -16,7 +16,7 @@ class ArgumentBinding(element: Element) {
 
     init {
         val keyFromAnnotation = element.getAnnotation(Arg::class.java)?.key
-        val defaultKey = name + "StarterKey"
+        val defaultKey = "$packageName.${name}StarterKey"
         key = if(keyFromAnnotation.isNullOrBlank()) defaultKey else keyFromAnnotation!!
     }
 }

@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
 @MakeActivityStarter
 public class StudentSerializableActivity extends BaseActivity {
 
-    @Arg StudentSerializable student;
+    public @Arg StudentSerializable student;
 
     @BindView(R.id.student_name) EditText studentNameView;
     @BindView(R.id.student_id) EditText studentIdView;
