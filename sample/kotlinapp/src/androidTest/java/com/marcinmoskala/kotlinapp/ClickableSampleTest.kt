@@ -15,9 +15,31 @@ import org.junit.runner.RunWith
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class SimpleDataPassingTest {
+class ClickableSampleTest {
 
-    @Rule @JvmField var activityTestRule = ActivityTestRule(MainActivity::class.java)
+    @Rule @JvmField var activityTestRule = ActivityTestRule(MainActivity::class.java, true)
+
+    @Test
+    @Throws(InterruptedException::class)
+    fun defaultValuesTest() {
+        onView(withId(R.id.studentGradeView)).perform(scrollTo(), replaceText("A"), closeSoftKeyboard())
+
+        onView(withId(R.id.showDataButton)).perform(scrollTo(), click())
+
+        onView(withId(R.id.gradeView)).check(matches(withText("Grade: A")))
+        onView(withId(R.id.nameView)).check(matches(withText("Name: No name provided")))
+        onView(withId(R.id.idView)).check(matches(withText("Id: -1")))
+    }
+
+    @Test
+    @Throws(InterruptedException::class)
+    fun parcelableTest() {
+        onView(withId(R.id.showParcelableDataButton)).perform(scrollTo(), click())
+
+        onView(withId(R.id.nameView)).check(matches(withText("Name: Marcin")))
+        onView(withId(R.id.idView)).check(matches(withText("Id: 10")))
+        onView(withId(R.id.gradeView)).check(matches(withText("Grade: A")))
+    }
 
     @Test
     fun simpleDataPassingTest() {

@@ -9,10 +9,10 @@ import kotlinx.android.synthetic.main.activity_data.*
 @MakeActivityStarter
 class StudentDataActivity : BaseActivity() {
 
-    @Arg @Optional var name: String = "No name provided"
-    @Arg @Optional var id: Int = NO_ID
+    @Arg @Optional var name: String = defaultName
+    @Arg @Optional var id: Int = defaultId
     @Arg var grade: Char = ' '
-    @Arg var isPassing: Boolean = false
+    @Arg var passing: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,11 +21,12 @@ class StudentDataActivity : BaseActivity() {
         nameView.text = "Name: " + name
         idView.text = "Id: " + id
         gradeView.text = "Grade: " + grade
-        isPassingView.text = "Passing status: " + isPassing
+        isPassingView.text = "Passing status: " + passing
     }
 
     companion object {
-
         private val NO_ID = -1
+        val defaultName = "No name provided"
+        val defaultId = NO_ID
     }
 }

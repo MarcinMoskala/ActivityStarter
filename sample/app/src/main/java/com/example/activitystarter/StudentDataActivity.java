@@ -17,9 +17,11 @@ import butterknife.ButterKnife;
 public class StudentDataActivity extends BaseActivity {
 
     private static int NO_ID = -1;
+    public static int DEFAULT_ID = NO_ID;
+    public static String DEFAULT_NAME = "No name provided";
 
-    @Arg @Optional String name = "No name provided";
-    @Arg @Optional int id = NO_ID;
+    @Arg @Optional String name = DEFAULT_NAME;
+    @Arg @Optional int id = DEFAULT_ID;
     @Arg char grade;
     @Arg boolean passing;
 
