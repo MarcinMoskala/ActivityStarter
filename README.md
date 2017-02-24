@@ -77,7 +77,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ActivityStarter.start(this); // This can be located in BaseActivity, one for all activities
+        ActivityStarter.fill(this); // This can be located in BaseActivity, one for all activities
 
         //...
     }
