@@ -19,7 +19,7 @@ import android.support.test.InstrumentationRegistry.getInstrumentation
 @RunWith(AndroidJUnit4::class)
 abstract class FromIntentTest<T : Activity> internal constructor(activityClass: Class<T>) {
 
-    @Rule
+    @Rule @JvmField
     var activityTestRule: ActivityTestRule<T> = ActivityTestRule(activityClass, false, false)
 
     internal var activity: T? = null
