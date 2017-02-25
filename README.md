@@ -77,7 +77,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ActivityStarter.start(this); // This can be located in BaseActivity, one for all activities
+        ActivityStarter.fill(this); // This can be located in BaseActivity, one for all activities
 
         //...
     }
@@ -112,8 +112,8 @@ For Java project add in build.gradle file:
 
 ```groovy
 dependencies {
-    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.21'
-    annotationProcessor 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.21'
+    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.30'
+    annotationProcessor 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.30'
 }
 ```
 
@@ -126,8 +126,8 @@ kapt {
 }
 
 dependencies {
-    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.20'
-    kapt 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.20'
+    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.30'
+    kapt 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.30'
 }
 ```
 
