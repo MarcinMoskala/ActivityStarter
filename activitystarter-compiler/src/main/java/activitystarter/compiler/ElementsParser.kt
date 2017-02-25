@@ -31,12 +31,12 @@ internal fun parseClass(element: Element, builderMap: MutableMap<TypeElement, Cl
 }
 
 private fun correctClass(element: TypeElement, elementType: KnownClassType?): Boolean {
-    fun check(assertion: Boolean, errorText: String) = parsingError(assertion, errorText, MakeActivityStarter::class.java, element, element)
+    fun check(assertion: Boolean, errorText: String) = parsingError<MakeActivityStarter>(assertion, errorText, element, element)
     return check(elementType != null, Errors.wrongClassType)
 }
 
 private fun correctField(element: Element, elementType: TypeMirror, enclosingElement: TypeElement): Boolean {
-    fun check(assertion: Boolean, errorText: String) = parsingError(assertion, errorText, Arg::class.java, element, enclosingElement)
+    fun check(assertion: Boolean, errorText: String) = parsingError<Arg>(assertion, errorText, element, enclosingElement)
     return check(enclosingElement.kind == CLASS, Errors.notAClass)
             && check(!enclosingElement.modifiers.contains(PRIVATE), Errors.privateClass)
             && check(isFieldValidType(elementType), Errors.notSupportedType)
@@ -53,8 +53,8 @@ private fun getClassBinding(elementType: KnownClassType, typeElement: TypeElemen
     }
 }
 
-private fun parsingError(assertion: Boolean, text: String, annotationClass: Class<out Annotation>, element: Element, enclosingElement: TypeElement): Boolean {
-    if (!assertion) error(enclosingElement, "@%s %s $text (%s)", annotationClass.simpleName, enclosingElement.qualifiedName, element.simpleName)
+private inline fun <reified T: Annotation> parsingError(assertion: Boolean, text: String, element: Element, enclosingElement: TypeElement): Boolean {
+    if (!assertion) error(enclosingElement, "@%s %s $text (%s)", T::class.java.simpleName, enclosingElement.qualifiedName, element.simpleName)
     return assertion
 }
 

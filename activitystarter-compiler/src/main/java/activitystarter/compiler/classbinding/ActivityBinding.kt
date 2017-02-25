@@ -22,17 +22,25 @@ internal class ActivityBinding(element: TypeElement) : IntentBinding(element) {
     override fun createFillFieldsMethod() = getBasicFillMethodBuilder()
             .addParameter(targetTypeName, "activity")
             .addParameter(BUNDLE, "savedInstanceState")
-            .doIf(argumentBindings.isNotEmpty()) {
-                doIf(savable) { addCode("if(savedInstanceState == null || !saved) {\n") }
-                addStatement("Intent intent = activity.getIntent()")
-                addIntentSetters("activity")
-                doIf(savable) {
-                    addCode("} else {\n")
-                    addBundleSetters("savedInstanceState", "activity")
-                    addCode("}\n")
-                }
-            }
-            .build()
+            .doIf(argumentBindings.isNotEmpty()) { addFieldSettersCode() }
+            .build()!!
+
+    private fun MethodSpec.Builder.addFieldSettersCode() {
+        if (savable) {
+            addCode("if(savedInstanceState == null || !saved) {\n")
+            addFieldSettersFromIntent()
+            addCode("} else {\n")
+            addBundleSetters("savedInstanceState", "activity")
+            addCode("}\n")
+        } else {
+            addFieldSettersFromIntent()
+        }
+    }
+
+    private fun MethodSpec.Builder.addFieldSettersFromIntent() {
+        addStatement("Intent intent = activity.getIntent()")
+        addIntentSetters("activity")
+    }
 
     override fun TypeSpec.Builder.addExtraToClass() = this
             .addMethod(createSaveMethod())
