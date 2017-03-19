@@ -12,16 +12,16 @@ Field and method binding for Android Activity arguments, which uses annotation p
  * Support flags and Intent provide.
 
 Full documentation is located [here](https://github.com/MarcinMoskala/ActivityStarter/wiki). Here is TOC:
-* [Introdution](Introdution)
-* [Installation](Installation)
-* [Usage for Activities](Usage for Activities)
-* [Usage for Fragments](Usage for Fragments)
-* [Usage for Services](Usage for Services)
-* [Usage for BroadcastReceiver](Usage for BroadcastReceiver)
-* [Usage of custom keys](Usage of custom keys)
-* [Optional annotation usage](Optional annotation)
-* [NonSavable annotation usage](NonSavable annotation)
-* [How does it really work?](How does it really work?)
+* [Introdution](https://github.com/MarcinMoskala/ActivityStarter/wiki/Introdution)
+* [Installation](https://github.com/MarcinMoskala/ActivityStarter/wiki/Installation)
+* [Usage for Activities](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-Activities)
+* [Usage for Fragments](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-Fragments)
+* [Usage for Services](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-Services)
+* [Usage for BroadcastReceiver](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-BroadcastReceiver)
+* [Usage of custom keys](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-of-custom-keys)
+* [Optional annotation usage](https://github.com/MarcinMoskala/ActivityStarter/wiki/Optional-annotation)
+* [NonSavable annotation usage](https://github.com/MarcinMoskala/ActivityStarter/wiki/NonSavable-annotation)
+* [How does it really work?](https://github.com/MarcinMoskala/ActivityStarter/wiki/How-does-it-really-work?)
 
 # Example
 
