@@ -13,6 +13,7 @@ fun getBindingClassName(enclosingElement: TypeElement): ClassName {
     return ClassName.get(packageName, className + "Starter")
 }
 
+// TODO Rest
 fun getBundleSetterFor(arg: ArgumentBinding) = when (arg.type) {
     TypeName.get(String::class.java) -> "putString"
     TypeName.INT -> "putInt"
@@ -23,6 +24,7 @@ fun getBundleSetterFor(arg: ArgumentBinding) = when (arg.type) {
     else -> getBundleSetterForNonTrivial(arg)
 }
 
+// TODO Rest
 fun getBundleGetterFor(bundleName: String, arg: ArgumentBinding, keyName: String) = when (arg.type) {
     TypeName.get(String::class.java) -> "$bundleName.getString(\"$keyName\")"
     TypeName.INT -> "$bundleName.getInt(\"$keyName\", -1)"
@@ -33,13 +35,37 @@ fun getBundleGetterFor(bundleName: String, arg: ArgumentBinding, keyName: String
     else -> getBundleGetterForNonTrival(bundleName, arg, keyName)
 }
 
+// TODO
+//getCharSequenceExtra
+//getParcelableArrayExtra
+//getParcelableArrayListExtra
+//getIntegerArrayListExtra
+//getStringArrayListExtra
+//getCharSequenceArrayListExtra
+//getBooleanArrayExtra
+//getByteArrayExtra
+//getShortArrayExtra
+//getCharArrayExtra
+//getIntArrayExtra
+//getLongArrayExtra
+//getFloatArrayExtra
+//getDoubleArrayExtra
+//getStringArrayExtra
+//getCharSequenceArrayExtra
+//getBundleExtra
+//getIBinderExtra
+// TODO Error check should depend on this function to make it generic
+// TODO This all types needs tests!!!
 fun getIntentGetterFor(arg: ArgumentBinding, keyName: String) = when (arg.type) {
     TypeName.get(String::class.java) -> "intent.getStringExtra(\"$keyName\")"
     TypeName.INT -> "intent.getIntExtra(\"$keyName\", -1)"
+    TypeName.LONG -> "intent.getLongExtra(\"$keyName\", -1)"
     TypeName.FLOAT -> "intent.getFloatExtra(\"$keyName\", -1F)"
     TypeName.BOOLEAN -> "intent.getBooleanExtra(\"$keyName\", false)"
     TypeName.DOUBLE -> "intent.getDoubleExtra(\"$keyName\", -1D)"
     TypeName.CHAR -> "intent.getCharExtra(\"$keyName\", 'a')"
+    TypeName.BYTE -> "intent.getByteExtra(\"$keyName\", 'a')"
+    TypeName.SHORT -> "intent.getShortExtra(\"$keyName\", 'a')"
     else -> getIntentGetterForNotTrival(arg, keyName)
 }
 
