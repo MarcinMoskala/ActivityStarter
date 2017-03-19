@@ -1,6 +1,5 @@
 package activitystarter.compiler.classbinding
 
-import activitystarter.MakeActivityStarter
 import activitystarter.NonSavable
 import activitystarter.compiler.ArgumentBinding
 import activitystarter.compiler.BUNDLE
@@ -10,7 +9,6 @@ import com.squareup.javapoet.MethodSpec
 import com.squareup.javapoet.TypeName
 import com.squareup.javapoet.TypeName.BOOLEAN
 import com.squareup.javapoet.TypeSpec
-import javax.lang.model.element.Modifier
 import javax.lang.model.element.Modifier.PRIVATE
 import javax.lang.model.element.Modifier.STATIC
 import javax.lang.model.element.TypeElement

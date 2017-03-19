@@ -3,7 +3,7 @@ package activitystarter.compiler
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class DifferentVariantsFunKtTest {
+class CreateSublistsFunKtTest {
 
     @Test
     fun testEmptyCreateSublists() {

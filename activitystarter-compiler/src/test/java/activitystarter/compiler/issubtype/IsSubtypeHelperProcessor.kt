@@ -1,19 +1,13 @@
 package activitystarter.compiler.issubtype
 
 import activitystarter.Arg
-import activitystarter.MakeActivityStarter
-import activitystarter.compiler.classbinding.ClassBinding
+import activitystarter.compiler.error
 import activitystarter.compiler.getElementType
 import activitystarter.compiler.isSubtypeOfType
 import activitystarter.compiler.messanger
 import com.google.auto.service.AutoService
-import java.io.IOException
-import java.io.PrintWriter
-import java.io.StringWriter
-import java.util.*
 import javax.annotation.processing.*
 import javax.lang.model.SourceVersion
-import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
 
 @AutoService(Processor::class)
@@ -34,10 +28,10 @@ class IsSubtypeHelperProcessor(val ofWhat: String) : AbstractProcessor() {
         for (element in env.getElementsAnnotatedWith(Arg::class.java)) {
             try {
                 val isSubtype = getElementType(element).isSubtypeOfType(ofWhat)
-                if(!isSubtype) activitystarter.compiler.error(element, notSubtypeError)
+                if(!isSubtype) error(element, notSubtypeError)
             } catch (e: Exception) {
                 e.printStackTrace()
-                activitystarter.compiler.error(element, otherError)
+                error(element, otherError)
             }
         }
         return true
