@@ -23,7 +23,6 @@ before_script:
 env:
   matrix:
     - TEST=:sample:app:connectedDebugAndroidTest
-    - TEST=:sample:kotlinapp:connectedDebugAndroidTest
     - TEST=:activitystarter:test
     - TEST=:activitystarter-compiler:test
 
