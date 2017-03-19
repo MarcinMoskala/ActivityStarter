@@ -15,8 +15,12 @@ import javax.lang.model.type.TypeMirror
 internal fun parseArg(element: Element, builderMap: MutableMap<TypeElement, ClassBinding>) {
     val enclosingElement = element.enclosingElement as TypeElement
     val elementType = getElementType(element)
-    if (!correctField(element, elementType, enclosingElement)) return
-    parseClass(enclosingElement, builderMap)
+    val errorText = getFieldError(element, elementType, enclosingElement)
+    if (errorText != null) {
+        parsingError<Arg>(errorText, element, enclosingElement)
+    } else {
+        parseClass(enclosingElement, builderMap)
+    }
 }
 
 internal fun parseClass(element: Element, builderMap: MutableMap<TypeElement, ClassBinding>) {
@@ -24,38 +28,38 @@ internal fun parseClass(element: Element, builderMap: MutableMap<TypeElement, Cl
     if (builderMap.containsKey(typeElement)) return
 
     val elementType = KnownClassType.getByType(getElementType(element))
-    if (!correctClass(typeElement, elementType)) return
-
-    val classBinding = getClassBinding(elementType!!, typeElement)
-    builderMap.put(typeElement, classBinding)
-}
-
-private fun correctClass(element: TypeElement, elementType: KnownClassType?): Boolean {
-    fun check(assertion: Boolean, errorText: String) = parsingError<MakeActivityStarter>(assertion, errorText, element, element)
-    return check(elementType != null, Errors.wrongClassType)
-}
-
-private fun correctField(element: Element, elementType: TypeMirror, enclosingElement: TypeElement): Boolean {
-    fun check(assertion: Boolean, errorText: String) = parsingError<Arg>(assertion, errorText, element, enclosingElement)
-    return check(enclosingElement.kind == CLASS, Errors.notAClass)
-            && check(!enclosingElement.modifiers.contains(PRIVATE), Errors.privateClass)
-            && check(isFieldValidType(elementType), Errors.notSupportedType)
-            && check(FieldAccessor(element).isAccessible(), Errors.inaccessibleField)
-            && check(!(getElementType(enclosingElement).isSubtypeOfType(BROADCAST_RECEIVER_TYPE) && !isBasicSupportedType(elementType)), Errors.notBasicTypeInReceiver)
-}
-
-private fun getClassBinding(elementType: KnownClassType, typeElement: TypeElement): ClassBinding {
-    return when (elementType) {
-        Activity -> ActivityBinding(typeElement)
-        Fragment -> FragmentBinding(typeElement)
-        Service -> ServiceBinding(typeElement)
-        BroadcastReceiver -> BroadcastReceiverBinding(typeElement)
+    val errorText = getClassError(elementType)
+    if (errorText != null) {
+        parsingError<MakeActivityStarter>(errorText, element, element)
+    } else {
+        val classBinding = getClassBinding(elementType!!, typeElement)
+        builderMap.put(typeElement, classBinding)
     }
 }
 
-private inline fun <reified T: Annotation> parsingError(assertion: Boolean, text: String, element: Element, enclosingElement: TypeElement): Boolean {
-    if (!assertion) error(enclosingElement, "@%s %s $text (%s)", T::class.java.simpleName, enclosingElement.qualifiedName, element.simpleName)
-    return assertion
+private fun getClassError(elementType: KnownClassType?) = when {
+    elementType == null -> Errors.wrongClassType
+    else -> null
+}
+
+private fun getFieldError(element: Element, elementType: TypeMirror, enclosingElement: TypeElement) = when {
+    enclosingElement.kind != CLASS -> Errors.notAClass
+    enclosingElement.modifiers.contains(PRIVATE) -> Errors.privateClass
+    !isFieldValidType(elementType) -> Errors.notSupportedType
+    !FieldAccessor(element).isAccessible() -> Errors.inaccessibleField
+    (getElementType(enclosingElement).isSubtypeOfType(BROADCAST_RECEIVER_TYPE) && !isBasicSupportedType(elementType)) -> Errors.notBasicTypeInReceiver
+    else -> null
+}
+
+private fun getClassBinding(elementType: KnownClassType, typeElement: TypeElement): ClassBinding = when (elementType) {
+    Activity -> ActivityBinding(typeElement)
+    Fragment -> FragmentBinding(typeElement)
+    Service -> ServiceBinding(typeElement)
+    BroadcastReceiver -> BroadcastReceiverBinding(typeElement)
+}
+
+private inline fun <reified T : Annotation> parsingError(text: String, element: Element, enclosingElement: TypeElement) {
+    error(enclosingElement, "@%s %s $text (%s)", T::class.java.simpleName, enclosingElement.qualifiedName, element.simpleName)
 }
 
 private fun isFieldValidType(elementType: TypeMirror) = isBasicSupportedType(elementType) || isSubtypeOfSupportedTypes(elementType)
