@@ -8,10 +8,12 @@ import com.google.testing.compile.JavaSourcesSubject
 import java.io.File
 import javax.tools.JavaFileObject
 
-abstract class GenerationTest() {
+abstract class GenerationTest {
+
+    val generationFolder = "generationExamples"
 
     fun filePrecessingComparator(fileName: String) {
-        val gen = File("../generationExamples/$fileName").readText().split("********")
+        val gen = File("$generationFolder/$fileName").readText().split("********")
         // gen[0] is empty
         val beforeProcess = gen[1] to gen[2]
         val afterProcess = gen[3] to gen[4]
@@ -20,7 +22,7 @@ abstract class GenerationTest() {
     }
 
     fun dirPrecessingComparator(dirName: String) {
-        File("../generationExamples/$dirName/").walkTopDown().forEach {
+        File("$generationFolder/$dirName/").walkTopDown().forEach {
             if(it.isDirectory) return@forEach
             filePrecessingComparator("$dirName/${it.name}")
         }
@@ -39,7 +41,7 @@ abstract class GenerationTest() {
     }
 
     fun filePrecessingCheckError(fileName: String, expectedErrorPhrase: String) {
-        val gen = File("../generationExamples/$fileName").readText().split("********")
+        val gen = File("$generationFolder/$fileName").readText().split("********")
         // gen[0] is empty
         val beforeProcess = gen[1] to gen[2]
         processingErrorCheck(beforeProcess, expectedErrorPhrase)

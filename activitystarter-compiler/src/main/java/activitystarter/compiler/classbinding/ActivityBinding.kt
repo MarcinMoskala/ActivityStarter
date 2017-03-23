@@ -25,26 +25,31 @@ internal class ActivityBinding(element: TypeElement) : IntentBinding(element) {
             .doIf(argumentBindings.isNotEmpty()) { addFieldSettersCode() }
             .build()!!
 
-    private fun MethodSpec.Builder.addFieldSettersCode() {
-        if (savable) {
-            addCode("if(savedInstanceState == null || !saved) {\n")
-            addFieldSettersFromIntent()
-            addCode("} else {\n")
-            addBundleSetters("savedInstanceState", "activity")
-            addCode("}\n")
-        } else {
-            addFieldSettersFromIntent()
-        }
-    }
-
-    private fun MethodSpec.Builder.addFieldSettersFromIntent() {
-        addStatement("Intent intent = activity.getIntent()")
-        addIntentSetters("activity")
-    }
-
     override fun TypeSpec.Builder.addExtraToClass() = this
             .addMethod(createSaveMethod())
-            .doIf(savable) { addField(createSavedField()) }
+
+    override fun createStarters(variant: List<ArgumentBinding>): List<MethodSpec> = listOf(
+            createGetIntentMethod(variant),
+            createStartActivityMethod(variant),
+            createStartActivityMethodWithFlags(variant)
+    )
+
+    private fun MethodSpec.Builder.addFieldSettersCode() {
+        addStatement("Intent intent = activity.getIntent()")
+        if (savable) {
+            for (arg in argumentBindings) {
+                val bundleName = "savedInstanceState"
+                val bundlePredicate = getBundlePredicate(arg, bundleName)
+                addCode("if($bundleName != null && $bundlePredicate) {\n")
+                addBundleSetter(arg, bundleName, "activity", false)
+                addCode("} else {\n")
+                addIntentSetter(arg, "activity")
+                addCode("}\n")
+            }
+        } else {
+            addIntentSetters("activity")
+        }
+    }
 
     private fun createSaveMethod(): MethodSpec = this
             .builderWithCreationBasicFieldsNoContext("save")
@@ -52,19 +57,8 @@ internal class ActivityBinding(element: TypeElement) : IntentBinding(element) {
             .addParameter(BUNDLE, "bundle")
             .doIf(savable) {
                 addSaveBundleStatements("bundle", argumentBindings, { "activity.${it.accessor.getFieldValue()}" })
-                addStatement("saved = true")
             }
             .build()
-
-    private fun createSavedField() = FieldSpec.builder(BOOLEAN, "saved", PRIVATE, STATIC)
-            .initializer("false")
-            .build()
-
-    override fun createStarters(variant: List<ArgumentBinding>): List<MethodSpec> = listOf(
-            createGetIntentMethod(variant),
-            createStartActivityMethod(variant),
-            createStartActivityMethodWithFlags(variant)
-    )
 
     private fun createStartActivityMethod(variant: List<ArgumentBinding>) =
             createGetIntentStarter("startActivity", variant)

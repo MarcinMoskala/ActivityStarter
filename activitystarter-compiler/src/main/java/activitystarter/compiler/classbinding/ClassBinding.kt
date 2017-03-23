@@ -52,13 +52,20 @@ internal abstract class ClassBinding(enclosingElement: TypeElement) {
         variant.forEach { arg -> addStatement("$bundleName.${getBundleSetterFor(arg)}(\"" + arg.key + "\", " + argumentGetByName(arg) + ")") }
     }
 
-    protected fun MethodSpec.Builder.addBundleSetters(bundleName: String, className: String) = apply {
-        for (arg in argumentBindings) {
-            val keyName = arg.key
-            val settingPart = arg.accessor.setToField(getBundleGetterFor(bundleName, arg, keyName))
-            addStatement("if($bundleName.containsKey(\"$keyName\")) $className.$settingPart")
-        }
+    protected fun MethodSpec.Builder.addBundleSetters(bundleName: String, className: String, checkIfSet: Boolean) = apply {
+        argumentBindings.forEach { arg -> addBundleSetter(arg, bundleName, className, checkIfSet) }
     }
+
+    protected fun MethodSpec.Builder.addBundleSetter(arg: ArgumentBinding, bundleName: String, className: String, checkIfSet: Boolean) {
+        val keyName = arg.key
+        val settingPart = arg.accessor.setToField(getBundleGetterFor(bundleName, arg, keyName))
+        if (checkIfSet) addCode("if(${getBundleSetPredicate(bundleName, keyName)}) ")
+        addStatement("$className.$settingPart")
+    }
+
+    protected fun getBundlePredicate(arg: ArgumentBinding, bundleName: String) = "$bundleName.containsKey(\"${arg.key}\")"
+
+    protected fun getBundleSetPredicate(bundleName: String, keyName: String) = "$bundleName.containsKey(\"$keyName\")"
 
     private fun getTargetTypeName(enclosingElement: TypeElement) = TypeName
             .get(enclosingElement.asType())

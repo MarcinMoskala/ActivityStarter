@@ -11,7 +11,7 @@ internal class FragmentBinding(element: TypeElement) : ClassBinding(element) {
     override fun createFillFieldsMethod() = getBasicFillMethodBuilder()
             .addParameter(targetTypeName, "fragment")
             .doIf(argumentBindings.isNotEmpty()) { addStatement("\$T arguments = fragment.getArguments()", BUNDLE) }
-            .addBundleSetters("arguments", "fragment")
+            .addBundleSetters("arguments", "fragment", true)
             .build()!!
 
     override fun createStarters(variant: List<ArgumentBinding>): List<MethodSpec> = listOf(

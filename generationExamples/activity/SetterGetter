@@ -23,20 +23,19 @@ import android.os.Bundle;
 import java.lang.String;
 
 public final class MainActivityStarter {
-  private static boolean saved = false;
-
+  /**
+   * This is method used to fill fields. Use it by calling ActivityStarter.fill(this). */
   public static void fill(MainActivity activity, Bundle savedInstanceState) {
-    if(savedInstanceState == null || !saved) {
     Intent intent = activity.getIntent();
-    if(intent.hasExtra("com.example.activitystarter.nameStarterKey")) activity.setName(intent.getStringExtra("com.example.activitystarter.nameStarterKey"));
+    if(savedInstanceState != null && savedInstanceState.containsKey("com.example.activitystarter.nameStarterKey")) {
+    activity.setName(savedInstanceState.getString("com.example.activitystarter.nameStarterKey"));
     } else {
-    if(savedInstanceState.containsKey("com.example.activitystarter.nameStarterKey")) activity.setName(savedInstanceState.getString("com.example.activitystarter.nameStarterKey"));
+    if(intent.hasExtra("com.example.activitystarter.nameStarterKey")) activity.setName(intent.getStringExtra("com.example.activitystarter.nameStarterKey"));
     }
   }
 
   public static void save(MainActivity activity, Bundle bundle) {
     bundle.putString("com.example.activitystarter.nameStarterKey", activity.getName());
-    saved = true;
   }
 
   public static Intent getIntent(Context context, String name) {

@@ -5,12 +5,12 @@ import org.junit.Test
 class ActivityGenerationTest: GenerationTest() {
 
     @Test
-    fun simpleGenerationTest() {
+    fun emptyAnnotatedGenerationTest() {
         filePrecessingComparator("activity/EmptyAnnotated")
     }
 
     @Test
-    fun singleArgGenerationTest() {
+    fun simpleGenerationTest() {
         filePrecessingComparator("activity/Simple")
     }
 

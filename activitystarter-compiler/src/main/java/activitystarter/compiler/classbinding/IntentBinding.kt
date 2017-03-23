@@ -21,16 +21,18 @@ internal abstract class IntentBinding(element: TypeElement) : ClassBinding(eleme
             .addStatement("return intent")
             .build()
 
-    private fun MethodSpec.Builder.addPutExtraStatement(variant: List<ArgumentBinding>) = apply {
+    protected fun MethodSpec.Builder.addPutExtraStatement(variant: List<ArgumentBinding>) = apply {
         variant.forEach { arg -> addStatement("intent.putExtra(\"" + arg.key + "\", " + arg.name + ")") }
     }
 
     protected fun MethodSpec.Builder.addIntentSetters(targetParameterName: String) = apply {
-        for (arg in argumentBindings) {
-            val keyName = arg.key
-            val settingPart = arg.accessor.setToField(getIntentGetterFor(arg, keyName))
-            addStatement("if(intent.hasExtra(\"$keyName\")) $targetParameterName.$settingPart")
-        }
+        argumentBindings.forEach { arg -> addIntentSetter(arg, targetParameterName) }
+    }
+
+    protected fun MethodSpec.Builder.addIntentSetter(arg: ArgumentBinding, targetParameterName: String) {
+        val keyName = arg.key
+        val settingPart = arg.accessor.setToField(getIntentGetterFor(arg, keyName))
+        addStatement("if(intent.hasExtra(\"$keyName\")) $targetParameterName.$settingPart")
     }
 
     protected fun createGetIntentStarter(starterFunc: String, variant: List<ArgumentBinding>) = builderWithCreationBasicFields("start")
