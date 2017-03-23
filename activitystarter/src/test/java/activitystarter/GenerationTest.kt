@@ -10,7 +10,7 @@ import javax.tools.JavaFileObject
 
 abstract class GenerationTest {
 
-    val generationFolder = "generationExamples"
+    val generationFolder = "../generationExamples"
 
     fun filePrecessingComparator(fileName: String) {
         val gen = File("$generationFolder/$fileName").readText().split("********")
