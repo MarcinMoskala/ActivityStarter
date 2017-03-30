@@ -11,7 +11,7 @@ fun TypeMirror.isSubtypeOfType(vararg otherType: String): Boolean {
         otherType.any { it.substringBefore("<") == typeString } -> true
         this.kind != TypeKind.DECLARED -> false
         else -> {
-            val element = toTypeElement() ?: return false
+            val element = this.toTypeElement() ?: return false
             element.superclass.isSubtypeOfType(*otherType) || element.interfaces.any { it.isSubtypeOfType(*otherType) }
         }
     }
