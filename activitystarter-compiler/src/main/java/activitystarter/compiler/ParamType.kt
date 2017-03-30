@@ -40,6 +40,8 @@ enum class ParamType {
     companion object {
         val stringTypeName = TypeName.get(kotlin.String::class.java)!!
         val charSequenceTypeName = TypeName.get(kotlin.CharSequence::class.java)!!
+        val arrayListRegex by lazy { """ArrayList<([\w.]*)>""".toRegex() }
+
         fun fromType(typeMirror: TypeMirror): ParamType? =
                 getByKind(typeMirror) ?:
                         getByName(typeMirror) ?:
@@ -99,9 +101,16 @@ enum class ParamType {
 
         private fun getBySupertype(typeMirror: TypeMirror): ParamType? = when {
             typeMirror.isSubtypeOfType("android.os.Parcelable") -> ParcelableSubtype
-            typeMirror.toString().contains("""ArrayList<[\w.]*>""".toRegex()) -> ParcelableArrayListSubtype
+            typeMirror.isArrayListWithSubtypesOf("android.os.Parcelable") -> ParcelableArrayListSubtype
             typeMirror.isSubtypeOfType("java.io.Serializable") -> SerializableSubtype
             else -> null
+        }
+
+        private fun TypeMirror.isArrayListWithSubtypesOf(supertype: kotlin.String): kotlin.Boolean {
+            val typeAsString = toString()
+            if(!typeAsString.contains(arrayListRegex)) return false
+            val elementsType = (this as Type.ClassType).typarams_field[0]
+            return elementsType.isSubtypeOfType(supertype)
         }
     }
 }
