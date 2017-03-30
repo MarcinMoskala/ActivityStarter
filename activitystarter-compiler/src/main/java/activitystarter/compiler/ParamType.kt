@@ -1,8 +1,6 @@
 package activitystarter.compiler
 
 import com.squareup.javapoet.TypeName
-import java.io.Serializable
-import java.util.*
 import javax.lang.model.type.ArrayType
 import javax.lang.model.type.TypeKind
 import javax.lang.model.type.TypeMirror
