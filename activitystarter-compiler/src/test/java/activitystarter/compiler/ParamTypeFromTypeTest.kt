@@ -7,7 +7,7 @@ import org.junit.Test
 import java.util.*
 import javax.lang.model.type.TypeMirror
 
-class ParamTypeTest {
+class ParamTypeFromTypeTest {
 
     @Test
     fun `There is class that represents type that include all supported types`() {
