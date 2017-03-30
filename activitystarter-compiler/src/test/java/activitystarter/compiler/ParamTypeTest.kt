@@ -6,8 +6,7 @@ import org.junit.Test
 class ParamTypeTest {
 
     @Test
-    fun testIsSubtypeOf() {
-        // TODO Mock TypeMirror to test isSubtypeOfType
-        assertTrue(true)
+    fun `There is class that represents type`() {
+        ParamTypeTest::class.java
     }
 }
