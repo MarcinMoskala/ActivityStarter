@@ -70,6 +70,16 @@ class ParamTypeFromTypeTest {
         assertParamTypeFromTypeMapping(ParamType.SerializableSubtype to TypeMirrors.SubtypeOfSerializable)
     }
 
+    @Test
+    fun `Type mapper is mapping Array of Parcelable subtype to correct ParamType`() {
+        assertParamTypeFromTypeMapping(ParamType.ParcelableArraySubtype to TypeMirrors.ParcelableArraySubtype)
+    }
+
+//    @Test
+//    fun `Type mapper is mapping ArrayList of Parcelable subtype to correct ParamType`() {
+//        assertParamTypeFromTypeMapping(ParamType.ParcelableArrayListSubtype to TypeMirrors.ParcelableArrayListSubtype)
+//    }
+
     fun assertParamTypeFromTypeMapping(vararg paramTypeToTypeMirror: Pair<ParamType, TypeMirror>) {
         for((paramType, typeMirror) in paramTypeToTypeMirror) {
             Assert.assertEquals(paramType, ParamType.fromType(typeMirror))

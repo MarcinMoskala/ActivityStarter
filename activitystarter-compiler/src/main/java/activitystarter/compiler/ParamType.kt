@@ -1,7 +1,7 @@
 package activitystarter.compiler
 
 import com.squareup.javapoet.TypeName
-import javax.lang.model.type.ArrayType
+import com.sun.tools.javac.code.Type
 import javax.lang.model.type.TypeKind
 import javax.lang.model.type.TypeMirror
 
@@ -32,7 +32,6 @@ enum class ParamType {
     StringArrayList,
     CharSequenceArrayList,
 
-
     ParcelableSubtype,
     SerializableSubtype,
     ParcelableArraySubtype,
@@ -43,9 +42,9 @@ enum class ParamType {
         val charSequenceTypeName = TypeName.get(kotlin.CharSequence::class.java)!!
         fun fromType(typeMirror: TypeMirror): ParamType? =
                 getByKind(typeMirror) ?:
-                getByName(typeMirror) ?:
-                getArrayList(typeMirror) ?:
-                getBySupertype(typeMirror)
+                        getByName(typeMirror) ?:
+                        getArrayList(typeMirror) ?:
+                        getBySupertype(typeMirror)
 
         private fun getByKind(typeMirror: TypeMirror): ParamType? = when (typeMirror.kind) {
             TypeKind.BOOLEAN -> Boolean
@@ -56,7 +55,7 @@ enum class ParamType {
             TypeKind.CHAR -> Char
             TypeKind.FLOAT -> Float
             TypeKind.DOUBLE -> Double
-            TypeKind.ARRAY -> getArrayType(typeMirror as ArrayType)
+            TypeKind.ARRAY -> getArrayType(typeMirror as? Type.ArrayType)
             else -> null
         }
 
@@ -66,17 +65,28 @@ enum class ParamType {
             else -> null
         }
 
-        private fun getArrayType(arrayType: ArrayType): ParamType? = when (arrayType.toString()) {
-            "java.lang.String[]" -> StringArray
-            "java.lang.CharSequence[]" -> CharSequenceArray
-            "int[]" -> IntArray
-            "long[]" -> LongArray
-            "float[]" -> FloatArray
-            "boolean[]" -> BooleanArray
-            "double[]" -> DoubleArray
-            "char[]" -> CharArray
-            "byte[]" -> ByteArray
-            "short[]" -> ShortArray
+        private fun getArrayType(arrayType: Type.ArrayType?): ParamType? {
+            val elementType = arrayType?.elemtype ?: return null
+            val basicArrayElementType = getArrayParamTypeForElementType(elementType)
+            return basicArrayElementType ?: getComplexArrayParamTypeForElementType(elementType)
+        }
+
+        private fun getArrayParamTypeForElementType(elementType: Type): ParamType? = when (elementType.toString()) {
+            "java.lang.String" -> StringArray
+            "java.lang.CharSequence" -> CharSequenceArray
+            "int" -> IntArray
+            "long" -> LongArray
+            "float" -> FloatArray
+            "boolean" -> BooleanArray
+            "double" -> DoubleArray
+            "char" -> CharArray
+            "byte" -> ByteArray
+            "short" -> ShortArray
+            else -> null
+        }
+
+        private fun getComplexArrayParamTypeForElementType(elementType: Type): ParamType? = when {
+            elementType.isSubtypeOfType("android.os.Parcelable") -> ParcelableArraySubtype
             else -> null
         }
 
