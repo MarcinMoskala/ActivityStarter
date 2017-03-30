@@ -4,6 +4,7 @@ import activitystarter.compiler.helpers.TypeMirrors
 import com.squareup.javapoet.TypeName
 import org.junit.Assert
 import org.junit.Test
+import java.util.*
 import javax.lang.model.type.TypeMirror
 
 class ParamTypeTest {
@@ -47,7 +48,15 @@ class ParamTypeTest {
                 ParamType.ByteArray to TypeMirrors.ByteArray,
                 ParamType.ShortArray to TypeMirrors.ShortArray
         )
+    }
 
+    @Test
+    fun `Type mapper is mapping ArrayLists to its equivalents`() {
+        assertParamTypeFromTypeMapping(
+                ParamType.IntegerArrayList to TypeMirrors.IntegerArrayList,
+                ParamType.StringArrayList to TypeMirrors.StringArrayList,
+                ParamType.CharSequenceArrayList to TypeMirrors.CharSequenceArrayList
+        )
     }
 
     fun assertParamTypeFromTypeMapping(vararg paramTypeToTypeMirror: Pair<ParamType, TypeMirror>) {

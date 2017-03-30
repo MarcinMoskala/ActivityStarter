@@ -1,6 +1,7 @@
 package activitystarter.compiler
 
 import com.squareup.javapoet.TypeName
+import java.util.*
 import javax.lang.model.type.ArrayType
 import javax.lang.model.type.TypeKind
 import javax.lang.model.type.TypeMirror
@@ -16,11 +17,7 @@ enum class ParamType {
     Byte,
     Short,
     CharSequence,
-    ParcelableArray,
-    ParcelableArrayList,
-    IntegerArrayList,
-    StringArrayList,
-    CharSequenceArrayList,
+
     BooleanArray,
     ByteArray,
     ShortArray,
@@ -31,17 +28,24 @@ enum class ParamType {
     DoubleArray,
     StringArray,
     CharSequenceArray,
-    Bundle,
-    IBinder,
+
+    IntegerArrayList,
+    StringArrayList,
+    CharSequenceArrayList,
+
+
+    ParcelableSubtype,
     SerializableSubtype,
-    ParcelableSubtype;
+    ParcelableArraySubtype,
+    ParcelableArrayListSubtype;
 
     companion object {
         val stringTypeName = TypeName.get(kotlin.String::class.java)!!
         val charSequenceTypeName = TypeName.get(kotlin.CharSequence::class.java)!!
+        val arrayList = TypeName.get(ArrayList::class.java)!!
 
         fun fromType(typeMirror: TypeMirror): ParamType? =
-                getByKind(typeMirror) ?: getByName(typeMirror)
+                getByKind(typeMirror) ?: getByName(typeMirror) ?: getArrayList(typeMirror)
 
         private fun getByKind(typeMirror: TypeMirror): ParamType? = when (typeMirror.kind) {
             TypeKind.BOOLEAN -> Boolean
@@ -73,6 +77,13 @@ enum class ParamType {
             "char[]" -> CharArray
             "byte[]" -> ByteArray
             "short[]" -> ShortArray
+            else -> null
+        }
+
+        private fun getArrayList(typeMirror: TypeMirror): ParamType? = when (typeMirror.toString()) {
+            "java.util.ArrayList<java.lang.Integer>" -> IntegerArrayList
+            "java.util.ArrayList<java.lang.String>" -> StringArrayList
+            "java.util.ArrayList<java.lang.CharSequence>" -> CharSequenceArrayList
             else -> null
         }
     }

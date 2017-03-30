@@ -41,10 +41,10 @@ object TypeMirrors {
     val StringArray by lazy { getTypeMirror("String[]") }
     val CharSequenceArray by lazy { getTypeMirror("CharSequence[]") }
     val ParcelableArray by lazy { getTypeMirror("Parcelable[]") }
+    val IntegerArrayList by lazy { getTypeMirror("ArrayList<Integer>", "java.util.ArrayList") }
+    val StringArrayList by lazy { getTypeMirror("ArrayList<String>", "java.util.ArrayList") }
+    val CharSequenceArrayList by lazy { getTypeMirror("ArrayList<CharSequence>", "java.util.ArrayList") }
 //    ParcelableelableArrayList,
-//    IntegerArrayList,
-//    StringArrayList,
-//    CharSequenceArrayList,
 
     private inline fun <reified T: Any> getTypeMirror(): TypeMirror {
         val clazz = T::class
@@ -52,10 +52,12 @@ object TypeMirrors {
         return getTypeMirror(name)
     }
 
-    private fun getTypeMirror(typeName: String): TypeMirror {
+    private fun getTypeMirror(typeName: String, import: String? = null): TypeMirror {
+        val extraImport = import?.let { "import $import;" } ?: ""
         val source = JavaFileObjects.forSourceString("mm.Main", """
 package mm;
 import activitystarter.Arg;
+$extraImport
 
 public class Main {
     @Arg $typeName a;
