@@ -30,6 +30,7 @@ object TypeMirrors {
     val Double by lazy { getTypeMirror<Double>() }
     val Float by lazy { getTypeMirror<Float>() }
     val IntArray by lazy { getTypeMirror("int[]") }
+    val CharSequence by lazy { getTypeMirror("CharSequence") }
 
     private inline fun <reified T: Any> getTypeMirror(): TypeMirror {
         val clazz = T::class

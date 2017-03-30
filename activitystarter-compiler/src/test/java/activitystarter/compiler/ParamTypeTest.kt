@@ -13,7 +13,19 @@ class ParamTypeTest {
     }
 
     @Test
-    fun `Type mapper is mapping Boolean type to its equivalent`() {
-        Assert.assertEquals(ParamType.Boolean, ParamType.fromType(TypeMirrors.Boolean))
+    fun `Type mapper is mapping basic types to its equivalent`() {
+        val mirrorToParamTypeMap = mapOf(
+                ParamType.Int to TypeMirrors.Int,
+                ParamType.Long to TypeMirrors.Long,
+                ParamType.Float to TypeMirrors.Float,
+                ParamType.Boolean to TypeMirrors.Boolean,
+                ParamType.Double to TypeMirrors.Double,
+                ParamType.Char to TypeMirrors.Char,
+                ParamType.Byte to TypeMirrors.Byte,
+                ParamType.Short to TypeMirrors.Short
+        )
+        for((paramType, typeMirror) in mirrorToParamTypeMap) {
+            Assert.assertEquals(paramType, ParamType.fromType(typeMirror))
+        }
     }
 }
