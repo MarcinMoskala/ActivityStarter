@@ -1,0 +1,52 @@
+********com.example.activitystarter.MainActivity********
+package com.example.activitystarter;
+
+import android.app.Activity;
+
+import activitystarter.Arg;
+
+public class MainActivity extends Activity {
+    @Arg long name;
+}
+********com.example.activitystarter.MainActivityStarter********
+package com.example.activitystarter;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import java.lang.String;
+
+public final class MainActivityStarter {
+  private static boolean saved = false;
+
+  public static void fill(MainActivity activity, Bundle savedInstanceState) {
+    if(savedInstanceState == null || !saved) {
+      Intent intent = activity.getIntent();
+      if(intent.hasExtra("SOME_NAME")) activity.name = intent.getLongExtra("SOME_NAME", -1L);
+    } else {
+      if(savedInstanceState.containsKey("SOME_NAME")) activity.name = savedInstanceState.getLong("SOME_NAME");
+    }
+  }
+
+  public static void save(MainActivity activity, Bundle bundle) {
+    bundle.putLong("SOME_NAME", activity.name);
+    saved = true;
+  }
+
+  public static Intent getIntent(Context context, Long name) {
+    Intent intent = new Intent(context, MainActivity.class);
+    intent.putExtra("SOME_NAME", name);
+    return intent;
+  }
+
+  public static void start(Context context, Long name) {
+    Intent intent = getIntent(context, name);
+    context.startActivity(intent);
+  }
+
+  public static void startWithFlags(Context context, Long name, int flags) {
+    Intent intent = getIntent(context, name);
+    intent.addFlags(flags);
+    context.startActivity(intent);
+  }
+}

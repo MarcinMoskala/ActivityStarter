@@ -2,6 +2,7 @@ package activitystarter.compiler.classbinding
 
 import activitystarter.compiler.ArgumentBinding
 import activitystarter.compiler.INTENT
+import activitystarter.compiler.getIntentGetterFor
 import com.squareup.javapoet.MethodSpec
 import javax.lang.model.element.TypeElement
 
@@ -28,7 +29,7 @@ internal abstract class IntentBinding(element: TypeElement) : ClassBinding(eleme
     protected fun MethodSpec.Builder.addIntentSetters(targetParameterName: String) = apply {
         for (arg in argumentBindings) {
             val keyName = arg.key
-            val settingPart = arg.accessor.setToField(getIntentGetterFor(arg, keyName))
+            val settingPart = arg.accessor.setToField(getIntentGetterFor(arg.type, arg.elementType, keyName))
             addStatement("if(intent.hasExtra(\"$keyName\")) $targetParameterName.$settingPart")
         }
     }

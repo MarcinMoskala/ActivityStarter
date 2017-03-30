@@ -1,9 +1,7 @@
 package activitystarter.compiler.classbinding
 
 import activitystarter.Arg
-import activitystarter.compiler.ArgumentBinding
-import activitystarter.compiler.CONTEXT
-import activitystarter.compiler.createSublists
+import activitystarter.compiler.*
 import com.squareup.javapoet.*
 import javax.lang.model.element.Modifier
 import javax.lang.model.element.Modifier.FINAL
@@ -49,13 +47,16 @@ internal abstract class ClassBinding(enclosingElement: TypeElement) {
     }
 
     protected fun MethodSpec.Builder.addSaveBundleStatements(bundleName: String, variant: List<ArgumentBinding>, argumentGetByName: (ArgumentBinding) -> String) = apply {
-        variant.forEach { arg -> addStatement("$bundleName.${getBundleSetterFor(arg)}(\"" + arg.key + "\", " + argumentGetByName(arg) + ")") }
+        variant.forEach { arg ->
+            val bundleSetter = getBundleSetterFor(arg.type, arg.elementType)
+            addStatement("$bundleName.$bundleSetter(\"" + arg.key + "\", " + argumentGetByName(arg) + ")")
+        }
     }
 
     protected fun MethodSpec.Builder.addBundleSetters(bundleName: String, className: String) = apply {
         for (arg in argumentBindings) {
             val keyName = arg.key
-            val settingPart = arg.accessor.setToField(getBundleGetterFor(bundleName, arg, keyName))
+            val settingPart = arg.accessor.setToField(getBundleGetterFor(bundleName, arg.type, arg.elementType, keyName))
             addStatement("if($bundleName.containsKey(\"$keyName\")) $className.$settingPart")
         }
     }

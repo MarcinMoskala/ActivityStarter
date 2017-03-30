@@ -45,9 +45,9 @@ private fun getClassError(elementType: KnownClassType?) = when {
 private fun getFieldError(element: Element, elementType: TypeMirror, enclosingElement: TypeElement) = when {
     enclosingElement.kind != CLASS -> Errors.notAClass
     enclosingElement.modifiers.contains(PRIVATE) -> Errors.privateClass
-    !isFieldValidType(elementType) -> Errors.notSupportedType
+//    !isFieldValidType(elementType) -> Errors.notSupportedType
     !FieldAccessor(element).isAccessible() -> Errors.inaccessibleField
-    (getElementType(enclosingElement).isSubtypeOfType(BROADCAST_RECEIVER_TYPE) && !isBasicSupportedType(elementType)) -> Errors.notBasicTypeInReceiver
+//    (getElementType(enclosingElement).isSubtypeOfType(BROADCAST_RECEIVER_TYPE) && !isBasicSupportedType(elementType)) -> Errors.notBasicTypeInReceiver
     else -> null
 }
 
@@ -62,13 +62,8 @@ private inline fun <reified T : Annotation> parsingError(text: String, element: 
     error(enclosingElement, "@%s %s $text (%s)", T::class.java.simpleName, enclosingElement.qualifiedName, element.simpleName)
 }
 
-private fun isFieldValidType(elementType: TypeMirror) = isBasicSupportedType(elementType) || isSubtypeOfSupportedTypes(elementType)
-
-private fun isSubtypeOfSupportedTypes(elementType: TypeMirror) =
-        elementType.isSubtypeOfType(SERIALIZABLE_TYPE, PARCELABLE_TYPE)
-
-private fun isBasicSupportedType(elementType: TypeMirror) = elementType.kind in listOf(TypeKind.BOOLEAN, TypeKind.INT, TypeKind.FLOAT, TypeKind.DOUBLE, TypeKind.CHAR) ||
-        TypeName.get(elementType) == TypeName.get(String::class.java)
+// TODO
+//private fun isFieldValidType(elementType: TypeMirror) = isBasicSupportedType(elementType) || isSubtypeOfSupportedTypes(elementType)
 
 enum class KnownClassType(vararg val typeString: String) {
     Activity(ACTIVITY_TYPE),
