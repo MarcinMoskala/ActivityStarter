@@ -1,7 +1,6 @@
 package activitystarter.compiler.helpers
 
 import activitystarter.Arg
-import activitystarter.compiler.getElementType
 import activitystarter.compiler.messanger
 import com.google.common.truth.Truth
 import com.google.testing.compile.CompileTester
@@ -15,7 +14,6 @@ import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.SourceVersion
 import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
-import javax.lang.model.type.TypeMirror
 import javax.tools.JavaFileObject
 
 abstract class ParamProcessor() : AbstractProcessor() {

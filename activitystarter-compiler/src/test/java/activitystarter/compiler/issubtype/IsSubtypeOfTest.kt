@@ -1,14 +1,7 @@
 package activitystarter.compiler.issubtype
 
 import activitystarter.compiler.helpers.ParamProcessor
-import activitystarter.compiler.issubtype.IsSubtypeHelperProcessor
-import com.google.common.truth.Truth
-import com.google.testing.compile.CompileTester
-import com.google.testing.compile.JavaFileObjects
-import com.google.testing.compile.JavaSourceSubjectFactory
-import com.google.testing.compile.JavaSourcesSubject
 import org.junit.Test
-import javax.tools.JavaFileObject
 
 class IsSubtypeOfTest {
 

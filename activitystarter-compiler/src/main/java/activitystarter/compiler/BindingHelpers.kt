@@ -1,7 +1,5 @@
 package activitystarter.compiler
 
-import activitystarter.compiler.ArgumentBinding
-import activitystarter.compiler.isSubtypeOfType
 import com.google.auto.common.MoreElements
 import com.squareup.javapoet.ClassName
 import com.squareup.javapoet.TypeName

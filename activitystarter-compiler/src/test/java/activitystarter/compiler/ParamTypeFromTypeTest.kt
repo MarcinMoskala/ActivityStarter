@@ -1,10 +1,8 @@
 package activitystarter.compiler
 
 import activitystarter.compiler.helpers.TypeMirrors
-import com.squareup.javapoet.TypeName
 import org.junit.Assert
 import org.junit.Test
-import java.util.*
 import javax.lang.model.type.TypeMirror
 
 class ParamTypeFromTypeTest {

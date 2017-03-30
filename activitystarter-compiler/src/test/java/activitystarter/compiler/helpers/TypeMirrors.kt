@@ -1,21 +1,11 @@
 package activitystarter.compiler.helpers
 
-import activitystarter.Arg
 import activitystarter.compiler.getElementType
-import activitystarter.compiler.issubtype.IsSubtypeHelperProcessor
-import activitystarter.compiler.messanger
 import com.google.common.truth.Truth
-import com.google.testing.compile.CompileTester
 import com.google.testing.compile.JavaFileObjects
 import com.google.testing.compile.JavaSourceSubjectFactory
 import com.google.testing.compile.JavaSourcesSubject
-import javax.annotation.processing.AbstractProcessor
-import javax.annotation.processing.Filer
-import javax.annotation.processing.ProcessingEnvironment
-import javax.annotation.processing.RoundEnvironment
-import javax.lang.model.SourceVersion
 import javax.lang.model.element.Element
-import javax.lang.model.element.TypeElement
 import javax.lang.model.type.TypeMirror
 import javax.tools.JavaFileObject
 

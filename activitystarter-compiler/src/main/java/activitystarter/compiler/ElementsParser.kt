@@ -4,12 +4,10 @@ import activitystarter.Arg
 import activitystarter.MakeActivityStarter
 import activitystarter.compiler.KnownClassType.*
 import activitystarter.compiler.classbinding.*
-import com.squareup.javapoet.TypeName
 import javax.lang.model.element.Element
 import javax.lang.model.element.ElementKind.CLASS
 import javax.lang.model.element.Modifier.PRIVATE
 import javax.lang.model.element.TypeElement
-import javax.lang.model.type.TypeKind
 import javax.lang.model.type.TypeMirror
 
 internal fun parseArg(element: Element, builderMap: MutableMap<TypeElement, ClassBinding>) {
