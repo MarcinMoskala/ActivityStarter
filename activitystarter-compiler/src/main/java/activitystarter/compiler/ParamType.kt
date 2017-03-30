@@ -37,8 +37,12 @@ enum class ParamType {
 
     companion object {
         val stringTypeName = TypeName.get(kotlin.String::class.java)
+        val charSequenceTypeName = TypeName.get(kotlin.CharSequence::class.java)
 
-        fun fromType(typeMirror: TypeMirror): ParamType? = when(typeMirror.kind) {
+        fun fromType(typeMirror: TypeMirror): ParamType? =
+                getByKind(typeMirror) ?: getByName(typeMirror)
+
+        private fun getByKind(typeMirror: TypeMirror): ParamType? = when (typeMirror.kind) {
             TypeKind.BOOLEAN -> Boolean
             TypeKind.BYTE -> Byte
             TypeKind.SHORT -> Short
@@ -48,6 +52,12 @@ enum class ParamType {
             TypeKind.FLOAT -> Float
             TypeKind.DOUBLE -> Double
             TypeKind.ARRAY -> TODO()
+            else -> null
+        }
+
+        private fun getByName(typeMirror: TypeMirror): ParamType? = when(TypeName.get(typeMirror)) {
+            stringTypeName -> String
+            charSequenceTypeName -> CharSequence
             else -> null
         }
     }

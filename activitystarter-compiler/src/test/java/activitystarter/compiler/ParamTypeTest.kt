@@ -28,4 +28,10 @@ class ParamTypeTest {
             Assert.assertEquals(paramType, ParamType.fromType(typeMirror))
         }
     }
+
+    @Test
+    fun `Type mapper is mapping String and CharSequence to its equivalent`() {
+        Assert.assertEquals(ParamType.String, ParamType.fromType(TypeMirrors.String))
+        Assert.assertEquals(ParamType.CharSequence, ParamType.fromType(TypeMirrors.CharSequence))
+    }
 }
