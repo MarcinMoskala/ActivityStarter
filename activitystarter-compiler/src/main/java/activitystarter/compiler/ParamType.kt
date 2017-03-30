@@ -1,6 +1,7 @@
 package activitystarter.compiler
 
 import com.squareup.javapoet.TypeName
+import javax.lang.model.type.ArrayType
 import javax.lang.model.type.TypeKind
 import javax.lang.model.type.TypeMirror
 
@@ -36,8 +37,8 @@ enum class ParamType {
     ParcelableSubtype;
 
     companion object {
-        val stringTypeName = TypeName.get(kotlin.String::class.java)
-        val charSequenceTypeName = TypeName.get(kotlin.CharSequence::class.java)
+        val stringTypeName = TypeName.get(kotlin.String::class.java)!!
+        val charSequenceTypeName = TypeName.get(kotlin.CharSequence::class.java)!!
 
         fun fromType(typeMirror: TypeMirror): ParamType? =
                 getByKind(typeMirror) ?: getByName(typeMirror)
@@ -51,13 +52,27 @@ enum class ParamType {
             TypeKind.CHAR -> Char
             TypeKind.FLOAT -> Float
             TypeKind.DOUBLE -> Double
-            TypeKind.ARRAY -> TODO()
+            TypeKind.ARRAY -> getArrayType(typeMirror as ArrayType)
             else -> null
         }
 
-        private fun getByName(typeMirror: TypeMirror): ParamType? = when(TypeName.get(typeMirror)) {
+        private fun getByName(typeMirror: TypeMirror): ParamType? = when (TypeName.get(typeMirror)) {
             stringTypeName -> String
             charSequenceTypeName -> CharSequence
+            else -> null
+        }
+
+        private fun getArrayType(arrayType: ArrayType): ParamType? = when (arrayType.toString()) {
+            "String[]" -> StringArray
+            "CharSequence[]" -> CharSequenceArray
+            "int[]" -> IntArray
+            "long[]" -> LongArray
+            "float[]" -> FloatArray
+            "boolean[]" -> BooleanArray
+            "double[]" -> DoubleArray
+            "char[]" -> CharArray
+            "byte[]" -> ByteArray
+            "short[]" -> ShortArray
             else -> null
         }
     }

@@ -29,8 +29,22 @@ object TypeMirrors {
     val Long by lazy { getTypeMirror<Long>() }
     val Double by lazy { getTypeMirror<Double>() }
     val Float by lazy { getTypeMirror<Float>() }
-    val IntArray by lazy { getTypeMirror("int[]") }
     val CharSequence by lazy { getTypeMirror("CharSequence") }
+    val IntArray by lazy { getTypeMirror("int[]") }
+    val BooleanArray by lazy { getTypeMirror("boolean[]") }
+    val ByteArray by lazy { getTypeMirror("byte[]") }
+    val ShortArray by lazy { getTypeMirror("short[]") }
+    val CharArray by lazy { getTypeMirror("char[]") }
+    val LongArray by lazy { getTypeMirror("long[]") }
+    val FloatArray by lazy { getTypeMirror("float[]") }
+    val DoubleArray by lazy { getTypeMirror("double[]") }
+    val StringArray by lazy { getTypeMirror("String[]") }
+    val CharSequenceArray by lazy { getTypeMirror("CharSequence[]") }
+    val ParcelableArray by lazy { getTypeMirror("Parcelable[]") }
+//    ParcelableelableArrayList,
+//    IntegerArrayList,
+//    StringArrayList,
+//    CharSequenceArrayList,
 
     private inline fun <reified T: Any> getTypeMirror(): TypeMirror {
         val clazz = T::class
