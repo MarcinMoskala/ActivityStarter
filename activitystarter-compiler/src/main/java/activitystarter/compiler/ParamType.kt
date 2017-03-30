@@ -1,6 +1,7 @@
 package activitystarter.compiler
 
 import com.squareup.javapoet.TypeName
+import java.io.Serializable
 import java.util.*
 import javax.lang.model.type.ArrayType
 import javax.lang.model.type.TypeKind
@@ -42,7 +43,6 @@ enum class ParamType {
     companion object {
         val stringTypeName = TypeName.get(kotlin.String::class.java)!!
         val charSequenceTypeName = TypeName.get(kotlin.CharSequence::class.java)!!
-
         fun fromType(typeMirror: TypeMirror): ParamType? =
                 getByKind(typeMirror) ?:
                 getByName(typeMirror) ?:

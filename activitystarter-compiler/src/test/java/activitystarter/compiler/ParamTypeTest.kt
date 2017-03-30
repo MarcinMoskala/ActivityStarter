@@ -65,6 +65,11 @@ class ParamTypeTest {
         assertParamTypeFromTypeMapping(ParamType.ParcelableSubtype to TypeMirrors.SubtypeOfParcelable)
     }
 
+    @Test
+    fun `Type mapper is mapping Serializable subtype to SerializableSubtype ParamType`() {
+        assertParamTypeFromTypeMapping(ParamType.SerializableSubtype to TypeMirrors.SubtypeOfSerializable)
+    }
+
     fun assertParamTypeFromTypeMapping(vararg paramTypeToTypeMirror: Pair<ParamType, TypeMirror>) {
         for((paramType, typeMirror) in paramTypeToTypeMirror) {
             Assert.assertEquals(paramType, ParamType.fromType(typeMirror))
