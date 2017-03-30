@@ -99,6 +99,7 @@ enum class ParamType {
 
         private fun getBySupertype(typeMirror: TypeMirror): ParamType? = when {
             typeMirror.isSubtypeOfType("android.os.Parcelable") -> ParcelableSubtype
+            typeMirror.toString().contains("""ArrayList<[\w.]*>""".toRegex()) -> ParcelableArrayListSubtype
             typeMirror.isSubtypeOfType("java.io.Serializable") -> SerializableSubtype
             else -> null
         }

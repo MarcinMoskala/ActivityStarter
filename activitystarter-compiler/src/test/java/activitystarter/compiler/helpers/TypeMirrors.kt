@@ -47,7 +47,7 @@ object TypeMirrors {
     val SubtypeOfSerializable by lazy { getTypeMirror("Color", "java.awt.Color") }
     val SomeEnum by lazy { getTypeMirror("Color", "java.awt.Color") }
     val ParcelableArraySubtype by lazy { getTypeMirror("Account[]", "android.accounts.Account") }
-    val ParcelableArrayListSubtype: TypeMirror by lazy { TODO() }
+    val ParcelableArrayListSubtype: TypeMirror by lazy { getTypeMirror("ArrayList<Account>", "android.accounts.Account", "java.util.ArrayList") }
 //    ParcelableelableArrayList,
 
     private inline fun <reified T : Any> getTypeMirror(): TypeMirror {
@@ -56,8 +56,8 @@ object TypeMirrors {
         return getTypeMirror(name)
     }
 
-    private fun getTypeMirror(typeName: String, import: String? = null): TypeMirror {
-        val extraImport = import?.let { "import $import;" } ?: ""
+    private fun getTypeMirror(typeName: String, vararg import: String): TypeMirror {
+        val extraImport = import.joinToString(separator = "\n", transform = { "import $it;" })
         val source = JavaFileObjects.forSourceString("mm.Main", """
 package mm;
 import activitystarter.Arg;
