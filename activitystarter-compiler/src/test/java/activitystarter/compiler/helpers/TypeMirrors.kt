@@ -40,13 +40,13 @@ object TypeMirrors {
     val DoubleArray by lazy { getTypeMirror("double[]") }
     val StringArray by lazy { getTypeMirror("String[]") }
     val CharSequenceArray by lazy { getTypeMirror("CharSequence[]") }
-    val ParcelableArray by lazy { getTypeMirror("Parcelable[]") }
     val IntegerArrayList by lazy { getTypeMirror("ArrayList<Integer>", "java.util.ArrayList") }
     val StringArrayList by lazy { getTypeMirror("ArrayList<String>", "java.util.ArrayList") }
     val CharSequenceArrayList by lazy { getTypeMirror("ArrayList<CharSequence>", "java.util.ArrayList") }
+    val SubtypeOfParcelable by lazy { getTypeMirror("Account", "android.accounts.Account") }
 //    ParcelableelableArrayList,
 
-    private inline fun <reified T: Any> getTypeMirror(): TypeMirror {
+    private inline fun <reified T : Any> getTypeMirror(): TypeMirror {
         val clazz = T::class
         val name = clazz.javaPrimitiveType?.name ?: clazz.simpleName!!
         return getTypeMirror(name)
@@ -72,7 +72,7 @@ public class Main {
         return type!!
     }
 
-    class GetTypeMirrorHelperProcessor(val typeCallback: (TypeMirror)->Unit) : ParamProcessor() {
+    class GetTypeMirrorHelperProcessor(val typeCallback: (TypeMirror) -> Unit) : ParamProcessor() {
 
         override fun onParamFound(element: Element) {
             typeCallback(getElementType(element))

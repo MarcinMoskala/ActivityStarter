@@ -42,10 +42,12 @@ enum class ParamType {
     companion object {
         val stringTypeName = TypeName.get(kotlin.String::class.java)!!
         val charSequenceTypeName = TypeName.get(kotlin.CharSequence::class.java)!!
-        val arrayList = TypeName.get(ArrayList::class.java)!!
 
         fun fromType(typeMirror: TypeMirror): ParamType? =
-                getByKind(typeMirror) ?: getByName(typeMirror) ?: getArrayList(typeMirror)
+                getByKind(typeMirror) ?:
+                getByName(typeMirror) ?:
+                getArrayList(typeMirror) ?:
+                getBySupertype(typeMirror)
 
         private fun getByKind(typeMirror: TypeMirror): ParamType? = when (typeMirror.kind) {
             TypeKind.BOOLEAN -> Boolean
@@ -67,8 +69,8 @@ enum class ParamType {
         }
 
         private fun getArrayType(arrayType: ArrayType): ParamType? = when (arrayType.toString()) {
-            "String[]" -> StringArray
-            "CharSequence[]" -> CharSequenceArray
+            "java.lang.String[]" -> StringArray
+            "java.lang.CharSequence[]" -> CharSequenceArray
             "int[]" -> IntArray
             "long[]" -> LongArray
             "float[]" -> FloatArray
@@ -84,6 +86,12 @@ enum class ParamType {
             "java.util.ArrayList<java.lang.Integer>" -> IntegerArrayList
             "java.util.ArrayList<java.lang.String>" -> StringArrayList
             "java.util.ArrayList<java.lang.CharSequence>" -> CharSequenceArrayList
+            else -> null
+        }
+
+        private fun getBySupertype(typeMirror: TypeMirror): ParamType? = when {
+            typeMirror.isSubtypeOfType("android.os.Parcelable") -> ParcelableSubtype
+            typeMirror.isSubtypeOfType("java.io.Serializable") -> SerializableSubtype
             else -> null
         }
     }

@@ -46,7 +46,8 @@ class ParamTypeTest {
                 ParamType.DoubleArray to TypeMirrors.DoubleArray,
                 ParamType.CharArray to TypeMirrors.CharArray,
                 ParamType.ByteArray to TypeMirrors.ByteArray,
-                ParamType.ShortArray to TypeMirrors.ShortArray
+                ParamType.StringArray to TypeMirrors.StringArray,
+                ParamType.CharSequenceArray to TypeMirrors.CharSequenceArray
         )
     }
 
@@ -57,6 +58,11 @@ class ParamTypeTest {
                 ParamType.StringArrayList to TypeMirrors.StringArrayList,
                 ParamType.CharSequenceArrayList to TypeMirrors.CharSequenceArrayList
         )
+    }
+
+    @Test
+    fun `Type mapper is mapping Parcelable subtype to ParcelableSubtype ParamType`() {
+        assertParamTypeFromTypeMapping(ParamType.ParcelableSubtype to TypeMirrors.SubtypeOfParcelable)
     }
 
     fun assertParamTypeFromTypeMapping(vararg paramTypeToTypeMirror: Pair<ParamType, TypeMirror>) {
