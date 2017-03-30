@@ -29,17 +29,21 @@ object TypeMirrors {
     val Long by lazy { getTypeMirror<Long>() }
     val Double by lazy { getTypeMirror<Double>() }
     val Float by lazy { getTypeMirror<Float>() }
+    val IntArray by lazy { getTypeMirror("int[]") }
 
     private inline fun <reified T: Any> getTypeMirror(): TypeMirror {
         val clazz = T::class
-        val name = clazz.javaPrimitiveType?.name ?: clazz.simpleName
+        val name = clazz.javaPrimitiveType?.name ?: clazz.simpleName!!
+        return getTypeMirror(name)
+    }
+
+    private fun getTypeMirror(typeName: String): TypeMirror {
         val source = JavaFileObjects.forSourceString("mm.Main", """
 package mm;
-import activitystarter.compiler.issubtype.*;
 import activitystarter.Arg;
 
 public class Main {
-    @Arg $name a;
+    @Arg $typeName a;
 }
         """)
         var type: TypeMirror? = null
