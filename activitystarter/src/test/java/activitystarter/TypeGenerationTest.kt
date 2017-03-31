@@ -1,6 +1,5 @@
 package activitystarter
 
-import activitystarter.compiler.error.Errors
 import org.junit.Test
 
 class TypeGenerationTest : GenerationTest() {
@@ -91,16 +90,37 @@ class TypeGenerationTest : GenerationTest() {
     }
 
     @Test
-    fun stringArraySequenceArrayCompilationTest() {
-        processingCheck("String[]")
+    fun integerArrayListSequenceArrayCompilationTest() {
+        processingCheck("ArrayList<Integer>", "java.util.ArrayList")
     }
 
-    fun processingCheck(type: String) {
+    @Test
+    fun charSequenceArrayListSequenceArrayCompilationTest() {
+        processingCheck("ArrayList<CharSequence>", "java.util.ArrayList")
+    }
+
+    @Test
+    fun subtypeOfParcelableCompilationTest() {
+        processingCheck("Account", "android.accounts.Account")
+    }
+
+    @Test
+    fun subtypeOfSerializableCompilationTest() {
+        processingCheck("Color", "java.awt.Color")
+    }
+
+    @Test
+    fun subtypeOfParcelableArrayCompilationTest() {
+        processingCheck("Account[]", "android.accounts.Account")
+    }
+
+    fun processingCheck(type: String, vararg import: String) {
+        val extraImport = import.joinToString(separator = "\n", transform = { "import $it;" })
         val code = "com.example.activitystarter.MainActivity" to """
         |package com.example.activitystarter;
         |
         |import android.app.Activity;
-        |
+        |$extraImport
         |import activitystarter.Arg;
         |
         |public class MainActivity extends Activity {
