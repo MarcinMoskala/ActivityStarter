@@ -21,7 +21,7 @@ public final class MainFragmentStarter {
   public static void fill(MainFragment fragment) {
     Bundle arguments = fragment.getArguments();
     if(arguments.containsKey("com.example.activitystarter.nameStarterKey")) fragment.name = arguments.getString("com.example.activitystarter.nameStarterKey");
-    if(arguments.containsKey("com.example.activitystarter.idStarterKey")) fragment.id = arguments.getInt("com.example.activitystarter.idStarterKey", 0);
+    if(arguments.containsKey("com.example.activitystarter.idStarterKey")) fragment.id = arguments.getInt("com.example.activitystarter.idStarterKey");
   }
 
   public static MainFragment newInstance(String name, int id) {

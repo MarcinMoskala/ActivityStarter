@@ -45,40 +45,39 @@ fun getBundleSetterFor(type: ParamType) = when (type) {
 }
 
 fun getBundleGetter(bundleName: String, paramType: ParamType, typeName: TypeName, keyName: String): String {
-    val bundleGetterCall = getBundleGetterCall(paramType, keyName)
-    val getArgumentValue = "$bundleName.$bundleGetterCall"
+    val bundleGetterCall = getBundleGetterCall(paramType)
+    val getArgumentValue = "$bundleName.$bundleGetterCall(\"$keyName\")"
     return if(paramType.typeUsedBySupertype()) "($typeName) $getArgumentValue" else getArgumentValue
 }
 
-// TODO Rest
-fun getBundleGetterCall(paramType: ParamType, keyName: String) = when (paramType) {
-    ParamType.String -> "getString(\"$keyName\")"
-    ParamType.Int -> "getInt(\"$keyName\", 0)"
-    ParamType.Long -> "getLong(\"$keyName\", 0L)"
-    ParamType.Float -> "getFloat(\"$keyName\", 0F)"
-    ParamType.Boolean -> "getBoolean(\"$keyName\", false)"
-    ParamType.Double -> "getDouble(\"$keyName\", 0D)"
-    ParamType.Char -> "getChar(\"$keyName\", '\\u0000')"
-    ParamType.Byte -> TODO()
-    ParamType.Short -> TODO()
-    ParamType.CharSequence -> TODO()
-    ParamType.BooleanArray -> TODO()
-    ParamType.ByteArray -> TODO()
-    ParamType.ShortArray -> TODO()
-    ParamType.CharArray -> TODO()
-    ParamType.IntArray -> TODO()
-    ParamType.LongArray -> TODO()
-    ParamType.FloatArray -> TODO()
-    ParamType.DoubleArray -> TODO()
-    ParamType.StringArray -> TODO()
-    ParamType.CharSequenceArray -> TODO()
-    ParamType.IntegerArrayList -> TODO()
-    ParamType.StringArrayList -> TODO()
-    ParamType.CharSequenceArrayList -> TODO()
-    ParamType.ParcelableSubtype -> TODO()
-    ParamType.SerializableSubtype -> TODO()
-    ParamType.ParcelableArraySubtype -> TODO()
-    ParamType.ParcelableArrayListSubtype -> TODO()
+fun getBundleGetterCall(paramType: ParamType) = when (paramType) {
+    ParamType.String -> "getString"
+    ParamType.Int -> "getInt"
+    ParamType.Long -> "getLong"
+    ParamType.Float -> "getFloat"
+    ParamType.Boolean -> "getBoolean"
+    ParamType.Double -> "getDouble"
+    ParamType.Char -> "getChar"
+    ParamType.Byte -> "getByte"
+    ParamType.Short -> "getShort"
+    ParamType.CharSequence -> "getCharSequence"
+    ParamType.BooleanArray -> "getBooleanArray"
+    ParamType.ByteArray -> "getByteArray"
+    ParamType.ShortArray -> "getShortArray"
+    ParamType.CharArray -> "getCharArray"
+    ParamType.IntArray -> "getIntArray"
+    ParamType.LongArray -> "getLongArray"
+    ParamType.FloatArray -> "getFloatArray"
+    ParamType.DoubleArray -> "getDoubleArray"
+    ParamType.StringArray -> "getStringArray"
+    ParamType.CharSequenceArray -> "getCharSequenceArray"
+    ParamType.IntegerArrayList -> "getIntegerArrayList"
+    ParamType.StringArrayList -> "getStringArrayList"
+    ParamType.CharSequenceArrayList -> "getCharSequenceArrayList"
+    ParamType.ParcelableSubtype -> "getParcelable"
+    ParamType.SerializableSubtype -> "getSerializable"
+    ParamType.ParcelableArraySubtype -> "getParcelableArray"
+    ParamType.ParcelableArrayListSubtype -> "getParcelableArrayList"
 }
 
 fun getIntentGetterFor(paramType: ParamType, typeName: TypeName, keyName: String): String {
@@ -100,12 +99,12 @@ private fun getIntentGetterForParamType(paramType: ParamType, keyName: String) =
     ParamType.CharSequence -> "getCharSequenceExtra(\"$keyName\")"
     ParamType.BooleanArray -> "getBooleanArrayExtra(\"$keyName\")"
     ParamType.ByteArray -> "getByteArrayExtra(\"$keyName\")"
-    ParamType.ShortArray -> "getBooleanArrayExtra(\"$keyName\")"
-    ParamType.CharArray -> "getShortArrayExtra(\"$keyName\")"
+    ParamType.ShortArray -> "getShortArrayExtra(\"$keyName\")"
+    ParamType.CharArray -> "getCharArrayExtra(\"$keyName\")"
     ParamType.IntArray -> "getIntArrayExtra(\"$keyName\")"
     ParamType.LongArray -> "getLongArrayExtra(\"$keyName\")"
-    ParamType.FloatArray -> "getBooleanArrayExtra(\"$keyName\")"
-    ParamType.DoubleArray -> "getFloatArrayExtra(\"$keyName\")"
+    ParamType.FloatArray -> "getFloatArrayExtra(\"$keyName\")"
+    ParamType.DoubleArray -> "getDoubleArrayExtra(\"$keyName\")"
     ParamType.StringArray -> "getStringArrayExtra(\"$keyName\")"
     ParamType.CharSequenceArray -> "getCharSequenceArrayExtra(\"$keyName\")"
     ParamType.IntegerArrayList -> "getIntegerArrayListExtra(\"$keyName\")"

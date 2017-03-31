@@ -28,7 +28,7 @@ public final class MainActivityStarter {
     if(intent.hasExtra("com.example.activitystarter.idStarterKey")) activity.id = intent.getIntExtra("com.example.activitystarter.idStarterKey", 0);
     } else {
     if(savedInstanceState.containsKey("com.example.activitystarter.nameStarterKey")) activity.name = savedInstanceState.getString("com.example.activitystarter.nameStarterKey");
-    if(savedInstanceState.containsKey("com.example.activitystarter.idStarterKey")) activity.id = savedInstanceState.getInt("com.example.activitystarter.idStarterKey", 0);
+    if(savedInstanceState.containsKey("com.example.activitystarter.idStarterKey")) activity.id = savedInstanceState.getInt("com.example.activitystarter.idStarterKey");
     }
   }
 

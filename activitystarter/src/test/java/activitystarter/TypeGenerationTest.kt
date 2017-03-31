@@ -31,8 +31,68 @@ class TypeGenerationTest : GenerationTest() {
     }
 
     @Test
-    fun longGenerationTest() {
-        filePrecessingComparator("differenTypes/Long")
+    fun stringCompilationTest() {
+        processingCheck("String")
+    }
+
+    @Test
+    fun byteCompilationTest() {
+        processingCheck("byte")
+    }
+
+    @Test
+    fun booleanArraySequenceCompilationTest() {
+        processingCheck("boolean[]")
+    }
+
+    @Test
+    fun byteArrayCompilationTest() {
+        processingCheck("byte[]")
+    }
+
+    @Test
+    fun shortArrayCompilationTest() {
+        processingCheck("short[]")
+    }
+
+    @Test
+    fun charArrayCompilationTest() {
+        processingCheck("char[]")
+    }
+
+    @Test
+    fun intArrayCompilationTest() {
+        processingCheck("int[]")
+    }
+
+    @Test
+    fun longArrayCompilationTest() {
+        processingCheck("long[]")
+    }
+
+    @Test
+    fun floatArrayCompilationTest() {
+        processingCheck("float[]")
+    }
+
+    @Test
+    fun doubleArrayCompilationTest() {
+        processingCheck("double[]")
+    }
+
+    @Test
+    fun stringArrayCompilationTest() {
+        processingCheck("String[]")
+    }
+
+    @Test
+    fun charSequenceArrayCompilationTest() {
+        processingCheck("CharSequence[]")
+    }
+
+    @Test
+    fun stringArraySequenceArrayCompilationTest() {
+        processingCheck("String[]")
     }
 
     fun processingCheck(type: String) {
