@@ -1,9 +1,9 @@
-package activitystarter.compiler.classbinding
+package activitystarter.compiler.codegeneration
 
-import activitystarter.NonSavable
-import activitystarter.compiler.ArgumentBinding
-import activitystarter.compiler.BUNDLE
-import activitystarter.compiler.doIf
+import activitystarter.compiler.classbinding.ClassBinding
+import activitystarter.compiler.param.ArgumentBinding
+import activitystarter.compiler.utils.BUNDLE
+import activitystarter.compiler.utils.doIf
 import com.squareup.javapoet.FieldSpec
 import com.squareup.javapoet.MethodSpec
 import com.squareup.javapoet.TypeName
@@ -11,20 +11,17 @@ import com.squareup.javapoet.TypeName.BOOLEAN
 import com.squareup.javapoet.TypeSpec
 import javax.lang.model.element.Modifier.PRIVATE
 import javax.lang.model.element.Modifier.STATIC
-import javax.lang.model.element.TypeElement
 
-internal class ActivityBinding(element: TypeElement) : IntentBinding(element) {
-
-    val savable: Boolean = element.getAnnotation(NonSavable::class.java) == null
+internal class ActivityGeneration(classBinding: ClassBinding) : IntentBinding(classBinding) {
 
     override fun createFillFieldsMethod() = getBasicFillMethodBuilder()
-            .addParameter(targetTypeName, "activity")
+            .addParameter(classBinding.targetTypeName, "activity")
             .addParameter(BUNDLE, "savedInstanceState")
-            .doIf(argumentBindings.isNotEmpty()) { addFieldSettersCode() }
+            .doIf(classBinding.argumentBindings.isNotEmpty()) { addFieldSettersCode() }
             .build()!!
 
     private fun MethodSpec.Builder.addFieldSettersCode() {
-        if (savable) {
+        if (classBinding.savable) {
             addCode("if(savedInstanceState == null || !saved) {\n")
             addFieldSettersFromIntent()
             addCode("} else {\n")
@@ -42,14 +39,14 @@ internal class ActivityBinding(element: TypeElement) : IntentBinding(element) {
 
     override fun TypeSpec.Builder.addExtraToClass() = this
             .addMethod(createSaveMethod())
-            .doIf(savable) { addField(createSavedField()) }
+            .doIf(classBinding.savable) { addField(createSavedField()) }
 
     private fun createSaveMethod(): MethodSpec = this
             .builderWithCreationBasicFieldsNoContext("save")
-            .addParameter(targetTypeName, "activity")
+            .addParameter(classBinding.targetTypeName, "activity")
             .addParameter(BUNDLE, "bundle")
-            .doIf(savable) {
-                addSaveBundleStatements("bundle", argumentBindings, { "activity.${it.accessor.getFieldValue()}" })
+            .doIf(classBinding.savable) {
+                addSaveBundleStatements("bundle", classBinding.argumentBindings, { "activity.${it.accessor.getFieldValue()}" })
                 addStatement("saved = true")
             }
             .build()

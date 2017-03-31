@@ -1,6 +1,6 @@
 package activitystarter.compiler.helpers
 
-import activitystarter.compiler.getElementType
+import activitystarter.compiler.utils.getElementType
 import com.google.common.truth.Truth
 import com.google.testing.compile.JavaFileObjects
 import com.google.testing.compile.JavaSourceSubjectFactory

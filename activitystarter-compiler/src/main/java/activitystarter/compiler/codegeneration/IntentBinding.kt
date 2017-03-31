@@ -1,15 +1,14 @@
-package activitystarter.compiler.classbinding
+package activitystarter.compiler.codegeneration
 
-import activitystarter.compiler.ArgumentBinding
-import activitystarter.compiler.INTENT
-import activitystarter.compiler.getIntentGetterFor
+import activitystarter.compiler.classbinding.ClassBinding
+import activitystarter.compiler.param.ArgumentBinding
+import activitystarter.compiler.utils.INTENT
 import com.squareup.javapoet.MethodSpec
-import javax.lang.model.element.TypeElement
 
-internal abstract class IntentBinding(element: TypeElement) : ClassBinding(element) {
+internal abstract class IntentBinding(classBinding: ClassBinding) : ClassGeneration(classBinding) {
 
     protected fun fillByIntentBinding(targetName: String) = getBasicFillMethodBuilder("ActivityStarter.fill(this, intent)")
-            .addParameter(targetTypeName, targetName)
+            .addParameter(classBinding.targetTypeName, targetName)
             .addParameter(INTENT, "intent")
             .addIntentSetters(targetName)
             .build()!!
@@ -17,7 +16,7 @@ internal abstract class IntentBinding(element: TypeElement) : ClassBinding(eleme
     protected fun createGetIntentMethod(variant: List<ArgumentBinding>) = builderWithCreationBasicFields("getIntent")
             .addArgParameters(variant)
             .returns(INTENT)
-            .addStatement("\$T intent = new Intent(context, \$T.class)", INTENT, targetTypeName)
+            .addStatement("\$T intent = new Intent(context, \$T.class)", INTENT, classBinding.targetTypeName)
             .addPutExtraStatement(variant)
             .addStatement("return intent")
             .build()
@@ -27,9 +26,9 @@ internal abstract class IntentBinding(element: TypeElement) : ClassBinding(eleme
     }
 
     protected fun MethodSpec.Builder.addIntentSetters(targetParameterName: String) = apply {
-        for (arg in argumentBindings) {
+        for (arg in classBinding.argumentBindings) {
             val keyName = arg.key
-            val settingPart = arg.accessor.setToField(getIntentGetterFor(arg.type, arg.elementType, keyName))
+            val settingPart = arg.accessor.setToField(activitystarter.compiler.codegeneration.getIntentGetterFor(arg.paramType, arg.typeName, keyName))
             addStatement("if(intent.hasExtra(\"$keyName\")) $targetParameterName.$settingPart")
         }
     }

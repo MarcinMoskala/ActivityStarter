@@ -1,6 +1,6 @@
 package activitystarter
 
-import activitystarter.compiler.Errors
+import activitystarter.compiler.error.Errors
 import org.junit.Test
 
 class TypeGenerationTest : GenerationTest() {

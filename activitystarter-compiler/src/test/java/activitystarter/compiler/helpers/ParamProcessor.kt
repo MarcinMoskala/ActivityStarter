@@ -1,7 +1,7 @@
 package activitystarter.compiler.helpers
 
 import activitystarter.Arg
-import activitystarter.compiler.messanger
+import activitystarter.compiler.error.messanger
 import com.google.common.truth.Truth
 import com.google.testing.compile.CompileTester
 import com.google.testing.compile.JavaFileObjects

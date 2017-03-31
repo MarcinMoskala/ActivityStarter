@@ -1,16 +1,16 @@
-package activitystarter.compiler.classbinding
+package activitystarter.compiler.codegeneration
 
-import activitystarter.compiler.ArgumentBinding
-import activitystarter.compiler.BUNDLE
-import activitystarter.compiler.doIf
+import activitystarter.compiler.classbinding.ClassBinding
+import activitystarter.compiler.param.ArgumentBinding
+import activitystarter.compiler.utils.BUNDLE
+import activitystarter.compiler.utils.doIf
 import com.squareup.javapoet.MethodSpec
-import javax.lang.model.element.TypeElement
 
-internal class FragmentBinding(element: TypeElement) : ClassBinding(element) {
+internal class FragmentGeneration(classBinding: ClassBinding) : ClassGeneration(classBinding) {
 
     override fun createFillFieldsMethod() = getBasicFillMethodBuilder()
-            .addParameter(targetTypeName, "fragment")
-            .doIf(argumentBindings.isNotEmpty()) { addStatement("\$T arguments = fragment.getArguments()", BUNDLE) }
+            .addParameter(classBinding.targetTypeName, "fragment")
+            .doIf(classBinding.argumentBindings.isNotEmpty()) { addStatement("\$T arguments = fragment.getArguments()", BUNDLE) }
             .addBundleSetters("arguments", "fragment")
             .build()!!
 
@@ -20,12 +20,12 @@ internal class FragmentBinding(element: TypeElement) : ClassBinding(element) {
 
     private fun createGetFragmentMethod(variant: List<ArgumentBinding>) = builderWithCreationBasicFieldsNoContext("newInstance")
             .addArgParameters(variant)
-            .returns(targetTypeName)
+            .returns(classBinding.targetTypeName)
             .addGetFragmentCode(variant)
             .build()
 
     private fun MethodSpec.Builder.addGetFragmentCode(variant: List<ArgumentBinding>) = this
-            .addStatement("\$T fragment = new \$T()", targetTypeName, targetTypeName)
+            .addStatement("\$T fragment = new \$T()", classBinding.targetTypeName, classBinding.targetTypeName)
             .doIf(variant.isNotEmpty()) {
                 addStatement("\$T args = new Bundle()", BUNDLE)
                 addSaveBundleStatements("args", variant, { it.name })

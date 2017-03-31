@@ -1,4 +1,4 @@
-package activitystarter.compiler
+package activitystarter.compiler.utils
 
 import javax.lang.model.element.TypeElement
 import javax.lang.model.type.DeclaredType

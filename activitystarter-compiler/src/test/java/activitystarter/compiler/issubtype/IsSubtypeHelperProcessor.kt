@@ -1,9 +1,9 @@
 package activitystarter.compiler.issubtype
 
-import activitystarter.compiler.error
-import activitystarter.compiler.getElementType
+import activitystarter.compiler.error.error
+import activitystarter.compiler.utils.getElementType
 import activitystarter.compiler.helpers.ParamProcessor
-import activitystarter.compiler.isSubtypeOfType
+import activitystarter.compiler.utils.isSubtypeOfType
 import com.google.auto.service.AutoService
 import javax.annotation.processing.Processor
 import javax.lang.model.element.Element

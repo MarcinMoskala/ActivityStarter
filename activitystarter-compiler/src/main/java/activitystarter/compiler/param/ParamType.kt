@@ -1,5 +1,6 @@
-package activitystarter.compiler
+package activitystarter.compiler.param
 
+import activitystarter.compiler.utils.isSubtypeOfType
 import com.squareup.javapoet.TypeName
 import com.sun.tools.javac.code.Type
 import javax.lang.model.type.TypeKind
@@ -113,4 +114,11 @@ enum class ParamType {
             return elementsType.isSubtypeOfType(supertype)
         }
     }
+
+    fun typeUsedBySupertype(): kotlin.Boolean = this in listOf(
+            ParcelableSubtype,
+            SerializableSubtype,
+            ParcelableArraySubtype,
+            ParcelableArrayListSubtype
+    )
 }
