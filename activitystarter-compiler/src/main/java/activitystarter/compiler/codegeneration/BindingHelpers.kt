@@ -80,6 +80,8 @@ fun getBundleGetterCall(paramType: ParamType) = when (paramType) {
     ParamType.ParcelableArrayListSubtype -> "getParcelableArrayList"
 }
 
+fun getPutArgumentToIntentMethodName(paramType: ParamType) = "putExtra"
+
 fun getIntentGetterFor(paramType: ParamType, typeName: TypeName, keyName: String): String {
     val getter = getIntentGetterForParamType(paramType, keyName)
     val getArgumentValue = "intent.$getter"
@@ -114,10 +116,4 @@ private fun getIntentGetterForParamType(paramType: ParamType, keyName: String) =
     ParamType.SerializableSubtype -> "getSerializableExtra(\"$keyName\")"
     ParamType.ParcelableArraySubtype -> "getParcelableArrayExtra(\"$keyName\")"
     ParamType.ParcelableArrayListSubtype -> "getParcelableArrayListExtra(\"$keyName\")"
-}
-
-private fun getBundleGetterForNonTrival(bundleName: String, typeName: TypeName, typeMirror: TypeMirror, keyName: String) = when {
-    typeMirror.isSubtypeOfType("android.os.Parcelable") -> "($typeName) getParcelable(\"$keyName\")"
-    typeMirror.isSubtypeOfType("java.io.Serializable") -> "($typeName) getSerializable(\"$keyName\")"
-    else -> throw Error("Illegal field typeName" + typeName)
 }

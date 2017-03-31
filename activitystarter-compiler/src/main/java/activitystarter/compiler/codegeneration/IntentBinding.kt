@@ -22,7 +22,10 @@ internal abstract class IntentBinding(classBinding: ClassBinding) : ClassGenerat
             .build()!!
 
     private fun MethodSpec.Builder.addPutExtraStatement(variant: List<ArgumentBinding>) = apply {
-        variant.forEach { arg -> addStatement("intent.putExtra(\"" + arg.key + "\", " + arg.name + ")") }
+        variant.forEach { arg ->
+            val putArgumentToIntentMethodName = getPutArgumentToIntentMethodName(arg.paramType)
+            addStatement("intent.$putArgumentToIntentMethodName(\"" + arg.key + "\", " + arg.name + ")")
+        }
     }
 
     protected fun MethodSpec.Builder.addIntentSetters(targetParameterName: String) = apply {
