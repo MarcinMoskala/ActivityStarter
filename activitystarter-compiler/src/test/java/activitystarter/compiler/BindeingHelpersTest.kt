@@ -15,7 +15,6 @@ class BindeingHelpersTest {
         }
     }
 
-
     @Test
     fun `For ArrayList type Intent put is specific`() {
         val arrayTypeToPutFunctionMap = mapOf(

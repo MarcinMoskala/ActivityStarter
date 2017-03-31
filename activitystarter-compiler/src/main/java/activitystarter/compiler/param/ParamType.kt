@@ -118,7 +118,6 @@ enum class ParamType {
     fun typeUsedBySupertype(): kotlin.Boolean = this in listOf(
             ParcelableSubtype,
             SerializableSubtype,
-            ParcelableArraySubtype,
-            ParcelableArrayListSubtype
+            ParcelableArraySubtype
     )
 }

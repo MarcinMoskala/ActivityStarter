@@ -114,6 +114,11 @@ class TypeGenerationTest : GenerationTest() {
         processingCheck("Account[]", "android.accounts.Account")
     }
 
+    @Test
+    fun arrayListOfSubtypeOfParcelableCompilationTest() {
+        processingCheck("ArrayList<Account>", "android.accounts.Account", "java.util.ArrayList")
+    }
+
     fun processingCheck(type: String, vararg import: String) {
         val extraImport = import.joinToString(separator = "\n", transform = { "import $it;" })
         val code = "com.example.activitystarter.MainActivity" to """
