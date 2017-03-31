@@ -80,7 +80,13 @@ fun getBundleGetterCall(paramType: ParamType) = when (paramType) {
     ParamType.ParcelableArrayListSubtype -> "getParcelableArrayList"
 }
 
-fun getPutArgumentToIntentMethodName(paramType: ParamType) = "putExtra"
+fun getPutArgumentToIntentMethodName(paramType: ParamType) = when(paramType) {
+    ParamType.IntegerArrayList -> "putIntegerArrayListExtra"
+    ParamType.CharSequenceArrayList -> "putCharSequenceArrayListExtra"
+    ParamType.ParcelableArrayListSubtype -> "putParcelableArrayListExtra"
+    ParamType.StringArrayList -> "putStringArrayListExtra"
+    else -> "putExtra"
+}
 
 fun getIntentGetterFor(paramType: ParamType, typeName: TypeName, keyName: String): String {
     val getter = getIntentGetterForParamType(paramType, keyName)
