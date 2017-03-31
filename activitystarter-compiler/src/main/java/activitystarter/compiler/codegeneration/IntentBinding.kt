@@ -19,7 +19,7 @@ internal abstract class IntentBinding(classBinding: ClassBinding) : ClassGenerat
             .addStatement("\$T intent = new Intent(context, \$T.class)", INTENT, classBinding.targetTypeName)
             .addPutExtraStatement(variant)
             .addStatement("return intent")
-            .build()
+            .build()!!
 
     private fun MethodSpec.Builder.addPutExtraStatement(variant: List<ArgumentBinding>) = apply {
         variant.forEach { arg -> addStatement("intent.putExtra(\"" + arg.key + "\", " + arg.name + ")") }
