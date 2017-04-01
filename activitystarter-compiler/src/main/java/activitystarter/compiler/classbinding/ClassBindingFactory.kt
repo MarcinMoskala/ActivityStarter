@@ -14,14 +14,13 @@ import com.squareup.javapoet.TypeName
 import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
 
-internal class ClassBindingFactory(val element: Element) {
+internal class ClassBindingFactory(val typeElement: TypeElement) {
 
     fun create(): ClassBinding? {
-        val typeElement = element as TypeElement
-        val knownClassType: KnownClassType? = KnownClassType.getByType(getElementType(element))
+        val knownClassType: KnownClassType? = KnownClassType.getByType(getElementType(typeElement))
         val error = getClassError(knownClassType)
         if(error != null) {
-            parsingError<MakeActivityStarter>(error, element, typeElement)
+            parsingError<MakeActivityStarter>(error, typeElement, typeElement)
             return null
         }
         knownClassType!!
@@ -35,7 +34,7 @@ internal class ClassBindingFactory(val element: Element) {
                 .filterNotNull()
         val argumentBindingVariants = argumentBindings.createSublists { it.isOptional }
                 .distinctBy { it.map { it.typeName } }
-        val savable = element.getAnnotation(NonSavable::class.java) == null
+        val savable = typeElement.getAnnotation(NonSavable::class.java) == null
 
         return ClassBinding(knownClassType, targetTypeName, bindingClassName, packageName, argumentBindings, argumentBindingVariants, savable)
     }

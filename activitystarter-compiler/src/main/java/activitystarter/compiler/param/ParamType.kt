@@ -3,6 +3,8 @@ package activitystarter.compiler.param
 import activitystarter.compiler.utils.isSubtypeOfType
 import com.squareup.javapoet.TypeName
 import com.sun.tools.javac.code.Type
+import javax.lang.model.type.ArrayType
+import javax.lang.model.type.DeclaredType
 import javax.lang.model.type.TypeKind
 import javax.lang.model.type.TypeMirror
 
@@ -57,7 +59,7 @@ enum class ParamType {
             TypeKind.CHAR -> Char
             TypeKind.FLOAT -> Float
             TypeKind.DOUBLE -> Double
-            TypeKind.ARRAY -> getArrayType(typeMirror as? Type.ArrayType)
+            TypeKind.ARRAY -> getArrayType(typeMirror as? ArrayType)
             else -> null
         }
 
@@ -67,12 +69,12 @@ enum class ParamType {
             else -> null
         }
 
-        private fun getArrayType(arrayType: Type.ArrayType?): ParamType? {
-            val elementType = arrayType?.elemtype ?: return null
+        private fun getArrayType(arrayType: ArrayType?): ParamType? {
+            val elementType = arrayType?.componentType ?: return null
             return getArrayParamTypeForElementType(elementType)
         }
 
-        private fun getArrayParamTypeForElementType(elementType: Type): ParamType? = when (elementType.toString()) {
+        private fun getArrayParamTypeForElementType(elementType: TypeMirror): ParamType? = when (elementType.toString()) {
             "java.lang.String" -> StringArray
             "java.lang.CharSequence" -> CharSequenceArray
             "int" -> IntArray
@@ -103,7 +105,7 @@ enum class ParamType {
         private fun TypeMirror.isArrayListWithSubtypesOf(supertype: kotlin.String): kotlin.Boolean {
             val typeAsString = toString()
             if(!typeAsString.contains(arrayListRegex)) return false
-            val elementsType = (this as Type.ClassType).typarams_field[0]
+            val elementsType = (this as? DeclaredType)?.typeArguments?.get(0) ?: return false
             return elementsType.isSubtypeOfType(supertype)
         }
     }
