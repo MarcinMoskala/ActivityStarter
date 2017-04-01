@@ -4,7 +4,6 @@ import activitystarter.Arg
 import activitystarter.MakeActivityStarter
 import activitystarter.compiler.classbinding.ClassBindingFactory
 import activitystarter.compiler.error.error
-import activitystarter.compiler.error.messanger
 import com.google.auto.service.AutoService
 import java.io.IOException
 import java.io.PrintWriter
@@ -13,7 +12,6 @@ import javax.annotation.processing.*
 import javax.lang.model.SourceVersion
 import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
-import javax.tools.Diagnostic
 
 @AutoService(Processor::class)
 class ActivityStarterProcessor : AbstractProcessor() {

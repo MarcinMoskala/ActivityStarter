@@ -15,10 +15,10 @@ enum class KnownClassType(vararg val typeString: String) {
     }
 }
 
-private val ACTIVITY_TYPE = "android.app.Activity"
-private val FRAGMENT_TYPE = "android.app.Fragment"
-private val FRAGMENTv4_TYPE = "android.support.v4.app.Fragment"
-private val SERVICE_TYPE = "android.app.Service"
-private val BROADCAST_RECEIVER_TYPE = "android.content.BroadcastReceiver"
-private val SERIALIZABLE_TYPE = "java.io.Serializable"
-private val PARCELABLE_TYPE = "android.os.Parcelable"
+private const val ACTIVITY_TYPE = "android.app.Activity"
+private const val FRAGMENT_TYPE = "android.app.Fragment"
+private const val FRAGMENTv4_TYPE = "android.support.v4.app.Fragment"
+private const val SERVICE_TYPE = "android.app.Service"
+private const val BROADCAST_RECEIVER_TYPE = "android.content.BroadcastReceiver"
+private const val SERIALIZABLE_TYPE = "java.io.Serializable"
+private const val PARCELABLE_TYPE = "android.os.Parcelable"

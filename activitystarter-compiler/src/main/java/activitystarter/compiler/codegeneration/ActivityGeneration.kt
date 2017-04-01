@@ -4,13 +4,9 @@ import activitystarter.compiler.classbinding.ClassBinding
 import activitystarter.compiler.param.ArgumentBinding
 import activitystarter.compiler.utils.BUNDLE
 import activitystarter.compiler.utils.doIf
-import com.squareup.javapoet.FieldSpec
 import com.squareup.javapoet.MethodSpec
 import com.squareup.javapoet.TypeName
-import com.squareup.javapoet.TypeName.BOOLEAN
 import com.squareup.javapoet.TypeSpec
-import javax.lang.model.element.Modifier.PRIVATE
-import javax.lang.model.element.Modifier.STATIC
 
 internal class ActivityGeneration(classBinding: ClassBinding) : IntentBinding(classBinding) {
 
@@ -31,10 +27,10 @@ internal class ActivityGeneration(classBinding: ClassBinding) : IntentBinding(cl
 
     private fun MethodSpec.Builder.addFieldSettersCode() {
         addStatement("Intent intent = activity.getIntent()")
-        if (savable) {
+        if (classBinding.savable) {
             for (arg in classBinding.argumentBindings) {
                 val bundleName = "savedInstanceState"
-                val bundlePredicate = getBundlePredicate(arg, bundleName)
+                val bundlePredicate = getBundlePredicate(bundleName, arg.key)
                 addCode("if($bundleName != null && $bundlePredicate) {\n")
                 addBundleSetter(arg, bundleName, "activity", false)
                 addCode("} else {\n")
@@ -51,7 +47,7 @@ internal class ActivityGeneration(classBinding: ClassBinding) : IntentBinding(cl
             .addParameter(classBinding.targetTypeName, "activity")
             .addParameter(BUNDLE, "bundle")
             .doIf(classBinding.savable) {
-                addSaveBundleStatements("bundle", argumentBindings, { "activity.${it.accessor.getFieldValue()}" })
+                addSaveBundleStatements("bundle", classBinding.argumentBindings, { "activity.${it.accessor.getFieldValue()}" })
             }
             .build()
 

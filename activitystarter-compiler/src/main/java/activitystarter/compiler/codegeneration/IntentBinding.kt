@@ -34,7 +34,7 @@ internal abstract class IntentBinding(classBinding: ClassBinding) : ClassGenerat
 
     protected fun MethodSpec.Builder.addIntentSetter(arg: ArgumentBinding, targetParameterName: String) {
         val keyName = arg.key
-        val settingPart = arg.accessor.setToField(getIntentGetterFor(arg, keyName))
+        val settingPart = arg.accessor.setToField(getIntentGetterFor(arg.paramType, arg.typeName, keyName))
         addStatement("if(intent.hasExtra(\"$keyName\")) $targetParameterName.$settingPart")
     }
 
@@ -53,3 +53,4 @@ internal abstract class IntentBinding(classBinding: ClassBinding) : ClassGenerat
         }
     }
 }
+

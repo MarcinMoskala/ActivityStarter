@@ -1,11 +1,9 @@
 package activitystarter.compiler.codegeneration
 
 import activitystarter.compiler.param.ParamType
-import activitystarter.compiler.utils.isSubtypeOfType
 import com.google.auto.common.MoreElements.getPackage
 import com.squareup.javapoet.ClassName.get
 import com.squareup.javapoet.TypeName
-import javax.lang.model.type.TypeMirror
 
 fun getBindingClassName(enclosingElement: javax.lang.model.element.TypeElement): com.squareup.javapoet.ClassName {
     val packageName = getPackage(enclosingElement).qualifiedName.toString()
@@ -13,7 +11,6 @@ fun getBindingClassName(enclosingElement: javax.lang.model.element.TypeElement):
     return get(packageName, className + "Starter")
 }
 
-// TODO Rest
 fun getBundleSetterFor(type: ParamType) = when (type) {
     ParamType.String -> "putString"
     ParamType.Int -> "putInt"
@@ -49,7 +46,7 @@ fun getBundleGetter(bundleName: String, paramType: ParamType, typeName: TypeName
     return if(paramType.typeUsedBySupertype()) "($typeName) $getArgumentValue" else getArgumentValue
 }
 
-fun getBundleGetterCall(paramType: ParamType) = when (paramType) {
+private fun getBundleGetterCall(paramType: ParamType) = when (paramType) {
     ParamType.String -> "getString"
     ParamType.Int -> "getInt"
     ParamType.Long -> "getLong"

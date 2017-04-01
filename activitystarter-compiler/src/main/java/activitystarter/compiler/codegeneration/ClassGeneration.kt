@@ -46,13 +46,20 @@ internal abstract class ClassGeneration(val classBinding: ClassBinding) {
         }
     }
 
-    protected fun MethodSpec.Builder.addBundleSetters(bundleName: String, className: String) = apply {
-        for (arg in classBinding.argumentBindings) {
-            val keyName = arg.key
-            val settingPart = arg.accessor.setToField(activitystarter.compiler.codegeneration.getBundleGetter(bundleName, arg.paramType, arg.typeName, keyName))
-            addStatement("if($bundleName.containsKey(\"$keyName\")) $className.$settingPart")
-        }
+    protected fun MethodSpec.Builder.addBundleSetters(bundleName: String, className: String, checkIfSet: Boolean) = apply {
+        classBinding.argumentBindings.forEach { arg -> addBundleSetter(arg, bundleName, className, checkIfSet) }
     }
+
+    protected fun MethodSpec.Builder.addBundleSetter(arg: ArgumentBinding, bundleName: String, className: String, checkIfSet: Boolean) {
+        val keyName = arg.key
+        val
+                bundleGetter = getBundleGetter(bundleName, arg.paramType, arg.typeName, keyName)
+        val settingPart = arg.accessor.setToField(bundleGetter)
+        if (checkIfSet) addCode("if(${getBundlePredicate(bundleName, keyName)}) ")
+        addStatement("$className.$settingPart")
+    }
+
+    protected fun getBundlePredicate(bundleName: String, keyName: String) = "$bundleName.containsKey(\"$keyName\")"
 
     private fun createActivityStarterSpec() = TypeSpec
             .classBuilder(classBinding.bindingClassName.simpleName())

@@ -6,9 +6,7 @@ import activitystarter.compiler.classbinding.KnownClassType
 import activitystarter.compiler.error.Errors
 import activitystarter.compiler.error.error
 import activitystarter.compiler.utils.getElementType
-import activitystarter.compiler.utils.isSubtypeOfType
 import com.squareup.javapoet.TypeName
-import java.awt.SystemColor.text
 import javax.lang.model.element.Element
 import javax.lang.model.element.ElementKind
 import javax.lang.model.element.Modifier
