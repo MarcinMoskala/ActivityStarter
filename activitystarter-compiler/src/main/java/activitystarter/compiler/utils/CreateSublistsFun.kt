@@ -1,4 +1,4 @@
-package activitystarter.compiler
+package activitystarter.compiler.utils
 
 fun <T> List<T>.createSublists(isSplitter: (T) -> Boolean): List<List<T>> = when {
     size == 0 -> listOf(listOf())

@@ -23,12 +23,12 @@ public final class MainActivityStarter {
     if(savedInstanceState == null || !saved) {
     Intent intent = activity.getIntent();
     if(intent.hasExtra("Key1")) activity.name = intent.getStringExtra("Key1");
-    if(intent.hasExtra("Key2")) activity.id = intent.getIntExtra("Key2", -1);
-    if(intent.hasExtra("com.example.activitystarter.noKeyStarterKey")) activity.noKey = intent.getIntExtra("com.example.activitystarter.noKeyStarterKey", -1);
+    if(intent.hasExtra("Key2")) activity.id = intent.getIntExtra("Key2", 0);
+    if(intent.hasExtra("com.example.activitystarter.noKeyStarterKey")) activity.noKey = intent.getIntExtra("com.example.activitystarter.noKeyStarterKey", 0);
     } else {
     if(savedInstanceState.containsKey("Key1")) activity.name = savedInstanceState.getString("Key1");
     if(savedInstanceState.containsKey("Key2")) activity.id = savedInstanceState.getInt("Key2", -1);
-    if(savedInstanceState.containsKey("com.example.activitystarter.noKeyStarterKey")) activity.noKey = savedInstanceState.getInt("com.example.activitystarter.noKeyStarterKey", -1);
+    if(savedInstanceState.containsKey("com.example.activitystarter.noKeyStarterKey")) activity.noKey = savedInstanceState.getInt("com.example.activitystarter.noKeyStarterKey", 0);
     }
   }
 

@@ -2,16 +2,18 @@ package activitystarter.compiler
 
 import activitystarter.Arg
 import activitystarter.MakeActivityStarter
-import activitystarter.compiler.classbinding.ClassBinding
+import activitystarter.compiler.classbinding.ClassBindingFactory
+import activitystarter.compiler.error.error
+import activitystarter.compiler.error.messanger
 import com.google.auto.service.AutoService
 import java.io.IOException
 import java.io.PrintWriter
 import java.io.StringWriter
-import java.util.*
 import javax.annotation.processing.*
 import javax.lang.model.SourceVersion
 import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
+import javax.tools.Diagnostic
 
 @AutoService(Processor::class)
 class ActivityStarterProcessor : AbstractProcessor() {
@@ -21,35 +23,35 @@ class ActivityStarterProcessor : AbstractProcessor() {
     @Synchronized override fun init(env: ProcessingEnvironment) {
         super.init(env)
         filer = env.filer
-        messanger = processingEnv.messager
+        activitystarter.compiler.error.messanger = processingEnv.messager
     }
 
     override fun getSupportedAnnotationTypes() = listOf<Class<*>>(Arg::class.java, MakeActivityStarter::class.java)
             .map { it.canonicalName }.toSet()
 
     override fun process(elements: Set<TypeElement>, env: RoundEnvironment): Boolean {
-        val bindingMap = findAndParseTargets(env)
-        processTargets(bindingMap)
+        val classesToProcess = findClassesToPrecess(env)
+        processTargets(classesToProcess)
         return true
     }
 
     override fun getSupportedSourceVersion() = SourceVersion.latestSupported()
 
-    private fun findAndParseTargets(env: RoundEnvironment): Map<TypeElement, ClassBinding> {
-        val builderMap = LinkedHashMap<TypeElement, ClassBinding>()
+    private fun findClassesToPrecess(env: RoundEnvironment): Set<TypeElement> {
+        var classesToProcess = setOf<TypeElement>()
 
         processAnnotation<Arg>(env) { element ->
-            parseArg(element, builderMap)
+            classesToProcess += element.enclosingElement as TypeElement
         }
 
         processAnnotation<MakeActivityStarter>(env) { element ->
-            parseClass(element, builderMap)
+            classesToProcess += element as TypeElement
         }
 
-        return builderMap
+        return classesToProcess
     }
 
-    private inline fun <reified T: Annotation> processAnnotation(env: RoundEnvironment, process: (Element)->Unit) {
+    private inline fun <reified T : Annotation> processAnnotation(env: RoundEnvironment, process: (Element) -> Unit) {
         for (element in env.getElementsAnnotatedWith(T::class.java)) {
             try {
                 process(element)
@@ -59,12 +61,13 @@ class ActivityStarterProcessor : AbstractProcessor() {
         }
     }
 
-    private fun processTargets(bindingMap: Map<TypeElement, ClassBinding>) {
-        for ((typeElement, binding) in bindingMap) {
+    private fun processTargets(classesToProcess: Set<TypeElement>) {
+        for (classToPrecess in classesToProcess) {
             try {
-                binding.brewJava().writeTo(filer)
+                val classBinding = ClassBindingFactory(classToPrecess).create() ?: continue
+                classBinding.getClasGeneration().brewJava().writeTo(filer)
             } catch (e: IOException) {
-                error(typeElement, "Unable to write binding for type %s: %s", typeElement, e.message ?: "")
+                error(classToPrecess, "Unable to write binding for typeName %s: %s", classToPrecess, e.message ?: "")
             }
         }
     }

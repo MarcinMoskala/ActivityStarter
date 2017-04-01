@@ -1,84 +1,31 @@
 package activitystarter.compiler.classbinding
 
 import activitystarter.Arg
-import activitystarter.compiler.ArgumentBinding
-import activitystarter.compiler.CONTEXT
-import activitystarter.compiler.createSublists
-import com.squareup.javapoet.*
-import javax.lang.model.element.Modifier
-import javax.lang.model.element.Modifier.FINAL
-import javax.lang.model.element.Modifier.PUBLIC
+import activitystarter.NonSavable
+import activitystarter.compiler.codegeneration.*
+import activitystarter.compiler.param.ArgumentBinding
+import activitystarter.compiler.param.ArgumentFactory
+import activitystarter.compiler.utils.createSublists
+import com.squareup.javapoet.ClassName
+import com.squareup.javapoet.ParameterizedTypeName
+import com.squareup.javapoet.TypeName
+import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
 
-internal abstract class ClassBinding(enclosingElement: TypeElement) {
+class ClassBinding(
+        private val knownClassType: KnownClassType,
+        val targetTypeName: TypeName,
+        val bindingClassName: ClassName,
+        val packageName: String,
+        val argumentBindings: List<ArgumentBinding>,
+        val argumentBindingVariants: List<List<ArgumentBinding>>,
+        val savable: Boolean
+) {
 
-    protected val targetTypeName = getTargetTypeName(enclosingElement)
-    protected val bindingClassName = getBindingClassName(enclosingElement)
-    private val packageName = bindingClassName.packageName()
-    protected val argumentBindings: List<ArgumentBinding> = enclosingElement.enclosedElements
-            .filter { it.getAnnotation(Arg::class.java) != null }
-            .map { ArgumentBinding(it, packageName) }
-    val variants = argumentBindings.createSublists { it.isOptional }
-            .distinctBy { it.map { it.type } }
-
-    fun brewJava() = JavaFile.builder(packageName, createActivityStarterSpec())
-            .addFileComment("Generated code from ActivityStarter. Do not modify!")
-            .build()
-
-    abstract fun createFillFieldsMethod(): MethodSpec
-
-    open fun TypeSpec.Builder.addExtraToClass(): TypeSpec.Builder = this
-
-    abstract fun createStarters(variant: List<ArgumentBinding>): List<MethodSpec>
-
-    protected fun getBasicFillMethodBuilder(fillProperCall: String = "ActivityStarter.fill(this)"): MethodSpec.Builder = MethodSpec
-            .methodBuilder("fill")
-            .addJavadoc("This is method used to fill fields. Use it by calling $fillProperCall.")
-            .addModifiers(PUBLIC, Modifier.STATIC)
-
-    protected fun builderWithCreationBasicFields(name: String) =
-            builderWithCreationBasicFieldsNoContext(name)
-                    .addParameter(CONTEXT, "context")
-
-    protected fun builderWithCreationBasicFieldsNoContext(name: String) =
-            MethodSpec.methodBuilder(name)
-                    .addModifiers(PUBLIC, Modifier.STATIC)
-
-    protected fun MethodSpec.Builder.addArgParameters(variant: List<ArgumentBinding>) = apply {
-        variant.forEach { arg -> addParameter(arg.type, arg.name) }
+    internal fun getClasGeneration(): ClassGeneration = when (knownClassType) {
+        KnownClassType.Activity -> ActivityGeneration(this)
+        KnownClassType.Fragment -> FragmentGeneration(this)
+        KnownClassType.Service -> ServiceGeneration(this)
+        KnownClassType.BroadcastReceiver -> BroadcastReceiverGeneration(this)
     }
-
-    protected fun MethodSpec.Builder.addSaveBundleStatements(bundleName: String, variant: List<ArgumentBinding>, argumentGetByName: (ArgumentBinding) -> String) = apply {
-        variant.forEach { arg -> addStatement("$bundleName.${getBundleSetterFor(arg)}(\"" + arg.key + "\", " + argumentGetByName(arg) + ")") }
-    }
-
-    protected fun MethodSpec.Builder.addBundleSetters(bundleName: String, className: String, checkIfSet: Boolean) = apply {
-        argumentBindings.forEach { arg -> addBundleSetter(arg, bundleName, className, checkIfSet) }
-    }
-
-    protected fun MethodSpec.Builder.addBundleSetter(arg: ArgumentBinding, bundleName: String, className: String, checkIfSet: Boolean) {
-        val keyName = arg.key
-        val settingPart = arg.accessor.setToField(getBundleGetterFor(bundleName, arg, keyName))
-        if (checkIfSet) addCode("if(${getBundleSetPredicate(bundleName, keyName)}) ")
-        addStatement("$className.$settingPart")
-    }
-
-    protected fun getBundlePredicate(arg: ArgumentBinding, bundleName: String) = "$bundleName.containsKey(\"${arg.key}\")"
-
-    protected fun getBundleSetPredicate(bundleName: String, keyName: String) = "$bundleName.containsKey(\"$keyName\")"
-
-    private fun getTargetTypeName(enclosingElement: TypeElement) = TypeName
-            .get(enclosingElement.asType())
-            .let { if (it is ParameterizedTypeName) it.rawType else it }
-
-    private fun createActivityStarterSpec() = TypeSpec
-            .classBuilder(bindingClassName.simpleName())
-            .addModifiers(PUBLIC, FINAL)
-            .addClassMethods()
-            .build()
-
-    private fun TypeSpec.Builder.addClassMethods() = this
-            .addMethod(createFillFieldsMethod())
-            .addExtraToClass()
-            .addMethods(variants.flatMap { variant -> createStarters(variant) })
 }

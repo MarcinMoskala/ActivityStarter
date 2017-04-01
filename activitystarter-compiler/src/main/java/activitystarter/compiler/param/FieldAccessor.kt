@@ -1,5 +1,6 @@
-package activitystarter.compiler
+package activitystarter.compiler.param
 
+import activitystarter.compiler.error.Errors
 import javax.lang.model.element.Element
 import javax.lang.model.element.Modifier.PRIVATE
 import javax.lang.model.element.TypeElement

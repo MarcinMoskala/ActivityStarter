@@ -1,14 +1,14 @@
-package activitystarter.compiler.classbinding
+package activitystarter.compiler.codegeneration
 
-import activitystarter.compiler.ArgumentBinding
-import activitystarter.compiler.INTENT
+import activitystarter.compiler.classbinding.ClassBinding
+import activitystarter.compiler.param.ArgumentBinding
+import activitystarter.compiler.utils.INTENT
 import com.squareup.javapoet.MethodSpec
-import javax.lang.model.element.TypeElement
 
-internal abstract class IntentBinding(element: TypeElement) : ClassBinding(element) {
+internal abstract class IntentBinding(classBinding: ClassBinding) : ClassGeneration(classBinding) {
 
     protected fun fillByIntentBinding(targetName: String) = getBasicFillMethodBuilder("ActivityStarter.fill(this, intent)")
-            .addParameter(targetTypeName, targetName)
+            .addParameter(classBinding.targetTypeName, targetName)
             .addParameter(INTENT, "intent")
             .addIntentSetters(targetName)
             .build()!!
@@ -16,17 +16,20 @@ internal abstract class IntentBinding(element: TypeElement) : ClassBinding(eleme
     protected fun createGetIntentMethod(variant: List<ArgumentBinding>) = builderWithCreationBasicFields("getIntent")
             .addArgParameters(variant)
             .returns(INTENT)
-            .addStatement("\$T intent = new Intent(context, \$T.class)", INTENT, targetTypeName)
+            .addStatement("\$T intent = new Intent(context, \$T.class)", INTENT, classBinding.targetTypeName)
             .addPutExtraStatement(variant)
             .addStatement("return intent")
-            .build()
+            .build()!!
 
-    protected fun MethodSpec.Builder.addPutExtraStatement(variant: List<ArgumentBinding>) = apply {
-        variant.forEach { arg -> addStatement("intent.putExtra(\"" + arg.key + "\", " + arg.name + ")") }
+    private fun MethodSpec.Builder.addPutExtraStatement(variant: List<ArgumentBinding>) = apply {
+        variant.forEach { arg ->
+            val putArgumentToIntentMethodName = getPutArgumentToIntentMethodName(arg.paramType)
+            addStatement("intent.$putArgumentToIntentMethodName(\"" + arg.key + "\", " + arg.name + ")")
+        }
     }
 
     protected fun MethodSpec.Builder.addIntentSetters(targetParameterName: String) = apply {
-        argumentBindings.forEach { arg -> addIntentSetter(arg, targetParameterName) }
+        classBinding.argumentBindings.forEach { arg -> addIntentSetter(arg, targetParameterName) }
     }
 
     protected fun MethodSpec.Builder.addIntentSetter(arg: ArgumentBinding, targetParameterName: String) {

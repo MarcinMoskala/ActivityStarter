@@ -1,4 +1,4 @@
-package activitystarter.compiler
+package activitystarter.compiler.utils
 
 import com.squareup.javapoet.ClassName
 import com.squareup.javapoet.MethodSpec

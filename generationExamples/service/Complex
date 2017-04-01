@@ -35,7 +35,7 @@ public final class SomeServiceStarter {
   public static void fill(SomeService service, Intent intent) {
     if(intent.hasExtra("com.example.activitystarter.nameStarterKey")) service.name = intent.getStringExtra("com.example.activitystarter.nameStarterKey");
     if(intent.hasExtra("com.example.activitystarter.surnameStarterKey")) service.surname = intent.getStringExtra("com.example.activitystarter.surnameStarterKey");
-    if(intent.hasExtra("com.example.activitystarter.idStarterKey")) service.id = intent.getIntExtra("com.example.activitystarter.idStarterKey", -1);
+    if(intent.hasExtra("com.example.activitystarter.idStarterKey")) service.id = intent.getIntExtra("com.example.activitystarter.idStarterKey", 0);
   }
 
   public static Intent getIntent(Context context, String name, String surname, int id) {

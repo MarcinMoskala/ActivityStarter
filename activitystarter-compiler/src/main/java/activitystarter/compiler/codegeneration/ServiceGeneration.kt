@@ -1,10 +1,10 @@
-package activitystarter.compiler.classbinding
+package activitystarter.compiler.codegeneration
 
-import activitystarter.compiler.ArgumentBinding
+import activitystarter.compiler.classbinding.ClassBinding
+import activitystarter.compiler.param.ArgumentBinding
 import com.squareup.javapoet.MethodSpec
-import javax.lang.model.element.TypeElement
 
-internal class ServiceBinding(element: TypeElement) : IntentBinding(element) {
+internal class ServiceGeneration(classBinding: ClassBinding) : IntentBinding(classBinding) {
 
     override fun createFillFieldsMethod(): MethodSpec = fillByIntentBinding("service")
 

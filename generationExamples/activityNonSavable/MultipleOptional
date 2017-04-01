@@ -23,7 +23,7 @@ public final class MainActivityStarter {
   public static void fill(MainActivity activity, Bundle savedInstanceState) {
     Intent intent = activity.getIntent();
     if(intent.hasExtra("com.example.activitystarter.nameStarterKey")) activity.name = intent.getStringExtra("com.example.activitystarter.nameStarterKey");
-    if(intent.hasExtra("com.example.activitystarter.idStarterKey")) activity.id = intent.getIntExtra("com.example.activitystarter.idStarterKey", -1);
+    if(intent.hasExtra("com.example.activitystarter.idStarterKey")) activity.id = intent.getIntExtra("com.example.activitystarter.idStarterKey", 0);
   }
 
   public static void save(MainActivity activity, Bundle bundle) {

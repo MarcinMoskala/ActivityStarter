@@ -1,9 +1,9 @@
 package activitystarter
 
-import activitystarter.compiler.Errors
+import activitystarter.compiler.error.Errors
 import org.junit.Test
 
-class ActivityGenerationErrorTest : GenerationTest() {
+class GenerationErrorTest : GenerationTest() {
 
     @Test
     fun simpleGenerationErrorTest() {

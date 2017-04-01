@@ -10,10 +10,10 @@ import javax.tools.JavaFileObject
 
 abstract class GenerationTest {
 
-    val generationFolder = "../generationExamples"
+    val examplesFolder = "../generationExamples/"
 
     fun filePrecessingComparator(fileName: String) {
-        val gen = File("$generationFolder/$fileName").readText().split("********")
+        val gen = File("$examplesFolder$fileName").readText().split("********")
         // gen[0] is empty
         val beforeProcess = gen[1] to gen[2]
         val afterProcess = gen[3] to gen[4]
@@ -22,13 +22,36 @@ abstract class GenerationTest {
     }
 
     fun dirPrecessingComparator(dirName: String) {
-        File("$generationFolder/$dirName/").walkTopDown().forEach {
+        File("$examplesFolder$dirName/").walkTopDown().forEach {
             if(it.isDirectory) return@forEach
             filePrecessingComparator("$dirName/${it.name}")
         }
     }
 
-    fun processingComparator(beforeProcess: Pair<String, String>, afterProcess: Pair<String, String>) {
+    fun filePrecessingCheckError(fileName: String, expectedErrorPhrase: String) {
+        val gen = File("$examplesFolder$fileName").readText().split("********")
+        // gen[0] is empty
+        val beforeProcess = gen[1] to gen[2]
+        processingErrorCheck(beforeProcess, expectedErrorPhrase)
+    }
+
+    fun filePrecessingCorrect(fileName: String) {
+        val gen = File("$examplesFolder$fileName").readText().split("********")
+        // gen[0] is empty
+        val beforeProcess = gen[1] to gen[2]
+        processingCheck(beforeProcess)
+    }
+
+    fun processingCheck(beforeProcess: Pair<String, String>) {
+        val source = JavaFileObjects.forSourceString(beforeProcess.first, beforeProcess.second)
+        Truth.assertAbout<JavaSourcesSubject.SingleSourceAdapter, JavaFileObject, JavaSourceSubjectFactory>(JavaSourceSubjectFactory.javaSource())
+                .that(source)
+                .withCompilerOptions("-Xlint:-processing")
+                .processedWith(ActivityStarterProcessor())
+                .compilesWithoutError()
+    }
+
+    private fun processingComparator(beforeProcess: Pair<String, String>, afterProcess: Pair<String, String>) {
         val source = JavaFileObjects.forSourceString(beforeProcess.first, beforeProcess.second)
         val bindingSource = JavaFileObjects.forSourceString(afterProcess.first, afterProcess.second)
         Truth.assertAbout<JavaSourcesSubject.SingleSourceAdapter, JavaFileObject, JavaSourceSubjectFactory>(JavaSourceSubjectFactory.javaSource())

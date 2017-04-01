@@ -1,28 +1,23 @@
-package activitystarter.compiler.classbinding
+package activitystarter.compiler.codegeneration
 
-import activitystarter.MakeActivityStarter
-import activitystarter.NonSavable
-import activitystarter.compiler.ArgumentBinding
-import activitystarter.compiler.BUNDLE
-import activitystarter.compiler.doIf
+import activitystarter.compiler.classbinding.ClassBinding
+import activitystarter.compiler.param.ArgumentBinding
+import activitystarter.compiler.utils.BUNDLE
+import activitystarter.compiler.utils.doIf
 import com.squareup.javapoet.FieldSpec
 import com.squareup.javapoet.MethodSpec
 import com.squareup.javapoet.TypeName
 import com.squareup.javapoet.TypeName.BOOLEAN
 import com.squareup.javapoet.TypeSpec
-import javax.lang.model.element.Modifier
 import javax.lang.model.element.Modifier.PRIVATE
 import javax.lang.model.element.Modifier.STATIC
-import javax.lang.model.element.TypeElement
 
-internal class ActivityBinding(element: TypeElement) : IntentBinding(element) {
-
-    val savable: Boolean = element.getAnnotation(NonSavable::class.java) == null
+internal class ActivityGeneration(classBinding: ClassBinding) : IntentBinding(classBinding) {
 
     override fun createFillFieldsMethod() = getBasicFillMethodBuilder()
-            .addParameter(targetTypeName, "activity")
+            .addParameter(classBinding.targetTypeName, "activity")
             .addParameter(BUNDLE, "savedInstanceState")
-            .doIf(argumentBindings.isNotEmpty()) { addFieldSettersCode() }
+            .doIf(classBinding.argumentBindings.isNotEmpty()) { addFieldSettersCode() }
             .build()!!
 
     override fun TypeSpec.Builder.addExtraToClass() = this
@@ -37,7 +32,7 @@ internal class ActivityBinding(element: TypeElement) : IntentBinding(element) {
     private fun MethodSpec.Builder.addFieldSettersCode() {
         addStatement("Intent intent = activity.getIntent()")
         if (savable) {
-            for (arg in argumentBindings) {
+            for (arg in classBinding.argumentBindings) {
                 val bundleName = "savedInstanceState"
                 val bundlePredicate = getBundlePredicate(arg, bundleName)
                 addCode("if($bundleName != null && $bundlePredicate) {\n")
@@ -53,9 +48,9 @@ internal class ActivityBinding(element: TypeElement) : IntentBinding(element) {
 
     private fun createSaveMethod(): MethodSpec = this
             .builderWithCreationBasicFieldsNoContext("save")
-            .addParameter(targetTypeName, "activity")
+            .addParameter(classBinding.targetTypeName, "activity")
             .addParameter(BUNDLE, "bundle")
-            .doIf(savable) {
+            .doIf(classBinding.savable) {
                 addSaveBundleStatements("bundle", argumentBindings, { "activity.${it.accessor.getFieldValue()}" })
             }
             .build()
