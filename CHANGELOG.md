@@ -1,7 +1,37 @@
 Change Log
 ==========
 
-Version 0.02 *(2017-02-25)*
+Version 0.04 *(2017-04-01)*
+----------------------------
+
+App is much more tested. There is no more static field in ActivityStarter. Add support to all types. All supported types:
+* Subtype of Parcelable
+* Subtype of Serializable
+* ArrayList<Integer> intL
+* ArrayList<String> strLi
+* ArrayList<CharSequence>
+* String
+* int
+* long
+* float
+* boolean bo
+* double
+* char
+* byte
+* short
+* CharSequence
+* String[]
+* int[]
+* long[]
+* float[]
+* boolean[]
+* double[]
+* char[]
+* byte[]
+* short[]
+* CharSequence[]
+
+Version 0.03 *(2017-02-25)*
 ----------------------------
 
 Now custom keys are allowed. Example:
