@@ -112,8 +112,8 @@ For Java project add in build.gradle file:
 
 ```groovy
 dependencies {
-    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.31'
-    apt 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.31'
+    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.40'
+    apt 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.40'
 }
 ```
 
@@ -126,8 +126,8 @@ kapt {
 }
 
 dependencies {
-    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.31'
-    kapt 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.31'
+    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.40'
+    kapt 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.40'
 }
 ```
 
