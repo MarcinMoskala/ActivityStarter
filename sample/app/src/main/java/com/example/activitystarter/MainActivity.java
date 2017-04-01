@@ -18,8 +18,6 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity {
 
-    float[] ko;
-
     @BindView(R.id.show_data_button) Button showDataButton;
     @BindView(R.id.show_parcelable_data_button) Button showParcelableDataButton;
     @BindView(R.id.show_serializable_data_button) Button showSerializableDataButton;
@@ -37,7 +35,6 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setUpButtons();
-        savedInstanceState.getFloat("");
         SomeServiceStarter.start(this, "Name", 10);
     }
 
