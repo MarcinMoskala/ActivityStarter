@@ -35,7 +35,6 @@ enum class ParamType {
 
     ParcelableSubtype,
     SerializableSubtype,
-    ParcelableArraySubtype,
     ParcelableArrayListSubtype;
 
     companion object {
@@ -70,8 +69,7 @@ enum class ParamType {
 
         private fun getArrayType(arrayType: Type.ArrayType?): ParamType? {
             val elementType = arrayType?.elemtype ?: return null
-            val basicArrayElementType = getArrayParamTypeForElementType(elementType)
-            return basicArrayElementType ?: getComplexArrayParamTypeForElementType(elementType)
+            return getArrayParamTypeForElementType(elementType)
         }
 
         private fun getArrayParamTypeForElementType(elementType: Type): ParamType? = when (elementType.toString()) {
@@ -85,11 +83,6 @@ enum class ParamType {
             "char" -> CharArray
             "byte" -> ByteArray
             "short" -> ShortArray
-            else -> null
-        }
-
-        private fun getComplexArrayParamTypeForElementType(elementType: Type): ParamType? = when {
-            elementType.isSubtypeOfType("android.os.Parcelable") -> ParcelableArraySubtype
             else -> null
         }
 
@@ -117,7 +110,6 @@ enum class ParamType {
 
     fun typeUsedBySupertype(): kotlin.Boolean = this in listOf(
             ParcelableSubtype,
-            SerializableSubtype,
-            ParcelableArraySubtype
+            SerializableSubtype
     )
 }

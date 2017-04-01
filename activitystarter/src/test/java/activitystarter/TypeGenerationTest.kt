@@ -115,11 +115,6 @@ class TypeGenerationTest : GenerationTest() {
     }
 
     @Test
-    fun subtypeOfParcelableArrayCompilationTest() {
-        processingCheck("Account[]", "android.accounts.Account")
-    }
-
-    @Test
     fun arrayListOfSubtypeOfParcelableCompilationTest() {
         processingCheck("ArrayList<Account>", "android.accounts.Account", "java.util.ArrayList")
     }

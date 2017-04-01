@@ -50,6 +50,5 @@ public class AllTypesActivity extends BaseActivity {
     @Arg StudentParcelable sp;
     @Arg StudentSerializable ss;
 
-    @Arg StudentParcelable[] spArray;
     @Arg ArrayList<StudentParcelable> spList;
 }

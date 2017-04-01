@@ -40,7 +40,6 @@ fun getBundleSetterFor(type: ParamType) = when (type) {
     ParamType.CharSequenceArrayList -> "putCharSequenceArrayList"
     ParamType.ParcelableSubtype -> "putParcelable"
     ParamType.SerializableSubtype -> "putSerializable"
-    ParamType.ParcelableArraySubtype -> "putParcelableArray"
     ParamType.ParcelableArrayListSubtype -> "putParcelableArrayList"
 }
 
@@ -76,7 +75,6 @@ fun getBundleGetterCall(paramType: ParamType) = when (paramType) {
     ParamType.CharSequenceArrayList -> "getCharSequenceArrayList"
     ParamType.ParcelableSubtype -> "getParcelable"
     ParamType.SerializableSubtype -> "getSerializable"
-    ParamType.ParcelableArraySubtype -> "getParcelableArray"
     ParamType.ParcelableArrayListSubtype -> "getParcelableArrayList"
 }
 
@@ -120,6 +118,5 @@ private fun getIntentGetterForParamType(paramType: ParamType, keyName: String) =
     ParamType.CharSequenceArrayList -> "getCharSequenceArrayListExtra(\"$keyName\")"
     ParamType.ParcelableSubtype -> "getParcelableExtra(\"$keyName\")"
     ParamType.SerializableSubtype -> "getSerializableExtra(\"$keyName\")"
-    ParamType.ParcelableArraySubtype -> "getParcelableArrayExtra(\"$keyName\")"
     ParamType.ParcelableArrayListSubtype -> "getParcelableArrayListExtra(\"$keyName\")"
 }

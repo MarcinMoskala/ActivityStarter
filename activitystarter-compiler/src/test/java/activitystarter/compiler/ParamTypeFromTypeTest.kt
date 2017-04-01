@@ -70,11 +70,6 @@ class ParamTypeFromTypeTest {
     }
 
     @Test
-    fun `Type mapper is mapping Array of Parcelable subtype to correct ParamType`() {
-        assertParamTypeFromTypeMapping(ParamType.ParcelableArraySubtype to TypeMirrors.ParcelableSubtypeArraySubtype)
-    }
-
-    @Test
     fun `Type mapper is mapping only ArrayList of Parcelable subtype to correct ParamType`() {
         assertParamTypeFromTypeMapping(ParamType.ParcelableArrayListSubtype to TypeMirrors.ParcelableSubtypeArrayListSubtype)
     }

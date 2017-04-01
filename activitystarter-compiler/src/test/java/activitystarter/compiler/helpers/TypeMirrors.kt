@@ -36,7 +36,6 @@ object TypeMirrors {
     val SubtypeOfParcelable by lazy { getTypeMirror("Account", "android.accounts.Account") }
     val SubtypeOfSerializable by lazy { getTypeMirror("Color", "java.awt.Color") }
     val SomeEnum by lazy { getTypeMirror("Color", "java.awt.Color") }
-    val ParcelableSubtypeArraySubtype by lazy { getTypeMirror("Account[]", "android.accounts.Account") }
     val ParcelableSubtypeArrayListSubtype: TypeMirror by lazy { getTypeMirror("ArrayList<Account>", "android.accounts.Account", "java.util.ArrayList") }
     val SerializableSubtypeArrayListSubtype: TypeMirror by lazy { getTypeMirror("ArrayList<Color>", "java.awt.Color", "java.util.ArrayList") }
 //    ParcelableelableArrayList,
