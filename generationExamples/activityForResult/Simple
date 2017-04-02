@@ -1,0 +1,63 @@
+********com.example.activitystarter.MainActivity********
+package com.example.activitystarter;
+import android.app.Activity;
+import activitystarter.Arg;
+import activitystarter.MakeActivityStarter;
+
+@MakeActivityStarter(includeStartForResult = true)
+public class MainActivity extends Activity {
+    @Arg String name;
+}
+********com.example.activitystarter.MainActivityStarter********
+package com.example.activitystarter;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import java.lang.String;
+
+public final class MainActivityStarter {
+  /**
+   * This is method used to fill fields. Use it by calling ActivityStarter.fill(this). */
+  public static void fill(MainActivity activity, Bundle savedInstanceState) {
+    Intent intent = activity.getIntent();
+    if(savedInstanceState != null && savedInstanceState.containsKey("com.example.activitystarter.nameStarterKey")) {
+    activity.name = savedInstanceState.getString("com.example.activitystarter.nameStarterKey");
+    } else {
+    if(intent.hasExtra("com.example.activitystarter.nameStarterKey")) activity.name = intent.getStringExtra("com.example.activitystarter.nameStarterKey");
+    }
+  }
+
+  public static void save(MainActivity activity, Bundle bundle) {
+    bundle.putString("com.example.activitystarter.nameStarterKey", activity.name);
+  }
+
+  public static Intent getIntent(Context context, String name) {
+    Intent intent = new Intent(context, MainActivity.class);
+    intent.putExtra("com.example.activitystarter.nameStarterKey", name);
+    return intent;
+  }
+
+  public static void start(Context context, String name) {
+    Intent intent = getIntent(context, name);
+    context.startActivity(intent);
+  }
+
+  public static void startWithFlags(Context context, String name, int flags) {
+    Intent intent = getIntent(context, name);
+    intent.addFlags(flags);
+    context.startActivity(intent);
+  }
+
+  public static void startActivityForResult(Activity context, String name, int result) {
+    Intent intent = getIntent(context, name);
+    context.startActivityForResult(intent, result);
+  }
+
+  public static void startWithFlagsForResult(Activity context, String name, int result, int flags) {
+    Intent intent = getIntent(context, name);
+    intent.addFlags(flags);
+    context.startActivityForResult(intent, result);
+  }
+}

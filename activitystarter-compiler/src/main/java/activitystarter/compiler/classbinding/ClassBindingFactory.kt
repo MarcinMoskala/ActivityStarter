@@ -32,11 +32,10 @@ internal class ClassBindingFactory(val typeElement: TypeElement) {
                 .filter { it.getAnnotation(Arg::class.java) != null }
                 .map { argumentFactory.parseArgument(it, packageName, knownClassType) }
                 .filterNotNull()
-        val argumentBindingVariants = argumentBindings.createSublists { it.isOptional }
-                .distinctBy { it.map { it.typeName } }
         val savable = typeElement.getAnnotation(NonSavable::class.java) == null
+        val addStartForResult = typeElement.getAnnotation(MakeActivityStarter::class.java)?.includeStartForResult ?: false
 
-        return ClassBinding(knownClassType, targetTypeName, bindingClassName, packageName, argumentBindings, argumentBindingVariants, savable)
+        return ClassBinding(knownClassType, targetTypeName, bindingClassName, packageName, argumentBindings, savable, addStartForResult)
     }
 
     private fun getClassError(elementType: KnownClassType?) = when {

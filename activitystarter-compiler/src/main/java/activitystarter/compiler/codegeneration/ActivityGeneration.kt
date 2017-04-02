@@ -2,8 +2,7 @@ package activitystarter.compiler.codegeneration
 
 import activitystarter.compiler.classbinding.ClassBinding
 import activitystarter.compiler.param.ArgumentBinding
-import activitystarter.compiler.utils.BUNDLE
-import activitystarter.compiler.utils.doIf
+import activitystarter.compiler.utils.*
 import com.squareup.javapoet.MethodSpec
 import com.squareup.javapoet.TypeName
 import com.squareup.javapoet.TypeSpec
@@ -19,10 +18,13 @@ internal class ActivityGeneration(classBinding: ClassBinding) : IntentBinding(cl
     override fun TypeSpec.Builder.addExtraToClass() = this
             .addMethod(createSaveMethod())
 
-    override fun createStarters(variant: List<ArgumentBinding>): List<MethodSpec> = listOf(
+    override fun createStarters(variant: List<ArgumentBinding>): List<MethodSpec> = listOfNotNull(
             createGetIntentMethod(variant),
             createStartActivityMethod(variant),
             createStartActivityMethodWithFlags(variant)
+    ).addIf(classBinding.includeStartForResult,
+            createStartActivityForResultMethod(variant),
+            createStartActivityForResultMethodWithFlags(variant)
     )
 
     private fun MethodSpec.Builder.addFieldSettersCode() {
@@ -60,5 +62,23 @@ internal class ActivityGeneration(classBinding: ClassBinding) : IntentBinding(cl
             .addGetIntentStatement(variant)
             .addStatement("intent.addFlags(flags)")
             .addStatement("context.startActivity(intent)")
+            .build()
+
+    private fun createStartActivityForResultMethod(variant: List<ArgumentBinding>) = builderWithCreationBasicFieldsNoContext("startActivityForResult")
+            .addParameter(ACTIVITY, "context")
+            .addArgParameters(variant)
+            .addParameter(TypeName.INT, "result")
+            .addGetIntentStatement(variant)
+            .addStatement("context.startActivityForResult(intent, result)")
+            .build()
+
+    private fun createStartActivityForResultMethodWithFlags(variant: List<ArgumentBinding>) = builderWithCreationBasicFieldsNoContext("startWithFlagsForResult")
+            .addParameter(ACTIVITY, "context")
+            .addArgParameters(variant)
+            .addParameter(TypeName.INT, "result")
+            .addParameter(TypeName.INT, "flags")
+            .addGetIntentStatement(variant)
+            .addStatement("intent.addFlags(flags)")
+            .addStatement("context.startActivityForResult(intent, result)")
             .build()
 }
