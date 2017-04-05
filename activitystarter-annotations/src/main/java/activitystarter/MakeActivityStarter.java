@@ -8,5 +8,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Retention(RUNTIME) @Target(TYPE)
 public @interface MakeActivityStarter {
+
+    // This flag should be used only for Activities
     boolean includeStartForResult() default false;
 }
