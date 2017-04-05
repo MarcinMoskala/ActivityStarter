@@ -21,6 +21,7 @@ Full documentation is located [here](https://github.com/MarcinMoskala/ActivitySt
 * [Usage of custom keys](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-of-custom-keys)
 * [Optional annotation usage](https://github.com/MarcinMoskala/ActivityStarter/wiki/Optional-annotation)
 * [NonSavable annotation usage](https://github.com/MarcinMoskala/ActivityStarter/wiki/NonSavable-annotation)
+* [Activity startForResult usage](https://github.com/MarcinMoskala/ActivityStarter/wiki/Start-Activity-for-result)
 * [How does it really work?](https://github.com/MarcinMoskala/ActivityStarter/wiki/How-does-it-really-work?)
 
 # Example
