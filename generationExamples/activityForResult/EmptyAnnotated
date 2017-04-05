@@ -38,7 +38,7 @@ public final class MainActivityStarter {
     context.startActivity(intent);
   }
 
-  public static void startActivityForResult(Activity context, int result) {
+  public static void startForResult(Activity context, int result) {
     Intent intent = getIntent(context);
     context.startActivityForResult(intent, result);
   }

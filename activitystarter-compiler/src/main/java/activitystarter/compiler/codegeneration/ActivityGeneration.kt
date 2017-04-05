@@ -64,7 +64,7 @@ internal class ActivityGeneration(classBinding: ClassBinding) : IntentBinding(cl
             .addStatement("context.startActivity(intent)")
             .build()
 
-    private fun createStartActivityForResultMethod(variant: List<ArgumentBinding>) = builderWithCreationBasicFieldsNoContext("startActivityForResult")
+    private fun createStartActivityForResultMethod(variant: List<ArgumentBinding>) = builderWithCreationBasicFieldsNoContext("startForResult")
             .addParameter(ACTIVITY, "context")
             .addArgParameters(variant)
             .addParameter(TypeName.INT, "result")
