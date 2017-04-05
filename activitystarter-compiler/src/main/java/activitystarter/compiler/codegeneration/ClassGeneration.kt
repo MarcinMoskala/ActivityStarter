@@ -12,7 +12,7 @@ import javax.lang.model.element.Modifier.PUBLIC
 
 internal abstract class ClassGeneration(val classBinding: ClassBinding) {
 
-    fun brewJava() = JavaFile.builder(classBinding.packageName, createActivityStarterSpec())
+    fun brewJava() = JavaFile.builder(classBinding.packageName, createStarterSpec())
             .addFileComment("Generated code from ActivityStarter. Do not modify!")
             .build()
 
@@ -61,7 +61,7 @@ internal abstract class ClassGeneration(val classBinding: ClassBinding) {
 
     protected fun getBundlePredicate(bundleName: String, keyName: String) = "$bundleName.containsKey(\"$keyName\")"
 
-    private fun createActivityStarterSpec() = TypeSpec
+    private fun createStarterSpec() = TypeSpec
             .classBuilder(classBinding.bindingClassName.simpleName())
             .addModifiers(PUBLIC, FINAL)
             .addClassMethods()
