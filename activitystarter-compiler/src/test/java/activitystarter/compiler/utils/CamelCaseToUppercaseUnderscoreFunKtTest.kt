@@ -10,4 +10,9 @@ class CamelCaseToUppercaseUnderscoreFunKtTest {
         assertEquals("", camelCaseToUppercaseUnderscore(""))
     }
 
+    @Test fun `Simple underscore camelcase translations to uppercase underscore`() {
+        assertEquals("JA_MAN", camelCaseToUppercaseUnderscore("jaMan"))
+        assertEquals("KO_KO_KO", camelCaseToUppercaseUnderscore("koKoKo"))
+    }
+
 }
