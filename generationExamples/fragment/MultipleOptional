@@ -11,24 +11,27 @@ public class MainFragment extends Fragment {
     @Arg @Optional int id;
 }
 ********com.example.activitystarter.MainFragmentStarter********
-// Generated code from ActivityStarter. Do not modify!
 package com.example.activitystarter;
 
 import android.os.Bundle;
 import java.lang.String;
 
 public final class MainFragmentStarter {
+
+  static final String NAME_KEY = "com.example.activitystarter.nameStarterKey";
+  static final String ID_KEY = "com.example.activitystarter.idStarterKey";
+
   public static void fill(MainFragment fragment) {
     Bundle arguments = fragment.getArguments();
-    if(arguments.containsKey("com.example.activitystarter.nameStarterKey")) fragment.name = arguments.getString("com.example.activitystarter.nameStarterKey");
-    if(arguments.containsKey("com.example.activitystarter.idStarterKey")) fragment.id = arguments.getInt("com.example.activitystarter.idStarterKey");
+    if(arguments.containsKey(NAME_KEY))     fragment.name = arguments.getString(NAME_KEY);
+    if(arguments.containsKey(ID_KEY))     fragment.id = arguments.getInt(ID_KEY);
   }
 
   public static MainFragment newInstance(String name, int id) {
     MainFragment fragment = new MainFragment();
     Bundle args = new Bundle();
-    args.putString("com.example.activitystarter.nameStarterKey", name);
-    args.putInt("com.example.activitystarter.idStarterKey", id);
+    args.putString(NAME_KEY, name);
+    args.putInt(ID_KEY, id);
     fragment.setArguments(args);
     return fragment;
   }
@@ -36,7 +39,7 @@ public final class MainFragmentStarter {
   public static MainFragment newInstance(String name) {
     MainFragment fragment = new MainFragment();
     Bundle args = new Bundle();
-    args.putString("com.example.activitystarter.nameStarterKey", name);
+    args.putString(NAME_KEY, name);
     fragment.setArguments(args);
     return fragment;
   }
@@ -44,7 +47,7 @@ public final class MainFragmentStarter {
   public static MainFragment newInstance(int id) {
     MainFragment fragment = new MainFragment();
     Bundle args = new Bundle();
-    args.putInt("com.example.activitystarter.idStarterKey", id);
+    args.putInt(ID_KEY, id);
     fragment.setArguments(args);
     return fragment;
   }

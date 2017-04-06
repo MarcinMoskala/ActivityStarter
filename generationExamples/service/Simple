@@ -21,7 +21,6 @@ public class SomeService extends Service {
     }
 }
 ********com.example.activitystarter.SomeService********
-// Generated code from ActivityStarter. Do not modify!
 package com.example.activitystarter;
 
 import android.content.Context;
@@ -29,13 +28,17 @@ import android.content.Intent;
 import java.lang.String;
 
 public final class SomeServiceStarter {
+
+  static final String NAME_KEY = "com.example.activitystarter.nameStarterKey";
+
   public static void fill(SomeService service, Intent intent) {
-    if(intent.hasExtra("com.example.activitystarter.nameStarterKey")) service.name = intent.getStringExtra("com.example.activitystarter.nameStarterKey");
+    if(intent.hasExtra(NAME_KEY))
+         service.name = intent.getStringExtra(NAME_KEY);
   }
 
   public static Intent getIntent(Context context, String name) {
     Intent intent = new Intent(context, SomeService.class);
-    intent.putExtra("com.example.activitystarter.nameStarterKey", name);
+    intent.putExtra(NAME_KEY, name);
     return intent;
   }
 

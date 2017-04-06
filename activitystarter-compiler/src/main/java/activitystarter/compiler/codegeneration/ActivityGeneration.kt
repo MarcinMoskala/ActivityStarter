@@ -32,12 +32,11 @@ internal class ActivityGeneration(classBinding: ClassBinding) : IntentBinding(cl
         if (classBinding.savable) {
             for (arg in classBinding.argumentBindings) {
                 val bundleName = "savedInstanceState"
-                val bundlePredicate = getBundlePredicate(bundleName, arg.key)
+                val bundlePredicate = getBundlePredicate(bundleName, arg.fieldName)
                 addCode("if($bundleName != null && $bundlePredicate) {\n")
                 addBundleSetter(arg, bundleName, "activity", false)
-                addCode("} else {\n")
+                addCode("} else ")
                 addIntentSetter(arg, "activity")
-                addCode("}\n")
             }
         } else {
             addIntentSetters("activity")

@@ -17,30 +17,33 @@ import android.os.Bundle;
 import java.lang.String;
 
 public final class MainActivityStarter {
+  static final String NAME_KEY = "com.example.activitystarter.nameStarterKey";
 
+  static final String ID_KEY = "com.example.activitystarter.idStarterKey";
+
+  /**
+   * This is method used to fill fields. Use it by calling ActivityStarter.fill(this). */
   public static void fill(MainActivity activity, Bundle savedInstanceState) {
     Intent intent = activity.getIntent();
-    if(savedInstanceState != null && savedInstanceState.containsKey("com.example.activitystarter.nameStarterKey")) {
-    activity.name = savedInstanceState.getString("com.example.activitystarter.nameStarterKey");
-    } else {
-    if(intent.hasExtra("com.example.activitystarter.nameStarterKey")) activity.name = intent.getStringExtra("com.example.activitystarter.nameStarterKey");
-    }
-    if(savedInstanceState != null && savedInstanceState.containsKey("com.example.activitystarter.idStarterKey")) {
-    activity.id = savedInstanceState.getInt("com.example.activitystarter.idStarterKey");
-    } else {
-    if(intent.hasExtra("com.example.activitystarter.idStarterKey")) activity.id = intent.getIntExtra("com.example.activitystarter.idStarterKey", 0);
-    }
+    if(savedInstanceState != null && savedInstanceState.containsKey(NAME_KEY)) {
+        activity.name = savedInstanceState.getString(NAME_KEY);
+    } else if(intent.hasExtra(NAME_KEY))
+         activity.name = intent.getStringExtra(NAME_KEY);
+    if(savedInstanceState != null && savedInstanceState.containsKey(ID_KEY)) {
+        activity.id = savedInstanceState.getInt(ID_KEY);
+    } else if(intent.hasExtra(ID_KEY))
+         activity.id = intent.getIntExtra(ID_KEY, 0);
   }
 
   public static void save(MainActivity activity, Bundle bundle) {
-    bundle.putString("com.example.activitystarter.nameStarterKey", activity.name);
-    bundle.putInt("com.example.activitystarter.idStarterKey", activity.id);
+    bundle.putString(NAME_KEY, activity.name);
+    bundle.putInt(ID_KEY, activity.id);
   }
 
   public static Intent getIntent(Context context, String name, int id) {
     Intent intent = new Intent(context, MainActivity.class);
-    intent.putExtra("com.example.activitystarter.nameStarterKey", name);
-    intent.putExtra("com.example.activitystarter.idStarterKey", id);
+    intent.putExtra(NAME_KEY, name);
+    intent.putExtra(ID_KEY, id);
     return intent;
   }
 
@@ -57,7 +60,7 @@ public final class MainActivityStarter {
 
   public static Intent getIntent(Context context, String name) {
     Intent intent = new Intent(context, MainActivity.class);
-    intent.putExtra("com.example.activitystarter.nameStarterKey", name);
+    intent.putExtra(NAME_KEY, name);
     return intent;
   }
 
@@ -74,7 +77,7 @@ public final class MainActivityStarter {
 
   public static Intent getIntent(Context context, int id) {
     Intent intent = new Intent(context, MainActivity.class);
-    intent.putExtra("com.example.activitystarter.idStarterKey", id);
+    intent.putExtra(ID_KEY, id);
     return intent;
   }
 
