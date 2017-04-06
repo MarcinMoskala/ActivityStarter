@@ -69,7 +69,7 @@ internal abstract class ClassGeneration(val classBinding: ClassBinding) {
     private fun TypeSpec.Builder.addKeyFields(): TypeSpec.Builder {
         for (arg in classBinding.argumentBindings){
             val fieldSpec = FieldSpec
-                    .builder(STRING, arg.fieldName, STATIC, FINAL)
+                    .builder(STRING, arg.fieldName, STATIC, FINAL, PRIVATE)
                     .initializer("\"${arg.key}\"")
                     .build()
             addField(fieldSpec)

@@ -25,7 +25,7 @@ import java.lang.String;
 
 public final class MainFragmentStarter {
 
-  static final String NAME_KEY = "com.example.activitystarter.nameStarterKey";
+  private static final String NAME_KEY = "com.example.activitystarter.nameStarterKey";
 
   public static void fill(MainFragment fragment) {
     Bundle arguments = fragment.getArguments();

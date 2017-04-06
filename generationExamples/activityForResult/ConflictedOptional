@@ -21,8 +21,8 @@ import java.lang.String;
 
 public final class MainActivityStarter {
 
-  static final String NAME_KEY = "com.example.activitystarter.nameStarterKey";
-  static final String SURNAME_KEY = "com.example.activitystarter.surnameStarterKey";
+  private static final String NAME_KEY = "com.example.activitystarter.nameStarterKey";
+  private static final String SURNAME_KEY = "com.example.activitystarter.surnameStarterKey";
 
   public static void fill(MainActivity activity, Bundle savedInstanceState) {
     Intent intent = activity.getIntent();

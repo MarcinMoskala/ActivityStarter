@@ -25,10 +25,9 @@ import android.os.Bundle;
 import java.lang.String;
 
 public final class MainActivityStarter {
-  static final String NAME_KEY = "com.example.activitystarter.nameStarterKey";
 
-  /**
-   * This is method used to fill fields. Use it by calling ActivityStarter.fill(this). */
+  private static final String NAME_KEY = "com.example.activitystarter.nameStarterKey";
+
   public static void fill(MainActivity activity, Bundle savedInstanceState) {
     Intent intent = activity.getIntent();
     if(intent.hasExtra(NAME_KEY))

@@ -14,8 +14,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 public final class MainActivityStarter {
-  /**
-   * This is method used to fill fields. Use it by calling ActivityStarter.fill(this). */
+
   public static void fill(MainActivity activity, Bundle savedInstanceState) {
   }
 

@@ -32,9 +32,9 @@ import java.lang.String;
 
 public final class SomeServiceStarter {
 
-  static final String NAME_KEY = "com.example.activitystarter.nameStarterKey";
-  static final String SURNAME_KEY = "com.example.activitystarter.surnameStarterKey";
-  static final String ID_KEY = "com.example.activitystarter.idStarterKey";
+  private static final String NAME_KEY = "com.example.activitystarter.nameStarterKey";
+  private static final String SURNAME_KEY = "com.example.activitystarter.surnameStarterKey";
+  private static final String ID_KEY = "com.example.activitystarter.idStarterKey";
 
   public static void fill(SomeService service, Intent intent) {
     if(intent.hasExtra(NAME_KEY))

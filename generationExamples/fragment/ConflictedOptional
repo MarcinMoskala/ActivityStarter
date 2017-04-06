@@ -17,12 +17,10 @@ import android.os.Bundle;
 import java.lang.String;
 
 public final class MainFragmentStarter {
-  static final String NAME_KEY = "com.example.activitystarter.nameStarterKey";
 
-  static final String SURNAME_KEY = "com.example.activitystarter.surnameStarterKey";
+  private static final String NAME_KEY = "com.example.activitystarter.nameStarterKey";
+  private static final String SURNAME_KEY = "com.example.activitystarter.surnameStarterKey";
 
-  /**
-   * This is method used to fill fields. Use it by calling ActivityStarter.fill(this). */
   public static void fill(MainFragment fragment) {
     Bundle arguments = fragment.getArguments();
     if(arguments.containsKey(NAME_KEY))     fragment.name = arguments.getString(NAME_KEY);
