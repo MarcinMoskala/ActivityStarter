@@ -32,17 +32,24 @@ import java.lang.String;
 
 public final class SomeServiceStarter {
 
+  private static final String NAME_KEY = "com.example.activitystarter.nameStarterKey";
+  private static final String SURNAME_KEY = "com.example.activitystarter.surnameStarterKey";
+  private static final String ID_KEY = "com.example.activitystarter.idStarterKey";
+
   public static void fill(SomeService service, Intent intent) {
-    if(intent.hasExtra("com.example.activitystarter.nameStarterKey")) service.name = intent.getStringExtra("com.example.activitystarter.nameStarterKey");
-    if(intent.hasExtra("com.example.activitystarter.surnameStarterKey")) service.surname = intent.getStringExtra("com.example.activitystarter.surnameStarterKey");
-    if(intent.hasExtra("com.example.activitystarter.idStarterKey")) service.id = intent.getIntExtra("com.example.activitystarter.idStarterKey", 0);
+    if(intent.hasExtra(NAME_KEY))
+         service.name = intent.getStringExtra(NAME_KEY);
+    if(intent.hasExtra(SURNAME_KEY))
+         service.surname = intent.getStringExtra(SURNAME_KEY);
+    if(intent.hasExtra(ID_KEY))
+         service.id = intent.getIntExtra(ID_KEY, 0);
   }
 
   public static Intent getIntent(Context context, String name, String surname, int id) {
     Intent intent = new Intent(context, SomeService.class);
-    intent.putExtra("com.example.activitystarter.nameStarterKey", name);
-    intent.putExtra("com.example.activitystarter.surnameStarterKey", surname);
-    intent.putExtra("com.example.activitystarter.idStarterKey", id);
+    intent.putExtra(NAME_KEY, name);
+    intent.putExtra(SURNAME_KEY, surname);
+    intent.putExtra(ID_KEY, id);
     return intent;
   }
 
@@ -53,8 +60,8 @@ public final class SomeServiceStarter {
 
   public static Intent getIntent(Context context, String name, int id) {
     Intent intent = new Intent(context, SomeService.class);
-    intent.putExtra("com.example.activitystarter.nameStarterKey", name);
-    intent.putExtra("com.example.activitystarter.idStarterKey", id);
+    intent.putExtra(NAME_KEY, name);
+    intent.putExtra(ID_KEY, id);
     return intent;
   }
 
@@ -65,7 +72,7 @@ public final class SomeServiceStarter {
 
   public static Intent getIntent(Context context, int id) {
     Intent intent = new Intent(context, SomeService.class);
-    intent.putExtra("com.example.activitystarter.idStarterKey", id);
+    intent.putExtra(ID_KEY, id);
     return intent;
   }
 

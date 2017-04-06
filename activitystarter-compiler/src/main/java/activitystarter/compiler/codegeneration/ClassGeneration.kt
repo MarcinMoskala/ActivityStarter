@@ -3,12 +3,11 @@ package activitystarter.compiler.codegeneration
 import activitystarter.compiler.classbinding.ClassBinding
 import activitystarter.compiler.param.ArgumentBinding
 import activitystarter.compiler.utils.CONTEXT
-import com.squareup.javapoet.JavaFile
-import com.squareup.javapoet.MethodSpec
-import com.squareup.javapoet.TypeSpec
+import activitystarter.compiler.utils.STRING
+import activitystarter.compiler.utils.camelCaseToUppercaseUnderscore
+import com.squareup.javapoet.*
 import javax.lang.model.element.Modifier
-import javax.lang.model.element.Modifier.FINAL
-import javax.lang.model.element.Modifier.PUBLIC
+import javax.lang.model.element.Modifier.*
 
 internal abstract class ClassGeneration(val classBinding: ClassBinding) {
 
@@ -42,7 +41,7 @@ internal abstract class ClassGeneration(val classBinding: ClassBinding) {
     protected fun MethodSpec.Builder.addSaveBundleStatements(bundleName: String, variant: List<ArgumentBinding>, argumentGetByName: (ArgumentBinding) -> String) = apply {
         variant.forEach { arg ->
             val bundleSetter = getBundleSetterFor(arg.paramType)
-            addStatement("$bundleName.$bundleSetter(\"" + arg.key + "\", " + argumentGetByName(arg) + ")")
+            addStatement("$bundleName.$bundleSetter(" + arg.fieldName + ", " + argumentGetByName(arg) + ")")
         }
     }
 
@@ -51,21 +50,32 @@ internal abstract class ClassGeneration(val classBinding: ClassBinding) {
     }
 
     protected fun MethodSpec.Builder.addBundleSetter(arg: ArgumentBinding, bundleName: String, className: String, checkIfSet: Boolean) {
-        val keyName = arg.key
-        val
-                bundleGetter = getBundleGetter(bundleName, arg.paramType, arg.typeName, keyName)
+        val fieldName = arg.fieldName
+        val bundleGetter = getBundleGetter(bundleName, arg.paramType, arg.typeName, fieldName)
         val settingPart = arg.accessor.setToField(bundleGetter)
-        if (checkIfSet) addCode("if(${getBundlePredicate(bundleName, keyName)}) ")
-        addStatement("$className.$settingPart")
+        if (checkIfSet) addCode("if(${getBundlePredicate(bundleName, fieldName)}) ")
+        addStatement("    $className.$settingPart")
     }
 
-    protected fun getBundlePredicate(bundleName: String, keyName: String) = "$bundleName.containsKey(\"$keyName\")"
+    protected fun getBundlePredicate(bundleName: String, key: String) = "$bundleName.containsKey($key)"
 
     private fun createStarterSpec() = TypeSpec
             .classBuilder(classBinding.bindingClassName.simpleName())
             .addModifiers(PUBLIC, FINAL)
+            .addKeyFields()
             .addClassMethods()
             .build()
+
+    private fun TypeSpec.Builder.addKeyFields(): TypeSpec.Builder {
+        for (arg in classBinding.argumentBindings){
+            val fieldSpec = FieldSpec
+                    .builder(STRING, arg.fieldName, STATIC, FINAL, PRIVATE)
+                    .initializer("\"${arg.key}\"")
+                    .build()
+            addField(fieldSpec)
+        }
+        return this
+    }
 
     private fun TypeSpec.Builder.addClassMethods() = this
             .addMethod(createFillFieldsMethod())

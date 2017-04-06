@@ -1,23 +1,11 @@
 package com.example.activitystarter;
 
-import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
-import android.view.View;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.Switch;
-
-import com.example.activitystarter.fragment.TabbedFragmentActivityStarter;
 import com.example.activitystarter.parcelable.StudentParcelable;
-import com.example.activitystarter.parcelable.StudentParcelableActivityStarter;
 import com.example.activitystarter.serializable.StudentSerializable;
-import com.example.activitystarter.serializable.StudentSerializableActivityStarter;
 
 import java.util.ArrayList;
 
 import activitystarter.Arg;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class AllTypesActivity extends BaseActivity {
 

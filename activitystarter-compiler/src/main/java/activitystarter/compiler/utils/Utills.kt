@@ -12,6 +12,7 @@ val INTENT = ClassName.get("android.content", "Intent")
 val BUNDLE = ClassName.get("android.os", "Bundle")
 val CONTEXT = ClassName.get("android.content", "Context")
 val ACTIVITY = ClassName.get("android.app", "Activity")
+val STRING = ClassName.get("java.lang", "String")
 
 fun getElementType(element: Element): TypeMirror = element.asType()
         .let { if (it.kind == TypeKind.TYPEVAR) (it as TypeVariable).upperBound else it }

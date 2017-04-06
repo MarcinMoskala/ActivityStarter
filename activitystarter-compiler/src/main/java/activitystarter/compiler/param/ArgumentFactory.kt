@@ -31,7 +31,7 @@ class ArgumentFactory(val enclosingElement: TypeElement) {
         val typeName: TypeName = TypeName.get(elementType)
         val isOptional: Boolean = element.getAnnotation(Optional::class.java) != null
         val accessor: FieldAccessor = FieldAccessor(element)
-        return ArgumentBinding(elementType, name, key, paramType, typeName, isOptional, accessor)
+        return ArgumentBinding(name, key, paramType, typeName, isOptional, accessor)
     }
 
     private fun getFieldError(element: Element, knownClassType: KnownClassType, paramTypeNullable: ParamType?) = when {

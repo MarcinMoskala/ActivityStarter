@@ -24,7 +24,7 @@ internal abstract class IntentBinding(classBinding: ClassBinding) : ClassGenerat
     private fun MethodSpec.Builder.addPutExtraStatement(variant: List<ArgumentBinding>) = apply {
         variant.forEach { arg ->
             val putArgumentToIntentMethodName = getPutArgumentToIntentMethodName(arg.paramType)
-            addStatement("intent.$putArgumentToIntentMethodName(\"" + arg.key + "\", " + arg.name + ")")
+            addStatement("intent.$putArgumentToIntentMethodName(" + arg.fieldName + ", " + arg.name + ")")
         }
     }
 
@@ -33,9 +33,9 @@ internal abstract class IntentBinding(classBinding: ClassBinding) : ClassGenerat
     }
 
     protected fun MethodSpec.Builder.addIntentSetter(arg: ArgumentBinding, targetParameterName: String) {
-        val keyName = arg.key
-        val settingPart = arg.accessor.setToField(getIntentGetterFor(arg.paramType, arg.typeName, keyName))
-        addStatement("if(intent.hasExtra(\"$keyName\")) $targetParameterName.$settingPart")
+        val fieldName = arg.fieldName
+        val settingPart = arg.accessor.setToField(getIntentGetterFor(arg.paramType, arg.typeName, fieldName))
+        addStatement("if(intent.hasExtra($fieldName)) \n $targetParameterName.$settingPart")
     }
 
     protected fun createGetIntentStarter(starterFunc: String, variant: List<ArgumentBinding>) = builderWithCreationBasicFields("start")
