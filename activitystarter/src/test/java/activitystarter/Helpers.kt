@@ -17,7 +17,7 @@ internal fun assertSubtype(clazz: Class<*>, superclass: Class<*>) {
     Assert.assertTrue("$clazz is not sublcass of $superclass.", clazz.isAssignableFrom(superclass))
 }
 
-private fun assertThrowsError(f: () -> Unit) {
+internal fun assertThrowsError(f: () -> Unit) {
     try {
         f()
         throw Error("Function didn't throw error.")
@@ -40,5 +40,11 @@ class HelpersTests() {
 
     @Test fun `assertSubtype reversed subtypes are not passing`() {
         assertThrowsError { assertSubtype(Account::class.java, Parcelable::class.java) }
+    }
+
+    @Test fun `assertThrowsError is passing when assert is inside`() {
+        val message = "Fake error that should be catched by assertThrowsError"
+        assertThrowsError { throw Error(message) }
+        assertThrowsError { Assert.assertTrue(message, false) }
     }
 }
