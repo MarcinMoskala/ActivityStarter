@@ -42,9 +42,13 @@ class HelpersTests() {
         assertThrowsError { assertSubtype(Account::class.java, Parcelable::class.java) }
     }
 
-    @Test fun `assertThrowsError is passing when assert is inside`() {
+    @Test fun `assertThrowsError is passing when failing assert is inside`() {
         val message = "Fake error that should be catched by assertThrowsError"
         assertThrowsError { throw Error(message) }
         assertThrowsError { Assert.assertTrue(message, false) }
+    }
+
+    @Test fun `assertThrowsError throwing error when there is no error inside`() {
+        assertThrowsError { assertThrowsError {  } }
     }
 }
