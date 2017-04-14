@@ -28,9 +28,12 @@ private fun assertThrowsError(f: () -> Unit) {
 
 class HelpersTests() {
 
-    @Test fun `AssertSubtype simple subtypes are passing`() {
+    @Test fun `assertSubtype simple subtypes are passing`() {
         assertSubtype(Parcelable::class.java, Account::class.java)
         assertSubtype(String::class.java, String::class.java)
     }
 
+    @Test fun `assertSubtype reversed subtypes are not passing`() {
+        assertThrowsError { assertSubtype(Account::class.java, Parcelable::class.java) }
+    }
 }
