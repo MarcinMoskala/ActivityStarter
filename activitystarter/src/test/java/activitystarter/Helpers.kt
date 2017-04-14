@@ -33,6 +33,11 @@ class HelpersTests() {
         assertSubtype(String::class.java, String::class.java)
     }
 
+    @Test fun `assertSubtype not subtypes are not passing`() {
+        assertThrowsError { assertSubtype(String::class.java, Int::class.java) }
+        assertThrowsError { assertSubtype(Long::class.java, Int::class.java) }
+    }
+
     @Test fun `assertSubtype reversed subtypes are not passing`() {
         assertThrowsError { assertSubtype(Account::class.java, Parcelable::class.java) }
     }
