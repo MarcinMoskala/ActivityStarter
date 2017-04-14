@@ -14,24 +14,24 @@ public class WrapperManager {
         return String.class;
     }
 
-    static class Builder {
+    public static class Builder {
 
         ArrayList<ArgWrapper> wrappers = new ArrayList<>();
 
-        Builder() {}
+        public Builder() {}
 
         private Builder(ArrayList<ArgWrapper> wrappers) {
             this.wrappers = wrappers;
         }
 
-        Builder with(ArgWrapper argWrapper) {
+        public Builder with(ArgWrapper argWrapper) {
             ArrayList<ArgWrapper> newWrappers = new ArrayList<>();
             newWrappers.addAll(wrappers);
             newWrappers.add(argWrapper);
             return new Builder(newWrappers);
         }
 
-        WrapperManager build() {
+        public WrapperManager build() {
             return new WrapperManager(wrappers);
         }
     }
