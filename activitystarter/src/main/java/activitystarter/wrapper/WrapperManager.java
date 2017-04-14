@@ -6,30 +6,53 @@ import android.support.annotation.Nullable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 import static activitystarter.Helpers.isSubtype;
 
 public class WrapperManager {
 
-    private ArrayList<ArgWrapper> wrappers;
+    private List<WrapperWithTypes> wrapperWithTypes;
 
     private WrapperManager(ArrayList<ArgWrapper> wrappers){
-        this.wrappers = wrappers;
+        this.wrapperWithTypes = toWrappersWithTypes(wrappers);
     }
 
     public Class<?> mappingType(Class<?> clazz) {
-        WrapperWithTypes wrapperWithTypes = findProperWrapper(clazz);
+        WrapperWithTypes wrapperWithTypes = wrapperByFromClass(clazz);
         return wrapperWithTypes == null ? null : (Class<?>) wrapperWithTypes.to;
     }
 
     public Object wrap(Object toWrap) {
         Class<?> toWrapClass = toWrap.getClass();
-        WrapperWithTypes wrapperWithTypes = findProperWrapper(toWrapClass);
+        WrapperWithTypes wrapperWithTypes = wrapperByFromClass(toWrapClass);
         if(wrapperWithTypes == null) throw new Error("");
         return wrapperWithTypes.getWrapper().wrap(toWrap);
     }
 
-    private @Nullable WrapperWithTypes findProperWrapper(Class<?> clazz) {
+    public Object unwrap(Object toWrap) {
+        Class<?> toWrapClass = toWrap.getClass();
+        WrapperWithTypes wrapperWithTypes = wrapperByToClass(toWrapClass);
+        if(wrapperWithTypes == null) throw new Error("");
+        return wrapperWithTypes.getWrapper().unwrap(toWrap);
+    }
+
+    private @Nullable WrapperWithTypes wrapperByFromClass(Class<?> clazz) {
+        for (WrapperWithTypes w: wrapperWithTypes) {
+            if(isSubtype((Class<?>) w.from, clazz)) return w;
+        }
+        return null;
+    }
+
+    private @Nullable WrapperWithTypes wrapperByToClass(Class<?> clazz) {
+        for (WrapperWithTypes w: wrapperWithTypes) {
+            if(isSubtype((Class<?>) w.to, clazz)) return w;
+        }
+        return null;
+    }
+
+    private List<WrapperWithTypes> toWrappersWithTypes(ArrayList<ArgWrapper> wrappers) {
+        List<WrapperWithTypes> wrapperWithTypesList = new ArrayList<>();
         for (ArgWrapper w: wrappers) {
             Type[] genericInterfaces = w.getClass().getGenericInterfaces();
             for (Type genericInterface : genericInterfaces) {
@@ -37,13 +60,11 @@ public class WrapperManager {
                     Type[] genericTypes = ((ParameterizedType) genericInterface).getActualTypeArguments();
                     Type fromClass = genericTypes[0];
                     Type toClass = genericTypes[1];
-                    if(isSubtype((Class<?>) fromClass, clazz)) {
-                        return new WrapperWithTypes(fromClass, toClass, w);
-                    }
+                    wrapperWithTypesList.add(new WrapperWithTypes(fromClass, toClass, w));
                 }
             }
         }
-        return null;
+        return wrapperWithTypesList;
     }
 
     private class WrapperWithTypes {
