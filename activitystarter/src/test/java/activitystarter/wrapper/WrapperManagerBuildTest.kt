@@ -10,9 +10,12 @@ import org.junit.Test
 
 class WrapperManagerBuildTest {
 
-    class DateTime
+    open class DateTime
     internal class ParcelableWrapper : ArgWrapper<Any, Parcelable>
     internal class DateTimeWrapper : ArgWrapper<DateTime, Long>
+
+    internal class ExampleDateTime : DateTime()
+    internal class ExampleClass
 
     @After fun tearDown() {
         ActivityStarter.setWrapperManager(null)
@@ -34,10 +37,12 @@ class WrapperManagerBuildTest {
     }
 
     @Test fun `WrapperManager is mappig super classes as defined`() {
-
+        val wrapperManager = getBasicWrapperManager()
+        assertSubtype(Long::class.javaObjectType, wrapperManager.mappingType(ExampleDateTime::class.java))
+        assertSubtype(Parcelable::class.java, wrapperManager.mappingType(ExampleClass::class.java))
     }
 
-        private fun getBasicWrapperManager(): WrapperManager = WrapperManager
+    private fun getBasicWrapperManager(): WrapperManager = WrapperManager
             .Builder()
             .with(WrapperManagerBuildTest.DateTimeWrapper())
             .with(WrapperManagerBuildTest.ParcelableWrapper())
