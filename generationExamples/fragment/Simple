@@ -15,15 +15,18 @@ import android.os.Bundle;
 import java.lang.String;
 
 public final class MainFragmentStarter {
+
+  private static final String NAME_KEY = "com.example.activitystarter.nameStarterKey";
+
   public static void fill(MainFragment fragment) {
     Bundle arguments = fragment.getArguments();
-    if(arguments.containsKey("com.example.activitystarter.nameStarterKey")) fragment.name = arguments.getString("com.example.activitystarter.nameStarterKey");
+    if(arguments.containsKey(NAME_KEY))     fragment.name = arguments.getString(NAME_KEY);
   }
 
   public static MainFragment newInstance(String name) {
     MainFragment fragment = new MainFragment();
     Bundle args = new Bundle();
-    args.putString("com.example.activitystarter.nameStarterKey", name);
+    args.putString(NAME_KEY, name);
     fragment.setArguments(args);
     return fragment;
   }

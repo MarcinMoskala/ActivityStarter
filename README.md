@@ -4,7 +4,6 @@ Android Library that provide simpler way to start the Activities with multiple a
 [![](https://jitpack.io/v/MarcinMoskala/ActivityStarter.svg)](https://jitpack.io/#MarcinMoskala/ActivityStarter)
 [![codebeat badge](https://codebeat.co/badges/a1727670-96fe-4c89-9bdb-f1818a6dc066)](https://codebeat.co/projects/github-com-marcinmoskala-activitystarter)
 [![Build Status](https://travis-ci.org/MarcinMoskala/ActivityStarter.svg?branch=master)](https://travis-ci.org/MarcinMoskala/ActivityStarter)
-[![GitHub license](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0)
 [![Stories in Ready](https://badge.waffle.io/MarcinMoskala/ActivityStarter.svg?label=ready&title=Ready)](http://waffle.io/MarcinMoskala/ActivityStarter)
 
 Field and method binding for Android Activity arguments, which uses annotation processing to generate boilerplate code for you, and:
@@ -22,6 +21,7 @@ Full documentation is located [here](https://github.com/MarcinMoskala/ActivitySt
 * [Usage of custom keys](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-of-custom-keys)
 * [Optional annotation usage](https://github.com/MarcinMoskala/ActivityStarter/wiki/Optional-annotation)
 * [NonSavable annotation usage](https://github.com/MarcinMoskala/ActivityStarter/wiki/NonSavable-annotation)
+* [Activity startForResult usage](https://github.com/MarcinMoskala/ActivityStarter/wiki/Start-Activity-for-result)
 * [How does it really work?](https://github.com/MarcinMoskala/ActivityStarter/wiki/How-does-it-really-work?)
 
 # Example
@@ -113,8 +113,8 @@ For Java project add in build.gradle file:
 
 ```groovy
 dependencies {
-    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.40'
-    apt 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.40'
+    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.50'
+    apt 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.50'
 }
 ```
 
@@ -127,8 +127,8 @@ kapt {
 }
 
 dependencies {
-    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.40'
-    kapt 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.40'
+    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.50'
+    kapt 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.50'
 }
 ```
 

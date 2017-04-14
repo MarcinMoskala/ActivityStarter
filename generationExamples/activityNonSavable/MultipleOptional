@@ -20,10 +20,15 @@ import java.lang.String;
 
 public final class MainActivityStarter {
 
+  private static final String NAME_KEY = "com.example.activitystarter.nameStarterKey";
+  private static final String ID_KEY = "com.example.activitystarter.idStarterKey";
+
   public static void fill(MainActivity activity, Bundle savedInstanceState) {
     Intent intent = activity.getIntent();
-    if(intent.hasExtra("com.example.activitystarter.nameStarterKey")) activity.name = intent.getStringExtra("com.example.activitystarter.nameStarterKey");
-    if(intent.hasExtra("com.example.activitystarter.idStarterKey")) activity.id = intent.getIntExtra("com.example.activitystarter.idStarterKey", 0);
+    if(intent.hasExtra(NAME_KEY))
+         activity.name = intent.getStringExtra(NAME_KEY);
+    if(intent.hasExtra(ID_KEY))
+         activity.id = intent.getIntExtra(ID_KEY, 0);
   }
 
   public static void save(MainActivity activity, Bundle bundle) {
@@ -31,8 +36,8 @@ public final class MainActivityStarter {
 
   public static Intent getIntent(Context context, String name, int id) {
     Intent intent = new Intent(context, MainActivity.class);
-    intent.putExtra("com.example.activitystarter.nameStarterKey", name);
-    intent.putExtra("com.example.activitystarter.idStarterKey", id);
+    intent.putExtra(NAME_KEY, name);
+    intent.putExtra(ID_KEY, id);
     return intent;
   }
 
@@ -49,7 +54,7 @@ public final class MainActivityStarter {
 
   public static Intent getIntent(Context context, String name) {
     Intent intent = new Intent(context, MainActivity.class);
-    intent.putExtra("com.example.activitystarter.nameStarterKey", name);
+    intent.putExtra(NAME_KEY, name);
     return intent;
   }
 
@@ -66,7 +71,7 @@ public final class MainActivityStarter {
 
   public static Intent getIntent(Context context, int id) {
     Intent intent = new Intent(context, MainActivity.class);
-    intent.putExtra("com.example.activitystarter.idStarterKey", id);
+    intent.putExtra(ID_KEY, id);
     return intent;
   }
 
