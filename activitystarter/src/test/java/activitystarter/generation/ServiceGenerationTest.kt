@@ -1,4 +1,4 @@
-package activitystarter
+package activitystarter.generation
 
 import org.junit.Test
 

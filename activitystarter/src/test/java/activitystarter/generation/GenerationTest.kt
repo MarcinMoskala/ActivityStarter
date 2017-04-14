@@ -1,4 +1,4 @@
-package activitystarter
+package activitystarter.generation
 
 import activitystarter.compiler.ActivityStarterProcessor
 import com.google.common.truth.Truth
