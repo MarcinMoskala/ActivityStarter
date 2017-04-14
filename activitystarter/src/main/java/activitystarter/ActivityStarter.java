@@ -19,8 +19,8 @@ public final class ActivityStarter {
 
     @Nullable private static WrapperManager wrapperManager;
 
-    public static void setWrapperManager(WrapperManager newWrapperManager) {
-        wrapperManager = newWrapperManager;
+    public static void setWrapperManager(@Nullable WrapperManager wrapperManager) {
+        ActivityStarter.wrapperManager = wrapperManager;
     }
 
     public static void fill(@NonNull Activity target) {
