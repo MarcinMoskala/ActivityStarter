@@ -2,19 +2,19 @@
 
 package activitystarter
 
-import activitystarter.wrapper.WrapperManager
-import activitystarter.wrapper.WrapperManagerBuildTest
+import activitystarter.Helpers.isSubtype
 import android.accounts.Account
 import android.os.Parcelable
 import org.junit.Assert
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 internal fun assertTypeEquals(class1: Class<*>, class2: Class<*>) {
     Assert.assertEquals(class1.canonicalName, class2.canonicalName)
 }
 
-internal fun assertSubtype(clazz: Class<*>, superclass: Class<*>) {
-    Assert.assertTrue("$clazz is not sublcass of $superclass.", clazz.isAssignableFrom(superclass))
+internal fun assertSubtype(subclass: Class<*>, superclass: Class<*>) {
+    assertTrue("$subclass is not sublcass of $superclass.", isSubtype(subclass, superclass))
 }
 
 internal fun assertThrowsError(f: () -> Unit) {
@@ -45,7 +45,7 @@ class HelpersTests() {
     @Test fun `assertThrowsError is passing when failing assert is inside`() {
         val message = "Fake error that should be catched by assertThrowsError"
         assertThrowsError { throw Error(message) }
-        assertThrowsError { Assert.assertTrue(message, false) }
+        assertThrowsError { assertTrue(message, false) }
     }
 
     @Test fun `assertThrowsError throwing error when there is no error inside`() {

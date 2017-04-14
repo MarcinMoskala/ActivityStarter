@@ -3,13 +3,10 @@
 package activitystarter.wrapper
 
 import activitystarter.ActivityStarter
-import android.accounts.Account
-import android.graphics.Color
+import activitystarter.assertSubtype
 import android.os.Parcelable
 import org.junit.After
-import org.junit.Assert
 import org.junit.Test
-import java.io.Serializable
 
 class WrapperManagerBuildTest {
 
@@ -32,9 +29,15 @@ class WrapperManagerBuildTest {
 
     @Test fun `WrapperManager is mappig base classes as defined`() {
         val wrapperManager = getBasicWrapperManager()
+        assertSubtype(Long::class.javaObjectType, wrapperManager.mappingType(DateTime::class.java))
+        assertSubtype(Parcelable::class.java, wrapperManager.mappingType(Any::class.java))
     }
 
-    private fun getBasicWrapperManager(): WrapperManager = WrapperManager
+    @Test fun `WrapperManager is mappig super classes as defined`() {
+
+    }
+
+        private fun getBasicWrapperManager(): WrapperManager = WrapperManager
             .Builder()
             .with(WrapperManagerBuildTest.DateTimeWrapper())
             .with(WrapperManagerBuildTest.ParcelableWrapper())

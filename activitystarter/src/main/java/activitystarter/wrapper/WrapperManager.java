@@ -1,17 +1,36 @@
 package activitystarter.wrapper;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+
+import activitystarter.Helpers;
+
+import static activitystarter.Helpers.isSubtype;
 
 public class WrapperManager {
 
-    ArrayList<ArgWrapper> wrappers;
+    private ArrayList<ArgWrapper> wrappers;
 
     private WrapperManager(ArrayList<ArgWrapper> wrappers){
         this.wrappers = wrappers;
     }
 
-    public Class<?> mapingType(Class<?> clazz) {
-        return String.class;
+    public Class<?> mappingType(Class<?> clazz) {
+        for (ArgWrapper w: wrappers) {
+            Type[] genericInterfaces = w.getClass().getGenericInterfaces();
+            for (Type genericInterface : genericInterfaces) {
+                if (genericInterface instanceof ParameterizedType) {
+                    Type[] genericTypes = ((ParameterizedType) genericInterface).getActualTypeArguments();
+                    Type fromClass = genericTypes[0];
+                    Type toClass = genericTypes[1];
+                    if(isSubtype((Class<?>) fromClass, clazz)) {
+                        return (Class<?>) toClass;
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     public static class Builder {
