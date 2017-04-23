@@ -1,4 +1,4 @@
-package activitystarter.compiler.helpers
+package activitystarter.compiler.issubtype
 
 import activitystarter.Arg
 import activitystarter.compiler.error.messanger
