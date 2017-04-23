@@ -1,10 +1,10 @@
-package activitystarter.compiler.param
+package activitystarter.compiler.model.param
 
 import activitystarter.Arg
 import activitystarter.Optional
-import activitystarter.compiler.classbinding.KnownClassType
 import activitystarter.compiler.error.Errors
 import activitystarter.compiler.error.error
+import activitystarter.compiler.model.classbinding.KnownClassType
 import activitystarter.compiler.utils.getElementType
 import com.squareup.javapoet.TypeName
 import javax.lang.model.element.Element

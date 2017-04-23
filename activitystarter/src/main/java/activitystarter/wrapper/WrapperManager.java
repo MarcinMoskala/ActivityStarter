@@ -8,6 +8,8 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import activitystarter.wrapping.ArgWrapper;
+
 import static activitystarter.Helpers.isSubtype;
 
 public class WrapperManager {

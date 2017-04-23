@@ -3,6 +3,7 @@
 package activitystarter.wrapper
 
 import activitystarter.ActivityStarter
+import activitystarter.wrapping.ArgWrapper
 import activitystarter.assertSubtype
 import android.accounts.Account
 import android.os.Parcel
@@ -25,11 +26,13 @@ class WrapperManagerTests {
 
     private open class DateTime
     private inner class ParcelableWrapper : ArgWrapper<Any, Parcelable> {
+        override fun requiredAnnotation(): Class<out Annotation>? = null
         override fun wrap(toWrap: Any): Parcelable = if (toWrap == exampleObject) exampleParcelable else otherParcelable
-        override fun unwrap(toUnwrap: Parcelable): Any = if (toUnwrap == exampleParcelable) exampleObject else otherObject
+        override fun unwrap(wrapped: Parcelable): Any = if (wrapped == exampleParcelable) exampleObject else otherObject
     }
 
     private inner class DateTimeWrapper : ArgWrapper<DateTime, Long> {
+        override fun requiredAnnotation(): Class<out Annotation>? = null
         override fun wrap(toWrap: DateTime): Long = if (toWrap == exampleDateTime) exampleLong else -1L
         override fun unwrap(toUnwrap: Long): DateTime = if (toUnwrap == exampleLong) exampleDateTime else otherDateTime
     }

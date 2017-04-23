@@ -1,8 +1,7 @@
-package activitystarter.compiler.param
+package activitystarter.compiler.model.param
 
 import activitystarter.compiler.utils.isSubtypeOfType
 import com.squareup.javapoet.TypeName
-import com.sun.tools.javac.code.Type
 import javax.lang.model.type.ArrayType
 import javax.lang.model.type.DeclaredType
 import javax.lang.model.type.TypeKind

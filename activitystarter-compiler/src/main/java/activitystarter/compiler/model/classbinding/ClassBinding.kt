@@ -1,7 +1,8 @@
-package activitystarter.compiler.classbinding
+package activitystarter.compiler.model.classbinding
 
 import activitystarter.compiler.codegeneration.*
-import activitystarter.compiler.param.ArgumentBinding
+import activitystarter.compiler.model.classbinding.KnownClassType.*
+import activitystarter.compiler.model.param.ArgumentBinding
 import activitystarter.compiler.utils.createSublists
 import com.squareup.javapoet.ClassName
 import com.squareup.javapoet.TypeName
@@ -22,9 +23,9 @@ class ClassBinding(
                 .distinctBy { it.map { it.typeName } }
 
     internal fun getClasGeneration(): ClassGeneration = when (knownClassType) {
-        KnownClassType.Activity -> ActivityGeneration(this)
-        KnownClassType.Fragment -> FragmentGeneration(this)
-        KnownClassType.Service -> ServiceGeneration(this)
-        KnownClassType.BroadcastReceiver -> BroadcastReceiverGeneration(this)
+        Activity -> ActivityGeneration(this)
+        Fragment -> FragmentGeneration(this)
+        Service -> ServiceGeneration(this)
+        BroadcastReceiver -> BroadcastReceiverGeneration(this)
     }
 }

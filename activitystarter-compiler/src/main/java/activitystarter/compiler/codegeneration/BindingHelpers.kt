@@ -1,11 +1,13 @@
 package activitystarter.compiler.codegeneration
 
-import activitystarter.compiler.param.ParamType
+import activitystarter.compiler.model.param.ParamType
 import com.google.auto.common.MoreElements.getPackage
+import com.squareup.javapoet.ClassName
 import com.squareup.javapoet.ClassName.get
 import com.squareup.javapoet.TypeName
+import javax.lang.model.element.TypeElement
 
-fun getBindingClassName(enclosingElement: javax.lang.model.element.TypeElement): com.squareup.javapoet.ClassName {
+fun getBindingClassName(enclosingElement: TypeElement): ClassName {
     val packageName = getPackage(enclosingElement).qualifiedName.toString()
     val className = enclosingElement.qualifiedName.toString().substring(packageName.length + 1)
     return get(packageName, className + "Starter")

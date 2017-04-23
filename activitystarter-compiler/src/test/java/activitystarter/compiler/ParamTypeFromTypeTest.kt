@@ -1,7 +1,7 @@
 package activitystarter.compiler
 
 import activitystarter.compiler.helpers.TypeMirrors
-import activitystarter.compiler.param.ParamType
+import activitystarter.compiler.model.param.ParamType
 import org.junit.Assert
 import org.junit.Test
 import javax.lang.model.type.TypeMirror

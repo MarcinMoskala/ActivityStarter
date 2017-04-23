@@ -1,4 +1,4 @@
-package activitystarter.compiler.classbinding
+package activitystarter.compiler.model.classbinding
 
 import activitystarter.Arg
 import activitystarter.MakeActivityStarter
@@ -6,18 +6,17 @@ import activitystarter.NonSavable
 import activitystarter.compiler.codegeneration.getBindingClassName
 import activitystarter.compiler.error.Errors
 import activitystarter.compiler.error.parsingError
-import activitystarter.compiler.param.ArgumentFactory
-import activitystarter.compiler.utils.createSublists
+import activitystarter.compiler.model.classbinding.KnownClassType.Companion.getByType
+import activitystarter.compiler.model.param.ArgumentFactory
 import activitystarter.compiler.utils.getElementType
 import com.squareup.javapoet.ParameterizedTypeName
 import com.squareup.javapoet.TypeName
-import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
 
 internal class ClassBindingFactory(val typeElement: TypeElement) {
 
     fun create(): ClassBinding? {
-        val knownClassType: KnownClassType? = KnownClassType.getByType(getElementType(typeElement))
+        val knownClassType: KnownClassType? = getByType(getElementType(typeElement))
         val error = getClassError(knownClassType)
         if(error != null) {
             parsingError<MakeActivityStarter>(error, typeElement, typeElement)

@@ -1,4 +1,4 @@
-package activitystarter.compiler.classbinding
+package activitystarter.compiler.model.classbinding
 
 import activitystarter.compiler.utils.isSubtypeOfType
 import javax.lang.model.type.TypeMirror
@@ -10,7 +10,7 @@ enum class KnownClassType(vararg val typeString: String) {
     BroadcastReceiver(BROADCAST_RECEIVER_TYPE);
 
     companion object {
-        fun getByType(elementType: TypeMirror): KnownClassType? = KnownClassType.values()
+        fun getByType(elementType: TypeMirror): KnownClassType? = values()
                 .first { elementType.isSubtypeOfType(*it.typeString) }
     }
 }

@@ -1,11 +1,14 @@
 package activitystarter.compiler.codegeneration
 
-import activitystarter.compiler.classbinding.ClassBinding
-import activitystarter.compiler.param.ArgumentBinding
+import activitystarter.compiler.model.classbinding.ClassBinding
+import activitystarter.compiler.model.param.ArgumentBinding
 import activitystarter.compiler.utils.CONTEXT
 import activitystarter.compiler.utils.STRING
-import activitystarter.compiler.utils.camelCaseToUppercaseUnderscore
-import com.squareup.javapoet.*
+import activitystarter.wrapping.ArgWrapper
+import com.squareup.javapoet.FieldSpec
+import com.squareup.javapoet.JavaFile
+import com.squareup.javapoet.MethodSpec
+import com.squareup.javapoet.TypeSpec
 import javax.lang.model.element.Modifier
 import javax.lang.model.element.Modifier.*
 
@@ -51,10 +54,23 @@ internal abstract class ClassGeneration(val classBinding: ClassBinding) {
 
     protected fun MethodSpec.Builder.addBundleSetter(arg: ArgumentBinding, bundleName: String, className: String, checkIfSet: Boolean) {
         val fieldName = arg.fieldName
-        val bundleGetter = getBundleGetter(bundleName, arg.paramType, arg.typeName, fieldName)
-        val settingPart = arg.accessor.setToField(bundleGetter)
+        var bundleValue = getBundleGetter(bundleName, arg.paramType, arg.typeName, fieldName)
+        if (arg.converter != null) bundleValue = addUnwrapper(bundleValue, arg)
+        val bundleValueSetter = arg.accessor.makeSetter(bundleValue)
         if (checkIfSet) addCode("if(${getBundlePredicate(bundleName, fieldName)}) ")
-        addStatement("    $className.$settingPart")
+        addStatement("$className.$bundleValueSetter")
+    }
+
+    private fun MethodSpec.Builder.addUnwrapper(bundleValue: String, arg: ArgumentBinding): String {
+        val nameAfterUnwrap = "unwrapped"
+//        val unwrappedType = converter.addStatement("auto $nameAfterUnwrap = new \$T().unwrap($bundleValue)", converter)
+        return nameAfterUnwrap
+    }
+
+    private fun MethodSpec.Builder.addWrapper(bundleValue: String, converter: Class<out ArgWrapper<*, *>>): String {
+        val nameAfterWrap = "wrapped"
+        addStatement("$nameAfterWrap = new \$T()", converter)
+        return nameAfterWrap
     }
 
     protected fun getBundlePredicate(bundleName: String, key: String) = "$bundleName.containsKey($key)"
@@ -67,7 +83,7 @@ internal abstract class ClassGeneration(val classBinding: ClassBinding) {
             .build()
 
     private fun TypeSpec.Builder.addKeyFields(): TypeSpec.Builder {
-        for (arg in classBinding.argumentBindings){
+        for (arg in classBinding.argumentBindings) {
             val fieldSpec = FieldSpec
                     .builder(STRING, arg.fieldName, STATIC, FINAL, PRIVATE)
                     .initializer("\"${arg.key}\"")

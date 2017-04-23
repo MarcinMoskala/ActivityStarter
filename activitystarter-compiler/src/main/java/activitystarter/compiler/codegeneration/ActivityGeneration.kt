@@ -1,8 +1,11 @@
 package activitystarter.compiler.codegeneration
 
-import activitystarter.compiler.classbinding.ClassBinding
-import activitystarter.compiler.param.ArgumentBinding
-import activitystarter.compiler.utils.*
+import activitystarter.compiler.model.classbinding.ClassBinding
+import activitystarter.compiler.model.param.ArgumentBinding
+import activitystarter.compiler.utils.ACTIVITY
+import activitystarter.compiler.utils.BUNDLE
+import activitystarter.compiler.utils.addIf
+import activitystarter.compiler.utils.doIf
 import com.squareup.javapoet.MethodSpec
 import com.squareup.javapoet.TypeName
 import com.squareup.javapoet.TypeSpec

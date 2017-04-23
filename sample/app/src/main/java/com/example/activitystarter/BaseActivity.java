@@ -4,7 +4,10 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.marcinmoskala.activitystarterparcelerargwrapper.ParcelarArgWrapper;
+
 import activitystarter.ActivityStarter;
+import activitystarter.ActivityStarterConfig;
 
 public class BaseActivity extends AppCompatActivity {
 

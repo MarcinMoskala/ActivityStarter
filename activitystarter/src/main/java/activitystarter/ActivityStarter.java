@@ -14,7 +14,6 @@ import java.lang.reflect.Method;
 
 import activitystarter.wrapper.WrapperManager;
 
-
 public final class ActivityStarter {
 
     @Nullable private static WrapperManager wrapperManager;

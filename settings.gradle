@@ -1,4 +1,4 @@
-include ':activitystarter'
+include ':activitystarter', ':activitystarter-parceler-arg-wrapper'
 include ':activitystarter-annotations'
 include ':activitystarter-compiler'
 

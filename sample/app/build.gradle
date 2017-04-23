@@ -31,6 +31,7 @@ android {
 dependencies {
     compile project(':activitystarter')
     annotationProcessor project(':activitystarter-compiler')
+    compile project(':activitystarter-parceler-arg-wrapper')
 
 //  In real project use this:
 //    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.20'

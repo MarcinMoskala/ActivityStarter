@@ -1,7 +1,7 @@
 package activitystarter.compiler.codegeneration
 
-import activitystarter.compiler.classbinding.ClassBinding
-import activitystarter.compiler.param.ArgumentBinding
+import activitystarter.compiler.model.classbinding.ClassBinding
+import activitystarter.compiler.model.param.ArgumentBinding
 import activitystarter.compiler.utils.INTENT
 import com.squareup.javapoet.MethodSpec
 
@@ -34,7 +34,7 @@ internal abstract class IntentBinding(classBinding: ClassBinding) : ClassGenerat
 
     protected fun MethodSpec.Builder.addIntentSetter(arg: ArgumentBinding, targetParameterName: String) {
         val fieldName = arg.fieldName
-        val settingPart = arg.accessor.setToField(getIntentGetterFor(arg.paramType, arg.typeName, fieldName))
+        val settingPart = arg.accessor.makeSetter(getIntentGetterFor(arg.paramType, arg.typeName, fieldName))
         addStatement("if(intent.hasExtra($fieldName)) \n $targetParameterName.$settingPart")
     }
 

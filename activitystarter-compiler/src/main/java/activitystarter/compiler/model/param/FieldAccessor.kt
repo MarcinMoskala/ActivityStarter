@@ -1,4 +1,4 @@
-package activitystarter.compiler.param
+package activitystarter.compiler.model.param
 
 import activitystarter.compiler.error.Errors
 import javax.lang.model.element.Element
@@ -15,7 +15,7 @@ class FieldAccessor(element: Element) {
 
     fun isAccessible() = setterType != FieldAccessType.Inaccessible && getterType != FieldAccessType.Inaccessible
 
-    fun setToField(whatToSet: String): String? = when (setterType) {
+    fun makeSetter(whatToSet: String): String? = when (setterType) {
         FieldAccessType.Accessible -> "$fieldName = $whatToSet"
         FieldAccessType.ByMethod -> "set${fieldName.capitalize()}($whatToSet)"
         FieldAccessType.ByNoIsMethod -> "set${fieldName.substring(2)}($whatToSet)"

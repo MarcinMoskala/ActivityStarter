@@ -1,11 +1,31 @@
 package activitystarter.compiler.helpers
 
+import com.google.testing.compile.CompilationRule
 import com.squareup.javapoet.TypeName
 import org.junit.Assert
+import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
+import javax.lang.model.element.TypeElement
 import javax.lang.model.type.TypeKind
+import javax.lang.model.type.TypeMirror
+import javax.lang.model.util.Types
 
+@RunWith(JUnit4::class)
 class TypeMirrorsTest {
+
+    @Rule @JvmField val compilation = CompilationRule()
+
+    fun getTypes(): Types = compilation.types
+
+    private fun getElement(clazz: Class<*>): TypeElement {
+        return compilation.elements.getTypeElement(clazz.canonicalName)
+    }
+
+    private fun getMirror(clazz: Class<*>): TypeMirror {
+        return getElement(clazz).asType()
+    }
 
     @Test
     fun `Basic mapped TypeName is correct`() {
