@@ -6,7 +6,7 @@ import com.squareup.javapoet.TypeName
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
-class ArgumentBinding(
+class ArgumentModel(
         val name: String,
         val key: String,
         val paramType: ParamType,

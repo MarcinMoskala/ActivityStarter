@@ -1,18 +1,18 @@
 package activitystarter.compiler.codegeneration
 
-import activitystarter.compiler.model.classbinding.ClassBinding
-import activitystarter.compiler.model.param.ArgumentBinding
+import activitystarter.compiler.model.classbinding.ClassModel
+import activitystarter.compiler.model.param.ArgumentModel
 import com.squareup.javapoet.MethodSpec
 
-internal class ServiceGeneration(classBinding: ClassBinding) : IntentBinding(classBinding) {
+internal class ServiceGeneration(classModel: ClassModel) : IntentBinding(classModel) {
 
     override fun createFillFieldsMethod(): MethodSpec = fillByIntentBinding("service")
 
-    override fun createStarters(variant: List<ArgumentBinding>): List<MethodSpec> = listOf(
+    override fun createStarters(variant: List<ArgumentModel>): List<MethodSpec> = listOf(
             createGetIntentMethod(variant),
             createStartServiceMethod(variant)
     )
 
-    private fun createStartServiceMethod(variant: List<ArgumentBinding>) =
+    private fun createStartServiceMethod(variant: List<ArgumentModel>) =
             createGetIntentStarter("startService", variant)
 }

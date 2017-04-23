@@ -1,31 +1,31 @@
 package activitystarter.compiler.codegeneration
 
-import activitystarter.compiler.model.classbinding.ClassBinding
-import activitystarter.compiler.model.param.ArgumentBinding
+import activitystarter.compiler.model.classbinding.ClassModel
+import activitystarter.compiler.model.param.ArgumentModel
 import activitystarter.compiler.utils.BUNDLE
 import activitystarter.compiler.utils.doIf
 import com.squareup.javapoet.MethodSpec
 
-internal class FragmentGeneration(classBinding: ClassBinding) : ClassGeneration(classBinding) {
+internal class FragmentGeneration(classModel: ClassModel) : ClassGeneration(classModel) {
 
     override fun createFillFieldsMethod() = getBasicFillMethodBuilder()
-            .addParameter(classBinding.targetTypeName, "fragment")
-            .doIf(classBinding.argumentBindings.isNotEmpty()) { addStatement("\$T arguments = fragment.getArguments()", BUNDLE) }
+            .addParameter(classModel.targetTypeName, "fragment")
+            .doIf(classModel.argumentModels.isNotEmpty()) { addStatement("\$T arguments = fragment.getArguments()", BUNDLE) }
             .addBundleSetters("arguments", "fragment", true)
             .build()!!
 
-    override fun createStarters(variant: List<ArgumentBinding>): List<MethodSpec> = listOf(
+    override fun createStarters(variant: List<ArgumentModel>): List<MethodSpec> = listOf(
             createGetFragmentMethod(variant)
     )
 
-    private fun createGetFragmentMethod(variant: List<ArgumentBinding>) = builderWithCreationBasicFieldsNoContext("newInstance")
+    private fun createGetFragmentMethod(variant: List<ArgumentModel>) = builderWithCreationBasicFieldsNoContext("newInstance")
             .addArgParameters(variant)
-            .returns(classBinding.targetTypeName)
+            .returns(classModel.targetTypeName)
             .addGetFragmentCode(variant)
             .build()
 
-    private fun MethodSpec.Builder.addGetFragmentCode(variant: List<ArgumentBinding>) = this
-            .addStatement("\$T fragment = new \$T()", classBinding.targetTypeName, classBinding.targetTypeName)
+    private fun MethodSpec.Builder.addGetFragmentCode(variant: List<ArgumentModel>) = this
+            .addStatement("\$T fragment = new \$T()", classModel.targetTypeName, classModel.targetTypeName)
             .doIf(variant.isNotEmpty()) {
                 addStatement("\$T args = new Bundle()", BUNDLE)
                 addSaveBundleStatements("args", variant, { it.name })

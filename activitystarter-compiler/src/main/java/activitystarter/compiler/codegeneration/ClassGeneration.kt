@@ -1,7 +1,7 @@
 package activitystarter.compiler.codegeneration
 
-import activitystarter.compiler.model.classbinding.ClassBinding
-import activitystarter.compiler.model.param.ArgumentBinding
+import activitystarter.compiler.model.classbinding.ClassModel
+import activitystarter.compiler.model.param.ArgumentModel
 import activitystarter.compiler.utils.CONTEXT
 import activitystarter.compiler.utils.STRING
 import activitystarter.wrapping.ArgWrapper
@@ -12,9 +12,9 @@ import com.squareup.javapoet.TypeSpec
 import javax.lang.model.element.Modifier
 import javax.lang.model.element.Modifier.*
 
-internal abstract class ClassGeneration(val classBinding: ClassBinding) {
+internal abstract class ClassGeneration(val classModel: ClassModel) {
 
-    fun brewJava() = JavaFile.builder(classBinding.packageName, createStarterSpec())
+    fun brewJava() = JavaFile.builder(classModel.packageName, createStarterSpec())
             .addFileComment("Generated code from ActivityStarter. Do not modify!")
             .build()
 
@@ -22,7 +22,7 @@ internal abstract class ClassGeneration(val classBinding: ClassBinding) {
 
     open fun TypeSpec.Builder.addExtraToClass(): TypeSpec.Builder = this
 
-    abstract fun createStarters(variant: List<ArgumentBinding>): List<MethodSpec>
+    abstract fun createStarters(variant: List<ArgumentModel>): List<MethodSpec>
 
     protected fun getBasicFillMethodBuilder(fillProperCall: String = "ActivityStarter.fill(this)"): MethodSpec.Builder = MethodSpec
             .methodBuilder("fill")
@@ -37,11 +37,11 @@ internal abstract class ClassGeneration(val classBinding: ClassBinding) {
             MethodSpec.methodBuilder(name)
                     .addModifiers(PUBLIC, Modifier.STATIC)
 
-    protected fun MethodSpec.Builder.addArgParameters(variant: List<ArgumentBinding>) = apply {
+    protected fun MethodSpec.Builder.addArgParameters(variant: List<ArgumentModel>) = apply {
         variant.forEach { arg -> addParameter(arg.typeName, arg.name) }
     }
 
-    protected fun MethodSpec.Builder.addSaveBundleStatements(bundleName: String, variant: List<ArgumentBinding>, argumentGetByName: (ArgumentBinding) -> String) = apply {
+    protected fun MethodSpec.Builder.addSaveBundleStatements(bundleName: String, variant: List<ArgumentModel>, argumentGetByName: (ArgumentModel) -> String) = apply {
         variant.forEach { arg ->
             val bundleSetter = getBundleSetterFor(arg.paramType)
             addStatement("$bundleName.$bundleSetter(" + arg.fieldName + ", " + argumentGetByName(arg) + ")")
@@ -49,10 +49,10 @@ internal abstract class ClassGeneration(val classBinding: ClassBinding) {
     }
 
     protected fun MethodSpec.Builder.addBundleSetters(bundleName: String, className: String, checkIfSet: Boolean) = apply {
-        classBinding.argumentBindings.forEach { arg -> addBundleSetter(arg, bundleName, className, checkIfSet) }
+        classModel.argumentModels.forEach { arg -> addBundleSetter(arg, bundleName, className, checkIfSet) }
     }
 
-    protected fun MethodSpec.Builder.addBundleSetter(arg: ArgumentBinding, bundleName: String, className: String, checkIfSet: Boolean) {
+    protected fun MethodSpec.Builder.addBundleSetter(arg: ArgumentModel, bundleName: String, className: String, checkIfSet: Boolean) {
         val fieldName = arg.fieldName
         var bundleValue = getBundleGetter(bundleName, arg.paramType, arg.typeName, fieldName)
         if (arg.converter != null) bundleValue = addUnwrapper(bundleValue, arg)
@@ -61,7 +61,7 @@ internal abstract class ClassGeneration(val classBinding: ClassBinding) {
         addStatement("$className.$bundleValueSetter")
     }
 
-    private fun MethodSpec.Builder.addUnwrapper(bundleValue: String, arg: ArgumentBinding): String {
+    private fun MethodSpec.Builder.addUnwrapper(bundleValue: String, arg: ArgumentModel): String {
         val nameAfterUnwrap = "unwrapped"
 //        val unwrappedType = converter.addStatement("auto $nameAfterUnwrap = new \$T().unwrap($bundleValue)", converter)
         return nameAfterUnwrap
@@ -76,14 +76,14 @@ internal abstract class ClassGeneration(val classBinding: ClassBinding) {
     protected fun getBundlePredicate(bundleName: String, key: String) = "$bundleName.containsKey($key)"
 
     private fun createStarterSpec() = TypeSpec
-            .classBuilder(classBinding.bindingClassName.simpleName())
+            .classBuilder(classModel.bindingClassName.simpleName())
             .addModifiers(PUBLIC, FINAL)
             .addKeyFields()
             .addClassMethods()
             .build()
 
     private fun TypeSpec.Builder.addKeyFields(): TypeSpec.Builder {
-        for (arg in classBinding.argumentBindings) {
+        for (arg in classModel.argumentModels) {
             val fieldSpec = FieldSpec
                     .builder(STRING, arg.fieldName, STATIC, FINAL, PRIVATE)
                     .initializer("\"${arg.key}\"")
@@ -96,5 +96,5 @@ internal abstract class ClassGeneration(val classBinding: ClassBinding) {
     private fun TypeSpec.Builder.addClassMethods() = this
             .addMethod(createFillFieldsMethod())
             .addExtraToClass()
-            .addMethods(classBinding.argumentBindingVariants.flatMap { variant -> createStarters(variant) })
+            .addMethods(classModel.argumentModelVariants.flatMap { variant -> createStarters(variant) })
 }

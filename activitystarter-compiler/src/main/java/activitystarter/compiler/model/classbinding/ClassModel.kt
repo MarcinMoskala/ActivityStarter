@@ -2,23 +2,23 @@ package activitystarter.compiler.model.classbinding
 
 import activitystarter.compiler.codegeneration.*
 import activitystarter.compiler.model.classbinding.KnownClassType.*
-import activitystarter.compiler.model.param.ArgumentBinding
+import activitystarter.compiler.model.param.ArgumentModel
 import activitystarter.compiler.utils.createSublists
 import com.squareup.javapoet.ClassName
 import com.squareup.javapoet.TypeName
 
-class ClassBinding(
+class ClassModel(
         private val knownClassType: KnownClassType,
         val targetTypeName: TypeName,
         val bindingClassName: ClassName,
         val packageName: String,
-        val argumentBindings: List<ArgumentBinding>,
+        val argumentModels: List<ArgumentModel>,
         val savable: Boolean,
         val includeStartForResult: Boolean
 ) {
 
-    val argumentBindingVariants: List<List<ArgumentBinding>>
-        get() = argumentBindings
+    val argumentModelVariants: List<List<ArgumentModel>>
+        get() = argumentModels
                 .createSublists { it.isOptional }
                 .distinctBy { it.map { it.typeName } }
 

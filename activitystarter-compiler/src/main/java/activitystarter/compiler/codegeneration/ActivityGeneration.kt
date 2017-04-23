@@ -1,7 +1,7 @@
 package activitystarter.compiler.codegeneration
 
-import activitystarter.compiler.model.classbinding.ClassBinding
-import activitystarter.compiler.model.param.ArgumentBinding
+import activitystarter.compiler.model.classbinding.ClassModel
+import activitystarter.compiler.model.param.ArgumentModel
 import activitystarter.compiler.utils.ACTIVITY
 import activitystarter.compiler.utils.BUNDLE
 import activitystarter.compiler.utils.addIf
@@ -10,30 +10,30 @@ import com.squareup.javapoet.MethodSpec
 import com.squareup.javapoet.TypeName
 import com.squareup.javapoet.TypeSpec
 
-internal class ActivityGeneration(classBinding: ClassBinding) : IntentBinding(classBinding) {
+internal class ActivityGeneration(classModel: ClassModel) : IntentBinding(classModel) {
 
     override fun createFillFieldsMethod() = getBasicFillMethodBuilder()
-            .addParameter(classBinding.targetTypeName, "activity")
+            .addParameter(classModel.targetTypeName, "activity")
             .addParameter(BUNDLE, "savedInstanceState")
-            .doIf(classBinding.argumentBindings.isNotEmpty()) { addFieldSettersCode() }
+            .doIf(classModel.argumentModels.isNotEmpty()) { addFieldSettersCode() }
             .build()!!
 
     override fun TypeSpec.Builder.addExtraToClass() = this
             .addMethod(createSaveMethod())
 
-    override fun createStarters(variant: List<ArgumentBinding>): List<MethodSpec> = listOfNotNull(
+    override fun createStarters(variant: List<ArgumentModel>): List<MethodSpec> = listOfNotNull(
             createGetIntentMethod(variant),
             createStartActivityMethod(variant),
             createStartActivityMethodWithFlags(variant)
-    ).addIf(classBinding.includeStartForResult,
+    ).addIf(classModel.includeStartForResult,
             createStartActivityForResultMethod(variant),
             createStartActivityForResultMethodWithFlags(variant)
     )
 
     private fun MethodSpec.Builder.addFieldSettersCode() {
         addStatement("Intent intent = activity.getIntent()")
-        if (classBinding.savable) {
-            for (arg in classBinding.argumentBindings) {
+        if (classModel.savable) {
+            for (arg in classModel.argumentModels) {
                 val bundleName = "savedInstanceState"
                 val bundlePredicate = getBundlePredicate(bundleName, arg.fieldName)
                 addCode("if($bundleName != null && $bundlePredicate) {\n")
@@ -48,17 +48,17 @@ internal class ActivityGeneration(classBinding: ClassBinding) : IntentBinding(cl
 
     private fun createSaveMethod(): MethodSpec = this
             .builderWithCreationBasicFieldsNoContext("save")
-            .addParameter(classBinding.targetTypeName, "activity")
+            .addParameter(classModel.targetTypeName, "activity")
             .addParameter(BUNDLE, "bundle")
-            .doIf(classBinding.savable) {
-                addSaveBundleStatements("bundle", classBinding.argumentBindings, { "activity.${it.accessor.getFieldValue()}" })
+            .doIf(classModel.savable) {
+                addSaveBundleStatements("bundle", classModel.argumentModels, { "activity.${it.accessor.getFieldValue()}" })
             }
             .build()
 
-    private fun createStartActivityMethod(variant: List<ArgumentBinding>) =
+    private fun createStartActivityMethod(variant: List<ArgumentModel>) =
             createGetIntentStarter("startActivity", variant)
 
-    private fun createStartActivityMethodWithFlags(variant: List<ArgumentBinding>) = builderWithCreationBasicFields("startWithFlags")
+    private fun createStartActivityMethodWithFlags(variant: List<ArgumentModel>) = builderWithCreationBasicFields("startWithFlags")
             .addArgParameters(variant)
             .addParameter(TypeName.INT, "flags")
             .addGetIntentStatement(variant)
@@ -66,7 +66,7 @@ internal class ActivityGeneration(classBinding: ClassBinding) : IntentBinding(cl
             .addStatement("context.startActivity(intent)")
             .build()
 
-    private fun createStartActivityForResultMethod(variant: List<ArgumentBinding>) = builderWithCreationBasicFieldsNoContext("startForResult")
+    private fun createStartActivityForResultMethod(variant: List<ArgumentModel>) = builderWithCreationBasicFieldsNoContext("startForResult")
             .addParameter(ACTIVITY, "context")
             .addArgParameters(variant)
             .addParameter(TypeName.INT, "result")
@@ -74,7 +74,7 @@ internal class ActivityGeneration(classBinding: ClassBinding) : IntentBinding(cl
             .addStatement("context.startActivityForResult(intent, result)")
             .build()
 
-    private fun createStartActivityForResultMethodWithFlags(variant: List<ArgumentBinding>) = builderWithCreationBasicFieldsNoContext("startWithFlagsForResult")
+    private fun createStartActivityForResultMethodWithFlags(variant: List<ArgumentModel>) = builderWithCreationBasicFieldsNoContext("startWithFlagsForResult")
             .addParameter(ACTIVITY, "context")
             .addArgParameters(variant)
             .addParameter(TypeName.INT, "result")

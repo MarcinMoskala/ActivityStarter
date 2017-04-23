@@ -3,12 +3,12 @@ package activitystarter.compiler
 import activitystarter.ActivityStarterConfig
 import activitystarter.Arg
 import activitystarter.MakeActivityStarter
-import activitystarter.compiler.error.Errors
 import activitystarter.compiler.error.error
 import activitystarter.compiler.error.messanger
+import activitystarter.compiler.model.ConverterModel
 import activitystarter.compiler.model.ProjectModel
-import activitystarter.compiler.model.classbinding.ClassBindingFactory
-import activitystarter.wrapping.ArgWrapper
+import activitystarter.compiler.processing.ClassBindingFactory
+import activitystarter.compiler.processing.ConverterFaktory
 import com.google.auto.service.AutoService
 import java.io.IOException
 import java.io.PrintWriter
@@ -17,7 +17,6 @@ import javax.annotation.processing.*
 import javax.lang.model.SourceVersion
 import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
-import kotlin.reflect.KClass
 
 @AutoService(Processor::class)
 class ActivityStarterProcessor : AbstractProcessor() {
@@ -38,7 +37,7 @@ class ActivityStarterProcessor : AbstractProcessor() {
     override fun process(elements: Set<TypeElement>, env: RoundEnvironment): Boolean {
         val projectModel = ProjectModel(
                 converters = getConvertersFromConfig(env),
-                classesToProcess = getClassesToMakeStarters(env)
+                classesToProces = getClassesToMakeStarters(env)
                         .mapNotNull { ClassBindingFactory(it).create() }
                         .toSet()
         )
@@ -46,15 +45,12 @@ class ActivityStarterProcessor : AbstractProcessor() {
         return true
     }
 
-    private fun getConvertersFromConfig(env: RoundEnvironment): List<KClass<out ArgWrapper<*, *>>> {
-        val configs = env.processAnnotatedElements<ActivityStarterConfig, ActivityStarterConfig> { element ->
-            element.getAnnotation(ActivityStarterConfig::class.java)
+    private fun getConvertersFromConfig(env: RoundEnvironment): List<ConverterModel> {
+        val converters = env.processAnnotatedElements<ActivityStarterConfig, List<ConverterModel>> { element ->
+            val configAnnotation = element.getAnnotation(ActivityStarterConfig::class.java)!!
+            ConverterFaktory().create(configAnnotation)
         }
-        return when(configs.size) {
-            0 -> emptyList()
-            1 -> configs.single().converters.toList()
-            else -> { error(Errors.moreThenOneConfig); throw Error(Errors.moreThenOneConfig) }
-        }
+        return converters.flatMap { it }
     }
 
     private fun getClassesToMakeStarters(env: RoundEnvironment): Set<TypeElement> = setOf<TypeElement>()
@@ -73,7 +69,7 @@ class ActivityStarterProcessor : AbstractProcessor() {
     }.toSet()
 
     private fun processProject(model: ProjectModel) {
-        for (classBinding in model.classesToProcess) {
+        for (classBinding in model.classesToProces) {
             try {
                 classBinding.getClasGeneration().brewJava().writeTo(filer)
             } catch (e: IOException) {

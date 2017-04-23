@@ -1,25 +1,35 @@
 package com.example.activitystarter;
 
-import android.os.Bundle;
-import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.marcinmoskala.activitystarterparcelerargwrapper.ParcelarArgWrapper;
+import java.lang.annotation.Annotation;
 
-import activitystarter.ActivityStarter;
 import activitystarter.ActivityStarterConfig;
+import activitystarter.Arg;
+import activitystarter.wrapping.ArgWrapper;
 
+@ActivityStarterConfig(converters = { BaseActivity.IntToLongConverter.class })
 public class BaseActivity extends AppCompatActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ActivityStarter.fill(this, savedInstanceState);
-    }
+    @Arg long l;
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        ActivityStarter.save(this, outState);
+    static class IntToLongConverter implements ArgWrapper<Integer, Long> {
+
+        @Nullable
+        @Override
+        public Class<? extends Annotation> requiredAnnotation() {
+            return null;
+        }
+
+        @Override
+        public Long wrap(Integer toWrap) {
+            return toWrap.longValue();
+        }
+
+        @Override
+        public Integer unwrap(Long wrapped) {
+            return wrapped.intValue();
+        }
     }
 }
