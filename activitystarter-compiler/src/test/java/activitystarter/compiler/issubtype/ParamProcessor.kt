@@ -1,5 +1,6 @@
 package activitystarter.compiler.issubtype
 
+import activitystarter.ActivityStarterConfig
 import activitystarter.Arg
 import activitystarter.compiler.error.messanger
 import com.google.common.truth.Truth
@@ -20,7 +21,8 @@ abstract class ParamProcessor() : AbstractProcessor() {
 
     private lateinit var filer: Filer
 
-    abstract fun onParamFound(element: Element)
+    open fun onParamFound(element: Element) {}
+    open fun onConfigFound(element: ActivityStarterConfig) {}
 
     @Synchronized override fun init(env: ProcessingEnvironment) {
         super.init(env)
@@ -28,11 +30,15 @@ abstract class ParamProcessor() : AbstractProcessor() {
         messanger = processingEnv.messager
     }
 
-    override fun getSupportedAnnotationTypes() = listOf<Class<*>>(Arg::class.java).map { it.canonicalName }.toSet()
+    override fun getSupportedAnnotationTypes() = listOf<Class<*>>(Arg::class.java, ActivityStarterConfig::class.java).map { it.canonicalName }.toSet()
 
     override fun process(elements: Set<TypeElement>, env: RoundEnvironment): Boolean {
         for (element in env.getElementsAnnotatedWith(Arg::class.java)) {
             onParamFound(element)
+        }
+        for (element in env.getElementsAnnotatedWith(ActivityStarterConfig::class.java)) {
+            val configAnnotation = element.getAnnotation(ActivityStarterConfig::class.java)!!
+            onConfigFound(configAnnotation)
         }
         return true
     }
