@@ -1,6 +1,7 @@
 package activitystarter.compiler.model.classbinding
 
-import activitystarter.compiler.codegeneration.*
+import activitystarter.compiler.generation.*
+import activitystarter.compiler.generation.ActivityGeneration
 import activitystarter.compiler.model.classbinding.KnownClassType.*
 import activitystarter.compiler.model.param.ArgumentModel
 import activitystarter.compiler.utils.createSublists

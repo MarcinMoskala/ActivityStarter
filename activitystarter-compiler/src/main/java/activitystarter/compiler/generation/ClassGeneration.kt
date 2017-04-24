@@ -1,4 +1,4 @@
-package activitystarter.compiler.codegeneration
+package activitystarter.compiler.generation
 
 import activitystarter.compiler.model.classbinding.ClassModel
 import activitystarter.compiler.model.param.ArgumentModel
@@ -43,7 +43,7 @@ internal abstract class ClassGeneration(val classModel: ClassModel) {
 
     protected fun MethodSpec.Builder.addSaveBundleStatements(bundleName: String, variant: List<ArgumentModel>, argumentGetByName: (ArgumentModel) -> String) = apply {
         variant.forEach { arg ->
-            val bundleSetter = getBundleSetterFor(arg.paramType)
+            val bundleSetter = activitystarter.compiler.generation.getBundleSetterFor(arg.paramType)
             addStatement("$bundleName.$bundleSetter(" + arg.fieldName + ", " + argumentGetByName(arg) + ")")
         }
     }
@@ -54,7 +54,7 @@ internal abstract class ClassGeneration(val classModel: ClassModel) {
 
     protected fun MethodSpec.Builder.addBundleSetter(arg: ArgumentModel, bundleName: String, className: String, checkIfSet: Boolean) {
         val fieldName = arg.fieldName
-        var bundleValue = getBundleGetter(bundleName, arg.paramType, arg.typeName, fieldName)
+        var bundleValue = activitystarter.compiler.generation.getBundleGetter(bundleName, arg.paramType, arg.typeName, fieldName)
         if (arg.converter != null) bundleValue = addUnwrapper(bundleValue, arg)
         val bundleValueSetter = arg.accessor.makeSetter(bundleValue)
         if (checkIfSet) addCode("if(${getBundlePredicate(bundleName, fieldName)}) ")

@@ -3,7 +3,7 @@ package activitystarter.compiler.processing
 import activitystarter.Arg
 import activitystarter.MakeActivityStarter
 import activitystarter.NonSavable
-import activitystarter.compiler.codegeneration.getBindingClassName
+import activitystarter.compiler.generation.getBindingClassName
 import activitystarter.compiler.error.Errors
 import activitystarter.compiler.error.parsingError
 import activitystarter.compiler.model.classbinding.ClassModel
@@ -26,7 +26,7 @@ internal class ClassBindingFactory(val typeElement: TypeElement) {
         }
         knownClassType!!
         val targetTypeName = getTargetTypeName(typeElement)
-        val bindingClassName = getBindingClassName(typeElement)
+        val bindingClassName = activitystarter.compiler.generation.getBindingClassName(typeElement)
         val packageName = bindingClassName.packageName()
         val argumentFactory = ArgumentFactory(typeElement)
         val argumentBindings = typeElement.enclosedElements

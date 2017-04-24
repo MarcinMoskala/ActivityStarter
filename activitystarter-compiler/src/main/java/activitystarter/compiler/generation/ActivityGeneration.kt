@@ -1,5 +1,6 @@
-package activitystarter.compiler.codegeneration
+package activitystarter.compiler.generation
 
+import activitystarter.compiler.generation.IntentBinding
 import activitystarter.compiler.model.classbinding.ClassModel
 import activitystarter.compiler.model.param.ArgumentModel
 import activitystarter.compiler.utils.ACTIVITY

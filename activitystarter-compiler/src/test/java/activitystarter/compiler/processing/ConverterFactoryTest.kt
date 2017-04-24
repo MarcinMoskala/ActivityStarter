@@ -22,4 +22,10 @@ class ConverterFactoryTest() {
     fun `Converter list class name is correct ofter processing`() {
         assertEquals("com.example.activitystarter.MainActivity.IntToLongConverter", singleConverters[0].className)
     }
+
+    @Test
+    fun `Converter list parameter type names are correct ofter processing`() {
+        assertEquals("java.lang.Integer", singleConverters[0].typeFrom)
+        assertEquals("java.lang.Long", singleConverters[0].typeTo)
+    }
 }

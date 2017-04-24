@@ -1,6 +1,6 @@
 package activitystarter.compiler
 
-import activitystarter.compiler.codegeneration.getPutArgumentToIntentMethodName
+import activitystarter.compiler.generation.getPutArgumentToIntentMethodName
 import activitystarter.compiler.model.param.ParamType
 import org.junit.Assert
 import org.junit.Test
@@ -11,7 +11,7 @@ class BindeingHelpersTest {
     fun `For simple types Intent put is putExtra`() {
         val exampleSimpleTypes = listOf(ParamType.Boolean, ParamType.BooleanArray, ParamType.Byte, ParamType.ByteArray, ParamType.Double, ParamType.Short)
         for(simpleType in exampleSimpleTypes) {
-            Assert.assertEquals("putExtra", getPutArgumentToIntentMethodName(simpleType))
+            Assert.assertEquals("putExtra", activitystarter.compiler.generation.getPutArgumentToIntentMethodName(simpleType))
         }
     }
 
@@ -24,7 +24,7 @@ class BindeingHelpersTest {
                 ParamType.StringArrayList to "putStringArrayListExtra"
         )
         for((type, functionName) in arrayTypeToPutFunctionMap) {
-            Assert.assertEquals(functionName, getPutArgumentToIntentMethodName(type))
+            Assert.assertEquals(functionName, activitystarter.compiler.generation.getPutArgumentToIntentMethodName(type))
         }
     }
 }

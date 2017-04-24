@@ -1,4 +1,4 @@
-package activitystarter.compiler.codegeneration
+package activitystarter.compiler.generation
 
 import activitystarter.compiler.model.classbinding.ClassModel
 import activitystarter.compiler.model.param.ArgumentModel
@@ -23,7 +23,7 @@ internal abstract class IntentBinding(classModel: ClassModel) : ClassGeneration(
 
     private fun MethodSpec.Builder.addPutExtraStatement(variant: List<ArgumentModel>) = apply {
         variant.forEach { arg ->
-            val putArgumentToIntentMethodName = getPutArgumentToIntentMethodName(arg.paramType)
+            val putArgumentToIntentMethodName = activitystarter.compiler.generation.getPutArgumentToIntentMethodName(arg.paramType)
             addStatement("intent.$putArgumentToIntentMethodName(" + arg.fieldName + ", " + arg.name + ")")
         }
     }
@@ -34,7 +34,7 @@ internal abstract class IntentBinding(classModel: ClassModel) : ClassGeneration(
 
     protected fun MethodSpec.Builder.addIntentSetter(arg: ArgumentModel, targetParameterName: String) {
         val fieldName = arg.fieldName
-        val settingPart = arg.accessor.makeSetter(getIntentGetterFor(arg.paramType, arg.typeName, fieldName))
+        val settingPart = arg.accessor.makeSetter(activitystarter.compiler.generation.getIntentGetterFor(arg.paramType, arg.typeName, fieldName))
         addStatement("if(intent.hasExtra($fieldName)) \n $targetParameterName.$settingPart")
     }
 
