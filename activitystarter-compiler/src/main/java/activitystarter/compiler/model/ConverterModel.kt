@@ -1,6 +1,7 @@
 package activitystarter.compiler.model
 
-import jdk.nashorn.internal.codegen.types.Type
+import java.lang.reflect.Type
+
 
 data class ConverterModel(
         val className: String,

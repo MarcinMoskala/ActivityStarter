@@ -3,6 +3,7 @@ package activitystarter.compiler.issubtype
 import activitystarter.ActivityStarterConfig
 import activitystarter.Arg
 import activitystarter.compiler.error.messanger
+import activitystarter.compiler.processing.getConvertersTypeMirrors
 import com.google.common.truth.Truth
 import com.google.testing.compile.CompileTester
 import com.google.testing.compile.JavaFileObjects
@@ -13,16 +14,18 @@ import javax.annotation.processing.Filer
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.SourceVersion
-import javax.lang.model.element.Element
-import javax.lang.model.element.TypeElement
+import javax.lang.model.element.*
+import javax.lang.model.type.TypeMirror
+import javax.lang.model.util.ElementFilter
 import javax.tools.JavaFileObject
+
 
 abstract class ParamProcessor() : AbstractProcessor() {
 
     private lateinit var filer: Filer
 
     open fun onParamFound(element: Element) {}
-    open fun onConfigFound(element: ActivityStarterConfig) {}
+    open fun onConfigFound(element: List<TypeMirror>) {}
 
     @Synchronized override fun init(env: ProcessingEnvironment) {
         super.init(env)
@@ -37,8 +40,8 @@ abstract class ParamProcessor() : AbstractProcessor() {
             onParamFound(element)
         }
         for (element in env.getElementsAnnotatedWith(ActivityStarterConfig::class.java)) {
-            val configAnnotation = element.getAnnotation(ActivityStarterConfig::class.java)!!
-            onConfigFound(configAnnotation)
+            val allConverterTypeMirrors = getConvertersTypeMirrors(element)
+            onConfigFound(allConverterTypeMirrors)
         }
         return true
     }

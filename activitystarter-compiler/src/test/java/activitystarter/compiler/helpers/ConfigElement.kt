@@ -1,13 +1,10 @@
 package activitystarter.compiler.helpers
 
-import activitystarter.ActivityStarterConfig
 import activitystarter.compiler.issubtype.ParamProcessor
-import activitystarter.compiler.utils.getElementType
 import com.google.common.truth.Truth
 import com.google.testing.compile.JavaFileObjects
 import com.google.testing.compile.JavaSourceSubjectFactory
 import com.google.testing.compile.JavaSourcesSubject
-import javax.lang.model.element.Element
 import javax.lang.model.type.TypeMirror
 import javax.tools.JavaFileObject
 
@@ -15,7 +12,7 @@ object ConfigElement {
     val empty by lazy { getConfigElement() }
     val singleConverter by lazy { getConfigElement("IntToLongConverter") }
 
-    private fun getConfigElement(vararg converters: String): ActivityStarterConfig {
+    private fun getConfigElement(vararg converters: String): List<TypeMirror> {
         val convertersList = converters.joinToString(separator = ", ", transform = { "MainActivity.$it.class" })
         val source = JavaFileObjects.forSourceString("com.example.activitystarter.MainActivity", """
 package com.example.activitystarter;
@@ -51,7 +48,7 @@ public class MainActivity {
     }
 }
 """)
-        var element: ActivityStarterConfig? = null
+        var element: List<TypeMirror>? = null
         Truth.assertAbout<JavaSourcesSubject.SingleSourceAdapter, JavaFileObject, JavaSourceSubjectFactory>(JavaSourceSubjectFactory.javaSource())
                 .that(source)
                 .withCompilerOptions("-Xlint:-processing")
@@ -60,9 +57,9 @@ public class MainActivity {
         return element!!
     }
 
-    class GetTypeMirrorHelperProcessor(val typeCallback: (ActivityStarterConfig) -> Unit) : ParamProcessor() {
+    class GetTypeMirrorHelperProcessor(val typeCallback: (List<TypeMirror>) -> Unit) : ParamProcessor() {
 
-        override fun onConfigFound(element: ActivityStarterConfig) {
+        override fun onConfigFound(element: List<TypeMirror>) {
             typeCallback(element)
         }
     }
