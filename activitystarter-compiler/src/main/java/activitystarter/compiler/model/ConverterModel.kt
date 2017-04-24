@@ -5,6 +5,6 @@ import java.lang.reflect.Type
 
 data class ConverterModel(
         val className: String,
-        val typeFrom: Type,
-        val typeTo: Type
+        val typeFrom: String,
+        val typeTo: String
 )

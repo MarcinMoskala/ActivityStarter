@@ -9,6 +9,7 @@ import activitystarter.compiler.model.ConverterModel
 import activitystarter.compiler.model.ProjectModel
 import activitystarter.compiler.processing.ClassBindingFactory
 import activitystarter.compiler.processing.ConverterFaktory
+import activitystarter.compiler.processing.getConvertersTypeMirrors
 import com.google.auto.service.AutoService
 import java.io.IOException
 import java.io.PrintWriter
@@ -47,7 +48,7 @@ class ActivityStarterProcessor : AbstractProcessor() {
 
     private fun getConvertersFromConfig(env: RoundEnvironment): List<ConverterModel> {
         val converters = env.processAnnotatedElements<ActivityStarterConfig, List<ConverterModel>> { element ->
-            val configAnnotation = element.getAnnotation(ActivityStarterConfig::class.java)!!
+            val configAnnotation = getConvertersTypeMirrors(element)
             ConverterFaktory().create(configAnnotation)
         }
         return converters.flatMap { it }

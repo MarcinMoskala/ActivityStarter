@@ -17,4 +17,4 @@ fun TypeMirror.isSubtypeOfType(vararg otherType: String): Boolean {
     }
 }
 
-private fun TypeMirror.toTypeElement() = (this as? DeclaredType)?.asElement() as? TypeElement
+fun TypeMirror.toTypeElement() = (this as? DeclaredType)?.asElement() as? TypeElement
