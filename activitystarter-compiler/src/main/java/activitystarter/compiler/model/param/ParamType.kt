@@ -41,6 +41,10 @@ enum class ParamType {
     companion object {
         val stringTypeName = TypeName.get(kotlin.String::class.java)!!
         val charSequenceTypeName = TypeName.get(kotlin.CharSequence::class.java)!!
+        val integerTypeName = TypeName.get(java.lang.Integer::class.java)!!
+        val longTypeName = TypeName.get(java.lang.Long::class.java)!!
+        val floatTypeName = TypeName.get(java.lang.Float::class.java)!!
+        val doubleTypeName = TypeName.get(java.lang.Double::class.java)!!
         val arrayListRegex by lazy { """ArrayList<([\w.]*)>""".toRegex() }
 
         fun fromType(typeMirror: TypeMirror): ParamType? =
@@ -65,6 +69,10 @@ enum class ParamType {
         private fun getByName(typeMirror: TypeMirror): ParamType? = when (TypeName.get(typeMirror)) {
             stringTypeName -> String
             charSequenceTypeName -> CharSequence
+            integerTypeName -> Int
+            longTypeName -> Long
+            floatTypeName -> Float
+            doubleTypeName -> Double
             else -> null
         }
 

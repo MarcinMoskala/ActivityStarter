@@ -1,6 +1,7 @@
 package activitystarter.compiler.generation
 
 import activitystarter.compiler.helpers.ConfigElement
+import activitystarter.compiler.model.param.ParamType
 import activitystarter.compiler.processing.ConverterFaktory
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -27,9 +28,5 @@ class ConverterGenerationTest {
                 "new com.example.activitystarter.MainActivity.ParcelableConverter().unwrap(A)",
                 objectToParcelableConverterGeneration.unwrap { "A" }
         )
-    }
-
-    fun assertContains(what: String, where: String) {
-        assert(what in where) { "$what not found in $where" }
     }
 }

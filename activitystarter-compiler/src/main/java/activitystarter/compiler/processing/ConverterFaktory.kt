@@ -17,8 +17,8 @@ class ConverterFaktory {
             return converters.mapNotNull { c ->
                 val genericTypes = (c.toTypeElement()?.interfaces?.get(0) as? DeclaredType)?.typeArguments
                 genericTypes ?: return@mapNotNull null
-                val fromClass = genericTypes[0]!!.toString()
-                val toClass = genericTypes[1]!!.toString()
+                val fromClass = genericTypes[0]!!
+                val toClass = genericTypes[1]!!
                 ConverterModel(c.toString(), fromClass, toClass)
             }
     }

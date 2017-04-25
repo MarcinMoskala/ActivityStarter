@@ -25,7 +25,7 @@ class ConverterFactoryTest() {
 
     @Test
     fun `Converter list parameter type names are correct ofter processing`() {
-        assertEquals("java.lang.Integer", singleConverters[0].typeFrom)
-        assertEquals("java.lang.Long", singleConverters[0].typeTo)
+        assertEquals("java.lang.Integer", singleConverters[0].typeFrom.toString())
+        assertEquals("java.lang.Long", singleConverters[0].typeTo.toString())
     }
 }
