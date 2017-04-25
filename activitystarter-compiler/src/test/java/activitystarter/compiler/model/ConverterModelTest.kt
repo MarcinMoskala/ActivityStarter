@@ -1,10 +1,8 @@
 package activitystarter.compiler.model
 
-import activitystarter.compiler.helpers.*
+import activitystarter.compiler.helpers.ConfigElement
 import activitystarter.compiler.model.param.ParamType
 import activitystarter.compiler.processing.ConverterFaktory
-import com.google.testing.compile.CompilationRule
-import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
 

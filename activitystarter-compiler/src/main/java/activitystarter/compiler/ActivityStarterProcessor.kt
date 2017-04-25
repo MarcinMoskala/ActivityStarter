@@ -6,7 +6,8 @@ import activitystarter.MakeActivityStarter
 import activitystarter.compiler.error.error
 import activitystarter.compiler.error.messanger
 import activitystarter.compiler.model.ConverterModel
-import activitystarter.compiler.model.ProjectModel
+import activitystarter.compiler.model.ProjectConfig
+import activitystarter.compiler.model.classbinding.ClassModel
 import activitystarter.compiler.processing.ClassBindingFactory
 import activitystarter.compiler.processing.ConverterFaktory
 import activitystarter.compiler.processing.getConvertersTypeMirrors
@@ -36,13 +37,11 @@ class ActivityStarterProcessor : AbstractProcessor() {
     override fun getSupportedSourceVersion() = SourceVersion.latestSupported()
 
     override fun process(elements: Set<TypeElement>, env: RoundEnvironment): Boolean {
-        val projectModel = ProjectModel(
-                converters = getConvertersFromConfig(env),
-                classesToProcess = getClassesToMakeStarters(env)
-                        .mapNotNull { ClassBindingFactory(it).create() }
+        val config = ProjectConfig(getConvertersFromConfig(env))
+        val classesModels = getClassesToMakeStarters(env)
+                        .mapNotNull { ClassBindingFactory(it, config).create() }
                         .toSet()
-        )
-        processProject(projectModel)
+        processProject(classesModels)
         return true
     }
 
@@ -69,10 +68,10 @@ class ActivityStarterProcessor : AbstractProcessor() {
         }
     }.toSet()
 
-    private fun processProject(model: ProjectModel) {
-        for (classBinding in model.classesToProcess) {
+    private fun processProject(classesToProcess: Set<ClassModel>) {
+        for (classBinding in classesToProcess) {
             try {
-                classBinding.getClasGeneration(model).brewJava().writeTo(filer)
+                classBinding.getClasGeneration().brewJava().writeTo(filer)
             } catch (e: IOException) {
                 error("Unable to write binding for typeName %s: %s", classBinding.bindingClassName, e.message ?: "")
             }

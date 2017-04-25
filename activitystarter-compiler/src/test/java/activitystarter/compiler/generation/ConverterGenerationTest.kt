@@ -1,7 +1,6 @@
 package activitystarter.compiler.generation
 
 import activitystarter.compiler.helpers.ConfigElement
-import activitystarter.compiler.model.param.ParamType
 import activitystarter.compiler.processing.ConverterFaktory
 import org.junit.Test
 import kotlin.test.assertEquals

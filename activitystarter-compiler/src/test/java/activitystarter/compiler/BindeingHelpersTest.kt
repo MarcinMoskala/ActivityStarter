@@ -1,6 +1,5 @@
 package activitystarter.compiler
 
-import activitystarter.compiler.generation.getPutArgumentToIntentMethodName
 import activitystarter.compiler.model.param.ParamType
 import org.junit.Assert
 import org.junit.Test

@@ -1,6 +1,6 @@
 package activitystarter.compiler.generation
 
-import activitystarter.compiler.model.ProjectModel
+import activitystarter.compiler.model.ProjectConfig
 import activitystarter.compiler.model.classbinding.ClassModel
 import activitystarter.compiler.model.param.ArgumentModel
 import activitystarter.compiler.utils.CONTEXT
@@ -13,7 +13,7 @@ import com.squareup.javapoet.TypeSpec
 import javax.lang.model.element.Modifier
 import javax.lang.model.element.Modifier.*
 
-internal abstract class ClassGeneration(val projectModel: ProjectModel, val classModel: ClassModel) {
+internal abstract class ClassGeneration(val classModel: ClassModel) {
 
     fun brewJava() = JavaFile.builder(classModel.packageName, createStarterSpec())
             .addFileComment("Generated code from ActivityStarter. Do not modify!")
@@ -44,8 +44,8 @@ internal abstract class ClassGeneration(val projectModel: ProjectModel, val clas
 
     protected fun MethodSpec.Builder.addSaveBundleStatements(bundleName: String, variant: List<ArgumentModel>, argumentGetByName: (ArgumentModel) -> String) = apply {
         variant.forEach { arg ->
-            val bundleSetter = projectModel.addWrapper(arg.paramType) { getBundleSetterFor(arg.paramType) }
-            addStatement("$bundleName.$bundleSetter(" + arg.fieldName + ", " + argumentGetByName(arg) + ")")
+            val value = arg.addWrapper { argumentGetByName(arg) }
+            addStatement("$bundleName.${getBundleSetterFor(arg.saveParamType)}(${arg.fieldName}, $value)")
         }
     }
 
@@ -55,7 +55,7 @@ internal abstract class ClassGeneration(val projectModel: ProjectModel, val clas
 
     protected fun MethodSpec.Builder.addBundleSetter(arg: ArgumentModel, bundleName: String, className: String, checkIfSet: Boolean) {
         val fieldName = arg.fieldName
-        val bundleValue = projectModel.addUnwrapper(arg.paramType) { getBundleGetter(bundleName, arg.paramType, arg.typeName, fieldName) }
+        val bundleValue = arg.addUnwrapper { getBundleGetter(bundleName, arg.saveParamType, arg.typeName, fieldName) }
         val bundleValueSetter = arg.accessor.makeSetter(bundleValue)
         if (checkIfSet) addCode("if(${getBundlePredicate(bundleName, fieldName)}) ")
         addStatement("$className.$bundleValueSetter")

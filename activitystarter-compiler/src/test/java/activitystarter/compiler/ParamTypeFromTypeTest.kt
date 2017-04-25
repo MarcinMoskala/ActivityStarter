@@ -6,10 +6,7 @@ import com.google.testing.compile.CompilationRule
 import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test
-import javax.lang.model.element.TypeElement
-import javax.lang.model.type.TypeKind
 import javax.lang.model.type.TypeMirror
-import javax.lang.model.util.Types
 
 class ParamTypeFromTypeTest {
 

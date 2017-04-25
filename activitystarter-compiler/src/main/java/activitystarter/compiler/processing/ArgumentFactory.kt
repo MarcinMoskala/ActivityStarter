@@ -4,6 +4,8 @@ import activitystarter.Arg
 import activitystarter.Optional
 import activitystarter.compiler.error.Errors
 import activitystarter.compiler.error.error
+import activitystarter.compiler.model.ConverterModel
+import activitystarter.compiler.model.ProjectConfig
 import activitystarter.compiler.model.classbinding.KnownClassType
 import activitystarter.compiler.model.param.ArgumentModel
 import activitystarter.compiler.model.param.FieldAccessor
@@ -16,7 +18,7 @@ import javax.lang.model.element.Modifier
 import javax.lang.model.element.TypeElement
 import javax.lang.model.type.TypeMirror
 
-class ArgumentFactory(val enclosingElement: TypeElement) {
+class ArgumentFactory(val enclosingElement: TypeElement, val config: ProjectConfig) {
 
     fun create(element: Element, packageName: String, knownClassType: KnownClassType): ArgumentModel? {
         val elementType: TypeMirror = getElementType(element)
@@ -34,7 +36,10 @@ class ArgumentFactory(val enclosingElement: TypeElement) {
         val typeName: TypeName = TypeName.get(elementType)
         val isOptional: Boolean = element.getAnnotation(Optional::class.java) != null
         val accessor: FieldAccessor = FieldAccessor(element)
-        return ArgumentModel(name, key, paramType, typeName, isOptional, accessor)
+        val converter = config.converterFor(paramType)
+        val saveParamType = converter?.toParamType ?: paramType
+        val saveTypeName = converter?.typeTo?.let { TypeName.get(it) } ?: typeName
+        return ArgumentModel(name, key, paramType, typeName, saveParamType, saveTypeName, isOptional, accessor, converter)
     }
 
     private fun getFieldError(element: Element, knownClassType: KnownClassType, paramTypeNullable: ParamType?) = when {

@@ -14,9 +14,9 @@ import javax.annotation.processing.Filer
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.SourceVersion
-import javax.lang.model.element.*
+import javax.lang.model.element.Element
+import javax.lang.model.element.TypeElement
 import javax.lang.model.type.TypeMirror
-import javax.lang.model.util.ElementFilter
 import javax.tools.JavaFileObject
 
 

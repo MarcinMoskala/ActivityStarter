@@ -2,15 +2,11 @@ package activitystarter.compiler.helpers
 
 import android.accounts.Account
 import com.google.testing.compile.CompilationRule
-import com.squareup.javapoet.ClassName
-import com.squareup.javapoet.ParameterizedTypeName
 import java.awt.Color
 import java.util.*
 import javax.lang.model.element.TypeElement
 import javax.lang.model.type.TypeKind
 import javax.lang.model.type.TypeMirror
-import kotlin.reflect.declaredMemberProperties
-import kotlin.reflect.jvm.jvmName
 
 inline fun <reified T: Any> CompilationRule.getElement(): TypeElement {
     val javaClass = T::class.java

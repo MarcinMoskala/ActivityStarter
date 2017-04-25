@@ -1,6 +1,5 @@
 package activitystarter.compiler.issubtype
 
-import activitystarter.compiler.issubtype.ParamProcessor
 import org.junit.Test
 
 class IsSubtypeOfTest {
