@@ -10,7 +10,8 @@ import javax.tools.JavaFileObject
 
 object ConfigElement {
     val empty by lazy { getConfigElement() }
-    val singleConverter by lazy { getConfigElement("IntToLongConverter") }
+    val integerToLongConverter by lazy { getConfigElement("IntToLongConverter") }
+    val objectToParcelableConverter by lazy { getConfigElement("ParcelableConverter") }
 
     private fun getConfigElement(vararg converters: String): List<TypeMirror> {
         val convertersList = converters.joinToString(separator = ", ", transform = { "MainActivity.$it.class" })
@@ -18,17 +19,45 @@ object ConfigElement {
 package com.example.activitystarter;
 
 import android.support.annotation.Nullable;
-
 import java.lang.annotation.Annotation;
-
 import activitystarter.ActivityStarterConfig;
 import activitystarter.Arg;
 import activitystarter.wrapping.ArgWrapper;
+import android.os.Parcelable;
+import android.os.Parcel;
 
 @ActivityStarterConfig(converters = { $convertersList })
 public class MainActivity {
 
-    static class IntToLongConverter implements ArgWrapper<Integer, Long> {
+    static public class ParcelableConverter implements ArgWrapper<Object, Parcelable> {
+
+        @Override
+        public Class<? extends Annotation> requiredAnnotation() {
+            return null;
+        }
+
+        @Override
+        public Parcelable wrap(Object toWrap) {
+            return new Parcelable() {
+                @Override
+                public int describeContents() {
+                    return 0;
+                }
+
+                @Override
+                public void writeToParcel(Parcel dest, int flags) {
+
+                }
+            };
+        }
+
+        @Override
+        public Object unwrap(Parcelable wrapped) {
+            return wrapped;
+        }
+    }
+
+    static public class IntToLongConverter implements ArgWrapper<Integer, Long> {
 
         @Nullable
         @Override
