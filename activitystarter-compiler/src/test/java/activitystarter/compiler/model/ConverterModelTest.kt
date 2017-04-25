@@ -1,8 +1,10 @@
 package activitystarter.compiler.model
 
-import activitystarter.compiler.helpers.ConfigElement
+import activitystarter.compiler.helpers.*
 import activitystarter.compiler.model.param.ParamType
 import activitystarter.compiler.processing.ConverterFaktory
+import com.google.testing.compile.CompilationRule
+import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
 
@@ -19,12 +21,26 @@ class ConverterModelTest() {
     }
 
     @Test
-    fun `ConverterGeneration is accepting correct types to unpack`() {
-        assertEquals(true, integerToLongConverter.canApplyTo(ParamType.Int))
-        assertEquals(false, integerToLongConverter.canApplyTo(ParamType.Long))
-        assertEquals(false, integerToLongConverter.canApplyTo(ParamType.ParcelableSubtype))
-        assertEquals(false, objectToParcelableConverter.canApplyTo(ParamType.Int))
-        assertEquals(false, objectToParcelableConverter.canApplyTo(ParamType.Long))
-        assertEquals(true, objectToParcelableConverter.canApplyTo(ParamType.ObjectSubtype))
+    fun `ConverterGeneration can weap correct types`() {
+        assertEquals(true, integerToLongConverter.canWrap(ParamType.Int))
+        assertEquals(false, integerToLongConverter.canWrap(ParamType.Long))
+        assertEquals(false, integerToLongConverter.canWrap(ParamType.ObjectSubtype))
+        assertEquals(false, integerToLongConverter.canWrap(ParamType.ParcelableSubtype))
+        assertEquals(false, objectToParcelableConverter.canWrap(ParamType.Int))
+        assertEquals(false, objectToParcelableConverter.canWrap(ParamType.Long))
+        assertEquals(true, objectToParcelableConverter.canWrap(ParamType.ObjectSubtype))
+        assertEquals(false, objectToParcelableConverter.canWrap(ParamType.ParcelableSubtype))
+    }
+
+    @Test
+    fun `ConverterGeneration can unweap correct types`() {
+        assertEquals(false, integerToLongConverter.canUnwrap(ParamType.Int))
+        assertEquals(true, integerToLongConverter.canUnwrap(ParamType.Long))
+        assertEquals(false, integerToLongConverter.canUnwrap(ParamType.ObjectSubtype))
+        assertEquals(false, integerToLongConverter.canUnwrap(ParamType.ParcelableSubtype))
+        assertEquals(false, objectToParcelableConverter.canUnwrap(ParamType.Int))
+        assertEquals(false, objectToParcelableConverter.canUnwrap(ParamType.Long))
+        assertEquals(false, objectToParcelableConverter.canUnwrap(ParamType.ObjectSubtype))
+        assertEquals(true, objectToParcelableConverter.canUnwrap(ParamType.ParcelableSubtype))
     }
 }

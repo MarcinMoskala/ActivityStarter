@@ -1,12 +1,13 @@
 package activitystarter.compiler.generation
 
+import activitystarter.compiler.model.ProjectModel
 import activitystarter.compiler.model.classbinding.ClassModel
 import activitystarter.compiler.model.param.ArgumentModel
 import activitystarter.compiler.utils.BUNDLE
 import activitystarter.compiler.utils.doIf
 import com.squareup.javapoet.MethodSpec
 
-internal class FragmentGeneration(classModel: ClassModel) : ClassGeneration(classModel) {
+internal class FragmentGeneration(projectModel: ProjectModel, classModel: ClassModel) : ClassGeneration(projectModel, classModel) {
 
     override fun createFillFieldsMethod() = getBasicFillMethodBuilder()
             .addParameter(classModel.targetTypeName, "fragment")

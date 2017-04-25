@@ -88,7 +88,7 @@ fun getPutArgumentToIntentMethodName(paramType: ParamType) = when(paramType) {
 }
 
 fun getIntentGetterFor(paramType: ParamType, typeName: com.squareup.javapoet.TypeName, key: String): String {
-    val getter = activitystarter.compiler.generation.getIntentGetterForParamType(paramType, key)
+    val getter = getIntentGetterForParamType(paramType, key)
     val getArgumentValue = "intent.$getter"
     return if(paramType.typeUsedBySupertype()) "($typeName) $getArgumentValue" else getArgumentValue
 }

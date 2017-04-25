@@ -1,5 +1,6 @@
 package activitystarter.compiler.generation
 
+import activitystarter.compiler.model.ProjectModel
 import activitystarter.compiler.model.classbinding.ClassModel
 import activitystarter.compiler.model.param.ArgumentModel
 import activitystarter.compiler.utils.CONTEXT
@@ -12,7 +13,7 @@ import com.squareup.javapoet.TypeSpec
 import javax.lang.model.element.Modifier
 import javax.lang.model.element.Modifier.*
 
-internal abstract class ClassGeneration(val classModel: ClassModel) {
+internal abstract class ClassGeneration(val projectModel: ProjectModel, val classModel: ClassModel) {
 
     fun brewJava() = JavaFile.builder(classModel.packageName, createStarterSpec())
             .addFileComment("Generated code from ActivityStarter. Do not modify!")
@@ -43,7 +44,7 @@ internal abstract class ClassGeneration(val classModel: ClassModel) {
 
     protected fun MethodSpec.Builder.addSaveBundleStatements(bundleName: String, variant: List<ArgumentModel>, argumentGetByName: (ArgumentModel) -> String) = apply {
         variant.forEach { arg ->
-            val bundleSetter = activitystarter.compiler.generation.getBundleSetterFor(arg.paramType)
+            val bundleSetter = projectModel.addWrapper(arg.paramType) { getBundleSetterFor(arg.paramType) }
             addStatement("$bundleName.$bundleSetter(" + arg.fieldName + ", " + argumentGetByName(arg) + ")")
         }
     }
@@ -54,17 +55,10 @@ internal abstract class ClassGeneration(val classModel: ClassModel) {
 
     protected fun MethodSpec.Builder.addBundleSetter(arg: ArgumentModel, bundleName: String, className: String, checkIfSet: Boolean) {
         val fieldName = arg.fieldName
-        var bundleValue = activitystarter.compiler.generation.getBundleGetter(bundleName, arg.paramType, arg.typeName, fieldName)
-        if (arg.converter != null) bundleValue = addUnwrapper(bundleValue, arg)
+        val bundleValue = projectModel.addUnwrapper(arg.paramType) { getBundleGetter(bundleName, arg.paramType, arg.typeName, fieldName) }
         val bundleValueSetter = arg.accessor.makeSetter(bundleValue)
         if (checkIfSet) addCode("if(${getBundlePredicate(bundleName, fieldName)}) ")
         addStatement("$className.$bundleValueSetter")
-    }
-
-    private fun MethodSpec.Builder.addUnwrapper(bundleValue: String, arg: ArgumentModel): String {
-        val nameAfterUnwrap = "unwrapped"
-//        val unwrappedType = converter.addStatement("auto $nameAfterUnwrap = new \$T().unwrap($bundleValue)", converter)
-        return nameAfterUnwrap
     }
 
     private fun MethodSpec.Builder.addWrapper(bundleValue: String, converter: Class<out ArgConverter<*, *>>): String {

@@ -72,7 +72,7 @@ class ActivityStarterProcessor : AbstractProcessor() {
     private fun processProject(model: ProjectModel) {
         for (classBinding in model.classesToProcess) {
             try {
-                classBinding.getClasGeneration().brewJava().writeTo(filer)
+                classBinding.getClasGeneration(model).brewJava().writeTo(filer)
             } catch (e: IOException) {
                 error("Unable to write binding for typeName %s: %s", classBinding.bindingClassName, e.message ?: "")
             }

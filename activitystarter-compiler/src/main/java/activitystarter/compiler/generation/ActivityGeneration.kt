@@ -1,6 +1,7 @@
 package activitystarter.compiler.generation
 
 import activitystarter.compiler.generation.IntentBinding
+import activitystarter.compiler.model.ProjectModel
 import activitystarter.compiler.model.classbinding.ClassModel
 import activitystarter.compiler.model.param.ArgumentModel
 import activitystarter.compiler.utils.ACTIVITY
@@ -11,7 +12,7 @@ import com.squareup.javapoet.MethodSpec
 import com.squareup.javapoet.TypeName
 import com.squareup.javapoet.TypeSpec
 
-internal class ActivityGeneration(classModel: ClassModel) : IntentBinding(classModel) {
+internal class ActivityGeneration(projectModel: ProjectModel, classModel: ClassModel) : IntentBinding(projectModel, classModel) {
 
     override fun createFillFieldsMethod() = getBasicFillMethodBuilder()
             .addParameter(classModel.targetTypeName, "activity")

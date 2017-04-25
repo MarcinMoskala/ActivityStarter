@@ -1,5 +1,6 @@
 package activitystarter.compiler.model.param
 
+import activitystarter.compiler.model.ProjectModel
 import activitystarter.compiler.utils.camelCaseToUppercaseUnderscore
 import activitystarter.wrapping.ArgConverter
 import com.squareup.javapoet.TypeName
@@ -24,5 +25,8 @@ class ArgumentModel(
                 ?.filter { it.size == 2 }
                 ?.map { all -> all[0] to all[1] }
                 ?.firstOrNull()
+    }
+    fun convertedParamType(projectModel: ProjectModel): ParamType {
+        return projectModel.converterFor(paramType)?.toParamType ?: paramType
     }
 }

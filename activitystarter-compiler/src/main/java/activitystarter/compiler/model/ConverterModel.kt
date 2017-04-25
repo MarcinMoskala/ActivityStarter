@@ -17,7 +17,14 @@ data class ConverterModel(
     val toParamType: ParamType?
         get() = ParamType.fromType(typeTo)
 
-    fun canApplyTo(type: ParamType): Boolean {
-        return type == typeFromParamType
+    val fromParamType: ParamType?
+        get() = ParamType.fromType(typeFrom)
+
+    fun canWrap(type: ParamType): Boolean {
+        return type == fromParamType
+    }
+
+    fun canUnwrap(type: ParamType): Boolean {
+        return type == toParamType
     }
 }

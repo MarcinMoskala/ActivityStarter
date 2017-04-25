@@ -2,6 +2,7 @@ package activitystarter.generation
 
 import activitystarter.compiler.error.Errors
 import org.junit.Test
+import kotlin.test.assertEquals
 
 class GenerationErrorTest : GenerationTest() {
 
@@ -18,11 +19,6 @@ class GenerationErrorTest : GenerationTest() {
     @Test
     fun privateClassErrorTest() {
         filePrecessingCheckError("shouldThrowError/PrivateClass", Errors.privateClass)
-    }
-
-    @Test
-    fun listErrorTest() {
-        filePrecessingCheckError("shouldThrowError/List", Errors.notSupportedType)
     }
 
     @Test

@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Arg long l;
 
-    static class IntToLongConverter implements ArgWrapper<Integer, Long> {
+    static class IntToLongConverter implements ArgConverter<Integer, Long> {
 
         @Nullable
         @Override

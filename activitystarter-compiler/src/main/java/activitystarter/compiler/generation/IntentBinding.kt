@@ -1,11 +1,12 @@
 package activitystarter.compiler.generation
 
+import activitystarter.compiler.model.ProjectModel
 import activitystarter.compiler.model.classbinding.ClassModel
 import activitystarter.compiler.model.param.ArgumentModel
 import activitystarter.compiler.utils.INTENT
 import com.squareup.javapoet.MethodSpec
 
-internal abstract class IntentBinding(classModel: ClassModel) : ClassGeneration(classModel) {
+internal abstract class IntentBinding(projectModel: ProjectModel, classModel: ClassModel) : ClassGeneration(projectModel, classModel) {
 
     protected fun fillByIntentBinding(targetName: String) = getBasicFillMethodBuilder("ActivityStarter.fill(this, intent)")
             .addParameter(classModel.targetTypeName, targetName)
@@ -23,8 +24,9 @@ internal abstract class IntentBinding(classModel: ClassModel) : ClassGeneration(
 
     private fun MethodSpec.Builder.addPutExtraStatement(variant: List<ArgumentModel>) = apply {
         variant.forEach { arg ->
-            val putArgumentToIntentMethodName = activitystarter.compiler.generation.getPutArgumentToIntentMethodName(arg.paramType)
-            addStatement("intent.$putArgumentToIntentMethodName(" + arg.fieldName + ", " + arg.name + ")")
+            val putArgumentToIntentMethodName = getPutArgumentToIntentMethodName(arg.convertedParamType(projectModel))
+            val wrappedValue = projectModel.addWrapper(arg.paramType) { arg.fieldName }
+            addStatement("intent.$putArgumentToIntentMethodName(" + wrappedValue + ", " + arg.name + ")")
         }
     }
 
@@ -34,7 +36,9 @@ internal abstract class IntentBinding(classModel: ClassModel) : ClassGeneration(
 
     protected fun MethodSpec.Builder.addIntentSetter(arg: ArgumentModel, targetParameterName: String) {
         val fieldName = arg.fieldName
-        val settingPart = arg.accessor.makeSetter(activitystarter.compiler.generation.getIntentGetterFor(arg.paramType, arg.typeName, fieldName))
+        val possiblyWrappedValue = getIntentGetterFor(arg.convertedParamType(projectModel), arg.typeName, fieldName)
+        val valueToSet = projectModel.addUnwrapper(arg.paramType) { possiblyWrappedValue }
+        val settingPart = arg.accessor.makeSetter(valueToSet)
         addStatement("if(intent.hasExtra($fieldName)) \n $targetParameterName.$settingPart")
     }
 
