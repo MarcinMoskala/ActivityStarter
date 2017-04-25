@@ -11,6 +11,7 @@ internal abstract class IntentBinding(classModel: ClassModel) : ClassGeneration(
     protected fun fillByIntentBinding(targetName: String) = getBasicFillMethodBuilder("ActivityStarter.fill(this, intent)")
             .addParameter(classModel.targetTypeName, targetName)
             .addParameter(INTENT, "intent")
+            .addStatement("if(intent == null) return")
             .addIntentSetters(targetName)
             .build()!!
 
@@ -36,8 +37,9 @@ internal abstract class IntentBinding(classModel: ClassModel) : ClassGeneration(
 
     protected fun MethodSpec.Builder.addIntentSetter(arg: ArgumentModel, targetParameterName: String) {
         val fieldName = arg.fieldName
-        val possiblyWrappedValue = getIntentGetterFor(arg.saveParamType, arg.typeName, fieldName)
-        val valueToSet = arg.addUnwrapper { possiblyWrappedValue }
+        val possiblyWrappedValue = getIntentGetterFor(arg.saveParamType, fieldName)
+        val valueToSet = (if (arg.paramType.typeUsedBySupertype()) "(${arg.typeName}) " else "") +
+                        arg.addUnwrapper { possiblyWrappedValue }
         val settingPart = arg.accessor.makeSetter(valueToSet)
         addStatement("if(intent.hasExtra($fieldName)) \n $targetParameterName.$settingPart")
     }

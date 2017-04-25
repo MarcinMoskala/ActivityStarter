@@ -1,4 +1,4 @@
-package com.example.activitystarter.parcelable;
+package com.example.activitystarter.parceler;
 
 import android.os.Bundle;
 import android.view.View;
@@ -15,9 +15,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 @MakeActivityStarter
-public class StudentParcelableActivity extends BaseActivity {
+public class StudentParcelerActivity extends BaseActivity {
 
-    public @Arg StudentParcelable student;
+    public @Arg StudentParceler student;
 
     @BindView(R.id.student_name) EditText studentNameView;
     @BindView(R.id.student_id) EditText studentIdView;
@@ -40,7 +40,7 @@ public class StudentParcelableActivity extends BaseActivity {
                 String name = studentNameView.getText().toString();
                 int id = Integer.parseInt(studentIdView.getText().toString());
                 char grade = studentGradeView.getText().charAt(0);
-                student = new StudentParcelable(id, name, grade);
+                student = new StudentParceler(id, name, grade);
             }
         });
         restoreButton.setOnClickListener(new View.OnClickListener() {

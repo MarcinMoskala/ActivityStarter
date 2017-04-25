@@ -10,6 +10,8 @@ import android.widget.Switch;
 import com.example.activitystarter.fragment.TabbedFragmentActivityStarter;
 import com.example.activitystarter.parcelable.StudentParcelable;
 import com.example.activitystarter.parcelable.StudentParcelableActivityStarter;
+import com.example.activitystarter.parceler.StudentParceler;
+import com.example.activitystarter.parceler.StudentParcelerActivityStarter;
 import com.example.activitystarter.serializable.StudentSerializable;
 import com.example.activitystarter.serializable.StudentSerializableActivityStarter;
 
@@ -20,6 +22,7 @@ public class MainActivity extends BaseActivity {
 
     @BindView(R.id.show_data_button) Button showDataButton;
     @BindView(R.id.show_parcelable_data_button) Button showParcelableDataButton;
+    @BindView(R.id.show_parceler_data_button) Button showParcelaberDataButton;
     @BindView(R.id.show_serializable_data_button) Button showSerializableDataButton;
     @BindView(R.id.show_tabbed_fragment_activity_button) Button showTabbedFragmentActivityButton;
 
@@ -61,6 +64,12 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 TabbedFragmentActivityStarter.start(MainActivity.this);
+            }
+        });
+        showParcelaberDataButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StudentParcelerActivityStarter.start(MainActivity.this, new StudentParceler(5, "Marcin", 'A'));
             }
         });
     }

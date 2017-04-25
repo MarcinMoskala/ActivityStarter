@@ -2,10 +2,7 @@ package activitystarter.compiler.generation
 
 import activitystarter.compiler.model.param.ParamType
 import com.google.auto.common.MoreElements.getPackage
-import com.squareup.javapoet.ClassName
 import com.squareup.javapoet.ClassName.get
-import com.squareup.javapoet.TypeName
-import javax.lang.model.element.TypeElement
 
 fun getBindingClassName(enclosingElement: javax.lang.model.element.TypeElement): com.squareup.javapoet.ClassName {
     val packageName = getPackage(enclosingElement).qualifiedName.toString()
@@ -43,10 +40,9 @@ fun getBundleSetterFor(type: ParamType) = when (type) {
     else -> throw Error("Type not supported")
 }
 
-fun getBundleGetter(bundleName: String, paramType: ParamType, typeName: com.squareup.javapoet.TypeName, keyName: String): String {
+fun getBundleGetter(bundleName: String, paramType: ParamType, keyName: String): String {
     val bundleGetterCall = activitystarter.compiler.generation.getBundleGetterCall(paramType)
-    val getArgumentValue = "$bundleName.$bundleGetterCall($keyName)"
-    return if(paramType.typeUsedBySupertype()) "($typeName) $getArgumentValue" else getArgumentValue
+    return "$bundleName.$bundleGetterCall($keyName)"
 }
 
 private fun getBundleGetterCall(paramType: ParamType) = when (paramType) {
@@ -87,10 +83,9 @@ fun getPutArgumentToIntentMethodName(paramType: ParamType) = when(paramType) {
     else -> "putExtra"
 }
 
-fun getIntentGetterFor(paramType: ParamType, typeName: com.squareup.javapoet.TypeName, key: String): String {
+fun getIntentGetterFor(paramType: ParamType, key: String): String {
     val getter = getIntentGetterForParamType(paramType, key)
-    val getArgumentValue = "intent.$getter"
-    return if(paramType.typeUsedBySupertype()) "($typeName) $getArgumentValue" else getArgumentValue
+    return "intent.$getter"
 }
 
 private fun getIntentGetterForParamType(paramType: ParamType, key: String) = when (paramType) {

@@ -55,7 +55,8 @@ internal abstract class ClassGeneration(val classModel: ClassModel) {
 
     protected fun MethodSpec.Builder.addBundleSetter(arg: ArgumentModel, bundleName: String, className: String, checkIfSet: Boolean) {
         val fieldName = arg.fieldName
-        val bundleValue = arg.addUnwrapper { getBundleGetter(bundleName, arg.saveParamType, arg.typeName, fieldName) }
+        val bundleValue = (if (arg.paramType.typeUsedBySupertype()) "(${arg.typeName}) " else "") +
+                arg.addUnwrapper { getBundleGetter(bundleName, arg.saveParamType, fieldName) }
         val bundleValueSetter = arg.accessor.makeSetter(bundleValue)
         if (checkIfSet) addCode("if(${getBundlePredicate(bundleName, fieldName)}) ")
         addStatement("$className.$bundleValueSetter")

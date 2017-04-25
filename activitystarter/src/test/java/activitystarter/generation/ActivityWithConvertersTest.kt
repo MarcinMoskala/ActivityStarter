@@ -8,5 +8,6 @@ class ActivityWithConvertersTest: GenerationTest() {
     @Test
     fun `Configuration with Converter is compiling`() {
         filePrecessingCorrect("withConverters/ActivityWithIntToLongConverter")
+        filePrecessingCorrect("withConverters/ActivityWithObjectToParcelableConverter")
     }
 }

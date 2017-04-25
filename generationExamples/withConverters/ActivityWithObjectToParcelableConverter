@@ -1,0 +1,72 @@
+********com.example.activitystarter.MainActivity********
+package com.example.activitystarter;
+
+import android.support.annotation.Nullable;
+import java.lang.annotation.Annotation;
+import activitystarter.ActivityStarterConfig;
+import activitystarter.Arg;
+import activitystarter.wrapping.ArgConverter;
+import android.os.Parcelable;
+import android.os.Parcel;
+
+@ActivityStarterConfig(converters = { MainActivity.ParcelableConverter.class })
+public class MainActivity {
+
+    Object o;
+
+    static public class ParcelableConverter implements ArgConverter<Object, Parcelable> {
+
+        @Override
+        public Class<? extends Annotation> requiredAnnotation() {
+            return null;
+        }
+
+        @Override
+        public Parcelable wrap(Object toWrap) {
+            return new Parcelable() {
+                @Override
+                public int describeContents() {
+                    return 0;
+                }
+
+                @Override
+                public void writeToParcel(Parcel dest, int flags) {
+
+                }
+            };
+        }
+
+        @Override
+        public Object unwrap(Parcelable wrapped) {
+            return wrapped;
+        }
+    }
+}
+
+********com.example.activitystarter.MainActivity********
+package com.example.activitystarter;
+
+import android.content.Context;
+import android.content.Intent;
+import java.lang.String;
+
+public final class SomeServiceStarter {
+
+  private static final String NAME_KEY = "com.example.activitystarter.nameStarterKey";
+
+  public static void fill(SomeService service, Intent intent) {
+    if(intent.hasExtra(NAME_KEY))
+         service.name = intent.getStringExtra(NAME_KEY);
+  }
+
+  public static Intent getIntent(Context context, String name) {
+    Intent intent = new Intent(context, SomeService.class);
+    intent.putExtra(NAME_KEY, name);
+    return intent;
+  }
+
+  public static void start(Context context, String name) {
+    Intent intent = getIntent(context, name);
+    context.startService(intent);
+  }
+}
