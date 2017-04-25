@@ -12,6 +12,7 @@ object ConfigElement {
     val empty by lazy { getConfigElement() }
     val integerToLongConverter by lazy { getConfigElement("IntToLongConverter") }
     val objectToParcelableConverter by lazy { getConfigElement("ParcelableConverter") }
+    val multipleConverter by lazy { getConfigElement("IntToLongConverter", "ParcelableConverter") }
 
     private fun getConfigElement(vararg converters: String): List<TypeMirror> {
         val convertersList = converters.joinToString(separator = ", ", transform = { "MainActivity.$it.class" })

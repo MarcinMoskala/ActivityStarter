@@ -38,7 +38,7 @@ class ActivityStarterProcessor : AbstractProcessor() {
     override fun process(elements: Set<TypeElement>, env: RoundEnvironment): Boolean {
         val projectModel = ProjectModel(
                 converters = getConvertersFromConfig(env),
-                classesToProces = getClassesToMakeStarters(env)
+                classesToProcess = getClassesToMakeStarters(env)
                         .mapNotNull { ClassBindingFactory(it).create() }
                         .toSet()
         )
@@ -70,7 +70,7 @@ class ActivityStarterProcessor : AbstractProcessor() {
     }.toSet()
 
     private fun processProject(model: ProjectModel) {
-        for (classBinding in model.classesToProces) {
+        for (classBinding in model.classesToProcess) {
             try {
                 classBinding.getClasGeneration().brewJava().writeTo(filer)
             } catch (e: IOException) {

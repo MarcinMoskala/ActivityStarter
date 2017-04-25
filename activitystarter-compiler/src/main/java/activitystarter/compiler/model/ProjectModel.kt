@@ -8,7 +8,7 @@ import kotlin.reflect.KClass
 
 data class ProjectModel (
         val converters: List<ConverterModel> = listOf(),
-        val classesToProces: Set<ClassModel>
+        val classesToProcess: Set<ClassModel>
 ) {
 
     fun converterFor(type: ParamType): ConverterModel? {
