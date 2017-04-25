@@ -15,6 +15,21 @@ class ConverterGenerationTest {
 
     @Test
     fun `Basic wrapping is just creating converter by empty constructor and invoking wrap method`() {
-        assertEquals("new com.example.activitystarter.MainActivity.ParcelableConverter().wrap(A)", objectToParcelableConverterGeneration.wrap { "A" })
+        assertEquals(
+                "new com.example.activitystarter.MainActivity.ParcelableConverter().wrap(A)",
+                objectToParcelableConverterGeneration.wrap { "A" }
+        )
+    }
+
+    @Test
+    fun `Basic unwrapping is just creating converter by empty constructor and invoking unwrap method`() {
+        assertEquals(
+                "new com.example.activitystarter.MainActivity.ParcelableConverter().unwrap(A)",
+                objectToParcelableConverterGeneration.unwrap { "A" }
+        )
+    }
+
+    fun assertContains(what: String, where: String) {
+        assert(what in where) { "$what not found in $where" }
     }
 }
