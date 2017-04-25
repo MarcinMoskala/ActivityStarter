@@ -4,7 +4,7 @@ import activitystarter.compiler.model.classbinding.ClassModel
 import activitystarter.compiler.model.param.ArgumentModel
 import activitystarter.compiler.utils.CONTEXT
 import activitystarter.compiler.utils.STRING
-import activitystarter.wrapping.ArgWrapper
+import activitystarter.wrapping.ArgConverter
 import com.squareup.javapoet.FieldSpec
 import com.squareup.javapoet.JavaFile
 import com.squareup.javapoet.MethodSpec
@@ -67,7 +67,7 @@ internal abstract class ClassGeneration(val classModel: ClassModel) {
         return nameAfterUnwrap
     }
 
-    private fun MethodSpec.Builder.addWrapper(bundleValue: String, converter: Class<out ArgWrapper<*, *>>): String {
+    private fun MethodSpec.Builder.addWrapper(bundleValue: String, converter: Class<out ArgConverter<*, *>>): String {
         val nameAfterWrap = "wrapped"
         addStatement("$nameAfterWrap = new \$T()", converter)
         return nameAfterWrap

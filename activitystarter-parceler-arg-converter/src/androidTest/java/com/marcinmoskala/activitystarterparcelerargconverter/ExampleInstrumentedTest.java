@@ -1,4 +1,4 @@
-package com.marcinmoskala.activitystarterparcelerargwrapper;
+package com.marcinmoskala.activitystarterparcelerargconverter;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

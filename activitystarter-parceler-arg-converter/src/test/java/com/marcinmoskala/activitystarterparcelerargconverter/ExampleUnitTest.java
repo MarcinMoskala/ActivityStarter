@@ -1,4 +1,4 @@
-package com.marcinmoskala.activitystarterparcelerargwrapper;
+package com.marcinmoskala.activitystarterparcelerargconverter;
 
 import org.junit.Test;
 

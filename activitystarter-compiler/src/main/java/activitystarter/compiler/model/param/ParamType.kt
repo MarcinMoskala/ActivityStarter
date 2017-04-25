@@ -36,7 +36,9 @@ enum class ParamType {
 
     ParcelableSubtype,
     SerializableSubtype,
-    ParcelableArrayListSubtype;
+    ParcelableArrayListSubtype,
+
+    ObjectSubtype;
 
     companion object {
         val stringTypeName = TypeName.get(kotlin.String::class.java)!!
@@ -47,11 +49,11 @@ enum class ParamType {
         val doubleTypeName = TypeName.get(java.lang.Double::class.java)!!
         val arrayListRegex by lazy { """ArrayList<([\w.]*)>""".toRegex() }
 
-        fun fromType(typeMirror: TypeMirror): ParamType? =
+        fun fromType(typeMirror: TypeMirror): ParamType =
                 getByKind(typeMirror) ?:
                         getByName(typeMirror) ?:
                         getArrayList(typeMirror) ?:
-                        getBySupertype(typeMirror)
+                        getBySupertype(typeMirror) ?: ObjectSubtype
 
         private fun getByKind(typeMirror: TypeMirror): ParamType? = when (typeMirror.kind) {
             TypeKind.BOOLEAN -> Boolean

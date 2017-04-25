@@ -1,7 +1,7 @@
 package activitystarter.compiler.model.param
 
 import activitystarter.compiler.utils.camelCaseToUppercaseUnderscore
-import activitystarter.wrapping.ArgWrapper
+import activitystarter.wrapping.ArgConverter
 import com.squareup.javapoet.TypeName
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
@@ -13,7 +13,7 @@ class ArgumentModel(
         val typeName: TypeName,
         val isOptional: Boolean,
         val accessor: FieldAccessor,
-        val converter: Class<out ArgWrapper<*, *>>? = null
+        val converter: Class<out ArgConverter<*, *>>? = null
 ) {
     val fieldName: String by lazy { camelCaseToUppercaseUnderscore(name) + "_KEY" }
     val genericTypes: Pair<Type, Type>? by lazy {

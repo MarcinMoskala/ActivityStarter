@@ -1,4 +1,4 @@
-package com.marcinmoskala.activitystarterparcelerargwrapper;
+package com.marcinmoskala.activitystarterparcelerargconverter;
 
 import android.os.Parcelable;
 
@@ -6,9 +6,9 @@ import org.parceler.Parcels;
 
 import java.lang.annotation.Annotation;
 
-import activitystarter.wrapping.ArgWrapper;
+import activitystarter.wrapping.ArgConverter;
 
-public class ParcelarArgWrapper implements ArgWrapper<Object, Parcelable> {
+public class ParcelarArgConverter implements ArgConverter<Object, Parcelable> {
 
     @Override
     public Class<? extends Annotation> requiredAnnotation() {

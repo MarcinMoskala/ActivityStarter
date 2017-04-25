@@ -22,14 +22,14 @@ import android.support.annotation.Nullable;
 import java.lang.annotation.Annotation;
 import activitystarter.ActivityStarterConfig;
 import activitystarter.Arg;
-import activitystarter.wrapping.ArgWrapper;
+import activitystarter.wrapping.ArgConverter;
 import android.os.Parcelable;
 import android.os.Parcel;
 
 @ActivityStarterConfig(converters = { $convertersList })
 public class MainActivity {
 
-    static public class ParcelableConverter implements ArgWrapper<Object, Parcelable> {
+    static public class ParcelableConverter implements ArgConverter<Object, Parcelable> {
 
         @Override
         public Class<? extends Annotation> requiredAnnotation() {
@@ -57,7 +57,7 @@ public class MainActivity {
         }
     }
 
-    static public class IntToLongConverter implements ArgWrapper<Integer, Long> {
+    static public class IntToLongConverter implements ArgConverter<Integer, Long> {
 
         @Nullable
         @Override

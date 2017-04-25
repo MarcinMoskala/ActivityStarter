@@ -8,7 +8,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import activitystarter.wrapping.ArgWrapper;
+import activitystarter.wrapping.ArgConverter;
 
 import static activitystarter.Helpers.isSubtype;
 
@@ -16,7 +16,7 @@ public class WrapperManager {
 
     private List<WrapperWithTypes> wrapperWithTypes;
 
-    private WrapperManager(ArrayList<ArgWrapper> wrappers){
+    private WrapperManager(ArrayList<ArgConverter> wrappers){
         this.wrapperWithTypes = toWrappersWithTypes(wrappers);
     }
 
@@ -53,9 +53,9 @@ public class WrapperManager {
         return null;
     }
 
-    private List<WrapperWithTypes> toWrappersWithTypes(ArrayList<ArgWrapper> wrappers) {
+    private List<WrapperWithTypes> toWrappersWithTypes(ArrayList<ArgConverter> wrappers) {
         List<WrapperWithTypes> wrapperWithTypesList = new ArrayList<>();
-        for (ArgWrapper w: wrappers) {
+        for (ArgConverter w: wrappers) {
             Type[] genericInterfaces = w.getClass().getGenericInterfaces();
             for (Type genericInterface : genericInterfaces) {
                 if (genericInterface instanceof ParameterizedType) {
@@ -72,9 +72,9 @@ public class WrapperManager {
     private class WrapperWithTypes {
         @NonNull private Type from;
         @NonNull private Type to;
-        @NonNull private ArgWrapper wrapper;
+        @NonNull private ArgConverter wrapper;
 
-        private WrapperWithTypes(@NonNull Type from, @NonNull Type to, @NonNull ArgWrapper wrapper) {
+        private WrapperWithTypes(@NonNull Type from, @NonNull Type to, @NonNull ArgConverter wrapper) {
             this.from = from;
             this.to = to;
             this.wrapper = wrapper;
@@ -88,25 +88,26 @@ public class WrapperManager {
             return to;
         }
 
-        @NonNull ArgWrapper getWrapper() {
+        @NonNull
+        ArgConverter getWrapper() {
             return wrapper;
         }
     }
 
     public static class Builder {
 
-        ArrayList<ArgWrapper> wrappers = new ArrayList<>();
+        ArrayList<ArgConverter> wrappers = new ArrayList<>();
 
         public Builder() {}
 
-        private Builder(ArrayList<ArgWrapper> wrappers) {
+        private Builder(ArrayList<ArgConverter> wrappers) {
             this.wrappers = wrappers;
         }
 
-        public Builder with(ArgWrapper argWrapper) {
-            ArrayList<ArgWrapper> newWrappers = new ArrayList<>();
+        public Builder with(ArgConverter argConverter) {
+            ArrayList<ArgConverter> newWrappers = new ArrayList<>();
             newWrappers.addAll(wrappers);
-            newWrappers.add(argWrapper);
+            newWrappers.add(argConverter);
             return new Builder(newWrappers);
         }
 

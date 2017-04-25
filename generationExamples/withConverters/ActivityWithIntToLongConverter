@@ -8,7 +8,7 @@ import java.lang.annotation.Annotation;
 
 import activitystarter.ActivityStarterConfig;
 import activitystarter.Arg;
-import activitystarter.wrapping.ArgWrapper;
+import activitystarter.wrapping.ArgConverter;
 
 @ActivityStarterConfig(converters = { MainActivity.IntToLongConverter.class })
 public class MainActivity extends AppCompatActivity {

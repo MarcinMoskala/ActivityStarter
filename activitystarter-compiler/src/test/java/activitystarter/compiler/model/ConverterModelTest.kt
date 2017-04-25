@@ -1,16 +1,12 @@
 package activitystarter.compiler.model
 
-import activitystarter.compiler.helpers.*
+import activitystarter.compiler.helpers.ConfigElement
 import activitystarter.compiler.model.param.ParamType
 import activitystarter.compiler.processing.ConverterFaktory
-import com.google.testing.compile.CompilationRule
-import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
 
 class ConverterModelTest() {
-
-    @Rule @JvmField val c = CompilationRule()
 
     val factory by lazy { ConverterFaktory() }
     val integerToLongConverter by lazy { factory.create(ConfigElement.integerToLongConverter)[0] }
@@ -24,11 +20,11 @@ class ConverterModelTest() {
 
     @Test
     fun `ConverterGeneration is accepting correct types to unpack`() {
-        assertEquals(false, integerToLongConverter.canApplyTo(c.intTypeMirror))
-        assertEquals(true, integerToLongConverter.canApplyTo(c.longTypeMirror))
-        assertEquals(false, integerToLongConverter.canApplyTo(c.subtypeOfParcelableTypeMirror))
-        assertEquals(false, objectToParcelableConverter.canApplyTo(c.intTypeMirror))
-        assertEquals(false, objectToParcelableConverter.canApplyTo(c.longTypeMirror))
-        assertEquals(true, objectToParcelableConverter.canApplyTo(c.subtypeOfParcelableTypeMirror))
+        assertEquals(true, integerToLongConverter.canApplyTo(ParamType.Int))
+        assertEquals(false, integerToLongConverter.canApplyTo(ParamType.Long))
+        assertEquals(false, integerToLongConverter.canApplyTo(ParamType.ParcelableSubtype))
+        assertEquals(false, objectToParcelableConverter.canApplyTo(ParamType.Int))
+        assertEquals(false, objectToParcelableConverter.canApplyTo(ParamType.Long))
+        assertEquals(true, objectToParcelableConverter.canApplyTo(ParamType.ObjectSubtype))
     }
 }

@@ -12,10 +12,12 @@ data class ConverterModel(
         val typeTo: TypeMirror
 ) {
 
+    val typeFromParamType = ParamType.fromType(typeFrom)
+
     val toParamType: ParamType?
         get() = ParamType.fromType(typeTo)
 
-    fun canApplyTo(type: TypeMirror): Boolean {
-        return ParamType.fromType(type) == ParamType.fromType(typeTo) || type.isSubtypeOfType(typeFrom.toString())
+    fun canApplyTo(type: ParamType): Boolean {
+        return type == typeFromParamType
     }
 }

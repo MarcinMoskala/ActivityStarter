@@ -4,9 +4,9 @@ import activitystarter.ActivityStarter
 import activitystarter.ActivityStarterConfig
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.marcinmoskala.activitystarterparcelerargwrapper.ParcelarArgWrapper
+import com.marcinmoskala.activitystarterparcelerargconverter.ParcelarArgConverter
 
-@ActivityStarterConfig(converters = arrayOf(ParcelarArgWrapper::class))
+@ActivityStarterConfig(converters = arrayOf(ParcelarArgConverter::class))
 open class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
