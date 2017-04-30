@@ -1,7 +1,6 @@
 package activitystarter.compiler.model
 
 import activitystarter.compiler.model.param.ParamType
-import activitystarter.compiler.model.param.ParamType.ObjectSubtype
 import activitystarter.compiler.utils.isSubtypeOfType
 import javax.lang.model.type.TypeMirror
 
@@ -20,6 +19,6 @@ data class ConverterModel(
     fun canWrap(type: TypeMirror): Boolean {
         val paramType = ParamType.fromType(type)
         return paramType == fromParamType &&
-                if(paramType == ObjectSubtype) type.isSubtypeOfType(typeFrom.toString()) else true
+                if(paramType.typeUsedBySupertype()) type.isSubtypeOfType(typeFrom.toString()) else true
     }
 }

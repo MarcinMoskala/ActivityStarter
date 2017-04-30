@@ -1,5 +1,5 @@
-********activitystarter.generation.converters.MainActivity********
-package activitystarter.generation.converters;
+********com.example.activitystarter.MainActivity********
+package com.example.activitystarter;
 
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +13,7 @@ import activitystarter.wrapping.ArgConverter;
 @ActivityStarterConfig(converters = { MainActivity.IntToLongConverter.class })
 public class MainActivity extends AppCompatActivity {
 
-    @Arg long l;
+    @Arg int l;
 
     static class IntToLongConverter implements ArgConverter<Integer, Long> {
 
@@ -28,30 +28,45 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
-********activitystarter.generation.converters.MainActivity********
-package activitystarter.generation.converters;
+********com.example.activitystarter.MainActivityStarter********
+package com.example.activitystarter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import java.lang.String;
 
-public final class SomeServiceStarter {
+public final class MainActivityStarter {
+  private static final String L_KEY = "com.example.activitystarter.lStarterKey";
 
-  private static final String NAME_KEY = "com.example.activitystarter.nameStarterKey";
-
-  public static void fill(SomeService service, Intent intent) {
-    if(intent.hasExtra(NAME_KEY))
-         service.name = intent.getStringExtra(NAME_KEY);
+  /**
+   * This is method used to fill fields. Use it by calling ActivityStarter.fill(this). */
+  public static void fill(MainActivity activity, Bundle savedInstanceState) {
+    Intent intent = activity.getIntent();
+    if(savedInstanceState != null && savedInstanceState.containsKey(L_KEY)) {
+    activity.l = new com.example.activitystarter.MainActivity.IntToLongConverter().unwrap(savedInstanceState.getLong(L_KEY));
+    } else if(intent.hasExtra(L_KEY))
+         activity.l = new com.example.activitystarter.MainActivity.IntToLongConverter().unwrap(intent.getLongExtra(L_KEY, 0L));
   }
 
-  public static Intent getIntent(Context context, String name) {
-    Intent intent = new Intent(context, SomeService.class);
-    intent.putExtra(NAME_KEY, name);
+  public static void save(MainActivity activity, Bundle bundle) {
+    bundle.putLong(L_KEY, new com.example.activitystarter.MainActivity.IntToLongConverter().wrap(activity.l));
+  }
+
+  public static Intent getIntent(Context context, int l) {
+    Intent intent = new Intent(context, MainActivity.class);
+    intent.putExtra(L_KEY, new com.example.activitystarter.MainActivity.IntToLongConverter().wrap(l));
     return intent;
   }
 
-  public static void start(Context context, String name) {
-    Intent intent = getIntent(context, name);
-    context.startService(intent);
+  public static void start(Context context, int l) {
+    Intent intent = getIntent(context, l);
+    context.startActivity(intent);
+  }
+
+  public static void startWithFlags(Context context, int l, int flags) {
+    Intent intent = getIntent(context, l);
+    intent.addFlags(flags);
+    context.startActivity(intent);
   }
 }
