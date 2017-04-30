@@ -145,11 +145,11 @@ More information on [Installation](https://github.com/MarcinMoskala/ActivityStar
 
 ## Converters
 
-If you are using Parceler library and you want to pass this objects as an arguments then you can do it using ActivityStarter:
+If you are using [Parceler library](https://github.com/johncarl81/parceler) and you want to pass this objects as an arguments then you can do it using ActivityStarter:
 ```
 @Arg StudentParceler student;
 ```
-Inftruction how to allow it are [here](https://github.com/MarcinMoskala/ActivityStarter/wiki/Parceler-Arg-Converter-usage). If you want to define your own converters then read about it [here](https://github.com/MarcinMoskala/ActivityStarter/wiki/Converters-usage).
+Instruction how to allow it are [here](https://github.com/MarcinMoskala/ActivityStarter/wiki/Parceler-Arg-Converter-usage). If you want to define your own converters then read about it [here](https://github.com/MarcinMoskala/ActivityStarter/wiki/Converters-usage).
 
 License
 -------
