@@ -14,3 +14,7 @@ inline fun <reified T : Annotation> parsingError(text: String, element: Element,
 fun error(element: Element, message: String, vararg args: Any) {
     messanger!!.printMessage(ERROR, if (args.isNotEmpty()) String.format(message, *args) else message, element)
 }
+
+fun error(message: String, vararg args: Any) {
+    messanger!!.printMessage(ERROR, if (args.isNotEmpty()) String.format(message, *args) else message)
+}

@@ -27,6 +27,7 @@ import android.content.Intent;
 
 public final class SomeServiceStarter {
   public static void fill(SomeService service, Intent intent) {
+    if(intent == null) return;
   }
 
   public static Intent getIntent(Context context) {

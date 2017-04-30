@@ -31,16 +31,20 @@ android {
 dependencies {
     compile project(':activitystarter')
     annotationProcessor project(':activitystarter-compiler')
+    compile project(':activitystarter-parceler-arg-converter')
 
 //  In real project use this:
-//    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.20'
-//    annotationProcessor 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.20'
+//    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.50'
+//    annotationProcessor 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.50'
 
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support:design:25.1.0'
+
+    compile 'org.parceler:parceler-api:1.1.6'
+    annotationProcessor 'org.parceler:parceler:1.1.6'
 
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'

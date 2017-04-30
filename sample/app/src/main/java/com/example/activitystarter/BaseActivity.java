@@ -1,11 +1,14 @@
 package com.example.activitystarter;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 
-import activitystarter.ActivityStarter;
+import com.marcinmoskala.activitystarterparcelerargconverter.ParcelarArgConverter;
 
+import activitystarter.ActivityStarter;
+import activitystarter.ActivityStarterConfig;
+
+@ActivityStarterConfig(converters = { ParcelarArgConverter.class })
 public class BaseActivity extends AppCompatActivity {
 
     @Override

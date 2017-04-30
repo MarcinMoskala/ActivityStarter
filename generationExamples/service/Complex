@@ -37,6 +37,7 @@ public final class SomeServiceStarter {
   private static final String ID_KEY = "com.example.activitystarter.idStarterKey";
 
   public static void fill(SomeService service, Intent intent) {
+    if(intent == null) return;
     if(intent.hasExtra(NAME_KEY))
          service.name = intent.getStringExtra(NAME_KEY);
     if(intent.hasExtra(SURNAME_KEY))

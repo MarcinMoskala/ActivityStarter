@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-
 public final class ActivityStarter {
 
     public static void fill(@NonNull Activity target) {
