@@ -49,10 +49,13 @@ ext {
     targetCompatibilityVersion = JavaVersion.VERSION_1_7
 }
 
-def androidToolsVersion = '25.2.0'
-def supportLibraryVersion = '25.1.0'
+ext.androidToolsVersion = '25.2.0'
+ext.supportLibraryVersion = '25.1.0'
+ext.kotlinVersion = '1.1.0'
 
 ext.deps = [
+        kotlin            : "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion",
+        kotlin_reflect    : "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion",
         android           : 'com.google.android:android:4.1.1.4',
         supportAppcompatv7: "com.android.support:appcompat-v7:$supportLibraryVersion",
         supportDesign     : "com.android.support:design:$supportLibraryVersion",
@@ -67,9 +70,13 @@ ext.deps = [
         javapoet          : 'com.squareup:javapoet:1.7.0',
         javaparser        : 'com.github.javaparser:javaparser-core:2.4.0',
         jodaTime          : 'joda-time:joda-time:2.9.3',
+        parceler          : 'org.parceler:parceler-api:1.1.6',
+        parceler_processor: 'org.parceler:parceler:1.1.6',
 
         // Test
         junit             : 'junit:junit:4.12',
+        kotlin_test       : "org.jetbrains.kotlin:kotlin-test:$kotlinVersion",
+        kotlin_junit      : "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion",
         truth             : 'com.google.truth:truth:0.28',
         robolectric       : 'org.robolectric:robolectric:3.1.2',
         openglApi         : 'org.khronos:opengl-api:gl1.1-android-2.1_r1',

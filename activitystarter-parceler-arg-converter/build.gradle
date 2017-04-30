@@ -1,27 +1,32 @@
-apply plugin: 'com.android.library'
-
-android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
-
-    defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
-        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+buildscript {
+    repositories {
+        mavenCentral()
     }
 
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-        test.java.srcDirs += 'src/test/kotlin'
+    dependencies {
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
     }
 }
 
-dependencies {
-    compile project(':activitystarter-annotations')
-    compile 'org.parceler:parceler-api:1.1.6'
-    compile 'com.android.support:appcompat-v7:25.3.1'
+apply plugin: 'java'
+apply plugin: 'com.github.dcendents.android-maven'
 
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    testCompile 'junit:junit:4.12'
+group='com.github.marcinmoskala'
+
+def logger = new com.android.build.gradle.internal.LoggerWrapper(project.logger)
+def sdkHandler = new com.android.build.gradle.internal.SdkHandler(project, logger)
+for (File file : sdkHandler.sdkLoader.repositories) {
+    repositories.maven {
+        url = file.toURI()
+    }
+}
+
+sourceCompatibility = rootProject.ext.sourceCompatibilityVersion
+targetCompatibility = rootProject.ext.targetCompatibilityVersion
+
+dependencies {
+    compileOnly deps.android
+    compile project(':activitystarter-annotations')
+    compile deps.parceler
+    testCompile deps.junit
 }

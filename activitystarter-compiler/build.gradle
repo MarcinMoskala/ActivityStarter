@@ -1,13 +1,11 @@
 buildscript {
-  ext.kotlin_version = '1.1.0'
-
   repositories {
     mavenCentral()
   }
 
   dependencies {
     classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
   }
 
   repositories {
@@ -33,6 +31,7 @@ for (File file : sdkHandler.sdkLoader.repositories) {
 
 dependencies {
   compile project(':activitystarter-annotations')
+  compile deps.kotlin
   compile deps.autoservice
   compile deps.autocommon
   compile deps.javapoet
@@ -41,12 +40,10 @@ dependencies {
   testCompile deps.junit
   testCompile deps.truth
   testCompile deps.compiletesting
-  testCompile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-  testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
-  testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
-  testCompile 'com.google.android:android:4.1.1.4'
-
-  compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+  testCompile deps.kotlin_reflect
+  testCompile deps.kotlin_test
+  testCompile deps.kotlin_junit
+  testCompile deps.android
 }
 repositories {
   mavenCentral()
