@@ -1,11 +1,8 @@
 package activitystarter.compiler.model.classbinding
 
 import activitystarter.compiler.generation.*
-import activitystarter.compiler.generation.ActivityGeneration
-import activitystarter.compiler.model.ProjectConfig
 import activitystarter.compiler.model.classbinding.KnownClassType.*
 import activitystarter.compiler.model.param.ArgumentModel
-import activitystarter.compiler.model.param.ParamType
 import activitystarter.compiler.utils.createSublists
 import com.squareup.javapoet.ClassName
 import com.squareup.javapoet.TypeName

@@ -33,11 +33,6 @@ public class MainActivity {
     static public class ParcelableConverter implements ArgConverter<Object, Parcelable> {
 
         @Override
-        public Class<? extends Annotation> requiredAnnotation() {
-            return null;
-        }
-
-        @Override
         public Parcelable wrap(Object toWrap) {
             return new Parcelable() {
                 @Override
@@ -59,12 +54,6 @@ public class MainActivity {
     }
 
     static public class IntToLongConverter implements ArgConverter<Integer, Long> {
-
-        @Nullable
-        @Override
-        public Class<? extends Annotation> requiredAnnotation() {
-            return null;
-        }
 
         @Override
         public Long wrap(Integer toWrap) {

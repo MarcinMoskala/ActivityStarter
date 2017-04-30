@@ -1,5 +1,8 @@
 package activitystarter.compiler.helpers
 
+import activitystarter.compiler.issubtype.B
+import activitystarter.compiler.issubtype.E
+import activitystarter.compiler.issubtype.F
 import android.accounts.Account
 import com.google.testing.compile.CompilationRule
 import java.awt.Color
@@ -99,3 +102,12 @@ val CompilationRule.subtypeOfSerializableTypeMirror: TypeMirror
 
 val CompilationRule.parcelableSubtypeArrayListTypeMirror: TypeMirror
     get() = types.getDeclaredType(getElement<ArrayList<Account>>(), getElement<Account>().asType())
+
+val CompilationRule.interfaceBTypeMirror: TypeMirror
+    get() = types.getDeclaredType(getElement<B>())
+
+val CompilationRule.interfaceETypeMirror: TypeMirror
+    get() = types.getDeclaredType(getElement<E>())
+
+val CompilationRule.objectFTypeMirror: TypeMirror
+    get() = types.getDeclaredType(getElement<F>())

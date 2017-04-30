@@ -1,13 +1,16 @@
 package activitystarter.compiler.model
 
-import activitystarter.compiler.helpers.ConfigElement
-import activitystarter.compiler.model.param.ParamType
+import activitystarter.compiler.helpers.*
 import activitystarter.compiler.processing.ConverterFaktory
+import com.google.testing.compile.CompilationRule
+import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
 class ProjectConfigConvertersTest() {
+
+    @Rule @JvmField val c = CompilationRule()
 
     val factory by lazy { ConverterFaktory() }
 
@@ -16,16 +19,16 @@ class ProjectConfigConvertersTest() {
         val model = ProjectConfig(
                 converters = factory.create(ConfigElement.multipleConverter)
         )
-        assertNull(model.converterFor(ParamType.Boolean))
-        assertNull(model.converterFor(ParamType.Long))
-        assertNull(model.converterFor(ParamType.Float))
+        assertNull(model.converterFor(c.boolTypeMirror))
+        assertNull(model.converterFor(c.longTypeMirror))
+        assertNull(model.converterFor(c.floatTypeMirror))
         assertEquals(
                 "com.example.activitystarter.MainActivity.IntToLongConverter",
-                model.converterFor(ParamType.Int)?.className
+                model.converterFor(c.intTypeMirror)?.className
         )
         assertEquals(
                 "com.example.activitystarter.MainActivity.ParcelableConverter",
-                model.converterFor(ParamType.ObjectSubtype)?.className
+                model.converterFor(c.objectFTypeMirror)?.className
         )
     }
 }

@@ -1,6 +1,6 @@
-package activitystarter.generation.converters
+package activitystarter.generation
 
-import activitystarter.generation.GenerationTest
+import activitystarter.compiler.error.Errors
 import org.junit.Test
 
 @Suppress("IllegalIdentifier")
@@ -14,6 +14,6 @@ class ActivityWithConvertersTest: GenerationTest() {
 
     @Test
     fun `Parcelar is throwing error when packed object is not implementing interface`() {
-        filePrecessingCheckError("shouldThrowError/ActivityWithObjectToParcelableWithoutInterfaceConverter")
+        filePrecessingCheckError("shouldThrowError/ActivityWithObjectToParcelableWithoutInterfaceConverter", Errors.notSupportedType)
     }
 }

@@ -4,7 +4,6 @@ import activitystarter.Arg
 import activitystarter.Optional
 import activitystarter.compiler.error.Errors
 import activitystarter.compiler.error.error
-import activitystarter.compiler.model.ConverterModel
 import activitystarter.compiler.model.ProjectConfig
 import activitystarter.compiler.model.classbinding.KnownClassType
 import activitystarter.compiler.model.param.ArgumentModel
@@ -22,13 +21,12 @@ class ArgumentFactory(val enclosingElement: TypeElement, val config: ProjectConf
 
     fun create(element: Element, packageName: String, knownClassType: KnownClassType): ArgumentModel? {
         val elementType: TypeMirror = getElementType(element)
-        val paramType: ParamType? = ParamType.fromType(elementType)
+        val paramType = ParamType.fromType(elementType)
         val error = getFieldError(element, knownClassType, paramType)
         if (error != null) {
             showProcessingError(element, error)
             return null
         }
-        paramType!!
         val name: String = element.simpleName.toString()
         val keyFromAnnotation = element.getAnnotation(Arg::class.java)?.key
         val defaultKey = "$packageName.${name}StarterKey"
@@ -36,8 +34,12 @@ class ArgumentFactory(val enclosingElement: TypeElement, val config: ProjectConf
         val typeName: TypeName = TypeName.get(elementType)
         val isOptional: Boolean = element.getAnnotation(Optional::class.java) != null
         val accessor: FieldAccessor = FieldAccessor(element)
-        val converter = config.converterFor(paramType)
+        val converter = config.converterFor(elementType)
         val saveParamType = converter?.toParamType ?: paramType
+        if(saveParamType == ParamType.ObjectSubtype) {
+            showProcessingError(element, Errors.notSupportedType)
+            return null
+        }
         val saveTypeName = converter?.typeTo?.let { TypeName.get(it) } ?: typeName
         return ArgumentModel(name, key, paramType, typeName, saveParamType, saveTypeName, isOptional, accessor, converter)
     }

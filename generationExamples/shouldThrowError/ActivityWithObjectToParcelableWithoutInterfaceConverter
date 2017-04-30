@@ -13,8 +13,8 @@ import activitystarter.Arg;
 
 @ActivityStarterConfig(converters = {ParcelarArgConverter.class})
 public class ActivityWithConverters extends Activity {
-    @Arg
-    StudentParcel studentParceler;
+
+    @Arg StudentParcel studentParceler;
 
     @Parcel
     public static class StudentParcel {

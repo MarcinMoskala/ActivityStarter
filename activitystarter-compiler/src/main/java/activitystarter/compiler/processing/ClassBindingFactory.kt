@@ -3,15 +3,12 @@ package activitystarter.compiler.processing
 import activitystarter.Arg
 import activitystarter.MakeActivityStarter
 import activitystarter.NonSavable
-import activitystarter.compiler.generation.getBindingClassName
 import activitystarter.compiler.error.Errors
 import activitystarter.compiler.error.parsingError
-import activitystarter.compiler.model.ConverterModel
 import activitystarter.compiler.model.ProjectConfig
 import activitystarter.compiler.model.classbinding.ClassModel
 import activitystarter.compiler.model.classbinding.KnownClassType
 import activitystarter.compiler.model.classbinding.KnownClassType.Companion.getByType
-import activitystarter.compiler.processing.ArgumentFactory
 import activitystarter.compiler.utils.getElementType
 import com.squareup.javapoet.ParameterizedTypeName
 import com.squareup.javapoet.TypeName
