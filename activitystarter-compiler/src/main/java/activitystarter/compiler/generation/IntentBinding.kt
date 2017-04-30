@@ -1,6 +1,5 @@
 package activitystarter.compiler.generation
 
-import activitystarter.compiler.model.ProjectConfig
 import activitystarter.compiler.model.classbinding.ClassModel
 import activitystarter.compiler.model.param.ArgumentModel
 import activitystarter.compiler.utils.INTENT
@@ -38,10 +37,10 @@ internal abstract class IntentBinding(classModel: ClassModel) : ClassGeneration(
     protected fun MethodSpec.Builder.addIntentSetter(arg: ArgumentModel, targetParameterName: String) {
         val fieldName = arg.fieldName
         val possiblyWrappedValue = getIntentGetterFor(arg.saveParamType, fieldName)
-        val valueToSet = (if (arg.paramType.typeUsedBySupertype()) "(${arg.typeName}) " else "") +
+        val valueToSet = (if (arg.paramType.typeUsedBySupertype()) "(\$T) " else "") +
                         arg.addUnwrapper { possiblyWrappedValue }
         val settingPart = arg.accessor.makeSetter(valueToSet)
-        addStatement("if(intent.hasExtra($fieldName)) \n $targetParameterName.$settingPart")
+        addStatement("if(intent.hasExtra($fieldName)) \n $targetParameterName.$settingPart", arg.typeName)
     }
 
     protected fun createGetIntentStarter(starterFunc: String, variant: List<ArgumentModel>) = builderWithCreationBasicFields("start")

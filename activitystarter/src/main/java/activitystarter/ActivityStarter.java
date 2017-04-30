@@ -12,15 +12,7 @@ import android.support.annotation.Nullable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import activitystarter.wrapper.WrapperManager;
-
 public final class ActivityStarter {
-
-    @Nullable private static WrapperManager wrapperManager;
-
-    public static void setWrapperManager(@Nullable WrapperManager wrapperManager) {
-        ActivityStarter.wrapperManager = wrapperManager;
-    }
 
     public static void fill(@NonNull Activity target) {
         innerFill(target, null, Bundle.class);

@@ -1,11 +1,9 @@
 package activitystarter.compiler.generation
 
-import activitystarter.compiler.model.ProjectConfig
 import activitystarter.compiler.model.classbinding.ClassModel
 import activitystarter.compiler.model.param.ArgumentModel
 import activitystarter.compiler.utils.CONTEXT
 import activitystarter.compiler.utils.STRING
-import activitystarter.wrapping.ArgConverter
 import com.squareup.javapoet.FieldSpec
 import com.squareup.javapoet.JavaFile
 import com.squareup.javapoet.MethodSpec
@@ -17,7 +15,7 @@ internal abstract class ClassGeneration(val classModel: ClassModel) {
 
     fun brewJava() = JavaFile.builder(classModel.packageName, createStarterSpec())
             .addFileComment("Generated code from ActivityStarter. Do not modify!")
-            .build()
+            .build()!!
 
     abstract fun createFillFieldsMethod(): MethodSpec
 
@@ -55,17 +53,11 @@ internal abstract class ClassGeneration(val classModel: ClassModel) {
 
     protected fun MethodSpec.Builder.addBundleSetter(arg: ArgumentModel, bundleName: String, className: String, checkIfSet: Boolean) {
         val fieldName = arg.fieldName
-        val bundleValue = (if (arg.paramType.typeUsedBySupertype()) "(${arg.typeName}) " else "") +
+        val bundleValue = (if (arg.paramType.typeUsedBySupertype()) "(\$T) " else "") +
                 arg.addUnwrapper { getBundleGetter(bundleName, arg.saveParamType, fieldName) }
         val bundleValueSetter = arg.accessor.makeSetter(bundleValue)
         if (checkIfSet) addCode("if(${getBundlePredicate(bundleName, fieldName)}) ")
-        addStatement("$className.$bundleValueSetter")
-    }
-
-    private fun MethodSpec.Builder.addWrapper(bundleValue: String, converter: Class<out ArgConverter<*, *>>): String {
-        val nameAfterWrap = "wrapped"
-        addStatement("$nameAfterWrap = new \$T()", converter)
-        return nameAfterWrap
+        addStatement("$className.$bundleValueSetter", arg.typeName)
     }
 
     protected fun getBundlePredicate(bundleName: String, key: String) = "$bundleName.containsKey($key)"

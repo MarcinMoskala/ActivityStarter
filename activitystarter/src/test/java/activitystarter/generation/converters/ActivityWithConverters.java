@@ -1,5 +1,4 @@
-********com.example.activitystarter.ActivityWithConverters********
-package com.example.activitystarter;
+package activitystarter.generation.converters;
 
 import android.app.Activity;
 
@@ -26,6 +25,7 @@ public class ActivityWithConverters extends Activity {
         public StudentParcel() {
         }
 
+        // Constructor
         public StudentParcel(int id, String name, char grade) {
             this.id = id;
             this.name = name;
@@ -56,32 +56,4 @@ public class ActivityWithConverters extends Activity {
             this.grade = grade;
         }
     }
-}
-
-********com.example.activitystarter.MainActivity********
-package com.example.activitystarter;
-
-import android.content.Context;
-import android.content.Intent;
-import java.lang.String;
-
-public final class SomeServiceStarter {
-
-  private static final String NAME_KEY = "com.example.activitystarter.nameStarterKey";
-
-  public static void fill(SomeService service, Intent intent) {
-    if(intent.hasExtra(NAME_KEY))
-         service.name = intent.getStringExtra(NAME_KEY);
-  }
-
-  public static Intent getIntent(Context context, String name) {
-    Intent intent = new Intent(context, SomeService.class);
-    intent.putExtra(NAME_KEY, name);
-    return intent;
-  }
-
-  public static void start(Context context, String name) {
-    Intent intent = getIntent(context, name);
-    context.startService(intent);
-  }
 }

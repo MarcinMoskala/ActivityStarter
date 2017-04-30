@@ -1,7 +1,5 @@
 package activitystarter.compiler.generation
 
-import activitystarter.compiler.generation.IntentBinding
-import activitystarter.compiler.model.ProjectConfig
 import activitystarter.compiler.model.classbinding.ClassModel
 import activitystarter.compiler.model.param.ArgumentModel
 import activitystarter.compiler.utils.ACTIVITY
@@ -17,7 +15,9 @@ internal class ActivityGeneration(classModel: ClassModel) : IntentBinding(classM
     override fun createFillFieldsMethod() = getBasicFillMethodBuilder()
             .addParameter(classModel.targetTypeName, "activity")
             .addParameter(BUNDLE, "savedInstanceState")
-            .doIf(classModel.argumentModels.isNotEmpty()) { addFieldSettersCode() }
+            .doIf(classModel.argumentModels.isNotEmpty()) {
+                addFieldSettersCode()
+            }
             .build()!!
 
     override fun TypeSpec.Builder.addExtraToClass() = this

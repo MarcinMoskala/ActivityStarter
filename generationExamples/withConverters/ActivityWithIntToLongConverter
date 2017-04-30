@@ -1,5 +1,5 @@
-********com.example.activitystarter.MainActivity********
-package com.example.activitystarter;
+********activitystarter.generation.converters.MainActivity********
+package activitystarter.generation.converters;
 
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -17,12 +17,6 @@ public class MainActivity extends AppCompatActivity {
 
     static class IntToLongConverter implements ArgConverter<Integer, Long> {
 
-        @Nullable
-        @Override
-        public Class<? extends Annotation> requiredAnnotation() {
-            return null;
-        }
-
         @Override
         public Long wrap(Integer toWrap) {
             return toWrap.longValue();
@@ -34,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
-********com.example.activitystarter.MainActivity********
-package com.example.activitystarter;
+********activitystarter.generation.converters.MainActivity********
+package activitystarter.generation.converters;
 
 import android.content.Context;
 import android.content.Intent;

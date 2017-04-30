@@ -17,7 +17,7 @@ public class ActivityWithConverters extends Activity {
     StudentParcel studentParceler;
 
     @Parcel
-    public static class StudentParcel implements IsParcel {
+    public static class StudentParcel {
 
         private int id;
         private String name;
@@ -56,32 +56,4 @@ public class ActivityWithConverters extends Activity {
             this.grade = grade;
         }
     }
-}
-
-********com.example.activitystarter.MainActivity********
-package com.example.activitystarter;
-
-import android.content.Context;
-import android.content.Intent;
-import java.lang.String;
-
-public final class SomeServiceStarter {
-
-  private static final String NAME_KEY = "com.example.activitystarter.nameStarterKey";
-
-  public static void fill(SomeService service, Intent intent) {
-    if(intent.hasExtra(NAME_KEY))
-         service.name = intent.getStringExtra(NAME_KEY);
-  }
-
-  public static Intent getIntent(Context context, String name) {
-    Intent intent = new Intent(context, SomeService.class);
-    intent.putExtra(NAME_KEY, name);
-    return intent;
-  }
-
-  public static void start(Context context, String name) {
-    Intent intent = getIntent(context, name);
-    context.startService(intent);
-  }
 }

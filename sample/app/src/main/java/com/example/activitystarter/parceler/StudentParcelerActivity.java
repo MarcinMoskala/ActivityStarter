@@ -17,7 +17,8 @@ import butterknife.ButterKnife;
 @MakeActivityStarter
 public class StudentParcelerActivity extends BaseActivity {
 
-    public @Arg StudentParceler student;
+    public @Arg
+    StudentParceler student;
 
     @BindView(R.id.student_name) EditText studentNameView;
     @BindView(R.id.student_id) EditText studentIdView;

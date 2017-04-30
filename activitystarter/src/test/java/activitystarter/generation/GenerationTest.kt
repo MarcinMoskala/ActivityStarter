@@ -28,7 +28,7 @@ abstract class GenerationTest {
         }
     }
 
-    fun filePrecessingCheckError(fileName: String, expectedErrorPhrase: String) {
+    fun filePrecessingCheckError(fileName: String, expectedErrorPhrase: String? = null) {
         val gen = File("$examplesFolder$fileName").readText().split("********")
         // gen[0] is empty
         val beforeProcess = gen[1] to gen[2]
@@ -51,14 +51,14 @@ abstract class GenerationTest {
                 .compilesWithoutError()
     }
 
-    fun processingErrorCheck(beforeProcess: Pair<String, String>, errorText: String) {
+    fun processingErrorCheck(beforeProcess: Pair<String, String>, errorText: String?) {
         val source = JavaFileObjects.forSourceString(beforeProcess.first, beforeProcess.second)
         Truth.assertAbout<JavaSourcesSubject.SingleSourceAdapter, JavaFileObject, JavaSourceSubjectFactory>(JavaSourceSubjectFactory.javaSource())
                 .that(source)
                 .withCompilerOptions("-Xlint:-processing")
                 .processedWith(ActivityStarterProcessor())
                 .failsToCompile()
-                .withErrorContaining(errorText)
+                .withErrorContaining(errorText ?: "")
     }
 
     private fun processingComparator(beforeProcess: Pair<String, String>, afterProcess: Pair<String, String>) {

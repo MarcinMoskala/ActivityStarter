@@ -19,7 +19,7 @@ class ConverterModelTest() {
     }
 
     @Test
-    fun `ConverterGeneration can weap correct types`() {
+    fun `ConverterGeneration can weap simple correct types`() {
         assertEquals(true, integerToLongConverter.canWrap(ParamType.Int))
         assertEquals(false, integerToLongConverter.canWrap(ParamType.Long))
         assertEquals(false, integerToLongConverter.canWrap(ParamType.ObjectSubtype))
@@ -28,17 +28,5 @@ class ConverterModelTest() {
         assertEquals(false, objectToParcelableConverter.canWrap(ParamType.Long))
         assertEquals(true, objectToParcelableConverter.canWrap(ParamType.ObjectSubtype))
         assertEquals(false, objectToParcelableConverter.canWrap(ParamType.ParcelableSubtype))
-    }
-
-    @Test
-    fun `ConverterGeneration can unweap correct types`() {
-        assertEquals(false, integerToLongConverter.canUnwrap(ParamType.Int))
-        assertEquals(true, integerToLongConverter.canUnwrap(ParamType.Long))
-        assertEquals(false, integerToLongConverter.canUnwrap(ParamType.ObjectSubtype))
-        assertEquals(false, integerToLongConverter.canUnwrap(ParamType.ParcelableSubtype))
-        assertEquals(false, objectToParcelableConverter.canUnwrap(ParamType.Int))
-        assertEquals(false, objectToParcelableConverter.canUnwrap(ParamType.Long))
-        assertEquals(false, objectToParcelableConverter.canUnwrap(ParamType.ObjectSubtype))
-        assertEquals(true, objectToParcelableConverter.canUnwrap(ParamType.ParcelableSubtype))
     }
 }
