@@ -7,9 +7,13 @@ import org.junit.Test
 class ActivityWithConvertersTest: GenerationTest() {
 
     @Test
-    fun `Configuration with Converter is compiling`() {
-        filePrecessingCorrect("withConverters/ActivityWithIntToLongConverter")
-        filePrecessingCorrect("withConverters/ActivityWithObjectToParcelableConverter")
+    fun intToLongConversionTest() {
+        filePrecessingComparator("withConverters/ActivityWithIntToLongConverter")
+    }
+
+    @Test
+    fun toParcelableConversionTest() {
+        filePrecessingComparator("withConverters/ActivityWithObjectToParcelableConverter")
     }
 
     @Test
