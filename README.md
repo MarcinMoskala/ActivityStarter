@@ -22,6 +22,7 @@ Full documentation is located [here](https://github.com/MarcinMoskala/ActivitySt
 * [Optional annotation usage](https://github.com/MarcinMoskala/ActivityStarter/wiki/Optional-annotation)
 * [NonSavable annotation usage](https://github.com/MarcinMoskala/ActivityStarter/wiki/NonSavable-annotation)
 * [Activity startForResult usage](https://github.com/MarcinMoskala/ActivityStarter/wiki/Start-Activity-for-result)
+* [Converters usage](https://github.com/MarcinMoskala/ActivityStarter/wiki/Converters-usage)
 * [How does it really work?](https://github.com/MarcinMoskala/ActivityStarter/wiki/How-does-it-really-work?)
 
 # Example
@@ -141,6 +142,14 @@ repositories {
 ```
 
 More information on [Installation](https://github.com/MarcinMoskala/ActivityStarter/wiki/Installation) page.
+
+## Converters
+
+If you are using Parceler library and you want to pass this objects as an arguments then you can do it using ActivityStarter:
+```
+@Arg StudentParceler student;
+```
+Inftruction how to allow it are [here](https://github.com/MarcinMoskala/ActivityStarter/wiki/Parceler-Arg-Converter-usage). If you want to define your own converters then read about it [here](https://github.com/MarcinMoskala/ActivityStarter/wiki/Converters-usage).
 
 License
 -------
