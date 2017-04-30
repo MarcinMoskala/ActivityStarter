@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.activitystarter">
 
-    <uses-permission android:name="android.permission.SET_DEBUG_APP"></uses-permission>
+    <uses-permission android:name="android.permission.SET_DEBUG_APP" />
 
     <application
         android:allowBackup="false"
@@ -25,6 +25,9 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".parcelable.StudentParcelableActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".parceler.StudentParcelerActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AllTypesActivity"

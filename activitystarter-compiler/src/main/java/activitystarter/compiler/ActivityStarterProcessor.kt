@@ -1,9 +1,16 @@
 package activitystarter.compiler
 
+import activitystarter.ActivityStarterConfig
 import activitystarter.Arg
 import activitystarter.MakeActivityStarter
-import activitystarter.compiler.classbinding.ClassBindingFactory
 import activitystarter.compiler.error.error
+import activitystarter.compiler.error.messanger
+import activitystarter.compiler.model.ConverterModel
+import activitystarter.compiler.model.ProjectConfig
+import activitystarter.compiler.model.classbinding.ClassModel
+import activitystarter.compiler.processing.ClassBindingFactory
+import activitystarter.compiler.processing.ConverterFaktory
+import activitystarter.compiler.processing.getConvertersTypeMirrors
 import com.google.auto.service.AutoService
 import java.io.IOException
 import java.io.PrintWriter
@@ -21,51 +28,52 @@ class ActivityStarterProcessor : AbstractProcessor() {
     @Synchronized override fun init(env: ProcessingEnvironment) {
         super.init(env)
         filer = env.filer
-        activitystarter.compiler.error.messanger = processingEnv.messager
+        messanger = processingEnv.messager
     }
 
     override fun getSupportedAnnotationTypes() = listOf<Class<*>>(Arg::class.java, MakeActivityStarter::class.java)
             .map { it.canonicalName }.toSet()
 
+    override fun getSupportedSourceVersion() = SourceVersion.latestSupported()
+
     override fun process(elements: Set<TypeElement>, env: RoundEnvironment): Boolean {
-        val classesToProcess = findClassesToPrecess(env)
-        processTargets(classesToProcess)
+        val config = ProjectConfig(getConvertersFromConfig(env))
+        val classesModels = getClassesToMakeStarters(env)
+                        .mapNotNull { ClassBindingFactory(it, config).create() }
+                        .toSet()
+        processProject(classesModels)
         return true
     }
 
-    override fun getSupportedSourceVersion() = SourceVersion.latestSupported()
-
-    private fun findClassesToPrecess(env: RoundEnvironment): Set<TypeElement> {
-        var classesToProcess = setOf<TypeElement>()
-
-        processAnnotation<Arg>(env) { element ->
-            classesToProcess += element.enclosingElement as TypeElement
+    private fun getConvertersFromConfig(env: RoundEnvironment): List<ConverterModel> {
+        val converters = env.processAnnotatedElements<ActivityStarterConfig, List<ConverterModel>> { element ->
+            val configAnnotation = getConvertersTypeMirrors(element)
+            ConverterFaktory().create(configAnnotation)
         }
-
-        processAnnotation<MakeActivityStarter>(env) { element ->
-            classesToProcess += element as TypeElement
-        }
-
-        return classesToProcess
+        return converters.flatMap { it }
     }
 
-    private inline fun <reified T : Annotation> processAnnotation(env: RoundEnvironment, process: (Element) -> Unit) {
-        for (element in env.getElementsAnnotatedWith(T::class.java)) {
-            try {
-                process(element)
-            } catch (e: Exception) {
-                logParsingError(element, T::class.java, e)
-            }
-        }
-    }
+    private fun getClassesToMakeStarters(env: RoundEnvironment): Set<TypeElement> = setOf<TypeElement>()
+            .plus(env.processAnnotatedElements<Arg, TypeElement> { it.enclosingElement as TypeElement })
+            .plus(env.processAnnotatedElements<MakeActivityStarter, TypeElement> { it as TypeElement })
 
-    private fun processTargets(classesToProcess: Set<TypeElement>) {
-        for (classToPrecess in classesToProcess) {
+    private inline fun <reified T : Annotation, R : Any> RoundEnvironment.processAnnotatedElements(
+            process: (Element) -> R
+    ): Set<R> = getElementsAnnotatedWith(T::class.java).mapNotNull { element ->
+        try {
+            process(element)
+        } catch (e: Exception) {
+            logParsingError(element, T::class.java, e)
+            null
+        }
+    }.toSet()
+
+    private fun processProject(classesToProcess: Set<ClassModel>) {
+        for (classBinding in classesToProcess) {
             try {
-                val classBinding = ClassBindingFactory(classToPrecess).create() ?: continue
                 classBinding.getClasGeneration().brewJava().writeTo(filer)
             } catch (e: IOException) {
-                error(classToPrecess, "Unable to write binding for typeName %s: %s", classToPrecess, e.message ?: "")
+                error("Unable to write binding for typeName %s: %s", classBinding.bindingClassName, e.message ?: "")
             }
         }
     }

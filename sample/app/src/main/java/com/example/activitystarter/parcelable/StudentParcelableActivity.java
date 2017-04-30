@@ -2,11 +2,9 @@ package com.example.activitystarter.parcelable;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import com.example.activitystarter.BaseActivity;
 import com.example.activitystarter.R;

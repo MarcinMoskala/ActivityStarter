@@ -57,8 +57,11 @@ dependencies {
   testCompile files(getRuntimeJar())
   testCompile files(Jvm.current().getToolsJar())
   testCompile project(':activitystarter-compiler')
+  testCompile project(':activitystarter-parceler-arg-converter')
   testCompile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
   testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+  testCompile 'org.parceler:parceler-api:1.1.6'
+  testCompile 'org.parceler:parceler:1.1.6'
 }
 
 def getRuntimeJar() {

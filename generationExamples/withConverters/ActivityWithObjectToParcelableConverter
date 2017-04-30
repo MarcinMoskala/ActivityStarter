@@ -1,0 +1,87 @@
+********com.example.activitystarter.ActivityWithConverters********
+package com.example.activitystarter;
+
+import android.app.Activity;
+
+import com.marcinmoskala.activitystarterparcelerargconverter.IsParcel;
+import com.marcinmoskala.activitystarterparcelerargconverter.ParcelarArgConverter;
+
+import org.parceler.Parcel;
+
+import activitystarter.ActivityStarterConfig;
+import activitystarter.Arg;
+
+@ActivityStarterConfig(converters = {ParcelarArgConverter.class})
+public class ActivityWithConverters extends Activity {
+    @Arg
+    StudentParcel studentParceler;
+
+    @Parcel
+    public static class StudentParcel implements IsParcel {
+
+        private int id;
+        private String name;
+        private char grade;
+
+        public StudentParcel() {
+        }
+
+        public StudentParcel(int id, String name, char grade) {
+            this.id = id;
+            this.name = name;
+            this.grade = grade;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public char getGrade() {
+            return grade;
+        }
+
+        public void setGrade(char grade) {
+            this.grade = grade;
+        }
+    }
+}
+
+********com.example.activitystarter.MainActivity********
+package com.example.activitystarter;
+
+import android.content.Context;
+import android.content.Intent;
+import java.lang.String;
+
+public final class SomeServiceStarter {
+
+  private static final String NAME_KEY = "com.example.activitystarter.nameStarterKey";
+
+  public static void fill(SomeService service, Intent intent) {
+    if(intent.hasExtra(NAME_KEY))
+         service.name = intent.getStringExtra(NAME_KEY);
+  }
+
+  public static Intent getIntent(Context context, String name) {
+    Intent intent = new Intent(context, SomeService.class);
+    intent.putExtra(NAME_KEY, name);
+    return intent;
+  }
+
+  public static void start(Context context, String name) {
+    Intent intent = getIntent(context, name);
+    context.startService(intent);
+  }
+}
