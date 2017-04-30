@@ -1,7 +1,9 @@
 package com.example.activitystarter.parceler;
 
+import com.marcinmoskala.activitystarterparcelerargconverter.IsParcel;
+
 @org.parceler.Parcel
-public class StudentParceler {
+public class StudentParceler implements IsParcel {
 
     private int id;
     private String name;
