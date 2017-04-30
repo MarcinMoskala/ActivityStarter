@@ -1,19 +1,13 @@
 import org.gradle.internal.jvm.Jvm
 
 buildscript {
-  ext.kotlin_version = '1.0.7'
-
   repositories {
     mavenCentral()
   }
 
   dependencies {
     classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-  }
-
-  repositories {
-    mavenCentral()
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
   }
 }
 
@@ -45,7 +39,7 @@ dependencies {
   compile project(':activitystarter-annotations')
   compile deps.supportAnnotations
   compile deps.supportCompat
-  compile 'com.android.support:appcompat-v7:25.1.0'
+  compile deps.supportAppcompatv7
 
   androidTestCompile deps.junit
   androidTestCompile deps.truth
@@ -58,10 +52,10 @@ dependencies {
   testCompile files(Jvm.current().getToolsJar())
   testCompile project(':activitystarter-compiler')
   testCompile project(':activitystarter-parceler-arg-converter')
-  testCompile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
-  testCompile 'org.parceler:parceler-api:1.1.6'
-  testCompile 'org.parceler:parceler:1.1.6'
+  testCompile deps.kotlin
+  testCompile deps.kotlin_junit
+  testCompile deps.parceler
+  testCompile deps.parceler_processor
 }
 
 def getRuntimeJar() {

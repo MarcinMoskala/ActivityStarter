@@ -34,8 +34,8 @@ dependencies {
     compile project(':activitystarter-parceler-arg-converter')
 
 //  In real project use this:
-//    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.20'
-//    annotationProcessor 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.20'
+//    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.50'
+//    annotationProcessor 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.50'
 
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
