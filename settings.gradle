@@ -1,6 +1,8 @@
-include ':activitystarter', ':activitystarter-parceler-arg-converter'
+include ':activitystarter'
+include ':activitystarter-parceler-arg-converter'
 include ':activitystarter-annotations'
 include ':activitystarter-compiler'
+include ':activitystarter-compiler-tests'
 
 include ':sample:app'
 include ':sample:kotlinapp'
