@@ -70,8 +70,8 @@ ext.deps = [
         javapoet          : 'com.squareup:javapoet:1.7.0',
         javaparser        : 'com.github.javaparser:javaparser-core:2.4.0',
         jodaTime          : 'joda-time:joda-time:2.9.3',
-        parceler          : 'org.parceler:parceler-api:1.1.6',
-        parceler_processor: 'org.parceler:parceler:1.1.6',
+        parceler          : 'org.parceler:parceler-api:1.1.8',
+        parceler_processor: 'org.parceler:parceler:1.1.8',
 
         // Test
         junit             : 'junit:junit:4.12',
