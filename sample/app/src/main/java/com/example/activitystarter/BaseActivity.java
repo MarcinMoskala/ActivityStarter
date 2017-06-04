@@ -3,12 +3,12 @@ package com.example.activitystarter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.marcinmoskala.activitystarterparcelerargconverter.ParcelarArgConverter;
+import com.marcinmoskala.activitystarterparcelerargconverter.ParcelerArgConverter;
 
 import activitystarter.ActivityStarter;
 import activitystarter.ActivityStarterConfig;
 
-@ActivityStarterConfig(converters = { ParcelarArgConverter.class })
+@ActivityStarterConfig(converters = { ParcelerArgConverter.class })
 public class BaseActivity extends AppCompatActivity {
 
     @Override

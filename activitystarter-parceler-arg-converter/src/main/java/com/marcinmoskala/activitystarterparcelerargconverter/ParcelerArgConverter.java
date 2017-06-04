@@ -6,7 +6,7 @@ import org.parceler.Parcels;
 
 import activitystarter.wrapping.ArgConverter;
 
-public class ParcelarArgConverter implements ArgConverter<Object, Parcelable> {
+public class ParcelerArgConverter implements ArgConverter<Object, Parcelable> {
 
     @Override
     public Parcelable wrap(Object toWrap) {

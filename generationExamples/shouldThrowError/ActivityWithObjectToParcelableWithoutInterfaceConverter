@@ -4,14 +4,14 @@ package com.example.activitystarter;
 import android.app.Activity;
 
 import com.marcinmoskala.activitystarterparcelerargconverter.IsParcel;
-import com.marcinmoskala.activitystarterparcelerargconverter.ParcelarArgConverter;
+import com.marcinmoskala.activitystarterparcelerargconverter.ParcelerArgConverter;
 
 import org.parceler.Parcel;
 
 import activitystarter.ActivityStarterConfig;
 import activitystarter.Arg;
 
-@ActivityStarterConfig(converters = {ParcelarArgConverter.class})
+@ActivityStarterConfig(converters = {ParcelerArgConverter.class})
 public class ActivityWithConverters extends Activity {
 
     @Arg StudentParcel studentParceler;

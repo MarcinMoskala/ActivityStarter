@@ -3,14 +3,14 @@ package com.example.activitystarter;
 
 import android.app.Activity;
 
-import com.marcinmoskala.activitystarterparcelerargconverter.ParcelarArgConverter;
+import com.marcinmoskala.activitystarterparcelerargconverter.ParcelerArgConverter;
 
 import org.parceler.Parcel;
 
 import activitystarter.ActivityStarterConfig;
 import activitystarter.Arg;
 
-@ActivityStarterConfig(converters = {ParcelarArgConverter.class})
+@ActivityStarterConfig(converters = {ParcelerArgConverter.class})
 public class ActivityWithConverters extends Activity {
     @Arg
     StudentParcel studentParceler;
@@ -73,18 +73,18 @@ public final class ActivityWithConvertersStarter {
   public static void fill(ActivityWithConverters activity, Bundle savedInstanceState) {
     Intent intent = activity.getIntent();
     if(savedInstanceState != null && savedInstanceState.containsKey(STUDENT_PARCELER_KEY)) {
-    activity.studentParceler = (ActivityWithConverters.StudentParcel) new com.marcinmoskala.activitystarterparcelerargconverter.ParcelarArgConverter().unwrap(savedInstanceState.getParcelable(STUDENT_PARCELER_KEY));
+    activity.studentParceler = (ActivityWithConverters.StudentParcel) new com.marcinmoskala.activitystarterparcelerargconverter.ParcelerArgConverter().unwrap(savedInstanceState.getParcelable(STUDENT_PARCELER_KEY));
     } else if(intent.hasExtra(STUDENT_PARCELER_KEY))
-         activity.studentParceler = (ActivityWithConverters.StudentParcel) new com.marcinmoskala.activitystarterparcelerargconverter.ParcelarArgConverter().unwrap(intent.getParcelableExtra(STUDENT_PARCELER_KEY));
+         activity.studentParceler = (ActivityWithConverters.StudentParcel) new com.marcinmoskala.activitystarterparcelerargconverter.ParcelerArgConverter().unwrap(intent.getParcelableExtra(STUDENT_PARCELER_KEY));
   }
 
   public static void save(ActivityWithConverters activity, Bundle bundle) {
-    bundle.putParcelable(STUDENT_PARCELER_KEY, new com.marcinmoskala.activitystarterparcelerargconverter.ParcelarArgConverter().wrap(activity.studentParceler));
+    bundle.putParcelable(STUDENT_PARCELER_KEY, new com.marcinmoskala.activitystarterparcelerargconverter.ParcelerArgConverter().wrap(activity.studentParceler));
   }
 
   public static Intent getIntent(Context context, ActivityWithConverters.StudentParcel studentParceler) {
     Intent intent = new Intent(context, ActivityWithConverters.class);
-    intent.putExtra(STUDENT_PARCELER_KEY, new com.marcinmoskala.activitystarterparcelerargconverter.ParcelarArgConverter().wrap(studentParceler));
+    intent.putExtra(STUDENT_PARCELER_KEY, new com.marcinmoskala.activitystarterparcelerargconverter.ParcelerArgConverter().wrap(studentParceler));
     return intent;
   }
 
