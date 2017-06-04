@@ -3,7 +3,6 @@ package com.example.activitystarter;
 
 import android.app.Activity;
 
-import com.marcinmoskala.activitystarterparcelerargconverter.IsParcel;
 import com.marcinmoskala.activitystarterparcelerargconverter.ParcelarArgConverter;
 
 import org.parceler.Parcel;
@@ -17,7 +16,7 @@ public class ActivityWithConverters extends Activity {
     StudentParcel studentParceler;
 
     @Parcel
-    public static class StudentParcel implements IsParcel {
+    public static class StudentParcel {
 
         private int id;
         private String name;

@@ -15,9 +15,4 @@ class ActivityWithConvertersTest: GenerationTest() {
     fun toParcelableConversionTest() {
         filePrecessingComparator("withConverters/ActivityWithObjectToParcelableConverter")
     }
-
-    @Test
-    fun `Parcelar is throwing error when packed object is not implementing interface`() {
-        filePrecessingCheckError("shouldThrowError/ActivityWithObjectToParcelableWithoutInterfaceConverter", Errors.notSupportedType)
-    }
 }
