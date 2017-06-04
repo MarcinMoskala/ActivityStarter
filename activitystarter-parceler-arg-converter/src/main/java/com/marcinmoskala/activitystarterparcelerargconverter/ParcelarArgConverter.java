@@ -6,15 +6,15 @@ import org.parceler.Parcels;
 
 import activitystarter.wrapping.ArgConverter;
 
-public class ParcelarArgConverter implements ArgConverter<IsParcel, Parcelable> {
+public class ParcelarArgConverter implements ArgConverter<Object, Parcelable> {
 
     @Override
-    public Parcelable wrap(IsParcel toWrap) {
+    public Parcelable wrap(Object toWrap) {
         return Parcels.wrap(toWrap);
     }
 
     @Override
-    public IsParcel unwrap(Parcelable wrapped) {
+    public Object unwrap(Parcelable wrapped) {
         return Parcels.unwrap(wrapped);
     }
 }

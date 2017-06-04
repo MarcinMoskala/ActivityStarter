@@ -1,18 +1,16 @@
 package com.example.activitystarter.parceler;
 
-import com.marcinmoskala.activitystarterparcelerargconverter.IsParcel;
+import org.parceler.Parcel;
+import org.parceler.ParcelConstructor;
 
-@org.parceler.Parcel
-public class StudentParceler implements IsParcel {
+@Parcel(Parcel.Serialization.BEAN)
+public class StudentParceler {
 
     private int id;
     private String name;
     private char grade;
 
-    public StudentParceler() {
-    }
-
-    // Constructor
+    @ParcelConstructor
     public StudentParceler(int id, String name, char grade) {
         this.id = id;
         this.name = name;
