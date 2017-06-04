@@ -1,13 +1,8 @@
 import org.gradle.internal.jvm.Jvm
 
 buildscript {
-  repositories {
-    mavenCentral()
-  }
-
   dependencies {
     classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
   }
 }
 
