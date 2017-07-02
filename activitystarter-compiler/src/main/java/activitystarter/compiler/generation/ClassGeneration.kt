@@ -56,7 +56,7 @@ internal abstract class ClassGeneration(val classModel: ClassModel) {
         val bundleValue = (if (arg.paramType.typeUsedBySupertype()) "(\$T) " else "") +
                 arg.addUnwrapper { getBundleGetter(bundleName, arg.saveParamType, fieldName) }
         val bundleValueSetter = arg.accessor.makeSetter(bundleValue)
-        if (checkIfSet) addCode("if(${getBundlePredicate(bundleName, fieldName)}) ")
+        if (checkIfSet) addCode("if($bundleName != null && ${getBundlePredicate(bundleName, fieldName)}) ")
         addStatement("$className.$bundleValueSetter", arg.typeName)
     }
 

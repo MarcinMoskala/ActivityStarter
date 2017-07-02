@@ -21,9 +21,22 @@ public class TabbedPlaceholderFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_tabbed, container, false);
-        ActivityStarter.fill(this);
-        TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+        ActivityStarter.fill(this, savedInstanceState);
+        final TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ++sectionNumber;
+                textView.setText(getString(R.string.section_format, sectionNumber));
+            }
+        });
         textView.setText(getString(R.string.section_format, sectionNumber));
         return rootView;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        ActivityStarter.save(this, outState);
     }
 }

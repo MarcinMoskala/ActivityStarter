@@ -56,4 +56,14 @@ class ArgumentFactory(val enclosingElement: TypeElement, val config: ProjectConf
     private fun showProcessingError(element: Element, text: String) {
         error(enclosingElement, "@%s %s $text (%s)", Arg::class.java.simpleName, enclosingElement.qualifiedName, element.simpleName)
     }
+
+class ProcessingError(override val message: String): Throwable(message)
+
+fun processElement(element: Element) {
+    fun throwError(message: String): Nothing
+            = throw ProcessingError("Error in element $element: $message")
+
+val enclosingElement = element.enclosingElement ?: throwError("Lack of enclosing element")
+}
+
 }
