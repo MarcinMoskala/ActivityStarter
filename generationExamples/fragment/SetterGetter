@@ -24,13 +24,18 @@ import android.os.Bundle;
 import java.lang.String;
 
 public final class MainFragmentStarter {
-
   private static final String NAME_KEY = "com.example.activitystarter.nameStarterKey";
 
-  public static void fill(MainFragment fragment) {
+  public static void fill(MainFragment fragment, Bundle savedInstanceState) {
     Bundle arguments = fragment.getArguments();
-    if(arguments.containsKey(NAME_KEY))
-         fragment.setName(arguments.getString(NAME_KEY));
+    if(savedInstanceState != null && savedInstanceState.containsKey(NAME_KEY)) {
+       fragment.setName(savedInstanceState.getString(NAME_KEY));
+    } else if(arguments != null && arguments.containsKey(NAME_KEY))
+       fragment.setName(arguments.getString(NAME_KEY));
+  }
+
+  public static void save(MainFragment fragment, Bundle bundle) {
+    bundle.putString(NAME_KEY, fragment.getName());
   }
 
   public static MainFragment newInstance(String name) {

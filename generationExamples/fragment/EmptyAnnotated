@@ -10,9 +10,13 @@ public class MainFragment extends Fragment {}
 ********com.example.activitystarter.MainFragmentStarter********
 package com.example.activitystarter;
 
+import android.os.Bundle;
+
 public final class MainFragmentStarter {
-  public static void fill(MainFragment fragment) {
-  }
+
+  public static void fill(MainFragment fragment, Bundle savedInstanceState) {}
+
+  public static void save(MainFragment fragment, Bundle bundle) {}
 
   public static MainFragment newInstance() {
     MainFragment fragment = new MainFragment();
