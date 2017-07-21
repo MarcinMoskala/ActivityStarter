@@ -13,6 +13,6 @@ class ActivityWithConvertersTest: GenerationTest() {
 
     @Test
     fun toParcelableConversionTest() {
-        filePrecessingComparator("withConverters/ActivityWithObjectToParcelableConverter")
+        filePrecessingComparator("parceler/Simple")
     }
 }

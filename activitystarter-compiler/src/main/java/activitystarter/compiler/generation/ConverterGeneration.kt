@@ -4,13 +4,11 @@ import activitystarter.compiler.model.ConverterModel
 
 class ConverterGeneration(val converter: ConverterModel) {
 
-    val converterName = converter.className
-
     fun wrap( f: ()->String): String {
-        return "new $converterName().wrap(${f()})"
+        return "new ${converter.className}().wrap(${f()})"
     }
 
     fun unwrap( f: ()->String): String {
-        return "new $converterName().unwrap(${f()})"
+        return "new ${converter.className}().unwrap(${f()})"
     }
 }

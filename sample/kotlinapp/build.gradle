@@ -31,7 +31,6 @@ android {
 dependencies {
     compile project(':activitystarter')
     kapt project(':activitystarter-compiler')
-    compile project(':activitystarter-parceler-arg-converter')
 
 // On local project use:
 //    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.50'

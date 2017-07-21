@@ -46,7 +46,6 @@ dependencies {
   testCompile files(getRuntimeJar())
   testCompile files(Jvm.current().getToolsJar())
   testCompile project(':activitystarter-compiler')
-  testCompile project(':activitystarter-parceler-arg-converter')
   testCompile deps.kotlin
   testCompile deps.kotlin_junit
   testCompile deps.parceler

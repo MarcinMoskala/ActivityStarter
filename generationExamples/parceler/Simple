@@ -1,0 +1,91 @@
+********com.example.activitystarter.MainActivity********
+package com.example.activitystarter;
+import android.app.Activity;
+import activitystarter.Arg;
+import org.parceler.Parcel;
+
+public class MainActivity extends Activity {
+
+    @Arg(parceler = true) StudentParcel studentParceler;
+
+    @Parcel
+    public static class StudentParcel {
+
+        private int id;
+        private String name;
+        private char grade;
+
+        public StudentParcel() {
+        }
+
+        public StudentParcel(int id, String name, char grade) {
+            this.id = id;
+            this.name = name;
+            this.grade = grade;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public char getGrade() {
+            return grade;
+        }
+
+        public void setGrade(char grade) {
+            this.grade = grade;
+        }
+    }
+}
+********com.example.activitystarter.MainActivityStarter********
+package com.example.activitystarter;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import java.lang.String;
+
+public final class MainActivityStarter {
+  private static final String STUDENT_PARCELER_KEY = "com.example.activitystarter.studentParcelerStarterKey";
+
+  public static void fill(MainActivity activity, Bundle savedInstanceState) {
+    Intent intent = activity.getIntent();
+    if(savedInstanceState != null && savedInstanceState.containsKey(STUDENT_PARCELER_KEY)) {
+      activity.studentParceler = (MainActivity.StudentParcel) org.parceler.Parcels.unwrap(savedInstanceState.getParcelable(STUDENT_PARCELER_KEY));
+    } else if(intent.hasExtra(STUDENT_PARCELER_KEY))
+      activity.studentParceler = (MainActivity.StudentParcel) org.parceler.Parcels.unwrap(intent.getParcelableExtra(STUDENT_PARCELER_KEY));
+  }
+
+  public static void save(MainActivity activity, Bundle bundle) {
+    bundle.putParcelable(STUDENT_PARCELER_KEY, org.parceler.Parcels.wrap(activity.studentParceler));
+  }
+
+  public static Intent getIntent(Context context, MainActivity.StudentParcel studentParceler) {
+    Intent intent = new Intent(context, MainActivity.class);
+    intent.putExtra(STUDENT_PARCELER_KEY, org.parceler.Parcels.wrap(studentParceler));
+    return intent;
+  }
+
+  public static void start(Context context, MainActivity.StudentParcel studentParceler) {
+    Intent intent = getIntent(context, studentParceler);
+    context.startActivity(intent);
+  }
+
+  public static void startWithFlags(Context context, MainActivity.StudentParcel studentParceler, int flags) {
+    Intent intent = getIntent(context, studentParceler);
+    intent.addFlags(flags);
+    context.startActivity(intent);
+  }
+}
