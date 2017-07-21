@@ -5,12 +5,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import activitystarter.Arg;
 import activitystarter.MakeActivityStarter;
 import activitystarter.Optional;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static android.widget.Toast.LENGTH_LONG;
 
 @MakeActivityStarter
 public class StudentDataActivity extends BaseActivity {
@@ -23,6 +29,11 @@ public class StudentDataActivity extends BaseActivity {
     @Arg @Optional int id = DEFAULT_ID;
     @Arg char grade;
     @Arg boolean passing;
+
+    @Arg School school;
+    @Arg ArrayList<School> schools;
+
+    enum School { A, B, C }
 
     @BindView(R.id.student_name) EditText studentNameView;
     @BindView(R.id.student_id) EditText studentIdView;
@@ -38,6 +49,8 @@ public class StudentDataActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         fill();
+
+        Toast.makeText(this, "School is " + school + " and schools are " + schools, LENGTH_LONG).show();
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override

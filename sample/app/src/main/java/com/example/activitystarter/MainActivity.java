@@ -7,6 +7,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Switch;
 
+import com.example.activitystarter.StudentDataActivity.School;
 import com.example.activitystarter.fragment.TabbedFragmentActivityStarter;
 import com.example.activitystarter.parcelable.StudentParcelable;
 import com.example.activitystarter.parcelable.StudentParcelableActivityStarter;
@@ -15,8 +16,13 @@ import com.example.activitystarter.parceler.StudentParcelerActivityStarter;
 import com.example.activitystarter.serializable.StudentSerializable;
 import com.example.activitystarter.serializable.StudentSerializableActivityStarter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.example.activitystarter.StudentDataActivity.School.A;
 
 public class MainActivity extends BaseActivity {
 
@@ -98,19 +104,22 @@ public class MainActivity extends BaseActivity {
         char grade = gradeString.charAt(0);
         boolean passing = studentIsPassingView.isChecked();
 
+        ArrayList<School> list = new ArrayList<>();
+        list.add(A);
+
         try {
             int id = Integer.parseInt(idString);
             if (name.trim().equals("")) {
-                StudentDataActivityStarter.start(this, id, grade, passing);
+                StudentDataActivityStarter.start(this, id, grade, passing, A, list);
             } else {
-                StudentDataActivityStarter.start(this, name, id, grade, passing);
+                StudentDataActivityStarter.start(this, name, id, grade, passing, A, list);
             }
         } catch (NumberFormatException e) {
             // Id is not valid
             if (name.trim().equals("")) {
-                StudentDataActivityStarter.start(this, grade, passing);
+                StudentDataActivityStarter.start(this, grade, passing, A, list);
             } else {
-                StudentDataActivityStarter.start(this, name, grade, passing);
+                StudentDataActivityStarter.start(this, name, grade, passing, A, list);
             }
         }
     }
