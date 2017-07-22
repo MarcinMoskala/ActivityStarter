@@ -114,8 +114,8 @@ For Java project add in build.gradle file:
 
 ```groovy
 dependencies {
-    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.50'
-    apt 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.50'
+    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.70'
+    apt 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.70'
 }
 ```
 
@@ -128,8 +128,8 @@ kapt {
 }
 
 dependencies {
-    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.50'
-    kapt 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.50'
+    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.70'
+    kapt 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.70'
 }
 ```
 
@@ -143,13 +143,15 @@ repositories {
 
 More information on [Installation](https://github.com/MarcinMoskala/ActivityStarter/wiki/Installation) page.
 
-## Converters
+# Parceler
 
-If you are using [Parceler library](https://github.com/johncarl81/parceler) and you want to pass this objects as an arguments then you can do it using ActivityStarter:
+Since version 0.70, there is native support for [Parceler library](https://github.com/johncarl81/parceler). To use it, use `Arg` annotation with `parceler` property set to `true`:
+
 ```
-@Arg StudentParceler student;
+@Arg(parceler = true) StudentParcel studentParceler;
 ```
-Instruction how to allow it are [here](https://github.com/MarcinMoskala/ActivityStarter/wiki/Parceler-Arg-Converter-usage). If you want to define your own converters then read about it [here](https://github.com/MarcinMoskala/ActivityStarter/wiki/Converters-usage).
+
+See example [here](https://github.com/MarcinMoskala/ActivityStarter/blob/master/sample/app/src/main/java/com/example/activitystarter/parceler/StudentParcelerActivity.java).
 
 License
 -------
