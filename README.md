@@ -143,9 +143,9 @@ repositories {
 
 More information on [Installation](https://github.com/MarcinMoskala/ActivityStarter/wiki/Installation) page.
 
-# Parceler
+## Parceler
 
-Since version 0.70, there is native support for [Parceler library](https://github.com/johncarl81/parceler). To use it, use `Arg` annotation with `parceler` property set to `true`:
+Since version 0.70, there is native support for [Parceler library](https://github.com/johncarl81/parceler). To wrap and unwrap parameter using Parceler, use `Arg` annotation with `parceler` property set to `true`:
 
 ```
 @Arg(parceler = true) StudentParcel studentParceler;
