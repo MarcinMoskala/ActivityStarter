@@ -32,8 +32,7 @@ class ArgumentFactory(val enclosingElement: TypeElement, val config: ProjectConf
         val annotation = element.getAnnotation(Arg::class.java)
         val keyFromAnnotation = annotation?.key
         val isParceler = annotation?.parceler ?: false
-        val defaultKey = "$packageName.${name}StarterKey"
-        val key: String = if (keyFromAnnotation.isNullOrBlank()) defaultKey else keyFromAnnotation!!
+        val key: String = if (keyFromAnnotation.isNullOrBlank()) "$packageName.${name}StarterKey" else keyFromAnnotation!!
         val typeName: TypeName = TypeName.get(elementType)
         val isOptional: Boolean = element.getAnnotation(Optional::class.java) != null
         val accessor: FieldAccessor = FieldAccessor(element)
