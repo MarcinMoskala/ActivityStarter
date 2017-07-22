@@ -40,6 +40,12 @@ enum class ParamType {
 
     ObjectSubtype;
 
+    fun typeUsedBySupertype(): kotlin.Boolean = this in listOf(
+            ParcelableSubtype,
+            SerializableSubtype,
+            ObjectSubtype
+    )
+
     companion object {
         val stringTypeName = TypeName.get(kotlin.String::class.java)!!
         val charSequenceTypeName = TypeName.get(kotlin.CharSequence::class.java)!!
@@ -117,11 +123,7 @@ enum class ParamType {
             val elementsType = (this as? DeclaredType)?.typeArguments?.get(0) ?: return false
             return elementsType.isSubtypeOfType(supertype)
         }
-    }
 
-    fun typeUsedBySupertype(): kotlin.Boolean = this in listOf(
-            ParcelableSubtype,
-            SerializableSubtype,
-            ObjectSubtype
-    )
+        val supportedTypes get() = values().toList() - ParamType.ObjectSubtype
+    }
 }
