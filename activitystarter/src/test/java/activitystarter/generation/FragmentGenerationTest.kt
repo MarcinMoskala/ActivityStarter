@@ -6,7 +6,7 @@ import org.junit.Test
 class FragmentGenerationTest: GenerationTest() {
 
     @Test
-    fun simpleGenerationTest() {
+    fun emptyAnnotatedGenerationTest() {
         filePrecessingComparator("fragment/EmptyAnnotated")
     }
 

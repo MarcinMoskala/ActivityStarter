@@ -43,7 +43,10 @@
         <service
             android:name=".SomeService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <activity android:name=".savetest.SavingActivity" />
+        <activity android:name=".savetest.NonSavingActivity" />
     </application>
 
 </manifest>

@@ -60,16 +60,16 @@ import java.lang.String;
 public final class MainActivityStarter {
   private static final String STUDENT_PARCELER_KEY = "com.example.activitystarter.studentParcelerStarterKey";
 
-  public static void fill(MainActivity activity, Bundle savedInstanceState) {
+  public static void fill(MainActivity activity) {
     Intent intent = activity.getIntent();
-    if(savedInstanceState != null && savedInstanceState.containsKey(STUDENT_PARCELER_KEY)) {
-      activity.studentParceler = (MainActivity.StudentParcel) org.parceler.Parcels.unwrap(savedInstanceState.getParcelable(STUDENT_PARCELER_KEY));
-    } else if(intent.hasExtra(STUDENT_PARCELER_KEY))
-      activity.studentParceler = (MainActivity.StudentParcel) org.parceler.Parcels.unwrap(intent.getParcelableExtra(STUDENT_PARCELER_KEY));
+    if(intent.hasExtra(STUDENT_PARCELER_KEY))
+         activity.studentParceler = (MainActivity.StudentParcel) org.parceler.Parcels.unwrap(intent.getParcelableExtra(STUDENT_PARCELER_KEY));
   }
 
-  public static void save(MainActivity activity, Bundle bundle) {
+  public static void save(MainActivity activity) {
+    Bundle bundle = new Bundle();
     bundle.putParcelable(STUDENT_PARCELER_KEY, org.parceler.Parcels.wrap(activity.studentParceler));
+    activity.getIntent().putExtras(bundle);
   }
 
   public static Intent getIntent(Context context, MainActivity.StudentParcel studentParceler) {
