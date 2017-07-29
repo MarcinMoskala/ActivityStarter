@@ -35,7 +35,39 @@ class ArgumentFactory(val enclosingElement: TypeElement, val config: ProjectConf
         val key: String = if (keyFromAnnotation.isNullOrBlank()) "$packageName.${name}StarterKey" else keyFromAnnotation!!
         val typeName: TypeName = TypeName.get(elementType)
         val isOptional: Boolean = element.getAnnotation(Optional::class.java) != null
-        val accessor: FieldAccessor = FieldAccessor(element)
+        val accessor: FieldAccessor = FieldAccessor.fromElement(element)
+
+        val converter: ConverterModel?
+        val saveParamType: ParamType?
+        if (isParceler) {
+            converter = null
+            saveParamType = ParamType.ParcelableSubtype
+        } else {
+            converter = config.converterFor(elementType)
+            saveParamType = converter?.toParamType ?: paramType
+        }
+        if (saveParamType == ParamType.ObjectSubtype) {
+            showProcessingError(element, Errors.notSupportedType)
+            return null
+        }
+        return ArgumentModel(name, key, paramType, typeName, saveParamType, isOptional, accessor, converter, isParceler)
+    }
+
+    fun  createFromDelegate(name: String, enclosedElements: List<Element>, packageName: String?, knownClassType: KnownClassType): ArgumentModel? {
+
+        val paramType = ParamType.fromType(elementType)
+        val error = getFieldError(element, knownClassType, paramType)
+        if (error != null) {
+            showProcessingError(element, error)
+            return null
+        }
+        val annotation = element.getAnnotation(Arg::class.java)
+        val keyFromAnnotation = annotation?.key
+        val isParceler = annotation?.parceler ?: false
+        val key: String = if (keyFromAnnotation.isNullOrBlank()) "$packageName.${name}StarterKey" else keyFromAnnotation!!
+        val typeName: TypeName = TypeName.get(elementType)
+        val isOptional: Boolean = // TODO Getter return type is nullable
+        val accessor: FieldAccessor = FieldAccessor.fromGetter(name)
 
         val converter: ConverterModel?
         val saveParamType: ParamType?
@@ -67,12 +99,4 @@ class ArgumentFactory(val enclosingElement: TypeElement, val config: ProjectConf
     }
 
     class ProcessingError(override val message: String) : Throwable(message)
-
-    fun processElement(element: Element) {
-        fun throwError(message: String): Nothing
-                = throw ProcessingError("Error in element $element: $message")
-
-        val enclosingElement = element.enclosingElement ?: throwError("Lack of enclosing element")
-    }
-
 }

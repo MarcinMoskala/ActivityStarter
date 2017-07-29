@@ -6,12 +6,11 @@ import javax.lang.model.element.Modifier.PRIVATE
 import javax.lang.model.element.TypeElement
 import javax.lang.model.util.ElementFilter
 
-class FieldAccessor(element: Element) {
-
-    private val enclosingElement = element.enclosingElement as TypeElement
-    private val fieldName: String = element.simpleName.toString()
-    private val setterType: FieldAccessType = getFieldAccessType(element, "set", "set")
-    private val getterType: FieldAccessType = getFieldAccessType(element, "get", "is")
+class FieldAccessor private constructor(
+        private val fieldName: String,
+        private val setterType: FieldAccessType,
+        private val getterType: FieldAccessType
+) {
 
     fun isAccessible() = setterType != FieldAccessType.Inaccessible && getterType != FieldAccessType.Inaccessible
 
@@ -29,21 +28,34 @@ class FieldAccessor(element: Element) {
         FieldAccessType.Inaccessible -> throw Error(Errors.noSetter)
     }
 
-    private fun getFieldAccessType(element: Element, functionModifier: String, isFunctionModifier: String) = when {
-        PRIVATE !in element.modifiers -> FieldAccessType.Accessible
-        hasNotPrivateMethodNamed(enclosingElement, functionModifier + fieldName.capitalize()) -> FieldAccessType.ByMethod
-        fieldName.substring(0, 2) == "is" && hasNotPrivateMethodNamed(enclosingElement, isFunctionModifier + fieldName.substring(2)) -> FieldAccessType.ByNoIsMethod
-        else -> FieldAccessType.Inaccessible
-    }
+    companion object {
 
-    private fun hasNotPrivateMethodNamed(enclosingElement: TypeElement, fieldName: String) = ElementFilter
-            .methodsIn(enclosingElement.enclosedElements)
-            .any { e -> e.simpleName.contentEquals(fieldName) && PRIVATE !in e.modifiers }
+        fun fromGetter(name: String) = FieldAccessor(name, FieldAccessType.Inaccessible, FieldAccessType.ByMethod)
 
-    private enum class FieldAccessType {
-        Accessible,
-        ByMethod,
-        ByNoIsMethod,
-        Inaccessible
+        fun fromElement(element: Element): FieldAccessor {
+            val enclosingElement = element.enclosingElement as TypeElement
+            val fieldName = element.simpleName.toString()
+            val setterType = getFieldAccessType(enclosingElement, fieldName, element, "set", "set")
+            val getterType = getFieldAccessType(enclosingElement, fieldName, element, "get", "is")
+            return FieldAccessor(fieldName, setterType, getterType)
+        }
+
+        private fun getFieldAccessType(enclosingElement: TypeElement, fieldName: String, element: Element, functionModifier: String, isFunctionModifier: String) = when {
+            PRIVATE !in element.modifiers -> FieldAccessType.Accessible
+            hasNotPrivateMethodNamed(enclosingElement, functionModifier + fieldName.capitalize()) -> FieldAccessType.ByMethod
+            fieldName.substring(0, 2) == "is" && hasNotPrivateMethodNamed(enclosingElement, isFunctionModifier + fieldName.substring(2)) -> FieldAccessType.ByNoIsMethod
+            else -> FieldAccessType.Inaccessible
+        }
+
+        private fun hasNotPrivateMethodNamed(enclosingElement: TypeElement, fieldName: String) = ElementFilter
+                .methodsIn(enclosingElement.enclosedElements)
+                .any { e -> e.simpleName.contentEquals(fieldName) && PRIVATE !in e.modifiers }
+
+        private enum class FieldAccessType {
+            Accessible,
+            ByMethod,
+            ByNoIsMethod,
+            Inaccessible
+        }
     }
 }

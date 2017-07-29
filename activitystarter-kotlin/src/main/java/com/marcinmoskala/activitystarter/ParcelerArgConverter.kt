@@ -10,11 +10,12 @@ import kotlin.reflect.KProperty
 import kotlin.reflect.KType
 import kotlin.reflect.jvm.javaType
 
+object MainActivityStarter {
+
+}
+
 inline fun <reified T> argExtra(default: T? = null) = ArgExtraDelegateFactory(T::class.java, default)
 
-/* Currently not supported features:
- * - Custom keys
- */
 class ArgExtraDelegateFactory<T>(val clazz: Class<T>, val default: T?) {
 
     operator fun provideDelegate(thisRef: Activity, prop: KProperty<*>): Lazy<T> {
@@ -58,6 +59,7 @@ class ArgExtraDelegateFactory<T>(val clazz: Class<T>, val default: T?) {
             Serializable::class.java.isAssignableFrom(clazz) -> { intent: Intent -> intent.getSerializableExtra(key) }
             else -> (throw TypeNotSupportedError()) as (Intent) -> Any?
         }
+
     }
 }
 
