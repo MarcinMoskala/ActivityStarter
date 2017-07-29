@@ -26,7 +26,7 @@ internal abstract class IntentBinding(classModel: ClassModel) : ClassGeneration(
         variant.forEach { arg ->
             val putArgumentToIntentMethodName = getPutArgumentToIntentMethodName(arg.saveParamType)
             val wrappedValue = arg.addWrapper { arg.name }
-            addStatement("intent.$putArgumentToIntentMethodName(${arg.fieldName}, $wrappedValue)")
+            addStatement("intent.$putArgumentToIntentMethodName(${arg.keyFieldName}, $wrappedValue)")
         }
     }
 
@@ -35,11 +35,11 @@ internal abstract class IntentBinding(classModel: ClassModel) : ClassGeneration(
     }
 
     protected fun MethodSpec.Builder.addIntentSetter(arg: ArgumentModel, targetParameterName: String) {
-        val fieldName = arg.fieldName
+        val fieldName = arg.keyFieldName
         val possiblyWrappedValue = getIntentGetterFor(arg.saveParamType, fieldName)
         val valueToSet = (if (arg.paramType.typeUsedBySupertype()) "(\$T) " else "") +
                         arg.addUnwrapper { possiblyWrappedValue }
-        val settingPart = arg.accessor.makeSetter(valueToSet)
+        val settingPart = arg.accessor.makeSetter(valueToSet) ?: return
         addStatement("if(intent.hasExtra($fieldName)) \n $targetParameterName.$settingPart", arg.typeName)
     }
 

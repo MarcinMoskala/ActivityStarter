@@ -17,7 +17,9 @@ class ArgumentModel(
         private val converter: ConverterModel?,
         val parceler: Boolean
 ) {
-    val fieldName: String by lazy { camelCaseToUppercaseUnderscore(name) + "_KEY" }
+    val keyFieldName: String by lazy { camelCaseToUppercaseUnderscore(name) + "_KEY" }
+    val noSetter = accessor.noSetter
+    val accessorName = "getValueOf${name.capitalize()}From"
 
     fun addUnwrapper(body: () -> String) = when {
         parceler -> ParcelerGeneration().unwrap(body)

@@ -35,4 +35,6 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
     compile project(':activitystarter-annotations')
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+
+    testCompile deps.junit
 }

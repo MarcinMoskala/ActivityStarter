@@ -1,11 +1,11 @@
 package activitystarter.compiler.generation
 
+import activitystarter.Arg
 import kotlin.reflect.KProperty
 
 class ClassWithDelegate {
 
-    val name: String by NamedDelegate()
-
+    @get:Arg val name: String by NamedDelegate()
 }
 
 class NamedDelegate() {

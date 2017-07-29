@@ -1,11 +1,8 @@
 package com.marcinmoskala.kotlinapp
 
-import activitystarter.ActivityStarter
-import java.util.ArrayList
-
 import activitystarter.Arg
-import android.os.Bundle
 import com.marcinmoskala.activitystarter.argExtra
+import java.util.*
 
 class AllTypesActivity : BaseActivity() {
 

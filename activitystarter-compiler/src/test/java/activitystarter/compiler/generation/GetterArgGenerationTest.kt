@@ -15,7 +15,6 @@ class GetterArgGenerationTest {
     @Test
     fun `Getting getter returned type`() {
         val elements = c.elements.getTypeElement(ClassWithGetter::class.java.canonicalName).enclosedElements.filter { it.simpleName.startsWith("get") }
-        val elements2 = c.elements.getTypeElement(ClassWithDelegate::class.java.canonicalName).enclosedElements.filter { it.simpleName.endsWith("\$delegate") }
         assertEquals(1, elements.size)
     }
 }

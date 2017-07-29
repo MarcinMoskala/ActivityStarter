@@ -25,9 +25,7 @@ internal class ClassBindingFactory(val typeElement: TypeElement, val config: Pro
         val packageName = bindingClassName.packageName()
         val argumentFactory = ArgumentFactory(typeElement, config)
         val enclosedElements = typeElement.enclosedElements
-        val argumentFieldBindings = getArgumentFieldBindings(enclosedElements, argumentFactory, packageName, knownClassType)
-        val argumentDelegateBindings = getArgumentDelegateBindings(enclosedElements, argumentFactory, packageName, knownClassType)
-        val argumentBindings = argumentFieldBindings + argumentDelegateBindings
+        val argumentBindings = getArgumentBindings(enclosedElements, argumentFactory, packageName, knownClassType)
         val savable = typeElement.getAnnotation(NonSavable::class.java) == null
         val addStartForResult = typeElement.getAnnotation(MakeActivityStarter::class.java)?.includeStartForResult ?: false
         return ClassModel(knownClassType, targetTypeName, bindingClassName, packageName, argumentBindings, savable, addStartForResult)
@@ -43,17 +41,10 @@ internal class ClassBindingFactory(val typeElement: TypeElement, val config: Pro
         return knownClassType
     }
 
-    private fun getArgumentFieldBindings(enclosedElements: List<Element>, argumentFactory: ArgumentFactory, packageName: String, knownClassType: KnownClassType): List<ArgumentModel> =
+    private fun getArgumentBindings(enclosedElements: List<Element>, argumentFactory: ArgumentFactory, packageName: String, knownClassType: KnownClassType): List<ArgumentModel> =
             enclosedElements
                     .filter { it.getAnnotation(Arg::class.java) != null }
                     .map { argumentFactory.create(it, packageName, knownClassType) }
-                    .filterNotNull()
-
-    private fun getArgumentDelegateBindings(enclosedElements: List<Element>, argumentFactory: ArgumentFactory, packageName: String?, knownClassType: KnownClassType): List<ArgumentModel> =
-            enclosedElements
-                    .map { it.simpleName.toString() }
-                    .filter { it.endsWith("\$delegate") }
-                    .map { argumentFactory.createFromDelegate(it.substringBefore('$'), enclosedElements, packageName, knownClassType) }
                     .filterNotNull()
 
     private fun getClassError(elementType: KnownClassType?) = when {

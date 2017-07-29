@@ -12,20 +12,22 @@ class FieldAccessor private constructor(
         private val getterType: FieldAccessType
 ) {
 
+    val noSetter = setterType == FieldAccessType.Inaccessible
+
     fun isAccessible() = setterType != FieldAccessType.Inaccessible && getterType != FieldAccessType.Inaccessible
 
     fun makeSetter(whatToSet: String): String? = when (setterType) {
         FieldAccessType.Accessible -> "$fieldName = $whatToSet"
         FieldAccessType.ByMethod -> "set${fieldName.capitalize()}($whatToSet)"
         FieldAccessType.ByNoIsMethod -> "set${fieldName.substring(2)}($whatToSet)"
-        FieldAccessType.Inaccessible -> throw Error(Errors.noSetter)
+        FieldAccessType.Inaccessible -> null
     }
 
-    fun getFieldValue(): String? = when (setterType) {
+    fun makeGetter(): String = when (getterType) {
         FieldAccessType.Accessible -> fieldName
         FieldAccessType.ByMethod -> "get${fieldName.capitalize()}()"
         FieldAccessType.ByNoIsMethod -> "is${fieldName.substring(2)}()"
-        FieldAccessType.Inaccessible -> throw Error(Errors.noSetter)
+        FieldAccessType.Inaccessible -> throw Error(Errors.noGetter)
     }
 
     companion object {

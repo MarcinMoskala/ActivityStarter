@@ -43,7 +43,7 @@ internal abstract class ClassGeneration(val classModel: ClassModel) {
     protected fun MethodSpec.Builder.addSaveBundleStatements(bundleName: String, variant: List<ArgumentModel>, argumentGetByName: (ArgumentModel) -> String) = apply {
         variant.forEach { arg ->
             val value = arg.addWrapper { argumentGetByName(arg) }
-            addStatement("$bundleName.${getBundleSetterFor(arg.saveParamType)}(${arg.fieldName}, $value)")
+            addStatement("$bundleName.${getBundleSetterFor(arg.saveParamType)}(${arg.keyFieldName}, $value)")
         }
     }
 
@@ -52,10 +52,10 @@ internal abstract class ClassGeneration(val classModel: ClassModel) {
     }
 
     protected fun MethodSpec.Builder.addBundleSetter(arg: ArgumentModel, bundleName: String, className: String, checkIfSet: Boolean) {
-        val fieldName = arg.fieldName
+        val fieldName = arg.keyFieldName
         val bundleValue = (if (arg.paramType.typeUsedBySupertype()) "(\$T) " else "") +
                 arg.addUnwrapper { getBundleGetter(bundleName, arg.saveParamType, fieldName) }
-        val bundleValueSetter = arg.accessor.makeSetter(bundleValue)
+        val bundleValueSetter = arg.accessor.makeSetter(bundleValue) ?: return
         if (checkIfSet) addCode("if($bundleName != null && ${getBundlePredicate(bundleName, fieldName)}) ")
         addStatement("$className.$bundleValueSetter", arg.typeName)
     }
@@ -72,7 +72,7 @@ internal abstract class ClassGeneration(val classModel: ClassModel) {
     private fun TypeSpec.Builder.addKeyFields(): TypeSpec.Builder {
         for (arg in classModel.argumentModels) {
             val fieldSpec = FieldSpec
-                    .builder(STRING, arg.fieldName, STATIC, FINAL, PRIVATE)
+                    .builder(STRING, arg.keyFieldName, STATIC, FINAL, PRIVATE)
                     .initializer("\"${arg.key}\"")
                     .build()
             addField(fieldSpec)

@@ -16,14 +16,22 @@ import javax.lang.model.element.Element
 import javax.lang.model.element.ElementKind
 import javax.lang.model.element.Modifier
 import javax.lang.model.element.TypeElement
+import javax.lang.model.type.ExecutableType
 import javax.lang.model.type.TypeMirror
 
 class ArgumentFactory(val enclosingElement: TypeElement, val config: ProjectConfig) {
 
-    fun create(element: Element, packageName: String, knownClassType: KnownClassType): ArgumentModel? {
+    fun create(element: Element, packageName: String, knownClassType: KnownClassType): ArgumentModel? = when (element.kind) {
+        ElementKind.FIELD -> createFromField(element, packageName, knownClassType)
+        ElementKind.METHOD -> createFromGetter(element, packageName, knownClassType)
+        else -> null
+    }
+
+    private fun createFromField(element: Element, packageName: String, knownClassType: KnownClassType): ArgumentModel? {
         val elementType: TypeMirror = getElementType(element)
         val paramType = ParamType.fromType(elementType)
-        val error = getFieldError(element, knownClassType, paramType)
+        val accessor: FieldAccessor = FieldAccessor.fromElement(element)
+        val error = getFieldError(knownClassType, paramType, accessor)
         if (error != null) {
             showProcessingError(element, error)
             return null
@@ -35,61 +43,70 @@ class ArgumentFactory(val enclosingElement: TypeElement, val config: ProjectConf
         val key: String = if (keyFromAnnotation.isNullOrBlank()) "$packageName.${name}StarterKey" else keyFromAnnotation!!
         val typeName: TypeName = TypeName.get(elementType)
         val isOptional: Boolean = element.getAnnotation(Optional::class.java) != null
-        val accessor: FieldAccessor = FieldAccessor.fromElement(element)
-
-        val converter: ConverterModel?
-        val saveParamType: ParamType?
-        if (isParceler) {
-            converter = null
-            saveParamType = ParamType.ParcelableSubtype
-        } else {
-            converter = config.converterFor(elementType)
-            saveParamType = converter?.toParamType ?: paramType
-        }
-        if (saveParamType == ParamType.ObjectSubtype) {
-            showProcessingError(element, Errors.notSupportedType)
-            return null
-        }
+        val (converter, saveParamType) = getConverterAndSaveType(isParceler, elementType, paramType, element) ?: return null
         return ArgumentModel(name, key, paramType, typeName, saveParamType, isOptional, accessor, converter, isParceler)
     }
 
-    fun  createFromDelegate(name: String, enclosedElements: List<Element>, packageName: String?, knownClassType: KnownClassType): ArgumentModel? {
-
-        val paramType = ParamType.fromType(elementType)
-        val error = getFieldError(element, knownClassType, paramType)
-        if (error != null) {
-            showProcessingError(element, error)
+    fun createFromGetter(getterElement: Element, packageName: String?, knownClassType: KnownClassType): ArgumentModel? {
+        if (!getterElement.simpleName.startsWith("get")) {
+            showProcessingError(getterElement, "Function is not getter")
             return null
         }
-        val annotation = element.getAnnotation(Arg::class.java)
+
+        val name = getterElement.simpleName.toString().substringAfter("get")
+        val getter = getterElement.asType() as? ExecutableType
+        if (getter == null) {
+            showProcessingError(getterElement, "Type is not method")
+            return null
+        }
+
+        val returnType: TypeMirror = getter.returnType
+        val paramType = ParamType.fromType(returnType)
+        val accessor: FieldAccessor = FieldAccessor.fromGetter(name)
+
+        val error = getGetterError(knownClassType, paramType)
+        if (error != null) {
+            showProcessingError(getterElement, error)
+            return null
+        }
+
+        val annotation = returnType.getAnnotation(Arg::class.java)
         val keyFromAnnotation = annotation?.key
         val isParceler = annotation?.parceler ?: false
         val key: String = if (keyFromAnnotation.isNullOrBlank()) "$packageName.${name}StarterKey" else keyFromAnnotation!!
-        val typeName: TypeName = TypeName.get(elementType)
-        val isOptional: Boolean = // TODO Getter return type is nullable
-        val accessor: FieldAccessor = FieldAccessor.fromGetter(name)
-
-        val converter: ConverterModel?
-        val saveParamType: ParamType?
-        if (isParceler) {
-            converter = null
-            saveParamType = ParamType.ParcelableSubtype
-        } else {
-            converter = config.converterFor(elementType)
-            saveParamType = converter?.toParamType ?: paramType
-        }
-        if (saveParamType == ParamType.ObjectSubtype) {
-            showProcessingError(element, Errors.notSupportedType)
-            return null
-        }
+        val typeName: TypeName = TypeName.get(returnType)
+        val isOptional: Boolean = getterElement.getAnnotation(Optional::class.java) != null
+        val (converter, saveParamType) = getConverterAndSaveType(isParceler, returnType, paramType, getterElement) ?: return null
         return ArgumentModel(name, key, paramType, typeName, saveParamType, isOptional, accessor, converter, isParceler)
     }
 
-    private fun getFieldError(element: Element, knownClassType: KnownClassType, paramTypeNullable: ParamType?) = when {
+    private fun getConverterAndSaveType(isParceler: Boolean, elementType: TypeMirror, paramType: ParamType, element: Element): Pair<ConverterModel?, ParamType>? {
+        if (isParceler) {
+            return null to ParamType.ParcelableSubtype
+        } else {
+            val converter = config.converterFor(elementType)
+            val saveParamType = converter?.toParamType ?: paramType
+            if (saveParamType == ParamType.ObjectSubtype) {
+                showProcessingError(element, Errors.notSupportedType)
+                return null
+            }
+            return converter to saveParamType
+        }
+    }
+
+    private fun getFieldError(knownClassType: KnownClassType, paramTypeNullable: ParamType?, accessor: FieldAccessor) = when {
         enclosingElement.kind != ElementKind.CLASS -> Errors.notAClass
         enclosingElement.modifiers.contains(Modifier.PRIVATE) -> Errors.privateClass
         paramTypeNullable == null -> Errors.notSupportedType
-        !FieldAccessor(element).isAccessible() -> Errors.inaccessibleField
+        !accessor.isAccessible() -> Errors.inaccessibleField
+        paramTypeNullable.typeUsedBySupertype() && knownClassType == KnownClassType.BroadcastReceiver -> Errors.notBasicTypeInReceiver
+        else -> null
+    }
+
+    private fun getGetterError(knownClassType: KnownClassType, paramTypeNullable: ParamType?) = when {
+        enclosingElement.kind != ElementKind.CLASS -> Errors.notAClass
+        enclosingElement.modifiers.contains(Modifier.PRIVATE) -> Errors.privateClass
+        paramTypeNullable == null -> Errors.notSupportedType
         paramTypeNullable.typeUsedBySupertype() && knownClassType == KnownClassType.BroadcastReceiver -> Errors.notBasicTypeInReceiver
         else -> null
     }

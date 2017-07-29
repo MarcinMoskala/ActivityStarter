@@ -48,7 +48,7 @@ internal class FragmentGeneration(classModel: ClassModel) : ClassGeneration(clas
             .addParameter(classModel.targetTypeName, "fragment")
             .doIf(classModel.savable) {
                 addStatement("\$T bundle = new Bundle()", BUNDLE)
-                addSaveBundleStatements("bundle", classModel.argumentModels, { "fragment.${it.accessor.getFieldValue()}" })
+                addSaveBundleStatements("bundle", classModel.argumentModels, { "fragment.${it.accessor.makeGetter()}" })
                 addStatement("fragment.getArguments().putAll(bundle)")
             }
             .build()
