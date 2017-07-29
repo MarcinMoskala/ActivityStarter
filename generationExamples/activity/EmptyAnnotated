@@ -15,10 +15,12 @@ import android.os.Bundle;
 
 public final class MainActivityStarter {
 
-  public static void fill(MainActivity activity, Bundle savedInstanceState) {
+  public static void fill(MainActivity activity) {
   }
 
-  public static void save(MainActivity activity, Bundle bundle) {
+  public static void save(MainActivity activity) {
+    Bundle bundle = new Bundle();
+    activity.getIntent().putExtras(bundle);
   }
 
   public static Intent getIntent(Context context) {

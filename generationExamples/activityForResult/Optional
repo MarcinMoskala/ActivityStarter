@@ -19,19 +19,18 @@ import android.os.Bundle;
 import java.lang.String;
 
 public final class MainActivityStarter {
-
   private static final String NAME_KEY = "com.example.activitystarter.nameStarterKey";
 
-  public static void fill(MainActivity activity, Bundle savedInstanceState) {
+  public static void fill(MainActivity activity) {
     Intent intent = activity.getIntent();
-    if(savedInstanceState != null && savedInstanceState.containsKey(NAME_KEY)) {
-        activity.name = savedInstanceState.getString(NAME_KEY);
-    } else if(intent.hasExtra(NAME_KEY))
+    if(intent.hasExtra(NAME_KEY))
          activity.name = intent.getStringExtra(NAME_KEY);
   }
 
-  public static void save(MainActivity activity, Bundle bundle) {
+  public static void save(MainActivity activity) {
+    Bundle bundle = new Bundle();
     bundle.putString(NAME_KEY, activity.name);
+    activity.getIntent().putExtras(bundle);
   }
 
   public static Intent getIntent(Context context, String name) {

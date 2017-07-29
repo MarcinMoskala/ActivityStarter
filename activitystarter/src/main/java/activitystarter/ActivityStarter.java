@@ -15,27 +15,15 @@ import java.lang.reflect.Method;
 public final class ActivityStarter {
 
     public static void fill(@NonNull Activity target) {
-        innerFill(target, null, Bundle.class);
-    }
-
-    public static void fill(@NonNull Activity target, @Nullable Bundle savedInstanceState) {
-        innerFill(target, savedInstanceState, Bundle.class);
+        innerFill(target);
     }
 
     public static void fill(@NonNull Fragment target) {
-        innerFill(target, null, Bundle.class);
-    }
-
-    public static void fill(@NonNull Fragment target, @Nullable Bundle savedInstanceState) {
-        innerFill(target, savedInstanceState, Bundle.class);
+        innerFill(target);
     }
 
     public static void fill(@NonNull android.support.v4.app.Fragment target) {
-        innerFill(target, null, Bundle.class);
-    }
-
-    public static void fill(@NonNull android.support.v4.app.Fragment target, @Nullable Bundle savedInstanceState) {
-        innerFill(target, savedInstanceState, Bundle.class);
+        innerFill(target);
     }
 
     public static void fill(@NonNull Service target, @NonNull Intent intent) {
@@ -46,31 +34,31 @@ public final class ActivityStarter {
         innerFill(target, intent, Intent.class);
     }
 
-    public static void save(@NonNull Activity target, Bundle bundle) {
+    public static void save(@NonNull Activity target) {
         Class<?> targetClass = target.getClass();
         Class<?> starterClass = getStarterClass(targetClass);
         if (starterClass == null) return;
-        Method method = getMethod(starterClass, "save", targetClass, Bundle.class);
+        Method method = getMethod(starterClass, "save", targetClass);
         if (method == null) return;
-        invokeMethod(method, target, bundle);
+        invokeMethod(method, target);
     }
 
-    public static void save(@NonNull Fragment target, Bundle bundle) {
+    public static void save(@NonNull Fragment target) {
         Class<?> targetClass = target.getClass();
         Class<?> starterClass = getStarterClass(targetClass);
         if (starterClass == null) return;
-        Method method = getMethod(starterClass, "save", targetClass, Bundle.class);
+        Method method = getMethod(starterClass, "save", targetClass);
         if (method == null) return;
-        invokeMethod(method, target, bundle);
+        invokeMethod(method, target);
     }
 
-    public static void save(@NonNull android.support.v4.app.Fragment target, Bundle bundle) {
+    public static void save(@NonNull android.support.v4.app.Fragment target) {
         Class<?> targetClass = target.getClass();
         Class<?> starterClass = getStarterClass(targetClass);
         if (starterClass == null) return;
-        Method method = getMethod(starterClass, "save", targetClass, Bundle.class);
+        Method method = getMethod(starterClass, "save", targetClass);
         if (method == null) return;
-        invokeMethod(method, target, bundle);
+        invokeMethod(method, target);
     }
 
     private static void innerFill(@NonNull Object target) {

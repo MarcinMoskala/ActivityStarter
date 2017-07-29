@@ -54,6 +54,6 @@ public class TabbedFragmentActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        ActivityStarter.save(this, outState);
+        ActivityStarter.save(this);
     }
 }
