@@ -73,12 +73,21 @@ internal class ActivityGeneration(classModel: ClassModel) : IntentBinding(classM
 
     private fun TypeSpec.Builder.addNoSettersAccessors(): TypeSpec.Builder = apply {
         classModel.argumentModels.filter { it.noSetter }.forEach { arg ->
+            addMethod(buildCheckValueMethod(arg))
             addMethod(buildGetValueMethod(arg))
         }
     }
 
+    private fun buildCheckValueMethod(arg: ArgumentModel): MethodSpec? = builderWithCreationBasicFieldsNoContext(arg.checkerName)
+            .addParameter(classModel.targetTypeName, "activity")
+            .returns(TypeName.BOOLEAN)
+            .addStatement("\$T intent = activity.getIntent()", INTENT)
+            .addStatement("return intent.hasExtra(${arg.keyFieldName})")
+            .build()
+
     private fun buildGetValueMethod(arg: ArgumentModel): MethodSpec? = builderWithCreationBasicFieldsNoContext(arg.accessorName)
             .addParameter(classModel.targetTypeName, "activity")
+            .returns(arg.typeName)
             .buildGetValueMethodBody(arg)
             .build()
 
@@ -86,8 +95,7 @@ internal class ActivityGeneration(classModel: ClassModel) : IntentBinding(classM
         val keyFieldName = arg.keyFieldName
         val possiblyWrappedValue = getIntentGetterFor(arg.saveParamType, keyFieldName)
         val valueToSet = (if (arg.paramType.typeUsedBySupertype()) "(\$T) " else "") + arg.addUnwrapper { possiblyWrappedValue }
-        addStatement("if(!intent.hasExtra($keyFieldName)) return")
         addStatement("\$T intent = activity.getIntent()", INTENT)
-        addStatement("return $valueToSet")
+        addStatement("return $valueToSet", arg.typeName)
     }
 }

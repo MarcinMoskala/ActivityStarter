@@ -1,5 +1,6 @@
 package activitystarter.compiler.model.param
 
+import activitystarter.ActivityStarterNameConstruction
 import activitystarter.compiler.generation.ConverterGeneration
 import activitystarter.compiler.generation.ParcelerGeneration
 import activitystarter.compiler.model.ConverterModel
@@ -19,7 +20,8 @@ class ArgumentModel(
 ) {
     val keyFieldName: String by lazy { camelCaseToUppercaseUnderscore(name) + "_KEY" }
     val noSetter = accessor.noSetter
-    val accessorName = "getValueOf${name.capitalize()}From"
+    val accessorName = ActivityStarterNameConstruction.getterFieldAccessorName(name)
+    val checkerName = ActivityStarterNameConstruction.getterFieldCheckerName(name)
 
     fun addUnwrapper(body: () -> String) = when {
         parceler -> ParcelerGeneration().unwrap(body)
