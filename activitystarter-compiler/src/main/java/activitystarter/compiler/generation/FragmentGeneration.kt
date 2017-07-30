@@ -3,8 +3,10 @@ package activitystarter.compiler.generation
 import activitystarter.compiler.model.classbinding.ClassModel
 import activitystarter.compiler.model.param.ArgumentModel
 import activitystarter.compiler.utils.BUNDLE
+import activitystarter.compiler.utils.INTENT
 import activitystarter.compiler.utils.doIf
 import com.squareup.javapoet.MethodSpec
+import com.squareup.javapoet.TypeName
 import com.squareup.javapoet.TypeSpec
 
 internal class FragmentGeneration(classModel: ClassModel) : ClassGeneration(classModel) {
@@ -16,17 +18,18 @@ internal class FragmentGeneration(classModel: ClassModel) : ClassGeneration(clas
             }
             .build()!!
 
-    private fun MethodSpec.Builder.addFieldSettersCode() {
-        addStatement("\$T arguments = fragment.getArguments()", BUNDLE)
-        addBundleSetters("arguments", "fragment", true)
-    }
-
     override fun createStarters(variant: List<ArgumentModel>): List<MethodSpec> = listOf(
             createGetFragmentMethod(variant)
     )
 
     override fun TypeSpec.Builder.addExtraToClass() = this
             .addMethod(createSaveMethod())
+            .addNoSettersAccessors()
+
+    private fun MethodSpec.Builder.addFieldSettersCode() {
+        addStatement("\$T arguments = fragment.getArguments()", BUNDLE)
+        addBundleSetters("arguments", "fragment", true)
+    }
 
     private fun createGetFragmentMethod(variant: List<ArgumentModel>) = builderWithCreationBasicFieldsNoContext("newInstance")
             .addArgParameters(variant)
@@ -52,4 +55,32 @@ internal class FragmentGeneration(classModel: ClassModel) : ClassGeneration(clas
                 addStatement("fragment.getArguments().putAll(bundle)")
             }
             .build()
+
+    private fun TypeSpec.Builder.addNoSettersAccessors(): TypeSpec.Builder = apply {
+        classModel.argumentModels.filter { it.noSetter }.forEach { arg ->
+            addMethod(buildCheckValueMethod(arg))
+//            addMethod(buildGetValueMethod(arg))
+        }
+    }
+
+    private fun buildCheckValueMethod(arg: ArgumentModel): MethodSpec? = builderWithCreationBasicFieldsNoContext(arg.checkerName)
+            .addParameter(classModel.targetTypeName, "fragment")
+            .returns(TypeName.BOOLEAN)
+            .addStatement("\$T bundle = fragment.getArguments()", BUNDLE)
+            .addStatement("return bundle.containsKey(${arg.keyFieldName})")
+            .build()
+
+//    private fun buildGetValueMethod(arg: ArgumentModel): MethodSpec? = builderWithCreationBasicFieldsNoContext(arg.accessorName)
+//            .addParameter(classModel.targetTypeName, "activity")
+//            .returns(arg.typeName)
+//            .buildGetValueMethodBody(arg)
+//            .build()
+
+    private fun MethodSpec.Builder.buildGetValueMethodBody(arg: ArgumentModel) = apply {
+        addStatement("\$T arguments = fragment.getArguments()", BUNDLE)
+        val fieldName = arg.keyFieldName
+        val bundleValue = (if (arg.paramType.typeUsedBySupertype()) "(\$T) " else "") +
+                arg.addUnwrapper { getBundleGetter("arguments", arg.saveParamType, fieldName) }
+        addStatement("return $bundleValue", arg.typeName)
+    }
 }

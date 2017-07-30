@@ -6,7 +6,7 @@ import java.lang.reflect.Method
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-fun <T> argExtra(default: T? = null) = ArgExtraDelegateFactory(default)
+fun <T> Activity.argExtra(default: T? = null) = ArgExtraDelegateFactory(default)
 
 class ArgExtraDelegateFactory<T>(val default: T?) {
 
