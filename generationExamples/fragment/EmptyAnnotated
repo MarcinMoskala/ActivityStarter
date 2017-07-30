@@ -14,9 +14,13 @@ import android.os.Bundle;
 
 public final class MainFragmentStarter {
 
-  public static void fill(MainFragment fragment, Bundle savedInstanceState) {}
+  public static void fill(MainFragment fragment) {
+  }
 
-  public static void save(MainFragment fragment, Bundle bundle) {}
+  public static void save(MainFragment fragment) {
+    Bundle bundle = new Bundle();
+    fragment.getArguments().putAll(bundle);
+  }
 
   public static MainFragment newInstance() {
     MainFragment fragment = new MainFragment();

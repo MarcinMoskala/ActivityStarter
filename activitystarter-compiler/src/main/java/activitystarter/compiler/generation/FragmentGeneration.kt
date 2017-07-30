@@ -11,7 +11,6 @@ internal class FragmentGeneration(classModel: ClassModel) : ClassGeneration(clas
 
     override fun createFillFieldsMethod() = getBasicFillMethodBuilder()
             .addParameter(classModel.targetTypeName, "fragment")
-            .addParameter(BUNDLE, "savedInstanceState")
             .doIf(classModel.argumentModels.isNotEmpty()) {
                 addFieldSettersCode()
             }
@@ -19,19 +18,9 @@ internal class FragmentGeneration(classModel: ClassModel) : ClassGeneration(clas
 
     private fun MethodSpec.Builder.addFieldSettersCode() {
         addStatement("\$T arguments = fragment.getArguments()", BUNDLE)
-        if (classModel.savable) {
-            for (arg in classModel.argumentModels) {
-                val bundleName = "savedInstanceState"
-                val bundlePredicate = getBundlePredicate(bundleName, arg.fieldName)
-                addCode("if($bundleName != null && $bundlePredicate) {\n")
-                addBundleSetter(arg, bundleName, "fragment", false)
-                addCode("} else ")
-                addBundleSetter(arg, "arguments", "fragment", true)
-            }
-        } else {
-            addBundleSetters("arguments", "fragment", true)
-        }
+        addBundleSetters("arguments", "fragment", true)
     }
+
     override fun createStarters(variant: List<ArgumentModel>): List<MethodSpec> = listOf(
             createGetFragmentMethod(variant)
     )
@@ -57,9 +46,10 @@ internal class FragmentGeneration(classModel: ClassModel) : ClassGeneration(clas
     private fun createSaveMethod(): MethodSpec = this
             .builderWithCreationBasicFieldsNoContext("save")
             .addParameter(classModel.targetTypeName, "fragment")
-            .addParameter(BUNDLE, "bundle")
             .doIf(classModel.savable) {
+                addStatement("\$T bundle = new Bundle()", BUNDLE)
                 addSaveBundleStatements("bundle", classModel.argumentModels, { "fragment.${it.accessor.getFieldValue()}" })
+                addStatement("fragment.getArguments().putAll(bundle)")
             }
             .build()
 }

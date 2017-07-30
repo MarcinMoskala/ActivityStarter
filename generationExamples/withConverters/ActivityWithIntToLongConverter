@@ -39,18 +39,16 @@ import java.lang.String;
 public final class MainActivityStarter {
   private static final String L_KEY = "com.example.activitystarter.lStarterKey";
 
-  /**
-   * This is method used to fill fields. Use it by calling ActivityStarter.fill(this). */
-  public static void fill(MainActivity activity, Bundle savedInstanceState) {
+  public static void fill(MainActivity activity) {
     Intent intent = activity.getIntent();
-    if(savedInstanceState != null && savedInstanceState.containsKey(L_KEY)) {
-    activity.l = new com.example.activitystarter.MainActivity.IntToLongConverter().unwrap(savedInstanceState.getLong(L_KEY));
-    } else if(intent.hasExtra(L_KEY))
+    if(intent.hasExtra(L_KEY))
          activity.l = new com.example.activitystarter.MainActivity.IntToLongConverter().unwrap(intent.getLongExtra(L_KEY, 0L));
   }
 
-  public static void save(MainActivity activity, Bundle bundle) {
+  public static void save(MainActivity activity) {
+    Bundle bundle = new Bundle();
     bundle.putLong(L_KEY, new com.example.activitystarter.MainActivity.IntToLongConverter().wrap(activity.l));
+    activity.getIntent().putExtras(bundle);
   }
 
   public static Intent getIntent(Context context, int l) {
