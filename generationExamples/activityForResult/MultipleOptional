@@ -2,13 +2,12 @@
 package com.example.activitystarter;
 import android.app.Activity;
 import activitystarter.Arg;
-import activitystarter.Optional;
 import activitystarter.MakeActivityStarter;
 
 @MakeActivityStarter(includeStartForResult = true)
 public class MainActivity extends Activity {
- @Arg @Optional String name;
- @Arg @Optional int id;
+ @Arg(optional = true) String name;
+ @Arg(optional = true) int id;
 }
 ********com.example.activitystarter.MainActivityStarter********
 package com.example.activitystarter;

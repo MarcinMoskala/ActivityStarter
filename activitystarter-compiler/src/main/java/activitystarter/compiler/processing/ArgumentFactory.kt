@@ -1,7 +1,6 @@
 package activitystarter.compiler.processing
 
 import activitystarter.Arg
-import activitystarter.Optional
 import activitystarter.compiler.error.Errors
 import activitystarter.compiler.error.error
 import activitystarter.compiler.model.ConverterModel
@@ -36,15 +35,17 @@ class ArgumentFactory(val enclosingElement: TypeElement, val config: ProjectConf
             showProcessingError(element, error)
             return null
         }
+
         val name: String = element.simpleName.toString()
         val annotation = element.getAnnotation(Arg::class.java)
         val keyFromAnnotation = annotation?.key
         val isParceler = annotation?.parceler ?: false
+        val optional: Boolean = annotation?.optional ?: false
+
         val key: String = if (keyFromAnnotation.isNullOrBlank()) "$packageName.${name}StarterKey" else keyFromAnnotation!!
         val typeName: TypeName = TypeName.get(elementType)
-        val isOptional: Boolean = element.getAnnotation(Optional::class.java) != null
         val (converter, saveParamType) = getConverterAndSaveType(isParceler, elementType, paramType, element) ?: return null
-        return ArgumentModel(name, key, paramType, typeName, saveParamType, isOptional, accessor, converter, isParceler)
+        return ArgumentModel(name, key, paramType, typeName, saveParamType, optional, accessor, converter, isParceler)
     }
 
     fun createFromGetter(getterElement: Element, packageName: String?, knownClassType: KnownClassType): ArgumentModel? {
@@ -53,7 +54,7 @@ class ArgumentFactory(val enclosingElement: TypeElement, val config: ProjectConf
             return null
         }
 
-        val name = getterElement.simpleName.toString().substringAfter("get")
+        val name = getterElement.simpleName.toString().substringAfter("get").decapitalize()
         val getter = getterElement.asType() as? ExecutableType
         if (getter == null) {
             showProcessingError(getterElement, "Type is not method")
@@ -72,12 +73,13 @@ class ArgumentFactory(val enclosingElement: TypeElement, val config: ProjectConf
 
         val annotation = returnType.getAnnotation(Arg::class.java)
         val keyFromAnnotation = annotation?.key
-        val isParceler = annotation?.parceler ?: false
+        val parceler = annotation?.parceler ?: false
+        val optional: Boolean = annotation?.optional ?: false
+
         val key: String = if (keyFromAnnotation.isNullOrBlank()) "$packageName.${name}StarterKey" else keyFromAnnotation!!
         val typeName: TypeName = TypeName.get(returnType)
-        val isOptional: Boolean = getterElement.getAnnotation(Optional::class.java) != null
-        val (converter, saveParamType) = getConverterAndSaveType(isParceler, returnType, paramType, getterElement) ?: return null
-        return ArgumentModel(name, key, paramType, typeName, saveParamType, isOptional, accessor, converter, isParceler)
+        val (converter, saveParamType) = getConverterAndSaveType(parceler, returnType, paramType, getterElement) ?: return null
+        return ArgumentModel(name, key, paramType, typeName, saveParamType, optional, accessor, converter, parceler)
     }
 
     private fun getConverterAndSaveType(isParceler: Boolean, elementType: TypeMirror, paramType: ParamType, element: Element): Pair<ConverterModel?, ParamType>? {

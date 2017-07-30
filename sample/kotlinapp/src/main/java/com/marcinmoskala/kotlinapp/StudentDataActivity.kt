@@ -2,15 +2,14 @@ package com.marcinmoskala.kotlinapp
 
 import activitystarter.Arg
 import activitystarter.MakeActivityStarter
-import activitystarter.Optional
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_data.*
 
 @MakeActivityStarter
 class StudentDataActivity : BaseActivity() {
 
-    @Arg @Optional var name: String = defaultName
-    @Arg @Optional var id: Int = defaultId
+    @Arg(optional = true) var name: String = defaultName
+    @Arg(optional = true) var id: Int = defaultId
     @Arg var grade: Char = ' '
     @Arg var passing: Boolean = false
 

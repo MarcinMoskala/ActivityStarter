@@ -12,5 +12,7 @@ import static java.lang.annotation.RetentionPolicy.CLASS;
 public @interface Arg {
     String key() default "";
 
+    boolean optional() default false;
+
     boolean parceler() default false;
 }

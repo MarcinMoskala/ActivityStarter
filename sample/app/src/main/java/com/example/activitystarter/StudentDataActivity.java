@@ -8,7 +8,6 @@ import android.widget.Switch;
 
 import activitystarter.Arg;
 import activitystarter.MakeActivityStarter;
-import activitystarter.Optional;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -19,8 +18,8 @@ public class StudentDataActivity extends BaseActivity {
     public static int DEFAULT_ID = NO_ID;
     public static String DEFAULT_NAME = "No name provided";
 
-    @Arg @Optional String name = DEFAULT_NAME;
-    @Arg @Optional int id = DEFAULT_ID;
+    @Arg(optional = true) String name = DEFAULT_NAME;
+    @Arg(optional = true) int id = DEFAULT_ID;
     @Arg char grade;
     @Arg boolean passing;
 

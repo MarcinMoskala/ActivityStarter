@@ -2,7 +2,6 @@ package activitystarter.compiler.processing
 
 import activitystarter.Arg
 import activitystarter.MakeActivityStarter
-import activitystarter.NonSavable
 import activitystarter.compiler.error.Errors
 import activitystarter.compiler.error.parsingError
 import activitystarter.compiler.model.ProjectConfig
@@ -26,8 +25,9 @@ internal class ClassBindingFactory(val typeElement: TypeElement, val config: Pro
         val argumentFactory = ArgumentFactory(typeElement, config)
         val enclosedElements = typeElement.enclosedElements
         val argumentBindings = getArgumentBindings(enclosedElements, argumentFactory, packageName, knownClassType)
-        val savable = typeElement.getAnnotation(NonSavable::class.java) == null
-        val addStartForResult = typeElement.getAnnotation(MakeActivityStarter::class.java)?.includeStartForResult ?: false
+        val makeActivityStarterAnnotation = typeElement.getAnnotation(MakeActivityStarter::class.java)
+        val savable = makeActivityStarterAnnotation?.savable ?: true
+        val addStartForResult = makeActivityStarterAnnotation?.includeStartForResult ?: false
         return ClassModel(knownClassType, targetTypeName, bindingClassName, packageName, argumentBindings, savable, addStartForResult)
     }
 

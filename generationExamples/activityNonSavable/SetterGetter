@@ -2,9 +2,9 @@
 package com.example.activitystarter;
 import android.app.Activity;
 import activitystarter.Arg;
-import activitystarter.NonSavable;
+import activitystarter.MakeActivityStarter;
 
-@NonSavable
+@MakeActivityStarter(savable = false)
 public class MainActivity extends Activity {
     @Arg private String name;
 

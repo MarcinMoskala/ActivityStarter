@@ -2,10 +2,9 @@
 package com.example.activitystarter;
 import android.app.Activity;
 import activitystarter.Arg;
-import activitystarter.Optional;
 
 public class MainActivity extends Activity {
-    @Arg(key = "SOME_OPTIONAL") @Optional String name;
+    @Arg(key = "SOME_OPTIONAL", optional = true) String name;
 }
 ********com.example.activitystarter.MainActivityStarter********
 package com.example.activitystarter;
@@ -16,25 +15,25 @@ import android.os.Bundle;
 import java.lang.String;
 
 public final class MainActivityStarter {
-  private static boolean saved = false;
+  private static final String NAME_KEY = "SOME_OPTIONAL";
 
-  public static void fill(MainActivity activity, Bundle savedInstanceState) {
-    if(savedInstanceState == null || !saved) {
+  /**
+   * This is method used to fill fields. Use it by calling ActivityStarter.fill(this). */
+  public static void fill(MainActivity activity) {
     Intent intent = activity.getIntent();
-    if(intent.hasExtra("SOME_OPTIONAL")) activity.name = intent.getStringExtra("SOME_OPTIONAL");
-    } else {
-    if(savedInstanceState.containsKey("SOME_OPTIONAL")) activity.name = savedInstanceState.getString("SOME_OPTIONAL");
-    }
+    if(intent.hasExtra(NAME_KEY))
+         activity.name = intent.getStringExtra(NAME_KEY);
   }
 
-  public static void save(MainActivity activity, Bundle bundle) {
-    bundle.putString("SOME_OPTIONAL", activity.name);
-    saved = true;
+  public static void save(MainActivity activity) {
+    Bundle bundle = new Bundle();
+    bundle.putString(NAME_KEY, activity.name);
+    activity.getIntent().putExtras(bundle);
   }
 
   public static Intent getIntent(Context context, String name) {
     Intent intent = new Intent(context, MainActivity.class);
-    intent.putExtra("SOME_OPTIONAL", name);
+    intent.putExtra(NAME_KEY, name);
     return intent;
   }
 

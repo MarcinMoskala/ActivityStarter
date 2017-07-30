@@ -7,14 +7,13 @@ import android.util.Log;
 
 import activitystarter.ActivityStarter;
 import activitystarter.Arg;
-import activitystarter.Optional;
 
 public class SomeService extends Service {
 
     public static final String NAME_KEY = "NAME_KEY";
 
-    @Arg(key = NAME_KEY) @Optional String name = "";
-    @Arg @Optional String surname = "";
+    @Arg(key = NAME_KEY, optional = true) String name = "";
+    @Arg(optional = true) String surname = "";
     @Arg int id;
 
     public SomeService() {}

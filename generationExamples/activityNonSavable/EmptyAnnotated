@@ -3,10 +3,8 @@ package com.example.activitystarter;
 
 import android.app.Activity;
 import activitystarter.MakeActivityStarter;
-import activitystarter.NonSavable;
 
-@NonSavable
-@MakeActivityStarter
+@MakeActivityStarter(savable = false)
 public class MainActivity extends Activity {}
 ********com.example.activitystarter.MainActivityStarter********
 package com.example.activitystarter;
