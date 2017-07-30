@@ -32,6 +32,9 @@
         </activity>
         <activity android:name=".AllTypesActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".fragment.TabbedFragmentActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <receiver
             android:name=".notification.NotificationPublisher"
             android:enabled="true" />

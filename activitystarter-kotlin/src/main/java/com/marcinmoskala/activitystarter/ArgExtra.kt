@@ -2,15 +2,26 @@ package com.marcinmoskala.activitystarter
 
 import activitystarter.ActivityStarterNameConstruction
 import android.app.Activity
+import android.app.Fragment
 import java.lang.reflect.Method
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 fun <T> Activity.argExtra(default: T? = null) = ArgExtraDelegateFactory(default)
 
+fun <T> Fragment.argExtra(default: T? = null) = ArgExtraDelegateFactory(default)
+
+fun <T> android.support.v4.app.Fragment.argExtra(default: T? = null) = ArgExtraDelegateFactory(default)
+
 class ArgExtraDelegateFactory<T>(val default: T?) {
 
     operator fun provideDelegate(thisRef: Activity, prop: KProperty<*>): ReadWriteProperty<Any, T>
+            = createDelegate(thisRef, thisRef.javaClass, prop.name)
+
+    operator fun provideDelegate(thisRef: Fragment, prop: KProperty<*>): ReadWriteProperty<Any, T>
+            = createDelegate(thisRef, thisRef.javaClass, prop.name)
+
+    operator fun provideDelegate(thisRef: android.support.v4.app.Fragment, prop: KProperty<*>): ReadWriteProperty<Any, T>
             = createDelegate(thisRef, thisRef.javaClass, prop.name)
 
     private fun createDelegate(thisRef: Any, javaClass: Class<*>, fieldName: String): ReadWriteProperty<Any, T> {

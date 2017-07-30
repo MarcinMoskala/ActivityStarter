@@ -34,6 +34,7 @@ targetCompatibility = rootProject.ext.targetCompatibilityVersion
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
     compile project(':activitystarter-annotations')
+    compile deps.supportAppcompatv7
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
 
     testCompile deps.junit

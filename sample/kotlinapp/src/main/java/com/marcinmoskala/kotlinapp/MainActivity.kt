@@ -5,6 +5,7 @@ import android.app.AlarmManager.RTC_WAKEUP
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.os.Bundle
+import com.marcinmoskala.kotlinapp.fragment.TabbedFragmentActivityStarter
 import com.marcinmoskala.kotlinapp.notification.NotificationPublisherStarter
 import kotlinx.android.synthetic.main.activity_main.*
 import org.joda.time.DateTime
@@ -19,6 +20,7 @@ class MainActivity : BaseActivity() {
         showDataButton.setOnClickListener { startDetailsActivity() }
         showParcelableDataButton.setOnClickListener { startParcelableActivity() }
         showSerializableDataButton.setOnClickListener { startSerializableActivity() }
+        showFragmentActivityButton.setOnClickListener { startFragmentActivity() }
         startNotification()
     }
 
@@ -65,6 +67,10 @@ class MainActivity : BaseActivity() {
 
     fun startSerializableActivity() {
         StudentSerializableActivityStarter.start(this, serializableStudent)
+    }
+
+    fun startFragmentActivity() {
+        TabbedFragmentActivityStarter.start(this)
     }
 
     companion object {

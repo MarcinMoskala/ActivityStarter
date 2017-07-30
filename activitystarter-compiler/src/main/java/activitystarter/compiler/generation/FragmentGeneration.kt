@@ -3,7 +3,6 @@ package activitystarter.compiler.generation
 import activitystarter.compiler.model.classbinding.ClassModel
 import activitystarter.compiler.model.param.ArgumentModel
 import activitystarter.compiler.utils.BUNDLE
-import activitystarter.compiler.utils.INTENT
 import activitystarter.compiler.utils.doIf
 import com.squareup.javapoet.MethodSpec
 import com.squareup.javapoet.TypeName
@@ -59,7 +58,7 @@ internal class FragmentGeneration(classModel: ClassModel) : ClassGeneration(clas
     private fun TypeSpec.Builder.addNoSettersAccessors(): TypeSpec.Builder = apply {
         classModel.argumentModels.filter { it.noSetter }.forEach { arg ->
             addMethod(buildCheckValueMethod(arg))
-//            addMethod(buildGetValueMethod(arg))
+            addMethod(buildGetValueMethod(arg))
         }
     }
 
@@ -70,11 +69,11 @@ internal class FragmentGeneration(classModel: ClassModel) : ClassGeneration(clas
             .addStatement("return bundle.containsKey(${arg.keyFieldName})")
             .build()
 
-//    private fun buildGetValueMethod(arg: ArgumentModel): MethodSpec? = builderWithCreationBasicFieldsNoContext(arg.accessorName)
-//            .addParameter(classModel.targetTypeName, "activity")
-//            .returns(arg.typeName)
-//            .buildGetValueMethodBody(arg)
-//            .build()
+    private fun buildGetValueMethod(arg: ArgumentModel): MethodSpec? = builderWithCreationBasicFieldsNoContext(arg.accessorName)
+            .addParameter(classModel.targetTypeName, "fragment")
+            .returns(arg.typeName)
+            .buildGetValueMethodBody(arg)
+            .build()
 
     private fun MethodSpec.Builder.buildGetValueMethodBody(arg: ArgumentModel) = apply {
         addStatement("\$T arguments = fragment.getArguments()", BUNDLE)

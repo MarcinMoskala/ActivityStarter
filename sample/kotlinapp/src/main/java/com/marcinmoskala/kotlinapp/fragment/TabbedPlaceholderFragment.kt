@@ -13,19 +13,17 @@ import com.marcinmoskala.kotlinapp.R
 
 class TabbedPlaceholderFragment : Fragment() {
 
-//    @get:Arg var sectionNumber: Int by argExtra()
-
-    @Arg fun getSectionNumber(): Int = 10
+    @get:Arg var sectionNumber: Int by argExtra()
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater!!.inflate(R.layout.fragment_tabbed, container, false)
         ActivityStarter.fill(this)
         val textView = rootView.findViewById(R.id.section_label) as TextView
         textView.setOnClickListener {
-//            sectionNumber++
-//            textView.text = "$sectionNumber"
+            sectionNumber++
+            textView.text = "$sectionNumber"
         }
-//        textView.text = "$sectionNumber"
+        textView.text = "$sectionNumber"
         return rootView
     }
 
