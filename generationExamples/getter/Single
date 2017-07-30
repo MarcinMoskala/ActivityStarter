@@ -1,0 +1,60 @@
+********com.example.activitystarter.MainActivity********
+package com.example.activitystarter;
+import android.app.Activity;
+import activitystarter.Arg;
+
+public class MainActivity extends Activity {
+
+ @Arg public String getName() {
+   return "Marcin";
+ }
+}
+********com.example.activitystarter.MainActivityStarter********
+package com.example.activitystarter;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import java.lang.String;
+
+public final class MainActivityStarter {
+
+  private static final String NAME_KEY = "com.example.activitystarter.nameStarterKey";
+
+  public static void fill(MainActivity activity) {
+    Intent intent = activity.getIntent();
+  }
+
+  public static void save(MainActivity activity) {
+    Bundle bundle = new Bundle();
+    bundle.putString(NAME_KEY, activity.getName());
+    activity.getIntent().putExtras(bundle);
+  }
+
+  public static boolean isFilledValueOfNameFrom(MainActivity activity) {
+    Intent intent = activity.getIntent();
+    return intent.hasExtra(NAME_KEY);
+  }
+
+  public static String getValueOfNameFrom(MainActivity activity) {
+    Intent intent = activity.getIntent();
+    return intent.getStringExtra(NAME_KEY);
+  }
+
+  public static Intent getIntent(Context context, String name) {
+    Intent intent = new Intent(context, MainActivity.class);
+    intent.putExtra(NAME_KEY, name);
+    return intent;
+  }
+
+  public static void start(Context context, String name) {
+    Intent intent = getIntent(context, name);
+    context.startActivity(intent);
+  }
+
+  public static void startWithFlags(Context context, String name, int flags) {
+    Intent intent = getIntent(context, name);
+    intent.addFlags(flags);
+    context.startActivity(intent);
+  }
+}

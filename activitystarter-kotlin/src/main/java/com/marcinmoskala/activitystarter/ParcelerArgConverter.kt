@@ -17,8 +17,8 @@ class ArgExtraDelegateFactory<T>(val default: T?) {
         val starterClass = getStarterClass(javaClass)
         val checkerName = ActivityStarterNameConstruction.getterFieldCheckerName(fieldName)
         val accessorName = ActivityStarterNameConstruction.getterFieldAccessorName(fieldName)
-        val accessorMethod = getMethod(starterClass, accessorName, javaClass)
         val checkerMethod = getMethod(starterClass, checkerName, javaClass)
+        val accessorMethod = getMethod(starterClass, accessorName, javaClass)
         return BoundToValueDelegate {
             val argFilled = checkerMethod.invokeMethod(thisRef) as Boolean
             val argValue: Any? = if (argFilled) accessorMethod.invokeMethod(thisRef) else null
@@ -60,7 +60,7 @@ private class BoundToValueDelegate<T>(var initializer: (() -> T)?) : ReadWritePr
             if (valueSet) @Suppress("UNCHECKED_CAST") return value as T
             val typedValue = initializer?.invoke()
             setNewValue(typedValue)
-            @Suppress("UNCHECKED_CAST") return valueSet as T
+            @Suppress("UNCHECKED_CAST") return typedValue as T
         }
     }
 

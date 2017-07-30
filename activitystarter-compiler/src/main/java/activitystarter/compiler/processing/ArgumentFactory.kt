@@ -71,7 +71,7 @@ class ArgumentFactory(val enclosingElement: TypeElement, val config: ProjectConf
             return null
         }
 
-        val annotation = returnType.getAnnotation(Arg::class.java)
+        val annotation = getterElement.getAnnotation(Arg::class.java)
         val keyFromAnnotation = annotation?.key
         val parceler = annotation?.parceler ?: false
         val optional: Boolean = annotation?.optional ?: false

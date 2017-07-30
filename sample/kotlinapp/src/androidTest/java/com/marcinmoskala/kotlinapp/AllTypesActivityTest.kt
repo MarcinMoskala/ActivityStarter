@@ -52,9 +52,9 @@ class AllTypesActivityTest : FromIntentTest<AllTypesActivity>(AllTypesActivity::
 
         val a = activityTestRule.activity
         assertEquals(string, a.str)
-        assertEquals(i.toLong(), a.i.toLong())
+        assertEquals(i, a.i)
         assertEquals(l, a.l)
-        assertEquals(f.toDouble(), a.f.toDouble(), 0.01)
+        assertEquals(f, a.f, 0.01F)
         assertEquals(bool, a.bool)
         assertEquals(d, a.d, 0.01)
         assertEquals(c, a.c)

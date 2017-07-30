@@ -35,6 +35,9 @@
         <receiver
             android:name=".notification.NotificationPublisher"
             android:enabled="true" />
+
+        <activity android:name=".savetest.SavingActivity" />
+        <activity android:name=".savetest.NonSavingActivity" />
     </application>
 
 </manifest>

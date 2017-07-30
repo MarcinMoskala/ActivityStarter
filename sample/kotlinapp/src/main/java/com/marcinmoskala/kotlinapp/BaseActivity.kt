@@ -10,4 +10,9 @@ open class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         ActivityStarter.fill(this)
     }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        ActivityStarter.save(this)
+    }
 }
