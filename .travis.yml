@@ -29,11 +29,6 @@ env:
 script:
   - ./gradlew $TEST -i
 
-branches:
-  only:
-  - master
-  - stable
-
 notifications:
   email: true
 

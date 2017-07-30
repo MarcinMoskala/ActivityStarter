@@ -17,26 +17,22 @@ import android.os.Bundle;
 import java.lang.String;
 
 public final class MainActivityStarter {
-
   private static final String NAME_KEY = "com.example.activitystarter.nameStarterKey";
   private static final String SURNAME_KEY = "com.example.activitystarter.surnameStarterKey";
 
-
-  public static void fill(MainActivity activity, Bundle savedInstanceState) {
+  public static void fill(MainActivity activity) {
     Intent intent = activity.getIntent();
-    if(savedInstanceState != null && savedInstanceState.containsKey(NAME_KEY)) {
-        activity.name = savedInstanceState.getString(NAME_KEY);
-    } else if(intent.hasExtra(NAME_KEY))
+    if(intent.hasExtra(NAME_KEY))
          activity.name = intent.getStringExtra(NAME_KEY);
-    if(savedInstanceState != null && savedInstanceState.containsKey(SURNAME_KEY)) {
-        activity.surname = savedInstanceState.getString(SURNAME_KEY);
-    } else if(intent.hasExtra(SURNAME_KEY))
+    if(intent.hasExtra(SURNAME_KEY))
          activity.surname = intent.getStringExtra(SURNAME_KEY);
   }
 
-  public static void save(MainActivity activity, Bundle bundle) {
+  public static void save(MainActivity activity) {
+    Bundle bundle = new Bundle();
     bundle.putString(NAME_KEY, activity.name);
     bundle.putString(SURNAME_KEY, activity.surname);
+    activity.getIntent().putExtras(bundle);
   }
 
   public static Intent getIntent(Context context, String name, String surname) {
