@@ -5,6 +5,7 @@ Android Library that provide simpler way to start the Activities with multiple a
 [![codebeat badge](https://codebeat.co/badges/a1727670-96fe-4c89-9bdb-f1818a6dc066)](https://codebeat.co/projects/github-com-marcinmoskala-activitystarter)
 [![Build Status](https://travis-ci.org/MarcinMoskala/ActivityStarter.svg?branch=master)](https://travis-ci.org/MarcinMoskala/ActivityStarter)
 [![Stories in Ready](https://badge.waffle.io/MarcinMoskala/ActivityStarter.svg?label=ready&title=Ready)](http://waffle.io/MarcinMoskala/ActivityStarter)
+[![Join the chat at https://gitter.im/ActivityStarter/Lobby](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ActivityStarter/Lobby)
 
 Field and method binding for Android Activity arguments, which uses annotation processing to generate boilerplate code for you, and:
  * Eliminate all putExtra and getXXXExtra methods.
