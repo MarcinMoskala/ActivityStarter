@@ -1,68 +1,49 @@
 package com.marcinmoskala.activitystarter
 
+import activitystarter.ActivityStarterNameConstruction
 import android.app.Activity
-import android.content.Intent
-import android.os.Parcelable
-import java.io.Serializable
-import java.lang.reflect.ParameterizedType
-import java.lang.reflect.Type
+import java.lang.reflect.Method
 import kotlin.reflect.KProperty
-import kotlin.reflect.KType
-import kotlin.reflect.jvm.javaType
 
-object MainActivityStarter {
+fun <T> argExtra(default: T? = null) = ArgExtraDelegateFactory(default)
 
-}
-
-inline fun <reified T> argExtra(default: T? = null) = ArgExtraDelegateFactory(T::class.java, default)
-
-class ArgExtraDelegateFactory<T>(val clazz: Class<T>, val default: T?) {
+class ArgExtraDelegateFactory<T>(val default: T?) {
 
     operator fun provideDelegate(thisRef: Activity, prop: KProperty<*>): Lazy<T> {
-        val key = getKey(thisRef::class.java, prop)
-        val getter = makeIntentGetter(key, prop.returnType, default)
-        return lazy { (getter(thisRef.intent) ?: default) as T }
+        val targetClass = thisRef.javaClass
+        val starterClass = getStarterClass(targetClass)
+        val fieldName = prop.name
+        val checkerName = ActivityStarterNameConstruction.getterFieldCheckerName(fieldName)
+        val accessorName = ActivityStarterNameConstruction.getterFieldAccessorName(fieldName)
+        val accessorMethod = getMethod(starterClass, accessorName, thisRef.javaClass)
+        val checkerMethod = getMethod(starterClass, checkerName, thisRef.javaClass)
+        return lazy {
+            val argFilled = checkerMethod.invokeMethod(thisRef) as Boolean
+            val argValue: Any? = if (argFilled) accessorMethod.invokeMethod(thisRef) else null
+            val argValueOrDefault = argValue ?: default
+            argValueOrDefault as T
+        }
     }
 
-    private fun makeIntentGetter(key: String, type: KType, default: T?): (Intent) -> Any? = when (clazz.canonicalName) {
-        "java.lang.String" -> { intent: Intent -> intent.getStringExtra(key) }
-        "java.lang.Integer" -> { intent: Intent -> intent.getIntExtra(key, default as? Int ?: -1) }
-        "java.lang.Long" -> { intent: Intent -> intent.getLongExtra(key, default as? Long ?: -1) }
-        "java.lang.Float" -> { intent: Intent -> intent.getFloatExtra(key, default as? Float ?: -1F) }
-        "java.lang.Boolean" -> { intent: Intent -> intent.getBooleanExtra(key, default as? Boolean ?: false) }
-        "java.lang.Double" -> { intent: Intent -> intent.getDoubleExtra(key, default as? Double ?: -1.0) }
-        "java.lang.Character" -> { intent: Intent -> intent.getCharExtra(key, default as? Char ?: '\u0000') }
-        "java.lang.Byte" -> { intent: Intent -> intent.getByteExtra(key, default as? Byte ?: -1) }
-        "java.lang.Short" -> { intent: Intent -> intent.getShortExtra(key, default as? Short ?: -1) }
-        "java.lang.CharSequence" -> { intent: Intent -> intent.getCharSequenceExtra(key) }
+    private fun getStarterClass(targetClass: Class<*>): Class<*> {
+        val clsName = targetClass.name
+        val starterName = clsName + "Starter"
+        return Class.forName(starterName)
+    }
 
-        "java.lang.String[]" -> { intent: Intent -> intent.getStringArrayExtra(key) }
-        "int[]" -> { intent: Intent -> intent.getIntArrayExtra(key) }
-        "long[]" -> { intent: Intent -> intent.getLongArrayExtra(key) }
-        "float[]" -> { intent: Intent -> intent.getFloatArrayExtra(key) }
-        "boolean[]" -> { intent: Intent -> intent.getBooleanArrayExtra(key) }
-        "double[]" -> { intent: Intent -> intent.getDoubleArrayExtra(key) }
-        "char[]" -> { intent: Intent -> intent.getCharArrayExtra(key) }
-        "byte[]" -> { intent: Intent -> intent.getByteArrayExtra(key) }
-        "short[]" -> { intent: Intent -> intent.getShortArrayExtra(key) }
-        "java.lang.CharSequence[]" -> { intent: Intent -> intent.getCharSequenceArrayExtra(key) }
-
-        "java.util.ArrayList" -> when (type.javaType.toString()) {
-            "java.util.ArrayList<java.lang.Integer>" -> { intent: Intent -> intent.getIntegerArrayListExtra(key) }
-            "java.util.ArrayList<java.lang.String>" -> { intent: Intent -> intent.getStringArrayListExtra(key) }
-            "java.util.ArrayList<java.lang.CharSequence>" -> { intent: Intent -> intent.getCharSequenceArrayListExtra(key) }
-            else -> (throw TypeNotSupportedError()) as (Intent) -> Any?
+    private fun getMethod(starterClass: Class<*>, methodName: String, vararg classes: Class<*>): Method {
+        try {
+            return starterClass.getMethod(methodName, *classes)
+        } catch (e: NoSuchMethodException) {
+            throw RuntimeException("Unable to find " + methodName + " method for " + starterClass.name, e)
         }
+    }
 
-        else -> when {
-            Parcelable::class.java.isAssignableFrom(clazz) -> { intent: Intent -> intent.getParcelableExtra<Parcelable>(key) }
-            Serializable::class.java.isAssignableFrom(clazz) -> { intent: Intent -> intent.getSerializableExtra(key) }
-            else -> (throw TypeNotSupportedError()) as (Intent) -> Any?
-        }
-
+    private fun Method.invokeMethod(vararg args: Any) = try {
+        this.invoke(null, *args)
+    } catch (e: IllegalAccessException) {
+        throw RuntimeException("Unable to invoke " + this + "because of illegal access", e)
+    } catch (e: IllegalArgumentException) {
+        throw RuntimeException("Unable to invoke $this because of illegal argument", e)
     }
 }
-
-private fun getKey(contextRef: Class<*>, property: KProperty<*>) = "${contextRef.canonicalName}.${property.name}StarterKey"
-
-class TypeNotSupportedError : Error("Type not supported")
