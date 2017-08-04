@@ -2,6 +2,8 @@ include ':activitystarter'
 include ':activitystarter-annotations'
 include ':activitystarter-compiler'
 
+include ':activitystarter-kotlin'
+
 include ':sample:app'
 include ':sample:kotlinapp'
 

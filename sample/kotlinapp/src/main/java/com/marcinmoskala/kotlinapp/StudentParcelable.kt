@@ -4,7 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import android.os.Parcelable.Creator
 
-class StudentParcelable(
+data class StudentParcelable(
         var id: Int = 0,
         var name: String? = null,
         var grade: Char = ' ') : Parcelable {

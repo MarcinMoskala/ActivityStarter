@@ -9,7 +9,6 @@ import com.example.activitystarter.R;
 
 import activitystarter.ActivityStarter;
 import activitystarter.Arg;
-import activitystarter.Optional;
 
 public class NonSavingActivity extends Activity {
 
@@ -21,9 +20,9 @@ public class NonSavingActivity extends Activity {
     public static final String NEW_STR = "BBB";
     public static final boolean NEW_B = true;
 
-    @Optional @Arg public int i = DEFAULT_I;
-    @Optional @Arg public String str = DEFAULT_STR;
-    @Optional @Arg public boolean b = DEFAULT_B;
+    @Arg(optional = true) public int i = DEFAULT_I;
+    @Arg(optional = true) public String str = DEFAULT_STR;
+    @Arg(optional = true) public boolean b = DEFAULT_B;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -2,13 +2,12 @@
 package com.example.activitystarter;
 import android.app.Activity;
 import activitystarter.Arg;
-import activitystarter.Optional;
-import activitystarter.NonSavable;
+import activitystarter.MakeActivityStarter;
 
-@NonSavable
+@MakeActivityStarter(savable = false)
 public class MainActivity extends Activity {
-    @Arg @Optional String name;
-    @Arg @Optional String surname;
+    @Arg(optional = true) String name;
+    @Arg(optional = true) String surname;
 }
 ********com.example.activitystarter.MainActivityStarter********
 package com.example.activitystarter;

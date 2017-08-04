@@ -76,5 +76,12 @@
         android:textAllCaps="false"
         android:id="@+id/showSerializableDataButton"/>
 
+    <Button
+        android:text="Show fragment Activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:id="@+id/showFragmentActivityButton"/>
+
 </LinearLayout>
 </ScrollView>

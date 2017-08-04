@@ -11,4 +11,6 @@ public @interface MakeActivityStarter {
 
     // This flag should be used only for Activities
     boolean includeStartForResult() default false;
+
+    boolean savable() default true;
 }

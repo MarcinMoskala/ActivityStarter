@@ -4,11 +4,12 @@ import activitystarter.Arg
 import activitystarter.MakeActivityStarter
 import android.os.Bundle
 import android.widget.TextView
+import com.marcinmoskala.activitystarter.argExtra
 
 @MakeActivityStarter
 class StudentSerializableActivity : BaseActivity() {
 
-    @Arg var student: StudentSerializable? = null
+    @get:Arg val student: StudentSerializable  by argExtra()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

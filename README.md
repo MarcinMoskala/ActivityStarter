@@ -28,45 +28,7 @@ Full documentation is located [here](https://github.com/MarcinMoskala/ActivitySt
 
 # Example
 
-This is Activity with starter made in standard way: (it is just short. See [full example](https://github.com/MarcinMoskala/ActivityStarter/wiki/Activity-equivalent-example).)
-
-```java
-public class MainActivity extends BaseActivity {
-
-    private static String NAME_KEY = "nameArg";
-    private static String ID_KEY = "idArg";
-    private static String GRADE_KEY = "gradeArg";
-    private static String PASSING_KEY = "passingArg";
-
-    public static void start(Context context, String name, int id, char grade, boolean passing) {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(NAME_KEY, name);
-        intent.putExtra(ID_KEY, id);
-        intent.putExtra(GRADE_KEY, grade);
-        intent.putExtra(PASSING_KEY, passing);
-        context.startActivity(intent);
-    }
-
-    String name;
-    int id;
-    char grade;
-    boolean passing;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        Intent intent = getIntent();
-        name = intent.getStringExtra(NAME_KEY);
-        id = intent.getIntExtra(ID_KEY, -1);
-        grade = intent.getCharExtra(GRADE_KEY, 'a');
-        passing = intent.getBooleanExtra(PASSING_KEY, false);
-    }
-}
-```
-
-With ActivityStarter all you need is:
+With ActivityStarter, to pass arguments to Activity, Fragment, Service or BroadcastReceiver, all you need is `@Arg` annotation before parameters that needs to be passed:
 
 ```java
 public class MainActivity extends BaseActivity {
@@ -75,39 +37,83 @@ public class MainActivity extends BaseActivity {
     @Arg int id;
     @Arg char grade;
     @Arg boolean passing;
+}
+```
+
+And `ActivityStarter.fill(this);` in BaseActivity:
+
+```java
+class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ActivityStarter.fill(this); // This can be located in BaseActivity, one for all activities
-
-        //...
+        ActivityStarter.fill(this);
     }
 
     @Override // This is optional, only when we want to keep arguments changes in case of rotation etc.
-    protected void onSaveInstanceState(Bundle outState) { // Also can be located in BaseActivity, one for all activities
+    protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        ActivityStarter.save(this, outState);
+        ActivityStarter.save(this);
     }
 }
 ```
 
-And you start it nearly the same way:
+Then, you can start Activity using generated starter:
 
 ```java
 MainActivityStarter.start(context, name, id, grade, passing);
 ```
 
-Simillar way you can take Intent or start activity with flags:
+Similar way, you can take Intent or start activity with flags:
 
 ```java
 MainActivityStarter.getIntent(context, name, id, grade, passing);
 MainActivityStarter.startWithFlags(context, name, id, grade, passing, FLAG_ACTIVITY_SINGLE_TOP);
 ```
 
-This can be applayed to [Activities](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-Activities), [Fragments](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-Fragments), [Services](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-Services)
+Arguments can be passed to [Activities](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-Activities), [Fragments](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-Fragments), [Services](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-Services)
 or [BroadcastReceiver](https://github.com/MarcinMoskala/ActivityStarter/wiki/Usage-for-BroadcastReceiver). Arguments can also be [Optional](https://github.com/MarcinMoskala/ActivityStarter/wiki/Optional-annotation). 
+
+## Optional
+
+You can make optional arguments:
+
+```java
+public class MainActivity extends BaseActivity {
+
+    @Arg(optional = true) String name;
+    @Arg(optional = true) long id = -1;
+}
+```
+
+Then will be generated also generators that does not contain them:
+
+```java
+MainActivityStarter.start(context);
+MainActivityStarter.start(context, name);
+MainActivityStarter.start(context, id);
+MainActivityStarter.start(context, name, id);
+```
+
+Further reading [here](https://github.com/MarcinMoskala/ActivityStarter/wiki/Optional-argument).
+
+## Kotlin
+
+ActivityStarter is supporting Kotlin to allow properties that are not-null and both read-write or read-only:
+
+```kotlin
+class StudentDataActivity : BaseActivity() {
+
+    @get:Arg(optional = true) var name: String by argExtra(defaultName)
+    @get:Arg(optional = true) val id: Int by argExtra(defaultId)
+    @get:Arg var grade: Char  by argExtra()
+    @get:Arg val passing: Boolean by argExtra()
+}
+```
+
+Values are taken lazily and kept as fields, but there are still saved if `ActivityStarter.save(this);` is called in `onSaveInstanceState`. When all properties are provided by delegate, then there is no need to call `ActivityStarter.fill(this);` in `onCreate`.`
 
 ## Installation
 
@@ -170,4 +176,3 @@ License
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
-

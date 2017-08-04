@@ -4,10 +4,9 @@ package com.example.activitystarter;
 import android.app.Fragment;
 
 import activitystarter.Arg;
-import activitystarter.Optional;
 
 public class MainFragment extends Fragment {
-    @Arg @Optional String name;
+    @Arg(optional = true) String name;
 }
 ********com.example.activitystarter.MainFragmentStarter********
 package com.example.activitystarter;
