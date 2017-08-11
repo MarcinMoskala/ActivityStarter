@@ -9,7 +9,7 @@ Android Library that provide simpler way to start the Activities with multiple a
 
 Field and method binding for Android Activity arguments, which uses annotation processing to generate boilerplate code for you, and:
  * Eliminate all putExtra and getXXXExtra methods.
- * Allows you to forget about all keys that were used to pass agruments.
+ * Allows you to forget about all keys that were used to pass arguments.
  * Support flags and Intent provide.
 
 Full documentation is located [here](https://github.com/MarcinMoskala/ActivityStarter/wiki). Here is TOC:
@@ -113,7 +113,7 @@ class StudentDataActivity : BaseActivity() {
 }
 ```
 
-Values are taken lazily and kept as fields, but there are still saved if `ActivityStarter.save(this);` is called in `onSaveInstanceState`. When all properties are provided by delegate, then there is no need to call `ActivityStarter.fill(this);` in `onCreate`.`
+Values are taken lazily and kept as fields, but there are still saved if `ActivityStarter.save(this)` is called in `onSaveInstanceState`. When all properties are provided by delegate, then there is no need to call `ActivityStarter.fill(this)` in `onCreate`.
 
 ## Installation
 
@@ -121,22 +121,19 @@ For Java project add in build.gradle file:
 
 ```groovy
 dependencies {
-    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.70'
-    apt 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.70'
+    compile 'com.github.marcinmoskala.activitystarter:activitystarter:1.00-beta.2'
+    apt 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:1.00-beta.2'
 }
 ```
 
 For Kotlin project add in build.gradle file:
 
 ```groovy
-
-kapt {
-    generateStubs = true
-}
+apply plugin: 'kotlin-kapt'
 
 dependencies {
-    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.70'
-    kapt 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.70'
+    compile 'com.github.marcinmoskala.activitystarter:activitystarter:1.00-beta.2'
+    kapt 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:1.00-beta.2'
 }
 ```
 
