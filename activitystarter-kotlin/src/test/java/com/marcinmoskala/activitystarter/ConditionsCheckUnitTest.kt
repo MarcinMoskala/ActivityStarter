@@ -13,7 +13,7 @@ class ConditionsCheckUnitTest {
     fun `when property define argument delegate and it does not contain annotation then error is thrown`() {
         assertThrowsError(ErrorMessages.noAnnotation) {
             object {
-                val a: A? by BoundToValueDelegateProvider()
+                val a: A? by BoundToArgValueDelegateProvider()
             }
         }
     }
@@ -22,7 +22,7 @@ class ConditionsCheckUnitTest {
     fun `when not nullable and not optional value and no default then throwing error`() {
         assertThrowsError(ErrorMessages.optionalValueNeeded) {
             object {
-                @get:Arg(optional = true) val a: A by BoundToValueDelegateProvider()
+                @get:Arg(optional = true) val a: A by BoundToArgValueDelegateProvider()
             }
         }
     }
@@ -30,20 +30,20 @@ class ConditionsCheckUnitTest {
     @Test
     fun `when nullable type, no default value is allowed`() {
         object {
-            @get:Arg val a: A? by BoundToValueDelegateProvider()
+            @get:Arg val a: A? by BoundToArgValueDelegateProvider()
         }
     }
 
     @Test
     fun `Other use-cases`() {
         object {
-            @get:Arg val a: A? by BoundToValueDelegateProvider(null)
-            @get:Arg val c: A? by BoundToValueDelegateProvider(A())
-            @get:Arg val d: A by BoundToValueDelegateProvider()
-            @get:Arg val e: A by BoundToValueDelegateProvider(A())
-            @get:Arg(optional = true) val f: A? by BoundToValueDelegateProvider(A())
-            @get:Arg(optional = true) val g: A? by BoundToValueDelegateProvider(null)
-            @get:Arg(optional = true) val h: A? by BoundToValueDelegateProvider()
+            @get:Arg val a: A? by BoundToArgValueDelegateProvider(null)
+            @get:Arg val c: A? by BoundToArgValueDelegateProvider(A())
+            @get:Arg val d: A by BoundToArgValueDelegateProvider()
+            @get:Arg val e: A by BoundToArgValueDelegateProvider(A())
+            @get:Arg(optional = true) val f: A? by BoundToArgValueDelegateProvider(A())
+            @get:Arg(optional = true) val g: A? by BoundToArgValueDelegateProvider(null)
+            @get:Arg(optional = true) val h: A? by BoundToArgValueDelegateProvider()
         }
     }
 

@@ -8,15 +8,14 @@ import java.lang.reflect.Method
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 import kotlin.reflect.full.findAnnotation
-import kotlin.reflect.jvm.javaGetter
 
-fun <T> Activity.argExtra(default: T? = null) = BoundToValueDelegateProvider(default)
+fun <T> Activity.argExtra(default: T? = null) = BoundToArgValueDelegateProvider(default)
 
-fun <T> Fragment.argExtra(default: T? = null) = BoundToValueDelegateProvider(default)
+fun <T> Fragment.argExtra(default: T? = null) = BoundToArgValueDelegateProvider(default)
 
-fun <T> android.support.v4.app.Fragment.argExtra(default: T? = null) = BoundToValueDelegateProvider(default)
+fun <T> android.support.v4.app.Fragment.argExtra(default: T? = null) = BoundToArgValueDelegateProvider(default)
 
-class BoundToValueDelegateProvider<T>(val default: T? = null) {
+class BoundToArgValueDelegateProvider<T>(val default: T? = null) {
 
     operator fun provideDelegate(
             thisRef: Any?,
