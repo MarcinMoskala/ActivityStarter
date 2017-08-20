@@ -1,18 +1,40 @@
 package com.marcinmoskala.activitystarter
 
 import activitystarter.ActivityStarterNameConstruction
+import activitystarter.Arg
 import android.app.Activity
 import android.app.Fragment
 import java.lang.reflect.Method
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
+import kotlin.reflect.full.findAnnotation
+import kotlin.reflect.jvm.javaGetter
 
-fun <T> Activity.argExtra(default: T? = null): ReadWriteProperty<Any, T> = BoundToValueDelegate(default)
+fun <T> Activity.argExtra(default: T? = null) = BoundToValueDelegateProvider(default)
 
-fun <T> Fragment.argExtra(default: T? = null): ReadWriteProperty<Any, T> = BoundToValueDelegate(default)
+fun <T> Fragment.argExtra(default: T? = null) = BoundToValueDelegateProvider(default)
 
-fun <T> android.support.v4.app.Fragment.argExtra(default: T? = null): ReadWriteProperty<Any, T> = BoundToValueDelegate(default)
+fun <T> android.support.v4.app.Fragment.argExtra(default: T? = null) = BoundToValueDelegateProvider(default)
 
+class BoundToValueDelegateProvider<T>(val default: T? = null) {
+
+    operator fun provideDelegate(
+            thisRef: Any?,
+            prop: KProperty<*>
+    ): ReadWriteProperty<Any, T> {
+        val annotation = prop.getter.findAnnotation<Arg>()
+        when {
+            annotation == null -> throw Error(ErrorMessages.noAnnotation)
+            annotation.optional && !prop.returnType.isMarkedNullable && default == null -> throw Error(ErrorMessages.optionalValueNeeded)
+        }
+        return BoundToValueDelegate(default)
+    }
+}
+
+internal object ErrorMessages {
+    const val noAnnotation = "Element getter must be annotated with Arg"
+    const val optionalValueNeeded = "Arguments that are optional and have not-nullable type must have defaut value specified"
+}
 
 private class BoundToValueDelegate<T>(var default: T?) : ReadWriteProperty<Any, T> {
 
@@ -43,6 +65,7 @@ private class BoundToValueDelegate<T>(var default: T?) : ReadWriteProperty<Any, 
     override fun toString(): String = if (valueSet) value.toString() else "Lazy value not initialized yet."
 }
 
+// This function is invoked only once for one lifetime of Activity for each property. Later value is cached
 private fun <T> getValueFromStarter(thisRef: Any, javaClass: Class<*>, fieldName: String, default: T?): T {
     val starterClass = getStarterClass(javaClass)
     val checkerName = ActivityStarterNameConstruction.getterFieldCheckerName(fieldName)

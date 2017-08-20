@@ -9,7 +9,7 @@ ext {
 
 ext.androidToolsVersion = '25.2.0'
 ext.supportLibraryVersion = '25.1.0'
-ext.kotlinVersion = '1.1.0'
+ext.kotlinVersion = '1.1.4-2'
 
 subprojects { project ->
     group = GROUP
