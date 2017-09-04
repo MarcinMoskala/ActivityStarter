@@ -117,23 +117,35 @@ Values are taken lazily and kept as fields, but there are still saved if `Activi
 
 ## Installation
 
-For Java project add in build.gradle file:
+For Java project add in `build.gradle` file:
 
 ```groovy
 dependencies {
-    compile 'com.github.marcinmoskala.activitystarter:activitystarter:1.00-beta.2'
-    apt 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:1.00-beta.2'
+    compile 'com.marcinmoskala.activitystarter:activitystarter:1.00-beta.2'
+    apt 'com.marcinmoskala.activitystarter:activitystarter-compiler:1.00-beta.2'
 }
 ```
 
-For Kotlin project add in build.gradle file:
+For Kotlin project add in `build.gradle` file:
 
 ```groovy
 apply plugin: 'kotlin-kapt'
 
 dependencies {
-    compile 'com.github.marcinmoskala.activitystarter:activitystarter:1.00-beta.2'
-    kapt 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:1.00-beta.2'
+    compile 'com.marcinmoskala.activitystarter:activitystarter:1.00-beta.2'
+    kapt 'com.marcinmoskala.activitystarter:activitystarter-compiler:1.00-beta.2'
+}
+```
+
+If you want to use Kotlin-specific elements, then add in `build.gradle` file:
+
+```groovy
+apply plugin: 'kotlin-kapt'
+
+dependencies {
+    compile 'com.marcinmoskala.activitystarter:activitystarter:1.00-beta.2'
+    compile 'com.marcinmoskala.activitystarter:activitystarter-kotlin:1.00-beta.2'
+    kapt 'com.marcinmoskala.activitystarter:activitystarter-compiler:1.00-beta.2'
 }
 ```
 
