@@ -36,6 +36,7 @@ dependencies {
 // On local project use:
 //    compile 'com.github.marcinmoskala.activitystarter:activitystarter:0.70'
 //    kapt 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:0.70'
+//    compile 'com.github.marcinmoskala.activitystarter:activitystarter-kotlin:0.70'
 
     compile deps.supportAppcompatv7
     compile deps.supportDesign
