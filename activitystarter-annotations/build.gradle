@@ -11,7 +11,7 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'com.github.dcendents.android-maven'
 
-group='com.github.marcinmoskala'
+group='com.marcinmoskala'
 
 def logger = new com.android.build.gradle.internal.LoggerWrapper(project.logger)
 def sdkHandler = new com.android.build.gradle.internal.SdkHandler(project, logger)
