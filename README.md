@@ -121,8 +121,8 @@ For Java project add in `build.gradle` file:
 
 ```groovy
 dependencies {
-    compile 'com.marcinmoskala:activitystarter:1.00-beta.2'
-    apt 'com.marcinmoskala:activitystarter-compiler:1.00-beta.2'
+    compile 'com.github.marcinmoskala.activitystarter:activitystarter:1.00-beta.2'
+    apt 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:1.00-beta.2'
 }
 ```
 
@@ -132,8 +132,8 @@ For Kotlin project add in `build.gradle` file:
 apply plugin: 'kotlin-kapt'
 
 dependencies {
-    compile 'com.marcinmoskala:activitystarter:1.00-beta.2'
-    kapt 'com.marcinmoskala:activitystarter-compiler:1.00-beta.2'
+    compile 'com.github.marcinmoskala.activitystarter:activitystarter:1.00-beta.2'
+    kapt 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:1.00-beta.2'
 }
 ```
 
@@ -143,9 +143,9 @@ If you want to use Kotlin-specific elements, then add in `build.gradle` file:
 apply plugin: 'kotlin-kapt'
 
 dependencies {
-    compile 'com.marcinmoskala:activitystarter:1.00-beta.2'
-    compile 'com.marcinmoskala:activitystarter-kotlin:1.00-beta.2'
-    kapt 'com.marcinmoskala:activitystarter-compiler:1.00-beta.2'
+    compile 'com.github.marcinmoskala.activitystarter:activitystarter:1.00-beta.2'
+    compile 'com.github.marcinmoskala.activitystarter:activitystarter-kotlin:1.00-beta.2'
+    kapt 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:1.00-beta.2'
 }
 ```
 
