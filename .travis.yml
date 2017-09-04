@@ -11,8 +11,8 @@ android:
 
 env:
   global:
-    - ANDROID_TARGET=sys-img-armeabi-v7a-addon-google_apis-google-21
-    - ANDROID_ABI=google_apis/armeabi-v7a
+    - ANDROID_TARGET=android-18
+    - ANDROID_ABI=sys-img-armeabi-v7a-android-18
   matrix:
     - TEST=:sample:app:connectedDebugAndroidTest
     - TEST=:activitystarter:test
