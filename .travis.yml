@@ -7,7 +7,7 @@ android:
     - build-tools-25.0.2
     - android-25
     - extra-android-m2repository
-    - sys-img-armeabi-v7a-android-19
+    - sys-img-armeabi-v7a-android-22
 
 jdk:
   - oraclejdk8
@@ -15,7 +15,7 @@ jdk:
 sudo: true
 
 before_script:
-  - echo no | android create avd --force -n test -t android-19 --abi armeabi-v7a
+  - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a
   - emulator -avd test -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82
