@@ -7,16 +7,7 @@ android:
     - build-tools-25.0.2
     - android-25
     - extra-android-m2repository
-    - sys-img-${ANDROID_ABI}-${ANDROID_TARGET}
-
-env:
-  global:
-    - ANDROID_TARGET=android-18
-    - ANDROID_ABI=sys-img-armeabi-v7a-android-18
-  matrix:
-    - TEST=:sample:app:connectedDebugAndroidTest
-    - TEST=:activitystarter:test
-    - TEST=:activitystarter-compiler:test
+    - sys-img-armeabi-v7a-android-22
 
 jdk:
   - oraclejdk8
@@ -24,10 +15,16 @@ jdk:
 sudo: true
 
 before_script:
-  - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
+  - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a
   - emulator -avd test -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82
+
+env:
+  matrix:
+    - TEST=:sample:app:connectedDebugAndroidTest
+    - TEST=:activitystarter:test
+    - TEST=:activitystarter-compiler:test
 
 script:
   - ./gradlew $TEST -i
