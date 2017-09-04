@@ -21,11 +21,7 @@ class BoundToArgValueDelegateProvider<T>(val default: T? = null) {
             thisRef: Any?,
             prop: KProperty<*>
     ): ReadWriteProperty<Any, T> {
-        val annotation = try {
-            prop.getter.findAnnotation<Arg>()
-        } catch (e: Error) {
-            return BoundToValueDelegate(default)
-        }
+        val annotation = prop.getter.findAnnotation<Arg>()
         when {
             annotation == null -> throw Error(ErrorMessages.noAnnotation)
             annotation.optional && !prop.returnType.isMarkedNullable && default == null -> throw Error(ErrorMessages.optionalValueNeeded)
