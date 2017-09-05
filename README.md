@@ -121,8 +121,8 @@ For Java project add in `build.gradle` file:
 
 ```groovy
 dependencies {
-    compile 'com.marcinmoskala.activitystarter:activitystarter:1.00-beta.2'
-    apt 'com.marcinmoskala.activitystarter:activitystarter-compiler:1.00-beta.2'
+    compile 'com.marcinmoskala.activitystarter:activitystarter:1.00-beta.4'
+    apt 'com.marcinmoskala.activitystarter:activitystarter-compiler:1.00-beta.4'
 }
 ```
 
@@ -132,8 +132,8 @@ For Kotlin project add in `build.gradle` file:
 apply plugin: 'kotlin-kapt'
 
 dependencies {
-    compile 'com.marcinmoskala.activitystarter:activitystarter:1.00-beta.2'
-    kapt 'com.marcinmoskala.activitystarter:activitystarter-compiler:1.00-beta.2'
+    compile 'com.marcinmoskala.activitystarter:activitystarter:1.00-beta.4'
+    kapt 'com.marcinmoskala.activitystarter:activitystarter-compiler:1.00-beta.4'
 }
 ```
 
@@ -143,9 +143,9 @@ If you want to use Kotlin-specific elements (property delegate `argExtra`), then
 apply plugin: 'kotlin-kapt'
 
 dependencies {
-    compile 'com.marcinmoskala.activitystarter:activitystarter:1.00-beta.2'
-    compile 'com.marcinmoskala.activitystarter:activitystarter-kotlin:1.00-beta.2'
-    kapt 'com.marcinmoskala.activitystarter:activitystarter-compiler:1.00-beta.2'
+    compile 'com.marcinmoskala.activitystarter:activitystarter:1.00-beta.4'
+    compile 'com.marcinmoskala.activitystarter:activitystarter-kotlin:1.00-beta.4'
+    kapt 'com.marcinmoskala.activitystarter:activitystarter-compiler:1.00-beta.4'
 }
 ```
 
