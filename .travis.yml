@@ -15,6 +15,7 @@ jdk:
 sudo: true
 
 before_script:
+  - android list targets
   - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a
   - emulator -avd test -no-window &
   - android-wait-for-emulator
