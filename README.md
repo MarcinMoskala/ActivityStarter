@@ -115,6 +115,16 @@ class StudentDataActivity : BaseActivity() {
 
 Values are taken lazily and kept as fields, but there are still saved if `ActivityStarter.save(this)` is called in `onSaveInstanceState`. When all properties are provided by delegate, then there is no need to call `ActivityStarter.fill(this)` in `onCreate`.
 
+## Parceler
+
+Since version 0.70, there is native support for [Parceler library](https://github.com/johncarl81/parceler). To wrap and unwrap parameter using Parceler, use `Arg` annotation with `parceler` property set to `true`:
+
+```
+@Arg(parceler = true) StudentParcel studentParceler;
+```
+
+See example [here](https://github.com/MarcinMoskala/ActivityStarter/blob/master/sample/app/src/main/java/com/example/activitystarter/parceler/StudentParcelerActivity.java).
+
 ## Installation
 
 For Java project add in `build.gradle` file:
@@ -158,16 +168,6 @@ repositories {
 ```
 
 More information on [Installation](https://github.com/MarcinMoskala/ActivityStarter/wiki/Installation) page.
-
-## Parceler
-
-Since version 0.70, there is native support for [Parceler library](https://github.com/johncarl81/parceler). To wrap and unwrap parameter using Parceler, use `Arg` annotation with `parceler` property set to `true`:
-
-```
-@Arg(parceler = true) StudentParcel studentParceler;
-```
-
-See example [here](https://github.com/MarcinMoskala/ActivityStarter/blob/master/sample/app/src/main/java/com/example/activitystarter/parceler/StudentParcelerActivity.java).
 
 License
 -------
