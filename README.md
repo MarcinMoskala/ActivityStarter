@@ -26,6 +26,8 @@ Full documentation is located [here](https://github.com/MarcinMoskala/ActivitySt
 * [Converters usage](https://github.com/MarcinMoskala/ActivityStarter/wiki/Converters-usage)
 * [How does it really work?](https://github.com/MarcinMoskala/ActivityStarter/wiki/How-does-it-really-work?)
 
+To stay current with news about library [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/fold_left.svg?style=social&label=Follow%20%40marcinmoskala)](https://twitter.com/marcinmoskala?ref_src=twsrc%5Etfw)
+
 # Example
 
 With ActivityStarter, to pass arguments to Activity, Fragment, Service or BroadcastReceiver, all you need is `@Arg` annotation before parameters that needs to be passed:
