@@ -171,6 +171,14 @@ repositories {
 
 More information on [Installation](https://github.com/MarcinMoskala/ActivityStarter/wiki/Installation) page.
 
+## Other libraries
+
+Check out also my other libraries:
+ * [PreferenceHolder](https://github.com/MarcinMoskala/PreferenceHolder) - Library for simple SharedPreference management in Kotlin
+ * [ArcSeekBar](https://github.com/MarcinMoskala/ArcSeekBar) - Good looking curved Android SeekBar
+ * [VideoPlayView](https://github.com/MarcinMoskala/VideoPlayView) - Custom Android view with video player, loader and placeholder image
+ * [KotlinAndroidViewBindings](https://github.com/MarcinMoskala/KotlinAndroidViewBindings) - Bindings from simple Kotlin types (Boolean, String) to layout traits (visibility, text).
+
 License
 -------
 
