@@ -1,5 +1,5 @@
 # ActivityStarter
-Android Library that provide simpler way to start the Activities with multiple arguments.
+Android Library that provides simpler way to start the Activities with multiple arguments.
 
 [![](https://jitpack.io/v/MarcinMoskala/ActivityStarter.svg)](https://jitpack.io/#MarcinMoskala/ActivityStarter)
 [![codebeat badge](https://codebeat.co/badges/a1727670-96fe-4c89-9bdb-f1818a6dc066)](https://codebeat.co/projects/github-com-marcinmoskala-activitystarter)
@@ -7,10 +7,10 @@ Android Library that provide simpler way to start the Activities with multiple a
 [![Stories in Ready](https://badge.waffle.io/MarcinMoskala/ActivityStarter.svg?label=ready&title=Ready)](http://waffle.io/MarcinMoskala/ActivityStarter)
 [![Join the chat at https://gitter.im/ActivityStarter/Lobby](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ActivityStarter/Lobby)
 
-Field and method binding for Android Activity arguments, which uses annotation processing to generate boilerplate code for you, and:
- * Eliminate all putExtra and getXXXExtra methods.
- * Allows you to forget about all keys that were used to pass arguments.
- * Support flags and Intent provide.
+Library bindes fields to Actity, Fragment, Service or Receiver arguments and generates simple starters. Thanks to that you can: 
+ * Eliminate all putExtra and getXXXExtra methods
+ * Forget about all keys that were used to pass arguments (unless you want to define custom onces)
+ * Start liking starting flags and intent creation
 
 Full documentation is located [here](https://github.com/MarcinMoskala/ActivityStarter/wiki). Here is TOC:
 * [Introdution](https://github.com/MarcinMoskala/ActivityStarter/wiki/Introdution)
@@ -26,7 +26,7 @@ Full documentation is located [here](https://github.com/MarcinMoskala/ActivitySt
 * [Converters usage](https://github.com/MarcinMoskala/ActivityStarter/wiki/Converters-usage)
 * [How does it really work?](https://github.com/MarcinMoskala/ActivityStarter/wiki/How-does-it-really-work?)
 
-To stay current with news about library [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/fold_left.svg?style=social&label=Follow%20%40marcinmoskala)](https://twitter.com/marcinmoskala?ref_src=twsrc%5Etfw)
+To stay up-to-date with news about library [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/fold_left.svg?style=social&label=Follow%20%40marcinmoskala)](https://twitter.com/marcinmoskala?ref_src=twsrc%5Etfw)
 
 # Example
 
@@ -90,7 +90,7 @@ public class MainActivity extends BaseActivity {
 }
 ```
 
-Then will be generated also generators that does not contain them:
+Then additional generators with not all arguments will be created
 
 ```java
 MainActivityStarter.start(context);
@@ -115,7 +115,7 @@ class StudentDataActivity : BaseActivity() {
 }
 ```
 
-Values are taken lazily and kept as fields, but there are still saved if `ActivityStarter.save(this)` is called in `onSaveInstanceState`. When all properties are provided by delegate, then there is no need to call `ActivityStarter.fill(this)` in `onCreate`.
+Values are taken lazily and kept as fields, but there are still saved if `ActivityStarter.save(this)` is called in`onSaveInstanceState`. When all properties are provided by delegate, then there is no need to call `ActivityStarter.fill(this)` in `onCreate`.
 
 ## Parceler
 
@@ -173,12 +173,12 @@ More information on [Installation](https://github.com/MarcinMoskala/ActivityStar
 
 ## Other libraries
 
-If you like it, remamber to leave the star and check out my other libraries:
+If you like it, remember to leave the star and check out my other libraries:
  * [ActivityStarter](https://github.com/MarcinMoskala/ActivityStarter/blob/master/README.md) - Simple Android Library, that provides easy way to start and save state of Activities, Fragments, Services and Receivers with arguments.
  * [PreferenceHolder](https://github.com/MarcinMoskala/PreferenceHolder) - Library for simple SharedPreference management in Kotlin
  * [ArcSeekBar](https://github.com/MarcinMoskala/ArcSeekBar) - Good looking curved Android SeekBar
  * [VideoPlayView](https://github.com/MarcinMoskala/VideoPlayView) - Custom Android view with video player, loader and placeholder image
- * [KotlinAndroidViewBindings](https://github.com/MarcinMoskala/KotlinAndroidViewBindings) - Bindings from simple Kotlin types (Boolean, String) to layout traits (visibility, text).
+ * [KotlinAndroidViewBindings](https://github.com/MarcinMoskala/KotlinAndroidViewBindings) - Bindings for properties with simple Kotlin types (Boolean, String) to layout traits (visibility, text).
 
 License
 -------
