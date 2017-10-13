@@ -173,7 +173,7 @@ More information on [Installation](https://github.com/MarcinMoskala/ActivityStar
 
 ## Other libraries
 
-Check out also my other libraries:
+Check out my other libraries:
  * [PreferenceHolder](https://github.com/MarcinMoskala/PreferenceHolder) - Library for simple SharedPreference management in Kotlin
  * [ArcSeekBar](https://github.com/MarcinMoskala/ArcSeekBar) - Good looking curved Android SeekBar
  * [VideoPlayView](https://github.com/MarcinMoskala/VideoPlayView) - Custom Android view with video player, loader and placeholder image
