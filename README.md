@@ -7,6 +7,7 @@ Android Library that provides simpler way to start the Activities with multiple 
 [![Stories in Ready](https://badge.waffle.io/MarcinMoskala/ActivityStarter.svg?label=ready&title=Ready)](http://waffle.io/MarcinMoskala/ActivityStarter)
 [![Join the chat at https://gitter.im/ActivityStarter/Lobby](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ActivityStarter/Lobby)
 [![Analytics](https://ga-beacon.appspot.com/UA-92159206-2/main-page?pixel)](https://github.com/MarcinMoskala/ActivityStarter)
+[![Analytics](https://ga-beacon.appspot.com/UA-92159206-7/main-page?pixel)](https://github.com/MarcinMoskala/ActivityStarter)
 
 Library bindes fields to Actity, Fragment, Service or Receiver arguments and generates simple starters. Thanks to that you can: 
  * Eliminate all putExtra and getXXXExtra methods
