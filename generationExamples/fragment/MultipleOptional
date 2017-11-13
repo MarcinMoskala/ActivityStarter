@@ -30,7 +30,12 @@ public final class MainFragmentStarter {
     Bundle bundle = new Bundle();
     bundle.putString(NAME_KEY, fragment.name);
     bundle.putInt(ID_KEY, fragment.id);
-    fragment.getArguments().putAll(bundle);
+    Bundle arguments = fragment.getArguments();
+    if (arguments == null) {
+      fragment.setArguments(bundle);
+    } else {
+      arguments.putAll(bundle);
+    }
   }
 
   public static MainFragment newInstance(String name, int id) {

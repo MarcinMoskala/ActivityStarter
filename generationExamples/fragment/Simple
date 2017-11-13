@@ -25,7 +25,12 @@ public final class MainFragmentStarter {
   public static void save(MainFragment fragment) {
     Bundle bundle = new Bundle();
     bundle.putString(NAME_KEY, fragment.name);
-    fragment.getArguments().putAll(bundle);
+    Bundle arguments = fragment.getArguments();
+    if (arguments == null) {
+      fragment.setArguments(bundle);
+    } else {
+      arguments.putAll(bundle);
+    }
   }
 
   public static MainFragment newInstance(String name) {
