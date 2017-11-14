@@ -13,6 +13,9 @@ Library bindes fields to Actity, Fragment, Service or Receiver arguments and gen
  * Eliminate all putExtra and getXXXExtra methods
  * Forget about all keys that were used to pass arguments (unless you want to define custom onces)
  * Start liking starting flags and intent creation
+ 
+Media:
+* [Way to ActivityStarter](https://medium.com/@marcinmoskala/way-to-activitystarter-5f9ea239faa8)
 
 Full documentation is located [here](https://github.com/MarcinMoskala/ActivityStarter/wiki). Here is TOC:
 * [Introdution](https://github.com/MarcinMoskala/ActivityStarter/wiki/Introdution)
