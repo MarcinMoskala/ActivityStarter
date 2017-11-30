@@ -42,7 +42,7 @@ public final class SomeServiceStarter {
     if(intent.hasExtra(SURNAME_KEY))
          service.surname = intent.getStringExtra(SURNAME_KEY);
     if(intent.hasExtra(ID_KEY))
-         service.id = intent.getIntExtra(ID_KEY, 0);
+         service.id = intent.getIntExtra(ID_KEY, -1);
   }
 
   public static Intent getIntent(Context context, String name, String surname, int id) {

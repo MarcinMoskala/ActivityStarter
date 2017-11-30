@@ -42,7 +42,7 @@ public final class MainActivityStarter {
   public static void fill(MainActivity activity) {
     Intent intent = activity.getIntent();
     if(intent.hasExtra(L_KEY))
-         activity.l = new com.example.activitystarter.MainActivity.IntToLongConverter().unwrap(intent.getLongExtra(L_KEY, 0L));
+         activity.l = new com.example.activitystarter.MainActivity.IntToLongConverter().unwrap(intent.getLongExtra(L_KEY, -1L));
   }
 
   public static void save(MainActivity activity) {

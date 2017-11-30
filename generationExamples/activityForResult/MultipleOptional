@@ -27,7 +27,7 @@ public final class MainActivityStarter {
     if(intent.hasExtra(NAME_KEY))
          activity.name = intent.getStringExtra(NAME_KEY);
     if(intent.hasExtra(ID_KEY))
-         activity.id = intent.getIntExtra(ID_KEY, 0);
+         activity.id = intent.getIntExtra(ID_KEY, -1);
   }
 
   public static void save(MainActivity activity) {
