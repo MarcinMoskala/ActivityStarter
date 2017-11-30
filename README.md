@@ -13,6 +13,9 @@ Library bindes fields to Actity, Fragment, Service or Receiver arguments and gen
  * Eliminate all putExtra and getXXXExtra methods
  * Forget about all keys that were used to pass arguments (unless you want to define custom onces)
  * Start liking starting flags and intent creation
+ 
+Media:
+* [Way to ActivityStarter](https://medium.com/@marcinmoskala/way-to-activitystarter-5f9ea239faa8)
 
 Full documentation is located [here](https://github.com/MarcinMoskala/ActivityStarter/wiki). Here is TOC:
 * [Introdution](https://github.com/MarcinMoskala/ActivityStarter/wiki/Introdution)
@@ -135,8 +138,8 @@ For Java project add in `build.gradle` file:
 
 ```groovy
 dependencies {
-    compile 'com.marcinmoskala.activitystarter:activitystarter:1.00'
-    apt 'com.marcinmoskala.activitystarter:activitystarter-compiler:1.00'
+    compile 'com.marcinmoskala.activitystarter:activitystarter:1.01'
+    apt 'com.marcinmoskala.activitystarter:activitystarter-compiler:1.01'
 }
 ```
 
@@ -146,8 +149,8 @@ For Kotlin project add in `build.gradle` file:
 apply plugin: 'kotlin-kapt'
 
 dependencies {
-    compile 'com.marcinmoskala.activitystarter:activitystarter:1.00'
-    kapt 'com.marcinmoskala.activitystarter:activitystarter-compiler:1.00'
+    compile 'com.marcinmoskala.activitystarter:activitystarter:1.01'
+    kapt 'com.marcinmoskala.activitystarter:activitystarter-compiler:1.01'
 }
 ```
 
@@ -157,9 +160,9 @@ If you want to use Kotlin-specific elements (property delegate `argExtra`), then
 apply plugin: 'kotlin-kapt'
 
 dependencies {
-    compile 'com.marcinmoskala.activitystarter:activitystarter:1.00'
-    compile 'com.marcinmoskala.activitystarter:activitystarter-kotlin:1.00'
-    kapt 'com.marcinmoskala.activitystarter:activitystarter-compiler:1.00'
+    compile 'com.marcinmoskala.activitystarter:activitystarter:1.01'
+    compile 'com.marcinmoskala.activitystarter:activitystarter-kotlin:1.01'
+    kapt 'com.marcinmoskala.activitystarter:activitystarter-compiler:1.01'
 }
 ```
 
