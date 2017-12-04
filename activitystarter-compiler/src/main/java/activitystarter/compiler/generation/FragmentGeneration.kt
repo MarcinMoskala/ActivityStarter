@@ -15,6 +15,7 @@ internal class FragmentGeneration(classModel: ClassModel) : ClassGeneration(clas
             .doIf(classModel.argumentModels.isNotEmpty()) {
                 addFieldSettersCode()
             }
+            .addStatement("if(fragment.getArguments() == null) fragment.setArguments(new \$T())", BUNDLE)
             .build()!!
 
     override fun createStarters(variant: List<ArgumentModel>): List<MethodSpec> = listOf(
@@ -51,12 +52,7 @@ internal class FragmentGeneration(classModel: ClassModel) : ClassGeneration(clas
             .doIf(classModel.savable) {
                 addStatement("\$T bundle = new Bundle()", BUNDLE)
                 addSaveBundleStatements("bundle", classModel.argumentModels, { "fragment.${it.accessor.makeGetter()}" })
-                addStatement("Bundle arguments = fragment.getArguments()")
-                addCode("if (arguments == null) {")
-                addStatement("    fragment.setArguments(bundle)")
-                addCode("} else {")
-                addStatement("    arguments.putAll(bundle)")
-                addCode("}")
+                addStatement("fragment.getArguments().putAll(bundle)")
             }
             .build()
 
