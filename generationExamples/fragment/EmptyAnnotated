@@ -13,18 +13,13 @@ package com.example.activitystarter;
 import android.os.Bundle;
 
 public final class MainFragmentStarter {
-
+  /**
+   * This is method used to fill fields. Use it by calling ActivityStarter.fill(this). */
   public static void fill(MainFragment fragment) {
+    if(fragment.getArguments() == null) fragment.setArguments(new Bundle());
   }
 
   public static void save(MainFragment fragment) {
-    Bundle bundle = new Bundle();
-    Bundle arguments = fragment.getArguments();
-    if (arguments == null) {
-      fragment.setArguments(bundle);
-    } else {
-      arguments.putAll(bundle);
-    }
   }
 
   public static MainFragment newInstance() {

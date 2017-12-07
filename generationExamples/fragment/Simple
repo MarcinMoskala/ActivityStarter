@@ -18,6 +18,7 @@ public final class MainFragmentStarter {
   private static final String NAME_KEY = "com.example.activitystarter.nameStarterKey";
 
   public static void fill(MainFragment fragment) {
+    if(fragment.getArguments() == null) fragment.setArguments(new Bundle());
     Bundle arguments = fragment.getArguments();
     if(arguments != null && arguments.containsKey(NAME_KEY)) fragment.name = arguments.getString(NAME_KEY);
   }
@@ -25,12 +26,7 @@ public final class MainFragmentStarter {
   public static void save(MainFragment fragment) {
     Bundle bundle = new Bundle();
     bundle.putString(NAME_KEY, fragment.name);
-    Bundle arguments = fragment.getArguments();
-    if (arguments == null) {
-      fragment.setArguments(bundle);
-    } else {
-      arguments.putAll(bundle);
-    }
+    fragment.getArguments().putAll(bundle);
   }
 
   public static MainFragment newInstance(String name) {

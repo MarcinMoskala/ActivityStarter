@@ -12,10 +12,10 @@ internal class FragmentGeneration(classModel: ClassModel) : ClassGeneration(clas
 
     override fun createFillFieldsMethod() = getBasicFillMethodBuilder()
             .addParameter(classModel.targetTypeName, "fragment")
+            .addStatement("if(fragment.getArguments() == null) fragment.setArguments(new \$T())", BUNDLE)
             .doIf(classModel.argumentModels.isNotEmpty()) {
                 addFieldSettersCode()
             }
-            .addStatement("if(fragment.getArguments() == null) fragment.setArguments(new \$T())", BUNDLE)
             .build()!!
 
     override fun createStarters(variant: List<ArgumentModel>): List<MethodSpec> = listOf(
@@ -49,7 +49,7 @@ internal class FragmentGeneration(classModel: ClassModel) : ClassGeneration(clas
     private fun createSaveMethod(): MethodSpec = this
             .builderWithCreationBasicFieldsNoContext("save")
             .addParameter(classModel.targetTypeName, "fragment")
-            .doIf(classModel.savable) {
+            .doIf(classModel.savable && classModel.argumentModels.isNotEmpty()) {
                 addStatement("\$T bundle = new Bundle()", BUNDLE)
                 addSaveBundleStatements("bundle", classModel.argumentModels, { "fragment.${it.accessor.makeGetter()}" })
                 addStatement("fragment.getArguments().putAll(bundle)")

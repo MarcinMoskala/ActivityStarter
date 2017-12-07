@@ -21,8 +21,8 @@ public final class MainFragmentStarter {
   private static final String SURNAME_KEY = "com.example.activitystarter.surnameStarterKey";
 
   public static void fill(MainFragment fragment) {
+    if(fragment.getArguments() == null) fragment.setArguments(new Bundle());
     Bundle arguments = fragment.getArguments();
-
     if(arguments != null && arguments.containsKey(NAME_KEY)) fragment.name = arguments.getString(NAME_KEY);
     if(arguments != null && arguments.containsKey(SURNAME_KEY)) fragment.surname = arguments.getString(SURNAME_KEY);
   }
@@ -31,12 +31,7 @@ public final class MainFragmentStarter {
     Bundle bundle = new Bundle();
     bundle.putString(NAME_KEY, fragment.name);
     bundle.putString(SURNAME_KEY, fragment.surname);
-    Bundle arguments = fragment.getArguments();
-    if (arguments == null) {
-      fragment.setArguments(bundle);
-    } else {
-      arguments.putAll(bundle);
-    }
+    fragment.getArguments().putAll(bundle);
   }
 
   public static MainFragment newInstance(String name, String surname) {
