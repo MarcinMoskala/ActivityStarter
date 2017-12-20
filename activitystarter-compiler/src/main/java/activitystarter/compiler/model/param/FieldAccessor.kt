@@ -7,7 +7,7 @@ import javax.lang.model.element.TypeElement
 import javax.lang.model.util.ElementFilter
 
 class FieldAccessor private constructor(
-        private val fieldName: String,
+        val fieldName: String,
         private val setterType: FieldAccessType,
         private val getterType: FieldAccessType
 ) {
@@ -23,11 +23,11 @@ class FieldAccessor private constructor(
         FieldAccessType.Inaccessible -> null
     }
 
-    fun makeGetter(): String = when (getterType) {
+    fun makeGetter(): String? = when (getterType) {
         FieldAccessType.Accessible -> fieldName
         FieldAccessType.ByMethod -> "get${fieldName.capitalize()}()"
         FieldAccessType.ByNoIsMethod -> "is${fieldName.substring(2)}()"
-        FieldAccessType.Inaccessible -> throw Error(Errors.noGetter)
+        FieldAccessType.Inaccessible -> null
     }
 
     companion object {

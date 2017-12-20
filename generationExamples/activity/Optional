@@ -1,11 +1,11 @@
 ********com.example.activitystarter.MainActivity********
- package com.example.activitystarter;
- import android.app.Activity;
- import activitystarter.Arg;
+package com.example.activitystarter;
+import android.app.Activity;
+import activitystarter.Arg;
 
- public class MainActivity extends Activity {
-     @Arg(optional = true) String name;
- }
+public class MainActivity extends Activity {
+  @Arg(optional = true) String name;
+}
 ********com.example.activitystarter.MainActivityStarter********
 package com.example.activitystarter;
 
@@ -23,10 +23,8 @@ public final class MainActivityStarter {
          activity.name = intent.getStringExtra(NAME_KEY);
   }
 
-  public static void save(MainActivity activity) {
-    Bundle bundle = new Bundle();
-    bundle.putString(NAME_KEY, activity.name);
-    activity.getIntent().putExtras(bundle);
+  public static void save(MainActivity activity, Bundle bundle) {
+      bundle.putString("com.example.activitystarter.nameStarterKey", activity.name);
   }
 
   public static Intent getIntent(Context context, String name) {

@@ -35,10 +35,9 @@ internal class ActivityGeneration(classModel: ClassModel) : IntentBinding(classM
     private fun createSaveMethod(): MethodSpec = this
             .builderWithCreationBasicFieldsNoContext("save")
             .addParameter(classModel.targetTypeName, "activity")
+            .addParameter(BUNDLE, "bundle")
             .doIf(classModel.savable) {
-                addStatement("\$T bundle = new Bundle()", BUNDLE)
-                addSaveBundleStatements("bundle", classModel.argumentModels, { "activity.${it.accessor.makeGetter()}" })
-                addStatement("activity.getIntent().putExtras(bundle)")
+                addSaveBundleStatements("bundle", classModel.argumentModels, { it.accessor.makeGetter()?.let { "activity.$it" } })
             }
             .build()
 

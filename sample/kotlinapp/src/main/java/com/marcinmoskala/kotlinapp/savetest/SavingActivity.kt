@@ -28,7 +28,7 @@ class SavingActivity : Activity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        ActivityStarter.save(this)
+        ActivityStarter.save(this, outState)
     }
 
     companion object {

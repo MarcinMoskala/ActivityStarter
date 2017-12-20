@@ -40,9 +40,10 @@ internal abstract class ClassGeneration(val classModel: ClassModel) {
         variant.forEach { arg -> addParameter(arg.typeName, arg.name) }
     }
 
-    protected fun MethodSpec.Builder.addSaveBundleStatements(bundleName: String, variant: List<ArgumentModel>, argumentGetByName: (ArgumentModel) -> String) = apply {
+    protected fun MethodSpec.Builder.addSaveBundleStatements(bundleName: String, variant: List<ArgumentModel>, argumentGetByName: (ArgumentModel) -> String?) = apply {
         variant.forEach { arg ->
-            val value = arg.addWrapper { argumentGetByName(arg) }
+            val argumentGetterFunction = argumentGetByName(arg) ?: return@forEach
+            val value = arg.addWrapper { argumentGetterFunction }
             addStatement("$bundleName.${getBundleSetterFor(arg.saveParamType)}(${arg.keyFieldName}, $value)")
         }
     }

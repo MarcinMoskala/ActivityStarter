@@ -34,31 +34,31 @@ public final class ActivityStarter {
         innerFill(target, intent, Intent.class);
     }
 
-    public static void save(@NonNull Activity target) {
+    public static void save(@NonNull Activity target, Bundle bundle) {
         Class<?> targetClass = target.getClass();
         Class<?> starterClass = getStarterClass(targetClass);
         if (starterClass == null) return;
-        Method method = getMethod(starterClass, "save", targetClass);
+        Method method = getMethod(starterClass, "save", targetClass, Bundle.class);
         if (method == null) return;
-        invokeMethod(method, target);
+        invokeMethod(method, target, bundle);
     }
 
-    public static void save(@NonNull Fragment target) {
+    public static void save(@NonNull Fragment target, Bundle bundle) {
         Class<?> targetClass = target.getClass();
         Class<?> starterClass = getStarterClass(targetClass);
         if (starterClass == null) return;
-        Method method = getMethod(starterClass, "save", targetClass);
+        Method method = getMethod(starterClass, "save", targetClass, Bundle.class);
         if (method == null) return;
-        invokeMethod(method, target);
+        invokeMethod(method, target, bundle);
     }
 
-    public static void save(@NonNull android.support.v4.app.Fragment target) {
+    public static void save(@NonNull android.support.v4.app.Fragment target, Bundle bundle) {
         Class<?> targetClass = target.getClass();
         Class<?> starterClass = getStarterClass(targetClass);
         if (starterClass == null) return;
-        Method method = getMethod(starterClass, "save", targetClass);
+        Method method = getMethod(starterClass, "save", targetClass, Bundle.class);
         if (method == null) return;
-        invokeMethod(method, target);
+        invokeMethod(method, target, bundle);
     }
 
     private static void innerFill(@NonNull Object target) {

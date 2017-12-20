@@ -65,7 +65,7 @@ class ArgumentFactory(val enclosingElement: TypeElement, val config: ProjectConf
         val paramType = ParamType.fromType(returnType)
         val accessor: FieldAccessor = FieldAccessor.fromGetter(name)
 
-        val error = getGetterError(knownClassType, paramType)
+        val error = getGetterError(knownClassType, paramType, accessor)
         if (error != null) {
             showProcessingError(getterElement, error)
             return null
@@ -89,7 +89,7 @@ class ArgumentFactory(val enclosingElement: TypeElement, val config: ProjectConf
             val converter = config.converterFor(elementType)
             val saveParamType = converter?.toParamType ?: paramType
             if (saveParamType == ParamType.ObjectSubtype) {
-                showProcessingError(element, Errors.notSupportedType)
+                showProcessingError(element, Errors.notSupportedType.replace("{Type}", paramType.name).replace("{Field}", element.simpleName?.toString() ?: ""))
                 return null
             }
             return converter to saveParamType
@@ -99,16 +99,16 @@ class ArgumentFactory(val enclosingElement: TypeElement, val config: ProjectConf
     private fun getFieldError(knownClassType: KnownClassType, paramTypeNullable: ParamType?, accessor: FieldAccessor) = when {
         enclosingElement.kind != ElementKind.CLASS -> Errors.notAClass
         enclosingElement.modifiers.contains(Modifier.PRIVATE) -> Errors.privateClass
-        paramTypeNullable == null -> Errors.notSupportedType
+        paramTypeNullable == null -> Errors.notSupportedType.replace("{Type}", paramTypeNullable?.name ?: "null").replace("{Field}", accessor.fieldName)
         !accessor.isAccessible() -> Errors.inaccessibleField
         paramTypeNullable.typeUsedBySupertype() && knownClassType == KnownClassType.BroadcastReceiver -> Errors.notBasicTypeInReceiver
         else -> null
     }
 
-    private fun getGetterError(knownClassType: KnownClassType, paramTypeNullable: ParamType?) = when {
+    private fun getGetterError(knownClassType: KnownClassType, paramTypeNullable: ParamType?, accessor: FieldAccessor) = when {
         enclosingElement.kind != ElementKind.CLASS -> Errors.notAClass
         enclosingElement.modifiers.contains(Modifier.PRIVATE) -> Errors.privateClass
-        paramTypeNullable == null -> Errors.notSupportedType
+        paramTypeNullable == null -> Errors.notSupportedType.replace("{Type}", paramTypeNullable?.name ?: "null").replace("{Field}", accessor.fieldName)
         paramTypeNullable.typeUsedBySupertype() && knownClassType == KnownClassType.BroadcastReceiver -> Errors.notBasicTypeInReceiver
         else -> null
     }

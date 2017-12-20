@@ -49,10 +49,9 @@ internal class FragmentGeneration(classModel: ClassModel) : ClassGeneration(clas
     private fun createSaveMethod(): MethodSpec = this
             .builderWithCreationBasicFieldsNoContext("save")
             .addParameter(classModel.targetTypeName, "fragment")
+            .addParameter(BUNDLE, "bundle")
             .doIf(classModel.savable && classModel.argumentModels.isNotEmpty()) {
-                addStatement("\$T bundle = new Bundle()", BUNDLE)
-                addSaveBundleStatements("bundle", classModel.argumentModels, { "fragment.${it.accessor.makeGetter()}" })
-                addStatement("fragment.getArguments().putAll(bundle)")
+                addSaveBundleStatements("bundle", classModel.argumentModels, { it.accessor.makeGetter()?.let { "fragment.$it" } })
             }
             .build()
 

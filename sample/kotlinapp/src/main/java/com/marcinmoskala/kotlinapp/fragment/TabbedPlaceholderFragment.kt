@@ -29,6 +29,6 @@ class TabbedPlaceholderFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
-        ActivityStarter.save(this)
+        ActivityStarter.save(this, outState)
     }
 }
