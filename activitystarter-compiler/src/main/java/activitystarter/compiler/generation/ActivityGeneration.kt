@@ -11,6 +11,7 @@ internal class ActivityGeneration(classModel: ClassModel) : IntentBinding(classM
 
     override fun createFillFieldsMethod() = getBasicFillMethodBuilder()
             .addParameter(classModel.targetTypeName, "activity")
+            .addParameter(BUNDLE, "savedInstanceState")
             .doIf(classModel.argumentModels.isNotEmpty()) { addFieldSettersCode() }
             .build()!!
 
@@ -28,8 +29,20 @@ internal class ActivityGeneration(classModel: ClassModel) : IntentBinding(classM
             .addNoSettersAccessors()
 
     private fun MethodSpec.Builder.addFieldSettersCode() {
-        addStatement("\$T intent = activity.getIntent()", INTENT)
-        addIntentSetters("activity")
+        if (classModel.savable) {
+            for (arg in classModel.argumentModels) {
+                arg.accessor.makeSetter("") ?: return
+                val bundleName = "savedInstanceState"
+                val bundlePredicate = getBundlePredicate(bundleName, arg.keyFieldName)
+                addCode("if($bundleName != null && $bundlePredicate) {\n")
+                addBundleSetter(arg, bundleName, "activity", false)
+                addCode("} else {")
+                addIntentSetter(arg, "activity")
+                addCode("}")
+            }
+        } else {
+            addIntentSetters("activity")
+        }
     }
 
     private fun createSaveMethod(): MethodSpec = this

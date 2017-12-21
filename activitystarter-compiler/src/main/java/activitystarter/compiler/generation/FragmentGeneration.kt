@@ -12,7 +12,7 @@ internal class FragmentGeneration(classModel: ClassModel) : ClassGeneration(clas
 
     override fun createFillFieldsMethod() = getBasicFillMethodBuilder()
             .addParameter(classModel.targetTypeName, "fragment")
-            .addStatement("if(fragment.getArguments() == null) fragment.setArguments(new \$T())", BUNDLE)
+            .addParameter(BUNDLE, "savedInstanceState")
             .doIf(classModel.argumentModels.isNotEmpty()) {
                 addFieldSettersCode()
             }
@@ -28,7 +28,20 @@ internal class FragmentGeneration(classModel: ClassModel) : ClassGeneration(clas
 
     private fun MethodSpec.Builder.addFieldSettersCode() {
         addStatement("\$T arguments = fragment.getArguments()", BUNDLE)
-        addBundleSetters("arguments", "fragment", true)
+        if (classModel.savable) {
+            for (arg in classModel.argumentModels) {
+                arg.accessor.makeSetter("") ?: return
+                val bundleName = "savedInstanceState"
+                val bundlePredicate = getBundlePredicate(bundleName, arg.keyFieldName)
+                addCode("if($bundleName != null && $bundlePredicate) {\n")
+                addBundleSetter(arg, bundleName, "fragment", false)
+                addCode("} else {")
+                addBundleSetter(arg, "arguments", "fragment", true)
+                addCode("}")
+            }
+        } else {
+            addBundleSetters("arguments", "fragment", true)
+        }
     }
 
     private fun createGetFragmentMethod(variant: List<ArgumentModel>) = builderWithCreationBasicFieldsNoContext("newInstance")
