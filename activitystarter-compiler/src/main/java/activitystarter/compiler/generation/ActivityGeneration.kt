@@ -29,6 +29,7 @@ internal class ActivityGeneration(classModel: ClassModel) : IntentBinding(classM
             .addNoSettersAccessors()
 
     private fun MethodSpec.Builder.addFieldSettersCode() {
+        addStatement("\$T intent = activity.getIntent()", INTENT)
         if (classModel.savable) {
             for (arg in classModel.argumentModels) {
                 arg.accessor.makeSetter("") ?: return

@@ -37,6 +37,6 @@ public class TabbedPlaceholderFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        ActivityStarter.save(this);
+        ActivityStarter.save(this, outState);
     }
 }

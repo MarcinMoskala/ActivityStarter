@@ -37,6 +37,6 @@ public class SavingActivity extends Activity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        ActivityStarter.save(this);
+        ActivityStarter.save(this, outState);
     }
 }
