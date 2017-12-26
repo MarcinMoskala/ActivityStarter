@@ -47,6 +47,9 @@
 
         <activity android:name=".savetest.SavingActivity" />
         <activity android:name=".savetest.NonSavingActivity" />
+        <activity
+            android:name=".SavingTestActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

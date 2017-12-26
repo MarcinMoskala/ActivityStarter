@@ -24,6 +24,7 @@ android {
 
 dependencies {
     compile project(':activitystarter')
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     annotationProcessor project(':activitystarter-compiler')
 
 //  In real project use this:

@@ -90,5 +90,12 @@
         android:textAllCaps="false"
         android:id="@+id/show_tabbed_fragment_activity_button"/>
 
+    <Button
+        android:text="Show saving test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:id="@+id/show_saving_test_button"/>
+
 </LinearLayout>
 </ScrollView>

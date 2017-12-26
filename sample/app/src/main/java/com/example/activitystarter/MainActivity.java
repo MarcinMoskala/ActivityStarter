@@ -25,6 +25,7 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.show_parceler_data_button) Button showParcelaberDataButton;
     @BindView(R.id.show_serializable_data_button) Button showSerializableDataButton;
     @BindView(R.id.show_tabbed_fragment_activity_button) Button showTabbedFragmentActivityButton;
+    @BindView(R.id.show_saving_test_button) Button showSavingTestButton;
 
     @BindView(R.id.student_name) AutoCompleteTextView studentNameView;
     @BindView(R.id.student_id) AutoCompleteTextView studentIdView;
@@ -70,6 +71,12 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 StudentParcelerActivityStarter.start(MainActivity.this, new StudentParceler(5, "Marcin", 'A'));
+            }
+        });
+        showSavingTestButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SavingTestActivityStarter.start(MainActivity.this);
             }
         });
     }
