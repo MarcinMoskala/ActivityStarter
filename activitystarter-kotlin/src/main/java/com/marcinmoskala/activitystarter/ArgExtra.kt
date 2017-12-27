@@ -46,7 +46,7 @@ private class BoundToValueDelegate<T>(var default: T?) : ReadWriteProperty<Any, 
             if (valueSet) @Suppress("UNCHECKED_CAST") return value as T
             val typedValue = getValueFromStarter(thisRef, thisRef.javaClass, property.name, default)
             setNewValue(typedValue)
-            @Suppress("UNCHECKED_CAST") return typedValue as T
+            return typedValue
         }
     }
 

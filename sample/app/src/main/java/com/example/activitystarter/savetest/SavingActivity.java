@@ -27,7 +27,7 @@ public class SavingActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityStarter.fill(this);
+        ActivityStarter.fill(this, savedInstanceState);
         setContentView(R.layout.activity_save_test);
         ((TextView) findViewById(R.id.i)).setText(""+i);
         ((TextView) findViewById(R.id.str)).setText(""+str);

@@ -5,7 +5,7 @@ import org.junit.Test
 class ActivityNonSavableGenerationTest: GenerationTest() {
 
     @Test
-    fun simpleGenerationTest() {
+    fun emptyAnnotatedGenerationTest() {
         filePrecessingComparator("activityNonSavable/EmptyAnnotated")
     }
 

@@ -14,6 +14,7 @@ package com.example.activitystarter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import java.lang.String;
 
 public final class MainActivityStarter {
@@ -21,7 +22,7 @@ public final class MainActivityStarter {
 
   private static final String SURNAME_KEY = "com.example.activitystarter.surnameStarterKey";
 
-  public static void fill(MainActivity activity) {
+  public static void fill(MainActivity activity, Bundle savedInstanceState) {
     Intent intent = activity.getIntent();
     if(intent.hasExtra(NAME_KEY))
          activity.name = intent.getStringExtra(NAME_KEY);
@@ -29,7 +30,7 @@ public final class MainActivityStarter {
          activity.surname = intent.getStringExtra(SURNAME_KEY);
   }
 
-  public static void save(MainActivity activity) {
+  public static void save(MainActivity activity, Bundle bundle) {
   }
 
   public static Intent getIntent(Context context, String name, String surname) {

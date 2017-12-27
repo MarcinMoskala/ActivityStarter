@@ -19,7 +19,6 @@ class SavingActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ActivityStarter.fill(this)
         setContentView(R.layout.activity_save_test)
         iView.text = "$i"
         strView.text = str

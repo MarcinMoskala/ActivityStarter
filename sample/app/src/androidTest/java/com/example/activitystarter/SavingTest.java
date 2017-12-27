@@ -26,9 +26,8 @@ public class SavingTest {
     @Rule
     public ActivityTestRule<SavingActivity> activityTestRule = new ActivityTestRule<>(SavingActivity.class);
 
-
     @Test
-    public void startTest() throws InterruptedException {
+    public void savingTest() throws InterruptedException {
         onView(withId(R.id.i)).check(matches(withText("" + SavingActivity.DEFAULT_I)));
         onView(withId(R.id.str)).check(matches(withText("" + SavingActivity.DEFAULT_STR)));
         onView(withId(R.id.b)).check(matches(withText("" + SavingActivity.DEFAULT_B)));
@@ -38,7 +37,12 @@ public class SavingTest {
         activity.str = SavingActivity.NEW_STR;
         activity.b = SavingActivity.NEW_B;
 
+        Thread.sleep(500);
+
         rotateScreen();
+
+        Thread.sleep(500);
+
         rotateScreen();
 
         Thread.sleep(500);

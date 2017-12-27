@@ -30,10 +30,12 @@ class SavingTest {
         activity.i = SavingActivity.NEW_I
         activity.str = SavingActivity.NEW_STR
         activity.b = SavingActivity.NEW_B
+        Thread.sleep(500)
 
         rotateScreen()
-        rotateScreen()
+        Thread.sleep(500)
 
+        rotateScreen()
         Thread.sleep(500)
 
         onView(withId(R.id.iView)).check(matches(withText("" + SavingActivity.NEW_I)))

@@ -11,7 +11,7 @@ class FragmentGenerationTest: GenerationTest() {
     }
 
     @Test
-    fun singleArgGenerationTest() {
+    fun simpleArgGenerationTest() {
         filePrecessingComparator("fragment/Simple")
     }
 
