@@ -62,7 +62,7 @@ class BaseActivity extends AppCompatActivity {
     @Override // This is optional, only when we want to keep arguments changes in case of rotation etc.
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        ActivityStarter.save(this);
+        ActivityStarter.save(this, outState);
     }
 }
 ```
@@ -138,8 +138,8 @@ For Java project add in `build.gradle` file:
 
 ```groovy
 dependencies {
-    compile 'com.marcinmoskala.activitystarter:activitystarter:1.01'
-    apt 'com.marcinmoskala.activitystarter:activitystarter-compiler:1.01'
+    compile 'com.marcinmoskala.activitystarter:activitystarter:1.10'
+    apt 'com.marcinmoskala.activitystarter:activitystarter-compiler:1.10'
 }
 ```
 
@@ -149,8 +149,8 @@ For Kotlin project add in `build.gradle` file:
 apply plugin: 'kotlin-kapt'
 
 dependencies {
-    compile 'com.marcinmoskala.activitystarter:activitystarter:1.01'
-    kapt 'com.marcinmoskala.activitystarter:activitystarter-compiler:1.01'
+    compile 'com.marcinmoskala.activitystarter:activitystarter:1.10'
+    kapt 'com.marcinmoskala.activitystarter:activitystarter-compiler:1.10'
 }
 ```
 
@@ -160,9 +160,9 @@ If you want to use Kotlin-specific elements (property delegate `argExtra`), then
 apply plugin: 'kotlin-kapt'
 
 dependencies {
-    compile 'com.marcinmoskala.activitystarter:activitystarter:1.01'
-    compile 'com.marcinmoskala.activitystarter:activitystarter-kotlin:1.01'
-    kapt 'com.marcinmoskala.activitystarter:activitystarter-compiler:1.01'
+    compile 'com.marcinmoskala.activitystarter:activitystarter:1.10'
+    compile 'com.marcinmoskala.activitystarter:activitystarter-kotlin:1.10'
+    kapt 'com.marcinmoskala.activitystarter:activitystarter-compiler:1.10'
 }
 ```
 
