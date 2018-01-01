@@ -14,24 +14,12 @@ import java.lang.reflect.Method;
 
 public final class ActivityStarter {
 
-    public static void fill(@NonNull Activity target) {
-        innerFill(target, null, Bundle.class);
-    }
-
     public static void fill(@NonNull Activity target, @Nullable Bundle savedInstanceState) {
         innerFill(target, savedInstanceState, Bundle.class);
     }
 
-    public static void fill(@NonNull Fragment target) {
-        innerFill(target, null, Bundle.class);
-    }
-
     public static void fill(@NonNull Fragment target, @Nullable Bundle savedInstanceState) {
         innerFill(target, savedInstanceState, Bundle.class);
-    }
-
-    public static void fill(@NonNull android.support.v4.app.Fragment target) {
-        innerFill(target, null, Bundle.class);
     }
 
     public static void fill(@NonNull android.support.v4.app.Fragment target, @Nullable Bundle savedInstanceState) {

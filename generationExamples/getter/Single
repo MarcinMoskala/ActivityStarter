@@ -21,7 +21,6 @@ public final class MainActivityStarter {
   private static final String NAME_KEY = "com.example.activitystarter.nameStarterKey";
 
   public static void fill(MainActivity activity, Bundle savedInstanceState) {
-    Intent intent = activity.getIntent();
   }
 
   public static void save(MainActivity activity, Bundle bundle) {

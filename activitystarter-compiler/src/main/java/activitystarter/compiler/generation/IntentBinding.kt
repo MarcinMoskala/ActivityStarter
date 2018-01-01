@@ -30,7 +30,7 @@ internal abstract class IntentBinding(classModel: ClassModel) : ClassGeneration(
         }
     }
 
-    protected fun MethodSpec.Builder.addIntentSetters(targetParameterName: String) = apply {
+    private fun MethodSpec.Builder.addIntentSetters(targetParameterName: String) = apply {
         classModel.argumentModels.forEach { arg -> addIntentSetter(arg, targetParameterName) }
     }
 

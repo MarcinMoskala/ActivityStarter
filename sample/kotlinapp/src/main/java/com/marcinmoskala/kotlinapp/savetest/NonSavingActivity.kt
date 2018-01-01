@@ -11,13 +11,16 @@ import kotlinx.android.synthetic.main.activity_save_test.*
 
 class NonSavingActivity : Activity() {
 
-    @get:Arg(optional = true) var i by argExtra(DEFAULT_I)
-    @get:Arg(optional = true) var str by argExtra(DEFAULT_STR)
-    @get:Arg(optional = true) var b by argExtra(DEFAULT_B)
+    @get:Arg(optional = true)
+    var i by argExtra(DEFAULT_I)
+    @get:Arg(optional = true)
+    var str by argExtra(DEFAULT_STR)
+    @get:Arg(optional = true)
+    var b by argExtra(DEFAULT_B)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ActivityStarter.fill(this)
+        ActivityStarter.fill(this, savedInstanceState)
         setContentView(R.layout.activity_save_test)
         iView.text = "$i"
         strView.text = str

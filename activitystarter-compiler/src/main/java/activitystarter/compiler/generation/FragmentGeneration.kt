@@ -2,6 +2,7 @@ package activitystarter.compiler.generation
 
 import activitystarter.compiler.model.classbinding.ClassModel
 import activitystarter.compiler.model.param.ArgumentModel
+import activitystarter.compiler.model.param.FieldAccessType
 import activitystarter.compiler.utils.BUNDLE
 import activitystarter.compiler.utils.doIf
 import com.squareup.javapoet.MethodSpec
@@ -27,21 +28,35 @@ internal class FragmentGeneration(classModel: ClassModel) : ClassGeneration(clas
             .addNoSettersAccessors()
 
     private fun MethodSpec.Builder.addFieldSettersCode() {
-        addStatement("\$T arguments = fragment.getArguments()", BUNDLE)
         if (classModel.savable) {
-            for (arg in classModel.argumentModels) {
-                arg.accessor.makeSetter("") ?: return
-                val bundleName = "savedInstanceState"
-                val bundlePredicate = getBundlePredicate(bundleName, arg.keyFieldName)
-                addCode("if($bundleName != null && $bundlePredicate) {\n")
-                addBundleSetter(arg, bundleName, "fragment", false)
-                addCode("} else {")
-                addBundleSetter(arg, "arguments", "fragment", true)
-                addCode("}")
+            val bundleName = "savedInstanceState"
+            val settableArgs = classModel.argumentModels.filter { it.accessor.isSettable() }
+            val (fromGetterAccessors, byPropertyAccessors) = settableArgs.partition { it.accessor.fromGetter }
+            if(byPropertyAccessors.isNotEmpty()) {
+                addStatement("\$T arguments = fragment.getArguments()", BUNDLE)
             }
+            byPropertyAccessors.forEach { arg -> addArgumentAndSavedStateSetters(arg, bundleName) }
+            fromGetterAccessors.forEach { arg -> addSavedStateSetters(arg, bundleName) }
         } else {
+            addStatement("\$T arguments = fragment.getArguments()", BUNDLE)
             addBundleSetters("arguments", "fragment", true)
         }
+    }
+
+    private fun MethodSpec.Builder.addArgumentAndSavedStateSetters(arg: ArgumentModel, bundleName: String) {
+        val bundlePredicate = getBundlePredicate(bundleName, arg.keyFieldName)
+        addCode("if($bundleName != null && $bundlePredicate) {\n")
+        addBundleSetter(arg, bundleName, "fragment", false)
+        addCode("} else {")
+        addBundleSetter(arg, "arguments", "fragment", true)
+        addCode("}")
+    }
+
+    private fun MethodSpec.Builder.addSavedStateSetters(arg: ArgumentModel, bundleName: String) {
+        val bundlePredicate = getBundlePredicate(bundleName, arg.keyFieldName)
+        addCode("if($bundleName != null && $bundlePredicate) {\n")
+        addBundleSetter(arg, bundleName, "fragment", false)
+        addCode("}")
     }
 
     private fun createGetFragmentMethod(variant: List<ArgumentModel>) = builderWithCreationBasicFieldsNoContext("newInstance")
@@ -69,7 +84,7 @@ internal class FragmentGeneration(classModel: ClassModel) : ClassGeneration(clas
             .build()
 
     private fun TypeSpec.Builder.addNoSettersAccessors(): TypeSpec.Builder = apply {
-        classModel.argumentModels.filter { it.noSetter }.forEach { arg ->
+        classModel.argumentModels.filter { it.accessor.fromGetter }.forEach { arg ->
             addMethod(buildCheckValueMethod(arg))
             addMethod(buildGetValueMethod(arg))
         }

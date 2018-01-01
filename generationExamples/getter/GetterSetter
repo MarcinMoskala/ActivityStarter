@@ -1,0 +1,95 @@
+********com.example.activitystarter.MainActivity********
+package com.example.activitystarter;
+
+import android.app.Activity;
+import android.os.Bundle;
+
+import activitystarter.ActivityStarter;
+import activitystarter.Arg;
+
+public final class MainActivity extends Activity {
+    private boolean b;
+
+    @Arg(optional = true)
+    public final boolean getB() {
+        return b;
+    }
+    public final void setB(boolean b) {
+        this.b = b;
+    }
+
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ActivityStarter.fill(this, savedInstanceState);
+    }
+
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        ActivityStarter.save(this, outState);
+    }
+}
+
+********com.example.activitystarter.MainActivityStarter********
+package com.example.activitystarter;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import java.lang.String;
+
+public final class MainActivityStarter {
+  private static final String B_KEY = "com.example.activitystarter.bStarterKey";
+
+  public static void fill(MainActivity activity, Bundle savedInstanceState) {
+    if(savedInstanceState != null && savedInstanceState.containsKey(B_KEY)) {
+      activity.setB(savedInstanceState.getBoolean(B_KEY));
+    }
+  }
+
+  public static void save(MainActivity activity, Bundle bundle) {
+    bundle.putBoolean(B_KEY, activity.getB());
+  }
+
+  public static boolean isFilledValueOfBFrom(MainActivity activity) {
+    Intent intent = activity.getIntent();
+    return intent.hasExtra(B_KEY);
+  }
+
+  public static boolean getValueOfBFrom(MainActivity activity) {
+    Intent intent = activity.getIntent();
+    return intent.getBooleanExtra(B_KEY, false);
+  }
+
+  public static Intent getIntent(Context context, boolean b) {
+    Intent intent = new Intent(context, MainActivity.class);
+    intent.putExtra(B_KEY, b);
+    return intent;
+  }
+
+  public static void start(Context context, boolean b) {
+    Intent intent = getIntent(context, b);
+    context.startActivity(intent);
+  }
+
+  public static void startWithFlags(Context context, boolean b, int flags) {
+    Intent intent = getIntent(context, b);
+    intent.addFlags(flags);
+    context.startActivity(intent);
+  }
+
+  public static Intent getIntent(Context context) {
+    Intent intent = new Intent(context, MainActivity.class);
+    return intent;
+  }
+
+  public static void start(Context context) {
+    Intent intent = getIntent(context);
+    context.startActivity(intent);
+  }
+
+  public static void startWithFlags(Context context, int flags) {
+    Intent intent = getIntent(context);
+    intent.addFlags(flags);
+    context.startActivity(intent);
+  }
+}

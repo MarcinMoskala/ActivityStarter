@@ -2,6 +2,7 @@ package activitystarter.compiler.generation
 
 import activitystarter.compiler.model.classbinding.ClassModel
 import activitystarter.compiler.model.param.ArgumentModel
+import activitystarter.compiler.model.param.FieldAccessType.*
 import activitystarter.compiler.utils.*
 import com.squareup.javapoet.MethodSpec
 import com.squareup.javapoet.TypeName
@@ -26,24 +27,40 @@ internal class ActivityGeneration(classModel: ClassModel) : IntentBinding(classM
 
     override fun TypeSpec.Builder.addExtraToClass() = this
             .addMethod(createSaveMethod())
-            .addNoSettersAccessors()
+            .addKotlinSettersAccessors()
 
     private fun MethodSpec.Builder.addFieldSettersCode() {
-        addStatement("\$T intent = activity.getIntent()", INTENT)
         if (classModel.savable) {
-            for (arg in classModel.argumentModels) {
-                arg.accessor.makeSetter("") ?: return
-                val bundleName = "savedInstanceState"
-                val bundlePredicate = getBundlePredicate(bundleName, arg.keyFieldName)
-                addCode("if($bundleName != null && $bundlePredicate) {\n")
-                addBundleSetter(arg, bundleName, "activity", false)
-                addCode("} else {")
-                addIntentSetter(arg, "activity")
-                addCode("}")
+            val bundleName = "savedInstanceState"
+            val settableArgs = classModel.argumentModels.filter { it.accessor.isSettable() }
+            val (fromGetterAccessors, byPropertyAccessors) = settableArgs.partition { it.accessor.fromGetter }
+            if (byPropertyAccessors.isNotEmpty()) {
+                addStatement("\$T intent = activity.getIntent()", INTENT)
             }
+            byPropertyAccessors.forEach { arg -> addArgumentAndSavedStateSetters(arg, bundleName) }
+            fromGetterAccessors.forEach { arg -> addSavedStateSetters(arg, bundleName) }
         } else {
-            addIntentSetters("activity")
+            addStatement("\$T intent = activity.getIntent()", INTENT)
+            classModel.argumentModels
+                    .filter { !it.accessor.fromGetter }
+                    .forEach { arg -> addIntentSetter(arg, "activity") }
         }
+    }
+
+    private fun MethodSpec.Builder.addArgumentAndSavedStateSetters(arg: ArgumentModel, bundleName: String) {
+        val bundlePredicate = getBundlePredicate(bundleName, arg.keyFieldName)
+        addCode("if($bundleName != null && $bundlePredicate) {\n   ")
+        addBundleSetter(arg, bundleName, "activity", false)
+        addCode("} else { \n  ")
+        addIntentSetter(arg, "activity")
+        addCode("} \n")
+    }
+
+    private fun MethodSpec.Builder.addSavedStateSetters(arg: ArgumentModel, bundleName: String) {
+        val bundlePredicate = getBundlePredicate(bundleName, arg.keyFieldName)
+        addCode("if($bundleName != null && $bundlePredicate) {\n  ")
+        addBundleSetter(arg, bundleName, "activity", false)
+        addCode("} \n")
     }
 
     private fun createSaveMethod(): MethodSpec = this
@@ -84,8 +101,8 @@ internal class ActivityGeneration(classModel: ClassModel) : IntentBinding(classM
             .addStatement("context.startActivityForResult(intent, result)")
             .build()
 
-    private fun TypeSpec.Builder.addNoSettersAccessors(): TypeSpec.Builder = apply {
-        classModel.argumentModels.filter { it.noSetter }.forEach { arg ->
+    private fun TypeSpec.Builder.addKotlinSettersAccessors(): TypeSpec.Builder = apply {
+        classModel.argumentModels.filter { it.accessor.fromGetter }.forEach { arg ->
             addMethod(buildCheckValueMethod(arg))
             addMethod(buildGetValueMethod(arg))
         }

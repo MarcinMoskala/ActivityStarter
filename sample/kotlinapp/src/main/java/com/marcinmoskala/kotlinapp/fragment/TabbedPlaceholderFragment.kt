@@ -17,7 +17,7 @@ class TabbedPlaceholderFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater!!.inflate(R.layout.fragment_tabbed, container, false)
-        ActivityStarter.fill(this)
+        ActivityStarter.fill(this, savedInstanceState)
         val textView = rootView.findViewById(R.id.section_label) as TextView
         textView.setOnClickListener {
             sectionNumber++

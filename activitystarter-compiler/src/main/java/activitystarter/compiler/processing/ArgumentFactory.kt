@@ -63,7 +63,7 @@ class ArgumentFactory(val enclosingElement: TypeElement, val config: ProjectConf
 
         val returnType: TypeMirror = getter.returnType
         val paramType = ParamType.fromType(returnType)
-        val accessor: FieldAccessor = FieldAccessor.fromGetter(name)
+        val accessor: FieldAccessor = FieldAccessor.fromGetter(getterElement, name)
 
         val error = getGetterError(knownClassType, paramType, accessor)
         if (error != null) {

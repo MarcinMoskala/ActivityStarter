@@ -7,6 +7,7 @@ import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.os.Bundle
 import com.marcinmoskala.kotlinapp.fragment.TabbedFragmentActivityStarter
 import com.marcinmoskala.kotlinapp.notification.NotificationPublisherStarter
+import com.marcinmoskala.kotlinapp.savetest.SavingActivityStarter
 import kotlinx.android.synthetic.main.activity_main.*
 import org.joda.time.DateTime
 
@@ -21,7 +22,12 @@ class MainActivity : BaseActivity() {
         showParcelableDataButton.setOnClickListener { startParcelableActivity() }
         showSerializableDataButton.setOnClickListener { startSerializableActivity() }
         showFragmentActivityButton.setOnClickListener { startFragmentActivity() }
+        showSavingActivityButton.setOnClickListener { startSavingStateActivity() }
         startNotification()
+    }
+
+    private fun startSavingStateActivity() {
+        SavingActivityStarter.start(this)
     }
 
     private fun startNotification() {

@@ -83,5 +83,12 @@
         android:textAllCaps="false"
         android:id="@+id/showFragmentActivityButton"/>
 
+    <Button
+        android:text="Saving Activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:id="@+id/showSavingActivityButton"/>
+
 </LinearLayout>
 </ScrollView>

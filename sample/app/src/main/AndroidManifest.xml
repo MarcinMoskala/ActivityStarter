@@ -49,7 +49,7 @@
         <activity android:name=".savetest.NonSavingActivity" />
         <activity
             android:name=".SavingTestActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

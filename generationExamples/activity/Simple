@@ -17,16 +17,18 @@ import java.lang.String;
 public final class MainActivityStarter {
   private static final String NAME_KEY = "com.example.activitystarter.nameStarterKey";
 
-  public static void fill(MainActivity activity) {
+  public static void fill(MainActivity activity, Bundle savedInstanceState) {
     Intent intent = activity.getIntent();
-    if(intent.hasExtra(NAME_KEY))
+    if(savedInstanceState != null && savedInstanceState.containsKey(NAME_KEY)) {
+       activity.name = savedInstanceState.getString(NAME_KEY);
+    } else {
+      if(intent.hasExtra(NAME_KEY))
          activity.name = intent.getStringExtra(NAME_KEY);
+    }
   }
 
-  public static void save(MainActivity activity) {
-    Bundle bundle = new Bundle();
+  public static void save(MainActivity activity, Bundle bundle) {
     bundle.putString(NAME_KEY, activity.name);
-    activity.getIntent().putExtras(bundle);
   }
 
   public static Intent getIntent(Context context, String name) {

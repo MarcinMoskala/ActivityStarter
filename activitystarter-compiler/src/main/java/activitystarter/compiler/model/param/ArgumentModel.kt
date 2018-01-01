@@ -19,7 +19,6 @@ class ArgumentModel(
         val parceler: Boolean
 ) {
     val keyFieldName: String by lazy { camelCaseToUppercaseUnderscore(name) + "_KEY" }
-    val noSetter = accessor.noSetter
     val accessorName = ActivityStarterNameConstruction.getterFieldAccessorName(name)
     val checkerName = ActivityStarterNameConstruction.getterFieldCheckerName(name)
 

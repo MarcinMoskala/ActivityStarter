@@ -47,7 +47,7 @@ public class MainActivity extends BaseActivity {
 }
 ```
 
-And `ActivityStarter.fill(this);` in BaseActivity:
+And `ActivityStarter.fill(this, savedInstanceState);` in BaseActivity:
 
 ```java
 class BaseActivity extends AppCompatActivity {
@@ -56,7 +56,7 @@ class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ActivityStarter.fill(this);
+        ActivityStarter.fill(this, savedInstanceState);
     }
 
     @Override // This is optional, only when we want to keep arguments changes in case of rotation etc.
@@ -120,7 +120,7 @@ class StudentDataActivity : BaseActivity() {
 }
 ```
 
-Values are taken lazily and kept as fields, but there are still saved if `ActivityStarter.save(this)` is called in`onSaveInstanceState`. When all properties are provided by delegate, then there is no need to call `ActivityStarter.fill(this)` in `onCreate`.
+Values are taken lazily and kept as fields, but there are still saved if `ActivityStarter.save(this)` is called in`onSaveInstanceState`. When all properties are provided by delegate, then there is no need to call `ActivityStarter.fill(this, savedInstanceState)` in `onCreate`.
 
 ## Parceler
 
