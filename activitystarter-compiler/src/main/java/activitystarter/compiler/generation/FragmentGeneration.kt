@@ -94,7 +94,7 @@ internal class FragmentGeneration(classModel: ClassModel) : ClassGeneration(clas
             .addParameter(classModel.targetTypeName, "fragment")
             .returns(TypeName.BOOLEAN)
             .addStatement("\$T bundle = fragment.getArguments()", BUNDLE)
-            .addStatement("return bundle.containsKey(${arg.keyFieldName})")
+            .addStatement("return bundle != null && bundle.containsKey(${arg.keyFieldName})")
             .build()
 
     private fun buildGetValueMethod(arg: ArgumentModel): MethodSpec? = builderWithCreationBasicFieldsNoContext(arg.accessorName)

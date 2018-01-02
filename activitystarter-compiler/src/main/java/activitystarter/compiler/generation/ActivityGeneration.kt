@@ -112,7 +112,7 @@ internal class ActivityGeneration(classModel: ClassModel) : IntentBinding(classM
             .addParameter(classModel.targetTypeName, "activity")
             .returns(TypeName.BOOLEAN)
             .addStatement("\$T intent = activity.getIntent()", INTENT)
-            .addStatement("return intent.hasExtra(${arg.keyFieldName})")
+            .addStatement("return intent != null && intent.hasExtra(${arg.keyFieldName})")
             .build()
 
     private fun buildGetValueMethod(arg: ArgumentModel): MethodSpec? = builderWithCreationBasicFieldsNoContext(arg.accessorName)

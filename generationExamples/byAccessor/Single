@@ -29,7 +29,7 @@ public final class MainActivityStarter {
 
   public static boolean isFilledValueOfNameFrom(MainActivity activity) {
     Intent intent = activity.getIntent();
-    return intent.hasExtra(NAME_KEY);
+    return intent != null && intent.hasExtra(NAME_KEY);
   }
 
   public static String getValueOfNameFrom(MainActivity activity) {

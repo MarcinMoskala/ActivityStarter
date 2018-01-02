@@ -52,7 +52,7 @@ public final class MainActivityStarter {
 
   public static boolean isFilledValueOfBFrom(MainActivity activity) {
     Intent intent = activity.getIntent();
-    return intent.hasExtra(B_KEY);
+    return intent != null && intent.hasExtra(B_KEY);
   }
 
   public static boolean getValueOfBFrom(MainActivity activity) {

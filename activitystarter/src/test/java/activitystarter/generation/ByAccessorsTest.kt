@@ -8,11 +8,11 @@ class ByAccessorsTest : GenerationTest() {
 
     @Test
     fun singleGetterTest() {
-        filePrecessingComparator("getter/Single")
+        filePrecessingComparator("byAccessor/Single")
     }
 
     @Test
     fun getterSetterTest() {
-        filePrecessingComparator("getter/GetterSetter")
+        filePrecessingComparator("byAccessor/GetterSetter")
     }
 }
