@@ -36,8 +36,8 @@ internal class ActivityGeneration(classModel: ClassModel) : IntentBinding(classM
             val (fromGetterAccessors, byPropertyAccessors) = settableArgs.partition { it.accessor.fromGetter }
             if (byPropertyAccessors.isNotEmpty()) {
                 addStatement("\$T intent = activity.getIntent()", INTENT)
+                byPropertyAccessors.forEach { arg -> addArgumentAndSavedStateSetters(arg, bundleName) }
             }
-            byPropertyAccessors.forEach { arg -> addArgumentAndSavedStateSetters(arg, bundleName) }
             fromGetterAccessors.forEach { arg -> addSavedStateSetters(arg, bundleName) }
         } else {
             addStatement("\$T intent = activity.getIntent()", INTENT)

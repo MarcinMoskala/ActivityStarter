@@ -34,8 +34,8 @@ internal class FragmentGeneration(classModel: ClassModel) : ClassGeneration(clas
             val (fromGetterAccessors, byPropertyAccessors) = settableArgs.partition { it.accessor.fromGetter }
             if(byPropertyAccessors.isNotEmpty()) {
                 addStatement("\$T arguments = fragment.getArguments()", BUNDLE)
+                byPropertyAccessors.forEach { arg -> addArgumentAndSavedStateSetters(arg, bundleName) }
             }
-            byPropertyAccessors.forEach { arg -> addArgumentAndSavedStateSetters(arg, bundleName) }
             fromGetterAccessors.forEach { arg -> addSavedStateSetters(arg, bundleName) }
         } else {
             addStatement("\$T arguments = fragment.getArguments()", BUNDLE)
