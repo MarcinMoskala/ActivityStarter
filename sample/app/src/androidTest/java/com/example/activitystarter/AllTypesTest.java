@@ -1,6 +1,5 @@
 package com.example.activitystarter;
 
-
 import android.content.Context;
 import android.content.Intent;
 
