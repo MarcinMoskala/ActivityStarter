@@ -14,6 +14,7 @@ ext.androidx_appCompatv7 = '1.0.0-alpha1'
 ext.androidx_material = '1.0.0-alpha1'
 ext.androidx_annotation = '1.0.0-alpha1'
 ext.androidx_test_runner = '1.1.0-alpha2'
+ext.androidx_test_rules = '1.1.0-alpha2'
 ext.androidx_fragment = '1.0.0-alpha1'
 ext.androidx_uiautomator = '2.2.0-alpha1'
 
@@ -69,6 +70,7 @@ ext.deps = [
         supportDesign     : "com.google.android.material:material:$androidx_material",
         supportAnnotations: "androidx.annotation:annotation:$androidx_annotation",
         supportTestRunner : "androidx.test:runner:$androidx_test_runner",
+        supportTestRules  : "androidx.test:rules:$androidx_test_rules",
         androidGradle     : 'com.android.tools.build:gradle:3.2.0-alpha15',
         lint              : "com.android.tools.lint:lint:$androidToolsVersion",
         lintApi           : "com.android.tools.lint:lint-api:$androidToolsVersion",
