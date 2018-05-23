@@ -4,13 +4,13 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 'android-P'
+    buildToolsVersion "27.0.3"
 
     defaultConfig {
         applicationId "com.marcinmoskala.kotlinapp"
         minSdkVersion 18
-        targetSdkVersion 25
+        targetSdkVersion 'P'
         versionCode 1
         versionName "1.0"
 
@@ -29,27 +29,28 @@ android {
 }
 
 dependencies {
-    compile project(':activitystarter')
+    implementation project(':activitystarter')
     kapt project(':activitystarter-compiler')
-    compile project(':activitystarter-kotlin')
+    implementation project(':activitystarter-kotlin')
 
     // On local project use:
 //    compile 'com.github.marcinmoskala.activitystarter:activitystarter:-SNAPSHOT'
 //    kapt 'com.github.marcinmoskala.activitystarter:activitystarter-compiler:-SNAPSHOT'
 //    compile 'com.github.marcinmoskala.activitystarter:activitystarter-kotlin:-SNAPSHOT'
 
-    compile deps.supportAppcompatv7
-    compile deps.supportDesign
-    compile deps.jodaTime
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    implementation deps.supportAppcompatv7
+    implementation deps.supportDesign
+    implementation deps.jodaTime
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
 
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    testCompile deps.junit
-    androidTestCompile deps.uiAutomator
+    testImplementation deps.junit
+    androidTestImplementation deps.uiAutomator
 }
 repositories {
+    google()
     mavenCentral()
     maven { url 'https://jitpack.io' }
 }

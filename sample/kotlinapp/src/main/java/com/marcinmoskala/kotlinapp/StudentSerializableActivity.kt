@@ -14,13 +14,13 @@ class StudentSerializableActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_data)
-        val nameView = findViewById(R.id.nameView) as TextView
-        val idView = findViewById(R.id.idView) as TextView
-        val gradeView = findViewById(R.id.gradeView) as TextView
-        val isPassingView = findViewById(R.id.isPassingView) as TextView
+        val nameView = findViewById<TextView>(R.id.nameView)
+        val idView = findViewById<TextView>(R.id.idView)
+        val gradeView = findViewById<TextView>(R.id.gradeView)
+        val isPassingView = findViewById<TextView>(R.id.isPassingView)
 
-        nameView.text = "Name: " + student?.name
-        idView.text = "Id: " + student?.id
-        gradeView.text = "Grade: " + student?.grade
+        nameView.text = "Name: ${student?.name}"
+        idView.text = "Id: ${student?.id}"
+        gradeView.text = "Grade: ${student?.grade}"
     }
 }

@@ -26,7 +26,7 @@ targetCompatibility = rootProject.ext.targetCompatibilityVersion
 
 dependencies {
   compileOnly deps.android
-  compile deps.supportAnnotations
+  implementation deps.supportAnnotations
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {

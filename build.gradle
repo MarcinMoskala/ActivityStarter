@@ -1,21 +1,28 @@
 ext {
     minSdkVersion = 9
-    targetSdkVersion = 25
-    compileSdkVersion = 25
-    buildToolsVersion = '25.0.2'
+    targetSdkVersion = 27
+    compileSdkVersion = 27
+    buildToolsVersion = '27.0.3'
     sourceCompatibilityVersion = JavaVersion.VERSION_1_7
     targetCompatibilityVersion = JavaVersion.VERSION_1_7
 }
 
-ext.androidToolsVersion = '25.2.0'
-ext.supportLibraryVersion = '25.1.0'
+ext.androidToolsVersion = '26.2.0-alpha15'
 ext.kotlinVersion = '1.1.4-2'
+
+ext.androidx_appCompatv7 = '1.0.0-alpha1'
+ext.androidx_material = '1.0.0-alpha1'
+ext.androidx_annotation = '1.0.0-alpha1'
+ext.androidx_test_runner = '1.1.0-alpha2'
+ext.androidx_fragment = '1.0.0-alpha1'
+ext.androidx_uiautomator = '2.2.0-alpha1'
 
 subprojects { project ->
     group = GROUP
     version = VERSION_NAME
 
     repositories {
+        google()
         mavenCentral()
         maven {
             url "https://plugins.gradle.org/m2/"
@@ -42,11 +49,12 @@ subprojects { project ->
 
     buildscript {
         repositories {
+            google()
             mavenCentral()
             maven { url "https://plugins.gradle.org/m2/" }
         }
         dependencies {
-            classpath 'com.android.tools.build:gradle:2.3.3'
+            classpath 'com.android.tools.build:gradle:3.2.0-alpha15'
             classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         }
     }
@@ -56,12 +64,12 @@ ext.deps = [
         kotlin            : "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion",
         kotlin_reflect    : "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion",
         android           : 'com.google.android:android:4.1.1.4',
-        supportAppcompatv7: "com.android.support:appcompat-v7:$supportLibraryVersion",
-        supportDesign     : "com.android.support:design:$supportLibraryVersion",
-        supportCompat     : "com.android.support:support-compat:$supportLibraryVersion",
-        supportAnnotations: "com.android.support:support-annotations:$supportLibraryVersion",
-        supportTestRunner : 'com.android.support.test:runner:0.5',
-        androidGradle     : 'com.android.tools.build:gradle:2.2.0',
+        supportFragment   : "androidx.fragment:fragment:$androidx_fragment",
+        supportAppcompatv7: "androidx.appcompat:appcompat:$androidx_appCompatv7",
+        supportDesign     : "com.google.android.material:material:$androidx_material",
+        supportAnnotations: "androidx.annotation:annotation:$androidx_annotation",
+        supportTestRunner : "androidx.test:runner:$androidx_test_runner",
+        androidGradle     : 'com.android.tools.build:gradle:3.2.0-alpha15',
         lint              : "com.android.tools.lint:lint:$androidToolsVersion",
         lintApi           : "com.android.tools.lint:lint-api:$androidToolsVersion",
         lintChecks        : "com.android.tools.lint:lint-checks:$androidToolsVersion",
@@ -82,5 +90,5 @@ ext.deps = [
         compiletesting    : 'com.google.testing.compile:compile-testing:0.9',
         autoservice       : 'com.google.auto.service:auto-service:1.0-rc3',
         autocommon        : 'com.google.auto:auto-common:0.6',
-        uiAutomator       : 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
+        uiAutomator       : "androidx.test.uiautomator:uiautomator-v18:$androidx_uiautomator"
 ]

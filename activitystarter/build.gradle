@@ -31,25 +31,25 @@ android {
 }
 
 dependencies {
-  compile project(':activitystarter-annotations')
-  compile deps.supportAnnotations
-  compile deps.supportCompat
-  compile deps.supportAppcompatv7
+  implementation project(':activitystarter-annotations')
+  implementation deps.supportAnnotations
+  implementation deps.supportAppcompatv7
+  implementation deps.supportFragment
 
-  androidTestCompile deps.junit
-  androidTestCompile deps.truth
-  androidTestCompile deps.supportTestRunner
+  androidTestImplementation deps.junit
+  androidTestImplementation deps.truth
+  androidTestImplementation deps.supportTestRunner
 
-  testCompile deps.junit
-  testCompile deps.truth
-  testCompile deps.compiletesting
-  testCompile files(getRuntimeJar())
-  testCompile files(Jvm.current().getToolsJar())
-  testCompile project(':activitystarter-compiler')
-  testCompile deps.kotlin
-  testCompile deps.kotlin_junit
-  testCompile deps.parceler
-  testCompile deps.parceler_processor
+  testImplementation deps.junit
+  testImplementation deps.truth
+  testImplementation deps.compiletesting
+  testImplementation files(getRuntimeJar())
+  testImplementation files(Jvm.current().getToolsJar())
+  testImplementation project(':activitystarter-compiler')
+  testImplementation deps.kotlin
+  testImplementation deps.kotlin_junit
+  testImplementation deps.parceler
+  testImplementation deps.parceler_processor
 }
 
 def getRuntimeJar() {

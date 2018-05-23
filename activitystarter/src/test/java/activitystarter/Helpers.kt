@@ -26,7 +26,7 @@ internal fun assertThrowsError(f: () -> Unit) {
     }
 }
 
-class HelpersTests() {
+class HelpersTests {
 
     @Test fun `assertSubtype simple subtypes are passing`() {
         assertSubtype(Parcelable::class.java, Account::class.java)

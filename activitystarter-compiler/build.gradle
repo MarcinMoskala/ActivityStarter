@@ -30,20 +30,20 @@ for (File file : sdkHandler.sdkLoader.repositories) {
 }
 
 dependencies {
-  compile project(':activitystarter-annotations')
-  compile deps.kotlin
-  compile deps.autoservice
-  compile deps.autocommon
-  compile deps.javapoet
+  implementation project(':activitystarter-annotations')
+  implementation deps.kotlin
+  implementation deps.autoservice
+  implementation deps.autocommon
+  implementation deps.javapoet
   compileOnly files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
 
-  testCompile deps.junit
-  testCompile deps.truth
-  testCompile deps.compiletesting
-  testCompile deps.kotlin_reflect
-  testCompile deps.kotlin_test
-  testCompile deps.kotlin_junit
-  testCompile deps.android
+  testImplementation deps.junit
+  testImplementation deps.truth
+  testImplementation deps.compiletesting
+  testImplementation deps.kotlin_reflect
+  testImplementation deps.kotlin_test
+  testImplementation deps.kotlin_junit
+  testImplementation deps.android
 }
 repositories {
   mavenCentral()
