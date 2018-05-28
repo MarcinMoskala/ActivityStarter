@@ -9,8 +9,7 @@ import activitystarter.ActivityStarter;
 import activitystarter.Arg;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class SavingTestActivity extends AppCompatActivity
-{
+public class SavingTestActivity extends AppCompatActivity {
 
     @Arg(optional = true)
     int value = 0;

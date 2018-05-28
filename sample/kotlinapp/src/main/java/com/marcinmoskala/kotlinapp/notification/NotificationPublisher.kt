@@ -20,8 +20,7 @@ class NotificationPublisher : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         ActivityStarter.fill(this, intent)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-        {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(NOTIFICATION_CHANNEL_ID, "activitystarter", NotificationManager.IMPORTANCE_HIGH)
             context.notificationManager.createNotificationChannel(channel)
         }
@@ -30,15 +29,13 @@ class NotificationPublisher : BroadcastReceiver() {
         context.notificationManager.notify(id, notification)
     }
 
-    fun createSimpleNotification(context: Context): Notification
-    {
+    fun createSimpleNotification(context: Context): Notification {
         val builder = Notification.Builder(context)
             .setContentTitle(getTextTitle(id))
             .setContentText(getTextSubtitle(time))
             .setSmallIcon(R.mipmap.ic_launcher)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-        {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             builder.setChannelId(NOTIFICATION_CHANNEL_ID)
         }
 

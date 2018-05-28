@@ -5,8 +5,7 @@ import android.os.Bundle;
 import activitystarter.ActivityStarter;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class BaseActivity extends AppCompatActivity
-{
+public class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

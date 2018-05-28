@@ -12,8 +12,7 @@ import activitystarter.ActivityStarter;
 import activitystarter.Arg;
 import androidx.fragment.app.Fragment;
 
-public class TabbedPlaceholderFragment extends Fragment
-{
+public class TabbedPlaceholderFragment extends Fragment {
 
     @Arg int sectionNumber;
 

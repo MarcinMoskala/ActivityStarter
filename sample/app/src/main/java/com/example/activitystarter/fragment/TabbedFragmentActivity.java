@@ -13,8 +13,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 @MakeActivityStarter
-public class TabbedFragmentActivity extends AppCompatActivity
-{
+public class TabbedFragmentActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +24,7 @@ public class TabbedFragmentActivity extends AppCompatActivity
         mViewPager.setAdapter(mSectionsPagerAdapter);
     }
 
-    public class SectionsPagerAdapter extends FragmentPagerAdapter
-    {
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
