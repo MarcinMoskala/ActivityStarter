@@ -20,24 +20,24 @@ for (File file : sdkHandler.sdkLoader.repositories) {
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
+    buildToolsVersion '27.0.3'
 }
 
 sourceCompatibility = rootProject.ext.sourceCompatibilityVersion
 targetCompatibility = rootProject.ext.targetCompatibilityVersion
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
-    compile project(':activitystarter-annotations')
-    compile deps.supportAppcompatv7
-    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    implementation project(':activitystarter-annotations')
+    implementation deps.supportAppcompatv7
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
 
-    testCompile deps.junit
+    testImplementation deps.junit
 }
 
 task sourcesJar(type: Jar) {
