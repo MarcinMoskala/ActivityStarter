@@ -31,7 +31,7 @@ android {
 }
 
 dependencies {
-    api project(':activitystarter-annotations')
+    compile project(':activitystarter-annotations')
     implementation deps.supportAnnotations
     implementation deps.supportCompat
     implementation deps.supportAppcompatv7

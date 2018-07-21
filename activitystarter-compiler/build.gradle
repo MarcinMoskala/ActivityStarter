@@ -31,11 +31,11 @@ for (File file : sdkHandler.sdkLoader.repositories) {
 }
 
 dependencies {
-  api project(':activitystarter-annotations')
+  compile project(':activitystarter-annotations')
   implementation deps.kotlin
-  api deps.autoservice
-  api deps.autocommon
-  api deps.javapoet
+  compile deps.autoservice
+  compile deps.autocommon
+  compile deps.javapoet
   compileOnly files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
 
   testImplementation deps.junit

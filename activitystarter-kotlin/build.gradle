@@ -32,8 +32,8 @@ sourceCompatibility = rootProject.ext.sourceCompatibilityVersion
 targetCompatibility = rootProject.ext.targetCompatibilityVersion
 
 dependencies {
+    compile project(':activitystarter-annotations')
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
-    api project(':activitystarter-annotations')
     implementation deps.supportAppcompatv7
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
 
