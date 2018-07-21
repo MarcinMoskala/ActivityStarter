@@ -15,8 +15,8 @@ subprojects { project ->
     version = VERSION_NAME
 
     repositories {
-        mavenCentral()
         google()
+        mavenCentral()
         maven { url "https://plugins.gradle.org/m2/" }
     }
 

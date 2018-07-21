@@ -1,54 +1,54 @@
 buildscript {
-  repositories {
-    mavenCentral()
-      google()
-  }
+    repositories {
+        mavenCentral()
+        google()
+    }
 
-  dependencies {
-    classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
-  }
+    dependencies {
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+    }
 }
 
 apply plugin: 'java'
 apply plugin: 'com.github.dcendents.android-maven'
 
-group='com.marcinmoskala'
+group = 'com.marcinmoskala'
 
 def logger = new com.android.build.gradle.internal.LoggerWrapper(project.logger)
 def sdkHandler = new com.android.build.gradle.internal.SdkHandler(project, logger)
 for (File file : sdkHandler.sdkLoader.repositories) {
-  repositories.maven {
-    url = file.toURI()
-  }
+    repositories.maven {
+        url = file.toURI()
+    }
 }
 
 sourceCompatibility = rootProject.ext.sourceCompatibilityVersion
 targetCompatibility = rootProject.ext.targetCompatibilityVersion
 
 dependencies {
-  compileOnly deps.android
-  implementation deps.supportAnnotations
+    compileOnly deps.android
+    implementation deps.supportAnnotations
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
-  classifier = 'sources'
-  from sourceSets.main.allSource
+    classifier = 'sources'
+    from sourceSets.main.allSource
 }
 
 artifacts {
-  archives sourcesJar
+    archives sourcesJar
 }
 
 install {
-  repositories.mavenInstaller {
-    pom.project {
-      licenses {
-        license {
-          name 'The Apache Software License, Version 2.0'
-          url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-          distribution 'repo'
+    repositories.mavenInstaller {
+        pom.project {
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
         }
-      }
     }
-  }
 }
