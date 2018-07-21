@@ -36,6 +36,7 @@ dependencies {
   implementation deps.autoservice
   implementation deps.autocommon
   implementation deps.javapoet
+  compileOnly files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
 
   testImplementation deps.junit
   testImplementation deps.truth
@@ -47,9 +48,6 @@ dependencies {
 }
 repositories {
   mavenCentral()
-}
-sourceSets {
-  main.java.srcDirs += 'src/main/kotlin'
 }
 
 

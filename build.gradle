@@ -5,11 +5,10 @@ ext {
     buildToolsVersion = '25.0.2'
     sourceCompatibilityVersion = JavaVersion.VERSION_1_7
     targetCompatibilityVersion = JavaVersion.VERSION_1_7
+    androidToolsVersion = '25.2.0'
+    supportLibraryVersion = '25.1.0'
+    kotlinVersion = '1.2.41'
 }
-
-ext.androidToolsVersion = '25.2.0'
-ext.supportLibraryVersion = '25.1.0'
-ext.kotlinVersion = '1.1.4-2'
 
 subprojects { project ->
     group = GROUP
