@@ -16,6 +16,7 @@ subprojects { project ->
 
     repositories {
         google()
+        mavenLocal()
         mavenCentral()
         maven { url "https://plugins.gradle.org/m2/" }
     }
