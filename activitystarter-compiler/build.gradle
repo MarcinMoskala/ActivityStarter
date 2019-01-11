@@ -1,3 +1,7 @@
+import com.android.build.gradle.internal.LoggerWrapper
+import com.android.build.gradle.internal.SdkHandler
+import org.gradle.internal.jvm.Jvm
+
 buildscript {
   repositories {
     mavenCentral()
@@ -22,8 +26,8 @@ group='com.marcinmoskala'
 sourceCompatibility = rootProject.ext.sourceCompatibilityVersion
 targetCompatibility = rootProject.ext.targetCompatibilityVersion
 
-def logger = new com.android.build.gradle.internal.LoggerWrapper(project.logger)
-def sdkHandler = new com.android.build.gradle.internal.SdkHandler(project, logger)
+def logger = new LoggerWrapper(project.logger)
+def sdkHandler = new SdkHandler(project, logger)
 for (File file : sdkHandler.sdkLoader.repositories) {
   repositories.maven {
     url = file.toURI()
@@ -36,7 +40,7 @@ dependencies {
   implementation deps.autoservice
   implementation deps.autocommon
   implementation deps.javapoet
-  compileOnly files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
+  compileOnly files(Jvm.current().getToolsJar())
 
   testImplementation deps.junit
   testImplementation deps.truth

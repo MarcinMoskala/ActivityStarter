@@ -36,7 +36,6 @@ public final class ActivityStarter {
         Class<?> starterClass = getStarterClass(targetClass);
         if (starterClass == null) return;
         Method method = getMethod(starterClass, "save", targetClass, Bundle.class);
-        if (method == null) return;
         invokeMethod(method, target, bundle);
     }
 
@@ -45,8 +44,15 @@ public final class ActivityStarter {
         Class<?> starterClass = getStarterClass(targetClass);
         if (starterClass == null) return;
         Method method = getMethod(starterClass, "save", targetClass, Bundle.class);
-        if (method == null) return;
         invokeMethod(method, target, bundle);
+    }
+
+    private static void innerFill(@NonNull Object target) {
+        Class<?> targetClass = target.getClass();
+        Class<?> starterClass = getStarterClass(targetClass);
+        if (starterClass == null) return;
+        Method method = getMethod(starterClass, "fill", targetClass);
+        invokeMethod(method, target);
     }
 
     private static void innerFill(@NonNull Object target, Object otherArg, Class<?> otherClass) {
@@ -54,7 +60,6 @@ public final class ActivityStarter {
         Class<?> starterClass = getStarterClass(targetClass);
         if (starterClass == null) return;
         Method method = getMethod(starterClass, "fill", targetClass, otherClass);
-        if (method == null) return;
         invokeMethod(method, target, otherArg);
     }
 
