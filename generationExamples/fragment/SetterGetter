@@ -1,7 +1,7 @@
 ********com.example.activitystarter.MainFragment********
 package com.example.activitystarter;
 
-import android.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 import activitystarter.Arg;
 

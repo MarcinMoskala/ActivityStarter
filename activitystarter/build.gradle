@@ -18,23 +18,27 @@ group = 'com.marcinmoskala'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
 
         consumerProguardFiles 'proguard-rules.txt'
 
-        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 
-    buildToolsVersion '27.0.3'
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+    }
 }
 
 dependencies {
-    compile project(':activitystarter-annotations')
+    implementation project(':activitystarter-annotations')
     implementation deps.supportAnnotations
-    implementation deps.supportCompat
     implementation deps.supportAppcompatv7
+    implementation deps.supportFragment
 
     androidTestImplementation deps.junit
     androidTestImplementation deps.truth
@@ -43,8 +47,8 @@ dependencies {
     testImplementation deps.junit
     testImplementation deps.truth
     testImplementation deps.compiletesting
-    testCompile files(getRuntimeJar())
-    testCompile files(Jvm.current().getToolsJar())
+    testImplementation files(getRuntimeJar())
+    testImplementation files(Jvm.current().getToolsJar())
     testImplementation project(':activitystarter-compiler')
     testImplementation deps.kotlin
     testImplementation deps.kotlin_junit
@@ -54,15 +58,15 @@ dependencies {
 
 def getRuntimeJar() {
     try {
-        final File javaBase = new File(System.getProperty("java.home")).getCanonicalFile();
-        File runtimeJar = new File(javaBase, "lib/rt.jar");
+        final File javaBase = new File(System.getProperty("java.home")).getCanonicalFile()
+        File runtimeJar = new File(javaBase, "lib/rt.jar")
         if (runtimeJar.exists()) {
-            return runtimeJar;
+            return runtimeJar
         }
-        runtimeJar = new File(javaBase, "jre/lib/rt.jar");
-        return runtimeJar.exists() ? runtimeJar : null;
+        runtimeJar = new File(javaBase, "jre/lib/rt.jar")
+        return runtimeJar.exists() ? runtimeJar : null
     } catch (IOException e) {
-        throw new RuntimeException(e);
+        throw new RuntimeException(e)
     }
 }
 

@@ -5,7 +5,7 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 28
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '28.0.3'
 
     defaultConfig {
         applicationId "com.marcinmoskala.kotlinapp"
@@ -13,7 +13,8 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -30,6 +31,7 @@ dependencies {
     implementation project(':activitystarter')
     kapt project(':activitystarter-compiler')
     implementation project(':activitystarter-kotlin')
+    implementation project(path: ':activitystarter-annotations')
 
     // On local project use:
 //    compile 'com.github.marcinmoskala.activitystarter:activitystarter:-SNAPSHOT'
@@ -46,8 +48,10 @@ dependencies {
     })
     testImplementation deps.junit
     androidTestImplementation deps.uiAutomator
+    androidTestImplementation deps.supportTestRules
 }
 repositories {
+    google()
     mavenCentral()
     maven { url 'https://jitpack.io' }
 }

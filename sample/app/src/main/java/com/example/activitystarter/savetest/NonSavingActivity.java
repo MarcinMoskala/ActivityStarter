@@ -2,7 +2,6 @@ package com.example.activitystarter.savetest;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.example.activitystarter.R;

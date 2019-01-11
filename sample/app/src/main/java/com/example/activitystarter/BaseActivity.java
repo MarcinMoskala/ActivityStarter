@@ -1,10 +1,9 @@
 package com.example.activitystarter;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import activitystarter.ActivityStarter;
-
+import androidx.appcompat.app.AppCompatActivity;
 
 public class BaseActivity extends AppCompatActivity {
 

@@ -1,6 +1,5 @@
 package activitystarter.compiler.model.param
 
-import activitystarter.compiler.model.param.FieldAccessor.Companion.hasNotPrivateMethodNamed
 import javax.lang.model.element.Element
 import javax.lang.model.element.Modifier.PRIVATE
 import javax.lang.model.element.TypeElement

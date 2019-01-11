@@ -1,19 +1,16 @@
 package com.marcinmoskala.kotlinapp
 
-
 import android.app.Activity
 import android.content.Context
 import android.os.RemoteException
-import android.support.test.InstrumentationRegistry
-import android.support.test.rule.ActivityTestRule
-import android.support.test.runner.AndroidJUnit4
-import android.support.test.uiautomator.UiDevice
-import android.test.suitebuilder.annotation.LargeTest
-
+import androidx.test.InstrumentationRegistry
+import androidx.test.InstrumentationRegistry.getInstrumentation
+import androidx.test.filters.LargeTest
+import androidx.test.rule.ActivityTestRule
+import androidx.test.runner.AndroidJUnit4
+import androidx.test.uiautomator.UiDevice
 import org.junit.Rule
 import org.junit.runner.RunWith
-
-import android.support.test.InstrumentationRegistry.getInstrumentation
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)

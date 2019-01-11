@@ -2,7 +2,6 @@ package com.marcinmoskala.kotlinapp
 
 import activitystarter.Arg
 import activitystarter.MakeActivityStarter
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.TextView
 import com.marcinmoskala.activitystarter.argExtra
@@ -12,7 +11,6 @@ class StudentSerializableActivity : BaseActivity() {
 
     @get:Arg val student: StudentSerializable  by argExtra()
 
-    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_data)

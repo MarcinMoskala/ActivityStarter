@@ -1,3 +1,6 @@
+import com.android.build.gradle.internal.LoggerWrapper
+import com.android.build.gradle.internal.SdkHandler
+
 buildscript {
     dependencies {
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
@@ -8,10 +11,10 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'com.github.dcendents.android-maven'
 
-group='com.marcinmoskala'
+group = 'com.marcinmoskala'
 
-def logger = new com.android.build.gradle.internal.LoggerWrapper(project.logger)
-def sdkHandler = new com.android.build.gradle.internal.SdkHandler(project, logger)
+def logger = new LoggerWrapper(project.logger)
+def sdkHandler = new SdkHandler(project, logger)
 for (File file : sdkHandler.sdkLoader.repositories) {
     repositories.maven {
         url = file.toURI()
@@ -20,20 +23,20 @@ for (File file : sdkHandler.sdkLoader.repositories) {
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
-        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
-    buildToolsVersion '27.0.3'
 }
 
 sourceCompatibility = rootProject.ext.sourceCompatibilityVersion
 targetCompatibility = rootProject.ext.targetCompatibilityVersion
 
 dependencies {
-    compile project(':activitystarter-annotations')
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    implementation project(':activitystarter-annotations')
     implementation deps.supportAppcompatv7
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
 

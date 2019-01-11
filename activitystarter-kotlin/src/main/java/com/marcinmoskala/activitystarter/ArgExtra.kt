@@ -3,7 +3,7 @@ package com.marcinmoskala.activitystarter
 import activitystarter.ActivityStarterNameConstruction
 import activitystarter.Arg
 import android.app.Activity
-import android.app.Fragment
+import androidx.fragment.app.Fragment
 import java.lang.reflect.Method
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
@@ -12,8 +12,6 @@ import kotlin.reflect.full.findAnnotation
 fun <T> Activity.argExtra(default: T? = null) = BoundToArgValueDelegateProvider(default)
 
 fun <T> Fragment.argExtra(default: T? = null) = BoundToArgValueDelegateProvider(default)
-
-fun <T> android.support.v4.app.Fragment.argExtra(default: T? = null) = BoundToArgValueDelegateProvider(default)
 
 class BoundToArgValueDelegateProvider<T>(val default: T? = null) {
 

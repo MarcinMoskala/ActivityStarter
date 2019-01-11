@@ -1,16 +1,17 @@
 package activitystarter;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 public final class ActivityStarter {
 
@@ -19,10 +20,6 @@ public final class ActivityStarter {
     }
 
     public static void fill(@NonNull Fragment target, @Nullable Bundle savedInstanceState) {
-        innerFill(target, savedInstanceState, Bundle.class);
-    }
-
-    public static void fill(@NonNull android.support.v4.app.Fragment target, @Nullable Bundle savedInstanceState) {
         innerFill(target, savedInstanceState, Bundle.class);
     }
 
@@ -39,7 +36,6 @@ public final class ActivityStarter {
         Class<?> starterClass = getStarterClass(targetClass);
         if (starterClass == null) return;
         Method method = getMethod(starterClass, "save", targetClass, Bundle.class);
-        if (method == null) return;
         invokeMethod(method, target, bundle);
     }
 
@@ -48,17 +44,15 @@ public final class ActivityStarter {
         Class<?> starterClass = getStarterClass(targetClass);
         if (starterClass == null) return;
         Method method = getMethod(starterClass, "save", targetClass, Bundle.class);
-        if (method == null) return;
         invokeMethod(method, target, bundle);
     }
 
-    public static void save(@NonNull android.support.v4.app.Fragment target, Bundle bundle) {
+    private static void innerFill(@NonNull Object target) {
         Class<?> targetClass = target.getClass();
         Class<?> starterClass = getStarterClass(targetClass);
         if (starterClass == null) return;
-        Method method = getMethod(starterClass, "save", targetClass, Bundle.class);
-        if (method == null) return;
-        invokeMethod(method, target, bundle);
+        Method method = getMethod(starterClass, "fill", targetClass);
+        invokeMethod(method, target);
     }
 
     private static void innerFill(@NonNull Object target, Object otherArg, Class<?> otherClass) {
@@ -66,7 +60,6 @@ public final class ActivityStarter {
         Class<?> starterClass = getStarterClass(targetClass);
         if (starterClass == null) return;
         Method method = getMethod(starterClass, "fill", targetClass, otherClass);
-        if (method == null) return;
         invokeMethod(method, target, otherArg);
     }
 

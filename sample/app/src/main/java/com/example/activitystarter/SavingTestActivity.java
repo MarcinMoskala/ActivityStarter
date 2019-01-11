@@ -1,6 +1,5 @@
 package com.example.activitystarter;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,6 +7,7 @@ import android.widget.TextView;
 
 import activitystarter.ActivityStarter;
 import activitystarter.Arg;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class SavingTestActivity extends AppCompatActivity {
 
@@ -20,8 +20,8 @@ public class SavingTestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_saving_test);
         ActivityStarter.fill(this, savedInstanceState);
 
-        final Button incrementButton = (Button) findViewById(R.id.increment);
-        final TextView valueDisplay = (TextView) findViewById(R.id.value);
+        final Button incrementButton = findViewById(R.id.increment);
+        final TextView valueDisplay = findViewById(R.id.value);
 
         valueDisplay.setText("" + value);
         incrementButton.setOnClickListener(new View.OnClickListener() {

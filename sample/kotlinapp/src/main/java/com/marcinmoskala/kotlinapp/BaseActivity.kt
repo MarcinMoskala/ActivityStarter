@@ -2,7 +2,7 @@ package com.marcinmoskala.kotlinapp
 
 import activitystarter.ActivityStarter
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 
 open class BaseActivity : AppCompatActivity() {
 
@@ -11,7 +11,7 @@ open class BaseActivity : AppCompatActivity() {
         ActivityStarter.fill(this, savedInstanceState)
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         ActivityStarter.save(this, outState)
     }

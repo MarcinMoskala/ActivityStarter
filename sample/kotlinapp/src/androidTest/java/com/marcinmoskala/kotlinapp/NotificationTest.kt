@@ -1,19 +1,17 @@
 package com.marcinmoskala.kotlinapp
 
-
-import android.support.test.InstrumentationRegistry
-import android.support.test.filters.SdkSuppress
-import android.support.test.rule.ActivityTestRule
-import android.support.test.runner.AndroidJUnit4
-import android.support.test.uiautomator.By
-import android.support.test.uiautomator.UiDevice
-import android.support.test.uiautomator.Until
+import androidx.test.InstrumentationRegistry
+import androidx.test.filters.SdkSuppress
+import androidx.test.rule.ActivityTestRule
+import androidx.test.runner.AndroidJUnit4
+import androidx.test.uiautomator.By
+import androidx.test.uiautomator.UiDevice
+import androidx.test.uiautomator.Until
 import com.marcinmoskala.kotlinapp.notification.NotificationPublisher
 import junit.framework.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-
 
 @RunWith(AndroidJUnit4::class)
 @SdkSuppress(minSdkVersion = 18)

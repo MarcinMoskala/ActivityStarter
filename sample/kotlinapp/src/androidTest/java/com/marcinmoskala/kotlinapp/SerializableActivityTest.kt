@@ -1,15 +1,11 @@
 package com.marcinmoskala.kotlinapp
 
-
-import android.content.Intent
 import android.os.RemoteException
-import android.support.test.runner.AndroidJUnit4
-import android.test.suitebuilder.annotation.LargeTest
-
+import androidx.test.filters.LargeTest
+import androidx.test.runner.AndroidJUnit4
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-
-import org.junit.Assert.assertEquals
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)

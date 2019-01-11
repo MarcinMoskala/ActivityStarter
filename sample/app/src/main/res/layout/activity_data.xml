@@ -7,46 +7,46 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/student_name_layout"
             android:hint="Place to type name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/student_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/student_id_layout"
             android:hint="Place to type id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:inputType="number"
                 android:id="@+id/student_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/student_grade_layout"
             android:hint="Place to type grade"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:maxLength="1"
                 android:id="@+id/student_grade"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Switch
             android:text="Is student passing?"

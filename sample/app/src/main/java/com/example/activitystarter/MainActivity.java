@@ -1,7 +1,6 @@
 package com.example.activitystarter;
 
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -14,6 +13,7 @@ import com.example.activitystarter.parceler.StudentParceler;
 import com.example.activitystarter.parceler.StudentParcelerActivityStarter;
 import com.example.activitystarter.serializable.StudentSerializable;
 import com.example.activitystarter.serializable.StudentSerializableActivityStarter;
+import com.google.android.material.textfield.TextInputLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,11 +27,11 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.show_tabbed_fragment_activity_button) Button showTabbedFragmentActivityButton;
     @BindView(R.id.show_saving_test_button) Button showSavingTestButton;
 
-    @BindView(R.id.student_name) AutoCompleteTextView studentNameView;
-    @BindView(R.id.student_id) AutoCompleteTextView studentIdView;
-    @BindView(R.id.student_grade) AutoCompleteTextView studentGradeView;
-    @BindView(R.id.student_grade_layout) TextInputLayout studentGradeLayoutView;
-    @BindView(R.id.student_is_passing) Switch studentIsPassingView;
+    @BindView(R.id.student_name)         AutoCompleteTextView studentNameView;
+    @BindView(R.id.student_id)           AutoCompleteTextView studentIdView;
+    @BindView(R.id.student_grade)        AutoCompleteTextView studentGradeView;
+    @BindView(R.id.student_grade_layout) TextInputLayout      studentGradeLayoutView;
+    @BindView(R.id.student_is_passing)   Switch               studentIsPassingView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

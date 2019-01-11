@@ -1,3 +1,6 @@
+import com.android.build.gradle.internal.LoggerWrapper
+import com.android.build.gradle.internal.SdkHandler
+
 buildscript {
     repositories {
         mavenCentral()
@@ -14,8 +17,8 @@ apply plugin: 'com.github.dcendents.android-maven'
 
 group = 'com.marcinmoskala'
 
-def logger = new com.android.build.gradle.internal.LoggerWrapper(project.logger)
-def sdkHandler = new com.android.build.gradle.internal.SdkHandler(project, logger)
+def logger = new LoggerWrapper(project.logger)
+def sdkHandler = new SdkHandler(project, logger)
 for (File file : sdkHandler.sdkLoader.repositories) {
     repositories.maven {
         url = file.toURI()

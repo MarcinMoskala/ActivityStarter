@@ -19,7 +19,7 @@ object ConfigElement {
         val source = JavaFileObjects.forSourceString("com.example.activitystarter.MainActivity", """
 package com.example.activitystarter;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import java.lang.annotation.Annotation;
 import activitystarter.ActivityStarterConfig;
 import activitystarter.Arg;

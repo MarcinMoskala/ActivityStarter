@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:layout_margin="20dp">
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/student_name_layout"
         android:hint="Place to type name"
         android:layout_width="match_parent"
@@ -19,9 +19,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/student_id_layout"
         android:hint="Place to type id"
         android:layout_width="match_parent"
@@ -33,9 +33,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/studentGradeLayoutView"
         android:hint="Place to type grade"
         android:layout_width="match_parent"
@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Switch
         android:text="Is student passing?"

@@ -1,13 +1,12 @@
 package com.marcinmoskala.kotlinapp
 
-import android.support.test.runner.AndroidJUnit4
-import android.test.suitebuilder.annotation.LargeTest
-import org.junit.Assert
+import androidx.test.filters.LargeTest
+import androidx.test.runner.AndroidJUnit4
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.util.*
+import java.util.ArrayList
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
