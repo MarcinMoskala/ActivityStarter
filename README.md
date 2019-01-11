@@ -1,3 +1,5 @@
+Warning: Library is not maintained anymore. If you want to take care of this library, propose it via Pull Request. It needs adjustmensts for newer versions of Android and Gradle.
+
 # ActivityStarter
 Android Library that provides simpler way to start the Activities with multiple arguments.
 
@@ -138,8 +140,8 @@ For Java project add in `build.gradle` file:
 
 ```groovy
 dependencies {
-    compile 'com.marcinmoskala.activitystarter:activitystarter:1.11-beta'
-    apt 'com.marcinmoskala.activitystarter:activitystarter-compiler:1.11-beta'
+    compile 'com.marcinmoskala.activitystarter:activitystarter:1.10'
+    apt 'com.marcinmoskala.activitystarter:activitystarter-compiler:1.10'
 }
 ```
 
@@ -149,8 +151,8 @@ For Kotlin project add in `build.gradle` file:
 apply plugin: 'kotlin-kapt'
 
 dependencies {
-    compile 'com.marcinmoskala.activitystarter:activitystarter:1.11-beta'
-    kapt 'com.marcinmoskala.activitystarter:activitystarter-compiler:1.11-beta'
+    compile 'com.marcinmoskala.activitystarter:activitystarter:1.10'
+    kapt 'com.marcinmoskala.activitystarter:activitystarter-compiler:1.10'
 }
 ```
 
@@ -160,9 +162,9 @@ If you want to use Kotlin-specific elements (property delegate `argExtra`), then
 apply plugin: 'kotlin-kapt'
 
 dependencies {
-    compile 'com.marcinmoskala.activitystarter:activitystarter:1.11-beta'
-    compile 'com.marcinmoskala.activitystarter:activitystarter-kotlin:1.11-beta'
-    kapt 'com.marcinmoskala.activitystarter:activitystarter-compiler:1.11-beta'
+    compile 'com.marcinmoskala.activitystarter:activitystarter:1.10'
+    compile 'com.marcinmoskala.activitystarter:activitystarter-kotlin:1.10'
+    kapt 'com.marcinmoskala.activitystarter:activitystarter-compiler:1.10'
 }
 ```
 

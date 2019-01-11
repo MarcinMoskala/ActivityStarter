@@ -17,12 +17,11 @@ class BoundToArgValueDelegateProvider<T>(val default: T? = null) {
             thisRef: Any?,
             prop: KProperty<*>
     ): ReadWriteProperty<Any, T> {
-// TODO Commented, because it is causing problems in beta version of Gradle 4.1. This assertions should be revoked
-//        val annotation = prop.getter.findAnnotation<Arg>()
-//        when {
-//            annotation == null -> throw Error(ErrorMessages.noAnnotation)
-//            annotation.optional && !prop.returnType.isMarkedNullable && default == null -> throw Error(ErrorMessages.optionalValueNeeded)
-//        }
+        val annotation = prop.getter.findAnnotation<Arg>()
+        when {
+            annotation == null -> throw Error(ErrorMessages.noAnnotation)
+            annotation.optional && !prop.returnType.isMarkedNullable && default == null -> throw Error(ErrorMessages.optionalValueNeeded)
+        }
         return BoundToValueDelegate(default)
     }
 }
@@ -46,9 +45,9 @@ private class BoundToValueDelegate<T>(var default: T?) : ReadWriteProperty<Any, 
         }
     }
 
-    override fun setValue(thisRef: Any, property: KProperty<*>, newValue: T) {
+    override fun setValue(thisRef: Any, property: KProperty<*>, value: T) {
         synchronized(this) {
-            setNewValue(newValue)
+            setNewValue(value)
         }
     }
 
@@ -71,6 +70,7 @@ private fun <T> getValueFromStarter(thisRef: Any, javaClass: Class<*>, fieldName
     val argFilled = checkerMethod.invokeMethod(thisRef) as Boolean
     val argValue: Any? = if (argFilled) accessorMethod.invokeMethod(thisRef) else null
     val argValueOrDefault = argValue ?: default
+    @Suppress("UNCHECKED_CAST")
     return argValueOrDefault as T
 }
 

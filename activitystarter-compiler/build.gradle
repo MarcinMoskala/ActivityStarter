@@ -9,6 +9,7 @@ buildscript {
 
   repositories {
     mavenCentral()
+      google()
   }
 }
 
@@ -47,9 +48,6 @@ dependencies {
 }
 repositories {
   mavenCentral()
-}
-sourceSets {
-  main.java.srcDirs += 'src/main/kotlin'
 }
 
 

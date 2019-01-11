@@ -1,7 +1,6 @@
 package activitystarter.compiler.model.param
 
 import activitystarter.compiler.model.param.FieldAccessor.Companion.hasNotPrivateMethodNamed
-import com.sun.org.apache.xpath.internal.operations.Bool
 import javax.lang.model.element.Element
 import javax.lang.model.element.Modifier.PRIVATE
 import javax.lang.model.element.TypeElement

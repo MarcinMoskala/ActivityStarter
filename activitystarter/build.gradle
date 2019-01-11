@@ -1,25 +1,29 @@
 import org.gradle.internal.jvm.Jvm
 
 buildscript {
-  dependencies {
-    classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
-  }
+    dependencies {
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+    }
+    repositories {
+        google()
+        jcenter()
+    }
 }
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'com.github.dcendents.android-maven'
 
-group='com.marcinmoskala'
+group = 'com.marcinmoskala'
 
 android {
   compileSdkVersion rootProject.ext.compileSdkVersion
   buildToolsVersion rootProject.ext.buildToolsVersion
 
-  defaultConfig {
-    minSdkVersion rootProject.ext.minSdkVersion
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
 
-    consumerProguardFiles 'proguard-rules.txt'
+        consumerProguardFiles 'proguard-rules.txt'
 
     testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
   }
@@ -53,67 +57,67 @@ dependencies {
 }
 
 def getRuntimeJar() {
-  try {
-    final File javaBase = new File(System.getProperty("java.home")).getCanonicalFile();
-    File runtimeJar = new File(javaBase, "lib/rt.jar");
-    if (runtimeJar.exists()) {
-      return runtimeJar;
+    try {
+        final File javaBase = new File(System.getProperty("java.home")).getCanonicalFile();
+        File runtimeJar = new File(javaBase, "lib/rt.jar");
+        if (runtimeJar.exists()) {
+            return runtimeJar;
+        }
+        runtimeJar = new File(javaBase, "jre/lib/rt.jar");
+        return runtimeJar.exists() ? runtimeJar : null;
+    } catch (IOException e) {
+        throw new RuntimeException(e);
     }
-    runtimeJar = new File(javaBase, "jre/lib/rt.jar");
-    return runtimeJar.exists() ? runtimeJar : null;
-  } catch (IOException e) {
-    throw new RuntimeException(e);
-  }
 }
 
 // Fancy test print
 tasks.withType(Test) {
-  testLogging {
-    // set options for log level LIFECYCLE
-    events "passed", "skipped", "failed", "standardOut"
-    showExceptions true
-    exceptionFormat "full"
-    showCauses true
-    showStackTraces true
+    testLogging {
+        // set options for log level LIFECYCLE
+        events "passed", "skipped", "failed", "standardOut"
+        showExceptions true
+        exceptionFormat "full"
+        showCauses true
+        showStackTraces true
 
-    // set options for log level DEBUG and INFO
-    debug {
-      events "started", "passed", "skipped", "failed", "standardOut", "standardError"
-      exceptionFormat "full"
-    }
-    info.events = debug.events
-    info.exceptionFormat = debug.exceptionFormat
+        // set options for log level DEBUG and INFO
+        debug {
+            events "started", "passed", "skipped", "failed", "standardOut", "standardError"
+            exceptionFormat "full"
+        }
+        info.events = debug.events
+        info.exceptionFormat = debug.exceptionFormat
 
-    afterSuite { desc, result ->
-      if (!desc.parent) { // will match the outermost suite
-        def output = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
-        def startItem = '|  ', endItem = '  |'
-        def repeatLength = startItem.length() + output.length() + endItem.length()
-        println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
-      }
+        afterSuite { desc, result ->
+            if (!desc.parent) { // will match the outermost suite
+                def output = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+                def startItem = '|  ', endItem = '  |'
+                def repeatLength = startItem.length() + output.length() + endItem.length()
+                println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
+            }
+        }
     }
-  }
 }
 
 task sourcesJar(type: Jar) {
-  from android.sourceSets.main.java.srcDirs
-  classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
 }
 
 artifacts {
-  archives sourcesJar
+    archives sourcesJar
 }
 
 install {
-  repositories.mavenInstaller {
-    pom.project {
-      licenses {
-        license {
-          name 'The Apache Software License, Version 2.0'
-          url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-          distribution 'repo'
+    repositories.mavenInstaller {
+        pom.project {
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
         }
-      }
     }
-  }
 }
